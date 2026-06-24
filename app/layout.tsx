@@ -2,7 +2,10 @@ import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { LenisProvider } from "@/components/providers/LenisProvider";
+import { ScrollDepth } from "@/components/analytics/ScrollDepth";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -55,6 +58,9 @@ export default function RootLayout({
     <html lang="en" className={`${clash.variable} ${inter.variable}`}>
       <body className="min-h-dvh bg-canvas text-ink antialiased">
         <LenisProvider>{children}</LenisProvider>
+        <ScrollDepth />
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );

@@ -1,5 +1,7 @@
 import { NAV } from "@/lib/content";
 import { Magnetic } from "@/components/ui/Magnetic";
+import { TrackClick } from "@/components/analytics/TrackClick";
+import { EVENTS } from "@/lib/analytics";
 
 /** §00 Top nav. One line, <=72px. Magnetic CTA added in Phase 3. */
 export function Nav() {
@@ -22,14 +24,16 @@ export function Nav() {
           ))}
         </div>
 
-        <Magnetic>
-          <a
-            href={NAV.cta.href}
-            className="inline-block rounded-md bg-accent px-4 py-2 font-sans text-sm font-medium text-ink transition-transform active:scale-[0.98]"
-          >
-            {NAV.cta.label}
-          </a>
-        </Magnetic>
+        <TrackClick event={EVENTS.ctaClickNav}>
+          <Magnetic>
+            <a
+              href={NAV.cta.href}
+              className="inline-block rounded-md bg-accent px-4 py-2 font-sans text-sm font-medium text-ink transition-transform active:scale-[0.98]"
+            >
+              {NAV.cta.label}
+            </a>
+          </Magnetic>
+        </TrackClick>
       </nav>
     </header>
   );

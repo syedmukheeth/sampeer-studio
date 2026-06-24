@@ -34,6 +34,18 @@ export const HERO = {
   sub: "We build the growth layer that makes founders impossible to ignore.",
 } as const;
 
+/**
+ * A/B test bench for the hero verdict (Phase 6, post-launch).
+ * Not wired by default: rendering a random variant on the client causes a
+ * hydration flash. To enable safely, assign a variant via middleware/cookie
+ * (server-stable), pass it into <Hero variant=...>, and `track("hero_view",
+ * { variant })`. Pick the winner, then promote it into HERO above.
+ */
+export const HERO_VARIANTS = [
+  { id: "a", lead: "Most startups don't fail.", accent: "They go unnoticed." },
+  { id: "b", lead: "Your product is not the problem.", accent: "Your silence is." },
+] as const;
+
 /* ------------------------------------------------------------ problem */
 /* §02 No heading. Brutal prose. Creates the itch. */
 export const PROBLEM = {
