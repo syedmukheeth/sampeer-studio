@@ -25,7 +25,8 @@ export function Work() {
     lenis?.on("scroll", ScrollTrigger.update);
 
     const ctx = gsap.context(() => {
-      const distance = track.current!.scrollWidth - window.innerWidth + 80;
+      // exact horizontal overflow of the track (accounts for padding/gap)
+      const distance = track.current!.scrollWidth - track.current!.clientWidth;
       gsap.to(track.current, {
         x: -distance,
         ease: "none",
@@ -62,7 +63,7 @@ export function Work() {
         </h2>
       </div>
 
-      <div ref={wrap} className="relative md:overflow-hidden">
+      <div ref={wrap} className="relative md:overflow-hidden md:pt-20">
         <div
           ref={track}
           className="flex snap-x snap-mandatory gap-6 overflow-x-auto px-6 pb-6 md:snap-none md:overflow-visible md:px-10"
