@@ -1,26 +1,58 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/*
+  Sampeer Studio — theme lock: DARK ONLY (brand-mandated, cinematic).
+  One accent (Electric Indigo), rationed. One radius scale. Off-black / off-white.
+*/
+
+@theme {
+  --color-canvas: #0a0a0a; /* page background, off-black (never #000) */
+  --color-elevated: #141414; /* subtle raised surface within dark family */
+  --color-ink: #f5f5f0; /* primary text, warm off-white (never #fff) */
+  --color-muted: #8a8a85; /* secondary text */
+  --color-faint: #56564f; /* tertiary / disabled */
+  --color-line: #232320; /* hairline borders */
+  --color-accent: #6c63ff; /* Electric Indigo — ONE strike per viewport, no glows */
+  --color-accent-ink: #f5f5f0; /* text on accent fills */
+
+  --font-display: var(--font-clash), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 8px; /* page corner-radius ceiling — premium-tech, near-sharp */
+
+  --max-shell: 1400px;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  background: var(--color-canvas);
+  color: var(--color-ink);
+  color-scheme: dark;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  scroll-padding-top: 5rem; /* clear the fixed 64px nav on anchor jumps */
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-canvas);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+}
+
+::selection {
+  background: var(--color-accent);
+  color: var(--color-accent-ink);
+}
+
+/* Reduced motion: collapse everything to instant/static. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
 }
