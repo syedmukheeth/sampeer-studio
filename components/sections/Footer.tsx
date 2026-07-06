@@ -1,14 +1,22 @@
+import Image from "next/image";
 import { FOOTER } from "@/lib/content";
+import { Shell } from "@/components/ui/Shell";
 
 /** §09 Footer. Minimal. No version stamps, no locale strips. */
 export function Footer() {
   return (
-    <footer className="border-t border-line px-6 py-16 md:px-10">
-      <div className="mx-auto max-w-[1400px]">
+    <footer className="border-t border-line py-16">
+      <Shell>
         <div className="flex flex-col justify-between gap-10 md:flex-row md:items-end">
           <div>
-            <div className="font-display text-lg font-semibold">{FOOTER.brand}</div>
-            <p className="mt-2 max-w-xs font-sans text-sm text-muted">{FOOTER.line}</p>
+            <Image
+              src="/logo.png"
+              alt={FOOTER.brand}
+              width={150}
+              height={150}
+              className="h-auto w-32 md:w-36"
+            />
+            <p className="mt-4 max-w-xs font-sans text-sm text-muted">{FOOTER.line}</p>
           </div>
 
           <div className="flex flex-col gap-3 md:items-end">
@@ -37,7 +45,7 @@ export function Footer() {
         <div className="mt-12 border-t border-line pt-6 font-sans text-xs text-faint">
           {FOOTER.year} {FOOTER.brand}. All rights reserved.
         </div>
-      </div>
+      </Shell>
     </footer>
   );
 }

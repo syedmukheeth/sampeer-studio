@@ -6,6 +6,7 @@ import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { LenisProvider } from "@/components/providers/LenisProvider";
 import { ScrollDepth } from "@/components/analytics/ScrollDepth";
+import { Spine } from "@/components/ui/Spine";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -28,15 +29,20 @@ const TITLE = "Sampeer Studio | The growth layer your startup is missing";
 const DESCRIPTION =
   "We help startups become impossible to ignore. Storytelling websites, growth systems, and founder branding. One growth engine.";
 
+// live URL today; swap to the custom domain when it's live (one line)
+const SITE_URL = "https://sampeer-studio.vercel.app";
+
 export const metadata: Metadata = {
-  metadataBase: new URL("https://sampeerstudio.com"), // TODO: real domain
+  metadataBase: new URL(SITE_URL),
   title: TITLE,
   description: DESCRIPTION,
+  alternates: { canonical: "/" },
   openGraph: {
     title: TITLE,
     description: DESCRIPTION,
     siteName: "Sampeer Studio",
     type: "website",
+    url: SITE_URL,
   },
   twitter: {
     card: "summary_large_image",
@@ -44,6 +50,19 @@ export const metadata: Metadata = {
     description: DESCRIPTION,
   },
   robots: { index: true, follow: true },
+};
+
+/** Structured data — lets Google render Sampeer as a real org, not a page. */
+const JSON_LD = {
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  name: "Sampeer Studio",
+  description: DESCRIPTION,
+  url: SITE_URL,
+  logo: `${SITE_URL}/logo.png`,
+  slogan: "Get noticed. Remembered. Chosen.",
+  // TODO real: replace with the live LinkedIn / X profile URLs
+  sameAs: ["https://www.linkedin.com/", "https://x.com/"],
 };
 
 export const viewport: Viewport = {
@@ -56,8 +75,15 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={`${clash.variable} ${inter.variable}`}>
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }}
+        />
+      </head>
       <body className="min-h-dvh bg-canvas text-ink antialiased">
         <LenisProvider>{children}</LenisProvider>
+        <Spine />
         <ScrollDepth />
         <Analytics />
         <SpeedInsights />

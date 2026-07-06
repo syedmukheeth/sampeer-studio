@@ -121,14 +121,55 @@ export const WORK: CaseStudy[] = [
 ];
 
 /* -------------------------------------------------------------- stats */
-/* §05 Proof numbers, count-up. All mock until real data lands. */
-export type Stat = { value: number; suffix?: string; label: string };
+/* §05 Proof numbers, count-up. LinkedIn-led social proof — the audience is
+ * the asset. Only `followers` is real today; the rest are tagged TODO and are
+ * a one-line swap once you send the real figures from LinkedIn analytics. */
+export type Stat = { value: number; suffix?: string; decimals?: number; label: string };
 
 export const STATS: Stat[] = [
-  { value: 10, label: "Websites shipped" }, // mock
-  { value: 10, label: "Growth systems built" }, // mock
-  { value: 32, suffix: "+", label: "Automations deployed" }, // mock
-  { value: 24, label: "Founders served" }, // mock
+  { value: 8.6, decimals: 1, suffix: "K+", label: "LinkedIn followers" }, // REAL
+  { value: 250, suffix: "K+", label: "Monthly impressions" }, // TODO real (LinkedIn analytics)
+  { value: 40, suffix: "+", label: "Posts that landed" }, // TODO real
+  { value: 30, suffix: "+", label: "Founders in the DMs" }, // TODO real
+];
+
+/** Eyebrow for the proof band — frames the numbers as reach, not vanity. */
+export const STATS_EYEBROW = "The audience";
+
+/* ------------------------------------------------------ testimonials */
+/* §05.5 Founder voices. Editorial pull-quotes, not cards. Placeholder copy +
+ * names (mock) — swap for real founder quotes here; component does not change. */
+export type Testimonial = {
+  id: string;
+  quote: string;
+  name: string;
+  role: string;
+};
+
+export const TESTIMONIALS_EYEBROW = "In their words";
+
+export const TESTIMONIALS: Testimonial[] = [
+  {
+    id: "t1",
+    quote:
+      "We had the product. We didn't have the words. Sampeer found them, and suddenly the right people were paying attention.",
+    name: "Maya Okafor", // mock
+    role: "Founder, Hearthwell",
+  },
+  {
+    id: "t2",
+    quote:
+      "Leads used to sit for days. Now they qualify and book themselves before I'm even at my desk.",
+    name: "Daniel Rhee", // mock
+    role: "CEO, Cadence Labs",
+  },
+  {
+    id: "t3",
+    quote:
+      "I went from invisible to the name people drop in the niche. That's not marketing. That's leverage.",
+    name: "Priya Nair", // mock
+    role: "Founder, Northbeam",
+  },
 ];
 
 /* ------------------------------------------------------------ process */

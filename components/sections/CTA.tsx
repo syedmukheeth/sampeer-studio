@@ -3,11 +3,12 @@ import { CTA as C } from "@/lib/content";
 import { Magnetic } from "@/components/ui/Magnetic";
 import { TrackClick } from "@/components/analytics/TrackClick";
 import { EVENTS } from "@/lib/analytics";
+import { Section } from "@/components/ui/Section";
 
 /** §08 Dead-simple CTA. One input, one button. Single CTA intent page-wide. */
 export function CTA() {
   return (
-    <section id="contact" className="px-6 py-40 md:py-48">
+    <Section id="contact" size="lg">
       <div className="mx-auto max-w-2xl text-center">
         <h2 className="font-display text-4xl font-semibold leading-tight tracking-tighter md:text-6xl">
           {C.heading}
@@ -42,6 +43,6 @@ export function CTA() {
           </TrackClick>
         </form>
       </div>
-    </section>
+    </Section>
   );
 }

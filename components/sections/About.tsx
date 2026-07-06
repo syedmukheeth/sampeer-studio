@@ -2,21 +2,26 @@ import Image from "next/image";
 import { ArrowUpRight } from "@phosphor-icons/react/dist/ssr";
 import { ABOUT } from "@/lib/content";
 import { Reveal } from "@/components/ui/Reveal";
+import { Section } from "@/components/ui/Section";
+import { Parallax } from "@/components/ui/Parallax";
+import { STAGGER } from "@/lib/constants";
 
 /** §07 About Syed. Asymmetric split. Manifesto, not bio. */
 export function About() {
   return (
-    <section id="about" className="px-6 py-32 md:py-40">
-      <div className="mx-auto grid max-w-[1400px] grid-cols-1 items-center gap-12 md:grid-cols-12 md:gap-16">
+    <Section id="about">
+      <div className="grid grid-cols-1 items-center gap-12 md:grid-cols-12 md:gap-16">
         <div className="md:col-span-5">
-          <div className="relative aspect-[4/5] overflow-hidden rounded-md border border-line">
-            <Image
-              src={ABOUT.photo}
-              alt={ABOUT.name}
-              fill
-              sizes="(max-width: 768px) 100vw, 40vw"
-              className="object-cover"
-            />
+          <div className="group relative aspect-[4/5] overflow-hidden rounded-md border border-line">
+            <Parallax amount={36} className="absolute inset-0">
+              <Image
+                src={ABOUT.photo}
+                alt={ABOUT.name}
+                fill
+                sizes="(max-width: 768px) 100vw, 40vw"
+                className="scale-125 object-cover grayscale transition-[filter] duration-700 ease-out group-hover:grayscale-0"
+              />
+            </Parallax>
           </div>
         </div>
 
@@ -26,7 +31,7 @@ export function About() {
               <Reveal
                 key={i}
                 as="p"
-                delay={i * 0.1}
+                delay={i * STAGGER.base}
                 className="font-display text-2xl font-medium leading-snug tracking-tight md:text-3xl"
               >
                 {line}
@@ -51,6 +56,6 @@ export function About() {
           </div>
         </div>
       </div>
-    </section>
+    </Section>
   );
 }

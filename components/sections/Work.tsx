@@ -6,6 +6,8 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useReducedMotion } from "motion/react";
 import { WORK } from "@/lib/content";
+import { Shell } from "@/components/ui/Shell";
+import { SectionHeader } from "@/components/ui/Section";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -53,15 +55,13 @@ export function Work() {
   }, [reduce]);
 
   return (
-    <section id="work" className="py-24 md:py-32">
-      <div className="mx-auto mb-14 max-w-[1400px] px-6 md:px-10">
-        <p className="font-sans text-sm uppercase tracking-[0.18em] text-muted">
-          Real work
-        </p>
-        <h2 className="mt-4 max-w-2xl font-display text-3xl font-semibold tracking-tight md:text-5xl">
-          Ten startups we made impossible to ignore.
-        </h2>
-      </div>
+    <section id="work" className="relative py-28 md:py-40">
+      <Shell className="mb-14">
+        <SectionHeader
+          eyebrow="Real work"
+          title="Ten startups we made impossible to ignore."
+        />
+      </Shell>
 
       <div ref={wrap} className="relative md:overflow-hidden md:pt-20">
         <div
@@ -71,7 +71,7 @@ export function Work() {
           {WORK.map((w) => (
             <figure
               key={w.id}
-              className={`snap-start shrink-0 ${
+              className={`group snap-start shrink-0 ${
                 w.featured ? "w-[85vw] md:w-[720px]" : "w-[75vw] md:w-[420px]"
               }`}
             >
@@ -81,7 +81,12 @@ export function Work() {
                   alt={`${w.client}, ${w.category}`}
                   fill
                   sizes="(max-width: 768px) 85vw, 720px"
-                  className="object-cover"
+                  className="object-cover grayscale transition-[filter,transform] duration-700 ease-out group-hover:scale-[1.04] group-hover:grayscale-0"
+                />
+                {/* indigo veil at rest, lifts on hover — one cohesive brand tone */}
+                <div
+                  aria-hidden
+                  className="pointer-events-none absolute inset-0 bg-accent/10 mix-blend-overlay transition-opacity duration-700 group-hover:opacity-0"
                 />
               </div>
               <figcaption className="mt-4">
