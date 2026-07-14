@@ -5,6 +5,7 @@ export const EVENTS = {
   ctaClickNav: "cta_click_nav",
   ctaSubmit: "cta_submit",
   scrollDepth: "scroll_depth",
+  workVisitSite: "work_visit_site",
 } as const;
 
 export { track };

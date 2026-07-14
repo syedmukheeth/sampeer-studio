@@ -2,9 +2,9 @@
  * SINGLE SOURCE OF CONTENT for the whole page.
  * Components read from here — no copy hardcoded in JSX.
  *
- * PLACEHOLDER STATUS (Phase 1): client names, outcomes, numbers, and images
- * are stand-ins. All mock numbers are tagged `// mock`. All images use
- * Picsum seeds. Swap real assets/data here later; components do not change.
+ * PLACEHOLDER STATUS: WORK (§04) is real — six live client sites. Pillars,
+ * stats, and testimonials still carry stand-ins; mock values are tagged
+ * `// mock` / `// TODO`. Swap real data here; components do not change.
  *
  * Image helper: stockImg(seed, w, h) -> deterministic Picsum URL.
  */
@@ -97,27 +97,65 @@ export const PILLARS: Pillar[] = [
 ];
 
 /* --------------------------------------------------------------- work */
-/* §04 Real work, horizontal scroll. Featured + grid. */
-export type CaseStudy = {
+/* §04 Real work, horizontal scroll. Each card embeds the live site itself
+ * (scaled iframe) — the project's own hero animation is the showcase.
+ * Descriptions state what the site is; no invented metrics. */
+export type LiveProject = {
   id: string;
   client: string;
-  category: string;
-  outcome: string;
-  image: string;
-  featured: boolean;
+  industry: string;
+  description: string;
+  url: string;
 };
 
-export const WORK: CaseStudy[] = [
-  { id: "w1", client: "Hearthwell", category: "Storytelling Website", outcome: "Rebuilt the story. Demo requests tripled in six weeks.", image: stockImg("work-hearthwell", 1400, 1000), featured: true }, // mock outcome
-  { id: "w2", client: "Cadence Labs", category: "Growth System", outcome: "Lead-to-call time dropped from days to minutes.", image: stockImg("work-cadence", 1400, 1000), featured: true }, // mock
-  { id: "w3", client: "Northbeam", category: "Founder Brand", outcome: "Founder went from silent to a known voice in the niche.", image: stockImg("work-northbeam", 1400, 1000), featured: true }, // mock
-  { id: "w4", client: "Pendel", category: "Storytelling Website", outcome: "A site that finally felt as serious as the product.", image: stockImg("work-pendel", 1200, 900), featured: false },
-  { id: "w5", client: "Vellum", category: "Growth System", outcome: "Booking and follow-up running without a human in the loop.", image: stockImg("work-vellum", 1200, 900), featured: false },
-  { id: "w6", client: "Studio Mora", category: "Storytelling Website", outcome: "Cut the bounce, kept the visitors reading.", image: stockImg("work-mora", 1200, 900), featured: false },
-  { id: "w7", client: "Riverforge", category: "Growth System", outcome: "Every lead scored and routed automatically.", image: stockImg("work-riverforge", 1200, 900), featured: false },
-  { id: "w8", client: "Atlas Owl", category: "Founder Brand", outcome: "Inbound that used to take cold outreach.", image: stockImg("work-atlasowl", 1200, 900), featured: false },
-  { id: "w9", client: "Lumen Cooperative", category: "Storytelling Website", outcome: "A homepage that closes before the call.", image: stockImg("work-lumen", 1200, 900), featured: false },
-  { id: "w10", client: "Tideglass", category: "Growth System", outcome: "One dashboard for the whole funnel.", image: stockImg("work-tideglass", 1200, 900), featured: false },
+export const WORK_HEADER = {
+  eyebrow: "Real work",
+  title: "Six live sites. Step inside any of them.",
+} as const;
+
+export const WORK: LiveProject[] = [
+  {
+    id: "asrg",
+    client: "ASRG Construction",
+    industry: "Construction & Civil — Kurnool",
+    description: "Full brand site for a 46-year civil contracting firm — projects, process, and enquiry in one place.",
+    url: "https://www.asrgcontruction.com/",
+  },
+  {
+    id: "aurum",
+    client: "Aurum Resorts",
+    industry: "Luxury Hospitality — Maldives",
+    description: "A private-island resort experience told in stillness — villas, dining, and the sea.",
+    url: "https://luxury-hotel-sooty.vercel.app/",
+  },
+  {
+    id: "liftx",
+    client: "LIFT-X",
+    industry: "Fitness — Kurnool",
+    description: "A premium unisex gym site built on bold type and one decision: start.",
+    url: "https://lift-x-ten.vercel.app/",
+  },
+  {
+    id: "vantara",
+    client: "Vantara & Rao",
+    industry: "Corporate Law — Hyderabad",
+    description: "A corporate law firm positioned as a strategic partner, not a reactive counsel.",
+    url: "https://law-firm-eight-livid.vercel.app/",
+  },
+  {
+    id: "novacare",
+    client: "NovaCare Medical Center",
+    industry: "Healthcare — Hyderabad",
+    description: "A multi-specialty hospital site that makes fifty departments feel human.",
+    url: "https://healthcare-ten-orcin.vercel.app/",
+  },
+  {
+    id: "uniquirk",
+    client: "Uniquirk Solutions",
+    industry: "Personal Branding — B2B",
+    description: "LinkedIn authority engineering for CXOs — a dark, sharp site to match the pitch.",
+    url: "https://uniquirk.vercel.app/",
+  },
 ];
 
 /* -------------------------------------------------------------- stats */
