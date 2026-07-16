@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { useInView } from "motion/react";
 import { DUR } from "@/lib/constants";
 
 /** Virtual desktop viewport the embedded site renders at. 1440x900 is 16:10,
@@ -11,20 +10,40 @@ const FRAME_W = 1440;
 const FRAME_H = 900;
 
 /**
- * Live, scaled-down embed of a real site. The iframe mounts only once the
- * card nears the viewport (IntersectionObserver sees through the GSAP
- * track translate, so cards mount just-in-time during the pin sweep) and is
- * never unmounted — a reload flash is worse than the memory.
+ * Live, scaled-down embed of a real site — mounted ONLY while the card is
+ * hovered.
+ *
+ * The earlier version mounted every frame on approach and never unmounted, on
+ * the logic that a reload flash is worse than the memory. With six cards that
+ * left six full websites — six sets of scripts, fonts, and hero animations —
+ * running for the rest of the session, including long after the section had
+ * been scrolled past. That is a permanent frame-rate tax on every section
+ * below Work, so the trade is inverted here: at most ONE site is ever live,
+ * and the reload flash is paid for at the moment of hover, where the user is
+ * asking for it.
+ *
+ * At rest the card shows `poster` if given, otherwise a monogram plate. Touch
+ * devices never hover, so they only ever see the poster — which is the right
+ * outcome for a phone anyway.
  *
  * The iframe is inert (pointer-events none, tabIndex -1, aria-hidden): the
  * parent card owns hover, click, and keyboard; embedded sites can never
  * hijack scroll.
  */
-export function LiveSiteFrame({ url, title }: { url: string; title: string }) {
+export function LiveSiteFrame({
+  url,
+  title,
+  poster,
+}: {
+  url: string;
+  title: string;
+  /** still frame shown at rest; falls back to a monogram plate */
+  poster?: string;
+}) {
   const wrapper = useRef<HTMLDivElement>(null);
   const [scale, setScale] = useState(0);
   const [loaded, setLoaded] = useState(false);
-  const inView = useInView(wrapper, { once: true, margin: "0px 50% 0px 50%" });
+  const [hot, setHot] = useState(false);
 
   useEffect(() => {
     const el = wrapper.current;
@@ -36,26 +55,47 @@ export function LiveSiteFrame({ url, title }: { url: string; title: string }) {
     return () => ro.disconnect();
   }, []);
 
+  // a card that goes cold drops its frame; the next hover starts clean
+  function leave() {
+    setHot(false);
+    setLoaded(false);
+  }
+
   return (
-    <div ref={wrapper} className="absolute inset-0 overflow-hidden bg-elevated">
-      {/* skeleton — client initial, pulses until the site arrives */}
-      {!loaded && (
+    <div
+      ref={wrapper}
+      onMouseEnter={() => setHot(true)}
+      onMouseLeave={leave}
+      className="absolute inset-0 overflow-hidden bg-elevated"
+    >
+      {/* rest state — also the loading state, since the frame fades in over it */}
+      {poster ? (
+        /* next/image would route six third-party hosts through the optimizer
+           to re-encode a still that is already sized for exactly one slot. */
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={poster}
+          alt=""
+          aria-hidden
+          className="absolute inset-0 h-full w-full object-cover object-top"
+        />
+      ) : (
         <div
           aria-hidden
-          className="absolute inset-0 flex animate-pulse items-center justify-center motion-reduce:animate-none"
+          className="absolute inset-0 flex items-center justify-center"
         >
           <span className="font-display text-6xl font-medium text-faint">
             {title.charAt(0)}
           </span>
         </div>
       )}
-      {inView && scale > 0 && (
+
+      {hot && scale > 0 && (
         <iframe
           src={url}
           title={title}
           width={FRAME_W}
           height={FRAME_H}
-          loading="lazy"
           sandbox="allow-scripts allow-same-origin"
           referrerPolicy="no-referrer"
           tabIndex={-1}

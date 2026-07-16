@@ -161,6 +161,26 @@ export const WORK: LiveProject[] = [
   },
 ];
 
+/* -------------------------------------------------- automations teaser */
+/* §04b The doorway to /automations. The nav link alone left the second
+ * offering invisible to anyone who simply scrolls, so the story now says it
+ * out loud: the sites above are what we build, this is what makes them work
+ * without you. Deliberately copy-only — the live diagrams live on the route
+ * itself, and the home page cannot afford them. */
+export const AUTOMATION_TEASER = {
+  eyebrow: "Growth Automation Lab",
+  title: "A site brings them in. A system keeps them.",
+  sub: "The work above is the front door. Behind it, we wire the follow-up, qualification, booking, and reporting that used to depend on someone remembering.",
+  /** a taste of the ten-system catalog, not the whole menu */
+  systems: [
+    "Lead capture",
+    "WhatsApp assistant",
+    "Appointment booking",
+    "Review engine",
+  ],
+  cta: { label: "Step inside the Lab", href: "/automations" },
+} as const;
+
 /* -------------------------------------------------------------- stats */
 /* §05 Proof numbers, count-up. LinkedIn-led social proof — the audience is
  * the asset. Only `followers` is real today; the rest are tagged TODO and are
