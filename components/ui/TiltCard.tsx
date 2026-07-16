@@ -10,7 +10,14 @@ import {
 } from "motion/react";
 
 /** 3D tilt on hover. Tracks cursor, springs flat on leave.
- *  Pointer values driven by motion values, never React state. */
+ *  Pointer values driven by motion values, never React state.
+ *
+ *  Nothing here may branch on `reduce` during render. The server has no
+ *  matchMedia, so it always renders the un-reduced tree; a reduced-motion
+ *  client that renders a different element (or a different `style`) on first
+ *  paint is a hydration mismatch. So the markup is identical either way and
+ *  only the handler bodies bail — the springs simply never leave 0, which is
+ *  exactly "no tilt". */
 export function TiltCard({
   children,
   className,
@@ -33,16 +40,15 @@ export function TiltCard({
     damping: 20,
   });
 
-  if (reduce) return <div className={className}>{children}</div>;
-
   function onMove(e: React.MouseEvent<HTMLDivElement>) {
     const el = ref.current;
-    if (!el) return;
+    if (reduce || !el) return;
     const r = el.getBoundingClientRect();
     px.set((e.clientX - r.left) / r.width);
     py.set((e.clientY - r.top) / r.height);
   }
   function reset() {
+    if (reduce) return;
     px.set(0.5);
     py.set(0.5);
   }

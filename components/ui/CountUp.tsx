@@ -46,9 +46,22 @@ export function CountUp({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [spring, reduce]);
 
+  /**
+   * Reduced motion still has to ARRIVE at the number — it just can't count up
+   * to it. Jumping there during render would desync SSR: the server has no
+   * matchMedia, so it always renders 0, and a reduced-motion client rendering
+   * the final value on first paint is a hydration mismatch. Write it after
+   * mount instead, where the server never sees it.
+   */
+  useEffect(() => {
+    if (!reduce || !ref.current) return;
+    ref.current.firstChild!.textContent = format(value);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [reduce, value]);
+
   return (
     <span ref={ref} className={className}>
-      <span>{format(reduce ? value : 0)}</span>
+      <span>{format(0)}</span>
       {suffix}
     </span>
   );

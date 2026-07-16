@@ -14,14 +14,17 @@ export function stockImg(seed: string, w: number, h: number) {
 }
 
 /* ---------------------------------------------------------------- nav */
+/* Hrefs are root-relative, not bare hashes: the site is no longer one page,
+   and `#work` from /automations goes nowhere. Nav resolves these per route. */
 export const NAV = {
   brand: "Sampeer Studio",
   links: [
-    { label: "Work", href: "#work" },
-    { label: "Approach", href: "#build" },
-    { label: "About", href: "#about" },
+    { label: "Work", href: "/#work" },
+    { label: "Approach", href: "/#build" },
+    { label: "Automations", href: "/automations" },
+    { label: "About", href: "/#about" },
   ],
-  cta: { label: "Start", href: "#contact" },
+  cta: { label: "Start", href: "/#contact" },
 } as const;
 
 /* --------------------------------------------------------------- hero */
