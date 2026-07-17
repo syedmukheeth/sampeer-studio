@@ -42,7 +42,7 @@ export function Spine() {
       {!reduce && (
         <motion.div
           style={{ top: nodeTop }}
-          className="absolute left-1/2 h-2 w-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent shadow-[0_0_12px_2px_rgba(108,99,255,0.7)]"
+          className="absolute left-1/2 h-2 w-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent"
         />
       )}
     </div>

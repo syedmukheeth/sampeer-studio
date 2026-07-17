@@ -7,8 +7,7 @@ import {
   A_SLIDER_AFTER,
   A_SLIDER_BEFORE,
 } from "@/lib/content-automations";
-import { Shell } from "@/components/ui/Shell";
-import { SectionHeader } from "@/components/ui/Section";
+import { Section, SectionHeader } from "@/components/ui/Section";
 import { Flow } from "@/components/ui/Flow";
 
 /** §A4 Drag to compare. Two graphs stacked in one cell; the top one is
@@ -76,9 +75,8 @@ export function BeforeAfter() {
   }
 
   return (
-    <section id="compare" className="relative py-28 md:py-40">
-      <Shell>
-        <SectionHeader eyebrow={A_SLIDER.eyebrow} title={A_SLIDER.title} />
+    <Section id="compare">
+        <SectionHeader title={A_SLIDER.title} />
         <p className="mt-6 max-w-2xl font-sans text-base leading-relaxed text-muted">
           {A_SLIDER.sub}
         </p>
@@ -168,7 +166,6 @@ export function BeforeAfter() {
             </div>
           ))}
         </div>
-      </Shell>
-    </section>
+    </Section>
   );
 }

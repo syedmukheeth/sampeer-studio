@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useReducedMotion } from "motion/react";
-import { PROCESS } from "@/lib/content";
+import { PROCESS, PROCESS_HEADER } from "@/lib/content";
 import { Section, SectionHeader } from "@/components/ui/Section";
 import { EASE, DUR, STAGGER, VIEWPORT } from "@/lib/constants";
 
@@ -14,7 +14,7 @@ export function Process() {
   return (
     <Section id="process">
       <div className="mx-auto max-w-3xl">
-        <SectionHeader eyebrow="How we work" title="Diagnose. Build. Grow." />
+        <SectionHeader title={PROCESS_HEADER.title} />
 
         <motion.ol
           initial={reduce ? false : "hidden"}

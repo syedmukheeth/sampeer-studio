@@ -11,7 +11,7 @@ import { CTA } from "@/components/automations/CTA";
 
 const TITLE = "Growth Automation Lab | Sampeer Studio";
 const DESCRIPTION =
-  "Watch a business get wired. Lead capture, AI qualification, follow-up, booking, and reporting — the systems that let a company grow without adding headcount.";
+  "Watch a business get wired. Lead capture, AI qualification, follow-up, booking, and reporting. The systems that let a company grow without adding headcount.";
 
 export const metadata: Metadata = {
   title: TITLE,

@@ -13,7 +13,7 @@ export function Shell({
   className?: string;
 }) {
   return (
-    <div className={clsx("mx-auto w-full max-w-[1400px] px-6 md:px-10", className)}>
+    <div className={clsx("mx-auto w-full max-w-(--max-shell) px-6 md:px-10", className)}>
       {children}
     </div>
   );

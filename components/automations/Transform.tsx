@@ -7,8 +7,7 @@ import {
   A_CHAOS_FLOW,
   A_ORDER_FLOW,
 } from "@/lib/content-automations";
-import { Shell } from "@/components/ui/Shell";
-import { SectionHeader } from "@/components/ui/Section";
+import { Section, SectionHeader } from "@/components/ui/Section";
 import { Flow } from "@/components/ui/Flow";
 import { EASE, DUR } from "@/lib/constants";
 
@@ -36,12 +35,8 @@ export function Transform() {
   const orderOpacity = useTransform(scrollYProgress, [0.46, 0.64], [0, 1]);
 
   return (
-    <section id="transform" className="relative py-28 md:py-40">
-      <Shell>
-        <SectionHeader
-          eyebrow={A_TRANSFORM.eyebrow}
-          title={A_TRANSFORM.title}
-        />
+    <Section id="transform">
+        <SectionHeader title={A_TRANSFORM.title} />
         <p className="mt-6 max-w-2xl font-sans text-base leading-relaxed text-muted">
           {A_TRANSFORM.sub}
         </p>
@@ -64,7 +59,7 @@ export function Transform() {
                 {...A_CHAOS_FLOW}
                 mode="static"
                 tone="chaos"
-                label={`${A_TRANSFORM.before.label} — ${A_TRANSFORM.before.caption}`}
+                label={`${A_TRANSFORM.before.label}, ${A_TRANSFORM.before.caption}`}
               />
             </motion.div>
 
@@ -75,7 +70,7 @@ export function Transform() {
               <Flow
                 {...A_ORDER_FLOW}
                 mode="loop"
-                label={`${A_TRANSFORM.after.label} — ${A_TRANSFORM.after.caption}`}
+                label={`${A_TRANSFORM.after.label}, ${A_TRANSFORM.after.caption}`}
               />
             </motion.div>
           </div>
@@ -128,13 +123,12 @@ export function Transform() {
                 {...flow}
                 mode="static"
                 tone={chaos ? "chaos" : "default"}
-                label={`${copy.label} — ${copy.caption}`}
+                label={`${copy.label}, ${copy.caption}`}
               />
               <p className="mt-2 font-sans text-sm text-muted">{copy.caption}</p>
             </motion.div>
           ))}
         </div>
-      </Shell>
-    </section>
+    </Section>
   );
 }

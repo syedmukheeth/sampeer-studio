@@ -1,44 +1,24 @@
 "use client";
 
 import { motion, useReducedMotion } from "motion/react";
+import { ArrowDown } from "@phosphor-icons/react/dist/ssr";
 import { HERO } from "@/lib/content";
 import { EASE, DUR, STAGGER } from "@/lib/constants";
 import { NoiseField } from "@/components/ui/NoiseField";
+import { MaskText } from "@/components/ui/MaskText";
+import { TrackClick } from "@/components/analytics/TrackClick";
+import { EVENTS } from "@/lib/analytics";
 
-const container = {
-  hidden: {},
-  show: { transition: { staggerChildren: STAGGER.tight, delayChildren: 0.5 } },
-};
-const word = {
-  hidden: { y: "115%" },
-  show: { y: 0, transition: { duration: DUR.hero, ease: EASE.out } },
-};
-
-/** Words mask-reveal up on load. Storytelling: the verdict assembles itself
- *  out of the noise behind it. Word spacing comes from margin on the mask
- *  wrapper — a trailing space INSIDE an inline-block gets trimmed and the
- *  words jam together. */
-function MaskLine({ text, className }: { text: string; className?: string }) {
-  const parts = text.split(" ");
-  return (
-    <span className={`block ${className ?? ""}`}>
-      {parts.map((w, i) => (
-        <span
-          key={i}
-          className="inline-block overflow-hidden pb-[0.12em] align-bottom"
-          style={{ marginRight: i < parts.length - 1 ? "0.26em" : 0 }}
-        >
-          <motion.span variants={word} className="inline-block">
-            {w}
-          </motion.span>
-        </span>
-      ))}
-    </span>
-  );
-}
-
+/** §01 The verdict. Words mask-reveal up out of the noise field; the second
+ *  line carries the page's accent strike. The CTA is deliberately a quiet
+ *  anchor, not a button — Nav "Start" owns conversion, and this link doubles
+ *  as the scroll affordance and a skip straight to the proof. */
 export function Hero() {
   const reduce = useReducedMotion();
+
+  // the accent line starts after the lead line's words have cascaded
+  const leadWords = HERO.lead.split(" ").length;
+  const accentDelay = 0.5 + leadWords * STAGGER.tight;
 
   return (
     <section
@@ -58,15 +38,15 @@ export function Hero() {
       />
 
       <div className="relative z-10 flex flex-col items-center">
-        <motion.h1
-          variants={reduce ? undefined : container}
-          initial={reduce ? false : "hidden"}
-          animate={reduce ? false : "show"}
-          className="max-w-4xl font-display font-semibold leading-[1.05] tracking-tighter text-[clamp(2.5rem,8vw,6.25rem)]"
-        >
-          <MaskLine text={HERO.lead} />
-          <MaskLine text={HERO.accent} className="text-accent" />
-        </motion.h1>
+        <h1 className="max-w-4xl font-display font-semibold leading-[1.05] tracking-tighter text-[clamp(2.5rem,8vw,6.25rem)]">
+          <MaskText text={HERO.lead} mode="mount" delay={0.5} />
+          <MaskText
+            text={HERO.accent}
+            mode="mount"
+            delay={accentDelay}
+            className="text-accent"
+          />
+        </h1>
 
         <motion.p
           initial={reduce ? false : { opacity: 0, y: 16 }}
@@ -76,24 +56,31 @@ export function Hero() {
         >
           {HERO.sub}
         </motion.p>
-      </div>
 
-      {/* scroll cue — invites the journey */}
-      <motion.div
-        aria-hidden
-        initial={reduce ? false : { opacity: 0 }}
-        animate={reduce ? false : { opacity: 1 }}
-        transition={{ duration: DUR.base, delay: 1.8 }}
-        className="absolute bottom-8 left-1/2 z-10 -translate-x-1/2"
-      >
-        <div className="flex h-10 w-6 items-start justify-center rounded-full border border-line/80 p-1.5">
-          <motion.span
-            className="h-1.5 w-1.5 rounded-full bg-muted"
-            animate={reduce ? undefined : { y: [0, 12, 0], opacity: [1, 0.2, 1] }}
-            transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
-          />
-        </div>
-      </motion.div>
+        <motion.div
+          initial={reduce ? false : { opacity: 0, y: 12 }}
+          animate={reduce ? false : { opacity: 1, y: 0 }}
+          transition={{ duration: DUR.base, delay: 1.6, ease: EASE.out }}
+          className="mt-10"
+        >
+          <TrackClick event={EVENTS.ctaClickHero}>
+            <a
+              href={HERO.cta.href}
+              className="group inline-flex items-center gap-2 font-sans text-sm font-medium text-ink"
+            >
+              <span className="border-b border-line pb-1 transition-colors duration-300 group-hover:border-accent">
+                {HERO.cta.label}
+              </span>
+              <ArrowDown
+                size={16}
+                weight="bold"
+                aria-hidden
+                className="text-muted transition-all duration-300 group-hover:translate-y-0.5 group-hover:text-accent"
+              />
+            </a>
+          </TrackClick>
+        </motion.div>
+      </div>
     </section>
   );
 }

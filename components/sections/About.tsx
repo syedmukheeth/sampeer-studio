@@ -1,13 +1,20 @@
+"use client";
+
 import Image from "next/image";
+import { motion, useReducedMotion } from "motion/react";
 import { ArrowUpRight } from "@phosphor-icons/react/dist/ssr";
 import { ABOUT } from "@/lib/content";
 import { Reveal } from "@/components/ui/Reveal";
 import { Section } from "@/components/ui/Section";
 import { Parallax } from "@/components/ui/Parallax";
-import { STAGGER } from "@/lib/constants";
+import { EASE, DUR, STAGGER } from "@/lib/constants";
 
-/** §07 About Syed. Asymmetric split. Manifesto, not bio. */
+/** §07 About Syed. Asymmetric split. Manifesto, not bio. The portrait is
+ *  unveiled bottom-up by a canvas-colored cover as it enters — the founder
+ *  arrives the way the sites do, not as a static plate. */
 export function About() {
+  const reduce = useReducedMotion();
+
   return (
     <Section id="about">
       <div className="grid grid-cols-1 items-center gap-12 md:grid-cols-12 md:gap-16">
@@ -22,6 +29,15 @@ export function About() {
                 className="scale-125 object-cover grayscale transition-[filter] duration-700 ease-out group-hover:grayscale-0"
               />
             </Parallax>
+            {/* unveil cover — scales away upward once, then never returns */}
+            <motion.span
+              aria-hidden
+              initial={reduce ? false : { scaleY: 1 }}
+              whileInView={{ scaleY: 0 }}
+              viewport={{ once: true, amount: 0.35 }}
+              transition={{ duration: reduce ? 0 : DUR.slow, ease: EASE.inOut }}
+              className="pointer-events-none absolute inset-0 origin-top bg-canvas"
+            />
           </div>
         </div>
 

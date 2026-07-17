@@ -75,7 +75,7 @@ export function Nav() {
 
   return (
     <header className="fixed inset-x-0 top-0 z-40 border-b border-line/60 bg-canvas/70 backdrop-blur-md">
-      <nav className="mx-auto flex h-16 max-w-[1400px] items-center justify-between px-6 md:px-10">
+      <nav className="mx-auto flex h-16 max-w-(--max-shell) items-center justify-between px-6 md:px-10">
         <Link
           href={isHome ? "#hero" : "/"}
           className="flex items-center gap-2.5 font-display text-base font-semibold tracking-tight"

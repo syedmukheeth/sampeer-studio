@@ -18,7 +18,6 @@ export const A_HERO = {
   accent: "while you sleep.",
   sub: "Replace repetitive work with systems that capture leads, qualify prospects, run operations, and keep growing at 3am.",
   cta: { label: "Book an automation audit", href: "#audit" },
-  scrollHint: "See how",
 } as const;
 
 /** The backdrop machine. Runs forever behind the headline. */
@@ -30,9 +29,8 @@ export const A_HERO_FLOW = serpentine(
 /* ---------------------------------------------------- §A2 what is / chaos */
 
 export const A_TRANSFORM = {
-  eyebrow: "What automation actually is",
   title: "Same business. Same team. Two different machines.",
-  sub: "Nothing here is exotic. It's the work you already do — wired together so it stops depending on someone remembering.",
+  sub: "Nothing here is exotic. It's the work you already do, wired together so it stops depending on someone remembering.",
   before: {
     label: "Today",
     caption: "Every step waits on a human. Miss one and the lead is gone.",
@@ -146,9 +144,8 @@ export const A_CATALOG = [
 /* ------------------------------------------------------- §A4 before/after */
 
 export const A_SLIDER = {
-  eyebrow: "The difference",
   title: "Drag it.",
-  sub: "Left is how the work runs today. Right is the same work, wired. Drag the handle — or use the arrow keys.",
+  sub: "Left is how the work runs today. Right is the same work, wired. Drag the handle, or use the arrow keys.",
   leftLabel: "Manual",
   rightLabel: "Automated",
   handleLabel: "Compare manual and automated workflow",
@@ -167,9 +164,10 @@ export const A_SLIDER_AFTER = serpentine(
 /* --------------------------------------------------------- §A5 industries */
 
 export const A_INDUSTRIES_HEADER = {
-  eyebrow: "By industry",
   title: "Every business is different. So every automation is too.",
   sub: "Same principles, different machine. Pick a business.",
+  /** aria-label for the tablist — was the eyebrow before eyebrow rationing */
+  tablistLabel: "Industries",
 } as const;
 
 export const A_INDUSTRIES = [
@@ -269,7 +267,6 @@ export const A_INDUSTRY_COLS = 4;
 /* ------------------------------------------------------------- §A6 impact */
 
 export const A_IMPACT_HEADER = {
-  eyebrow: "What it's worth",
   title: "The point was never the robot.",
 } as const;
 

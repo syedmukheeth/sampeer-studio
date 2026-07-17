@@ -8,8 +8,7 @@ import {
   A_INDUSTRY_COLS,
 } from "@/lib/content-automations";
 import { serpentine } from "@/lib/flow";
-import { Shell } from "@/components/ui/Shell";
-import { SectionHeader } from "@/components/ui/Section";
+import { Section, SectionHeader } from "@/components/ui/Section";
 import { Flow } from "@/components/ui/Flow";
 import { EASE, DUR } from "@/lib/constants";
 import { track, EVENTS } from "@/lib/analytics";
@@ -48,10 +47,8 @@ export function Industries() {
   }
 
   return (
-    <section id="industries" className="relative py-28 md:py-40">
-      <Shell>
+    <Section id="industries">
         <SectionHeader
-          eyebrow={A_INDUSTRIES_HEADER.eyebrow}
           title={A_INDUSTRIES_HEADER.title}
         />
         <p className="mt-6 max-w-2xl font-sans text-base leading-relaxed text-muted">
@@ -60,7 +57,7 @@ export function Industries() {
 
         <div
           role="tablist"
-          aria-label={A_INDUSTRIES_HEADER.eyebrow}
+          aria-label={A_INDUSTRIES_HEADER.tablistLabel}
           onKeyDown={onKeyDown}
           className="mt-12 flex flex-wrap gap-x-7 gap-y-3 border-b border-line pb-3"
         >
@@ -119,7 +116,6 @@ export function Industries() {
             </motion.div>
           </AnimatePresence>
         </div>
-      </Shell>
-    </section>
+    </Section>
   );
 }

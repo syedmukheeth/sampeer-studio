@@ -9,6 +9,8 @@
  * Image helper: stockImg(seed, w, h) -> deterministic Picsum URL.
  */
 
+import { serpentine } from "@/lib/flow";
+
 export function stockImg(seed: string, w: number, h: number) {
   return `https://picsum.photos/seed/${seed}/${w}/${h}`;
 }
@@ -28,13 +30,17 @@ export const NAV = {
 } as const;
 
 /* --------------------------------------------------------------- hero */
-/* §01 The Verdict — one statement, no CTA, demands the scroll. */
+/* §01 The Verdict — one statement plus a quiet anchor into the proof. */
 export const HERO = {
   // headline split so the accent word can be styled in JSX
   lead: "Most startups don't fail.",
   accent: "They go unnoticed.",
   // quiet follow line, kept under the 20-word cap
   sub: "We build the growth layer that makes founders impossible to ignore.",
+  /** Quiet anchor, not a button: the Nav "Start" already owns conversion, and
+   *  a hero button would be a second accent strike in the same viewport. This
+   *  link doubles as the scroll affordance and a 4-viewport skip to proof. */
+  cta: { label: "See the work", href: "#work" },
 } as const;
 
 /**
@@ -62,14 +68,17 @@ export const PROBLEM = {
 } as const;
 
 /* -------------------------------------------------------------- build */
-/* §03 Three pillars as outcomes, not deliverables. Sticky-stack. */
+/* §03 Three pillars as outcomes, not deliverables. Sticky-stack. Each panel's
+ * visual is a bespoke PillarGraphic (wireframe / live Flow / post skeleton),
+ * not stock photography — the work itself is the imagery. */
 export type Pillar = {
   id: string;
   index: string;
   title: string;
   outcome: string;
   body: string;
-  image: string;
+  /** which PillarGraphic variant renders in the panel's visual frame */
+  graphic: "story" | "growth" | "founder";
 };
 
 export const PILLARS: Pillar[] = [
@@ -79,7 +88,7 @@ export const PILLARS: Pillar[] = [
     title: "Storytelling Website",
     outcome: "Strangers start trusting you in ninety seconds.",
     body: "Not a template. An experience that carries your vision, earns belief, and turns visitors into believers before they ever talk to you.",
-    image: stockImg("sampeer-story", 1200, 1400),
+    graphic: "story",
   },
   {
     id: "growth",
@@ -87,7 +96,7 @@ export const PILLARS: Pillar[] = [
     title: "Growth System",
     outcome: "Leads arrive, qualify, and book themselves.",
     body: "Capture, CRM, AI qualification, follow-up, and booking wired into one engine. Automation is a part of it. Revenue is the point.",
-    image: stockImg("sampeer-growth", 1200, 1400),
+    graphic: "growth",
   },
   {
     id: "founder",
@@ -95,9 +104,15 @@ export const PILLARS: Pillar[] = [
     title: "Founder Brand",
     outcome: "Your name opens doors before you do.",
     body: "Founders are the new media companies. We build the presence and authority that pull opportunities toward you instead of chasing them.",
-    image: stockImg("sampeer-founder", 1200, 1400),
+    graphic: "founder",
   },
 ];
+
+/** The growth pillar's live machine — rendered by PillarGraphic via Flow. */
+export const PILLAR_GROWTH_FLOW = serpentine(
+  ["Lead", "AI qualify", "CRM", "Follow-up", "Booked"],
+  2,
+);
 
 /* --------------------------------------------------------------- work */
 /* §04 Real work, horizontal scroll. Each card embeds the live site itself
@@ -120,43 +135,43 @@ export const WORK: LiveProject[] = [
   {
     id: "asrg",
     client: "ASRG Construction",
-    industry: "Construction & Civil — Kurnool",
-    description: "Full brand site for a 46-year civil contracting firm — projects, process, and enquiry in one place.",
+    industry: "Construction & Civil, Kurnool",
+    description: "Full brand site for a 46-year civil contracting firm. Projects, process, and enquiry in one place.",
     url: "https://www.asrgcontruction.com/",
   },
   {
     id: "aurum",
     client: "Aurum Resorts",
-    industry: "Luxury Hospitality — Maldives",
-    description: "A private-island resort experience told in stillness — villas, dining, and the sea.",
+    industry: "Luxury Hospitality, Maldives",
+    description: "A private-island resort experience told in stillness. Villas, dining, and the sea.",
     url: "https://luxury-hotel-sooty.vercel.app/",
   },
   {
     id: "liftx",
     client: "LIFT-X",
-    industry: "Fitness — Kurnool",
+    industry: "Fitness, Kurnool",
     description: "A premium unisex gym site built on bold type and one decision: start.",
     url: "https://lift-x-ten.vercel.app/",
   },
   {
     id: "vantara",
     client: "Vantara & Rao",
-    industry: "Corporate Law — Hyderabad",
+    industry: "Corporate Law, Hyderabad",
     description: "A corporate law firm positioned as a strategic partner, not a reactive counsel.",
     url: "https://law-firm-eight-livid.vercel.app/",
   },
   {
     id: "novacare",
     client: "NovaCare Medical Center",
-    industry: "Healthcare — Hyderabad",
+    industry: "Healthcare, Hyderabad",
     description: "A multi-specialty hospital site that makes fifty departments feel human.",
     url: "https://healthcare-ten-orcin.vercel.app/",
   },
   {
     id: "uniquirk",
     client: "Uniquirk Solutions",
-    industry: "Personal Branding — B2B",
-    description: "LinkedIn authority engineering for CXOs — a dark, sharp site to match the pitch.",
+    industry: "Personal Branding, B2B",
+    description: "LinkedIn authority engineering for CXOs, with a dark, sharp site to match the pitch.",
     url: "https://uniquirk.vercel.app/",
   },
 ];
@@ -181,6 +196,30 @@ export const AUTOMATION_TEASER = {
   cta: { label: "Step inside the Lab", href: "/automations" },
 } as const;
 
+/* The live machine that now plays inline on home. Two 3-col graphs on the same
+ * grid footprint so the scroll cross-fade reads as the SAME business rewired,
+ * not two unrelated diagrams — same discipline as /automations Transform. */
+export const AUTOMATION_TEASER_CHAOS = serpentine(
+  ["Missed call", "Sticky note", "Forgotten", "Excel", "Lost lead"],
+  3,
+);
+export const AUTOMATION_TEASER_ORDER = serpentine(
+  ["New lead", "AI qualify", "CRM", "Auto follow-up", "Booked"],
+  3,
+);
+
+/** The captions that cross-fade with the two machines. */
+export const AUTOMATION_TEASER_STATES = {
+  before: {
+    label: "Today",
+    caption: "Every step waits on someone remembering. Miss one, the lead is gone.",
+  },
+  after: {
+    label: "Wired",
+    caption: "Every step hands off on its own. Nothing waits on memory.",
+  },
+} as const;
+
 /* -------------------------------------------------------------- stats */
 /* §05 Proof numbers, count-up. LinkedIn-led social proof — the audience is
  * the asset. Only `followers` is real today; the rest are tagged TODO and are
@@ -194,8 +233,6 @@ export const STATS: Stat[] = [
   { value: 30, suffix: "+", label: "Founders in the DMs" }, // TODO real
 ];
 
-/** Eyebrow for the proof band — frames the numbers as reach, not vanity. */
-export const STATS_EYEBROW = "The audience";
 
 /* ------------------------------------------------------ testimonials */
 /* §05.5 Founder voices. Editorial pull-quotes, not cards. Placeholder copy +
@@ -207,7 +244,9 @@ export type Testimonial = {
   role: string;
 };
 
-export const TESTIMONIALS_EYEBROW = "In their words";
+export const TESTIMONIALS_HEADER = {
+  title: "Founders, after.",
+} as const;
 
 export const TESTIMONIALS: Testimonial[] = [
   {
@@ -236,6 +275,10 @@ export const TESTIMONIALS: Testimonial[] = [
 /* ------------------------------------------------------------ process */
 /* §06 Diagnose -> Build -> Grow. Verb-noun, no "Stage 1". */
 export type Step = { id: string; title: string; body: string };
+
+export const PROCESS_HEADER = {
+  title: "Diagnose. Build. Grow.",
+} as const;
 
 export const PROCESS: Step[] = [
   { id: "diagnose", title: "Diagnose", body: "We find why you are being overlooked. The gap between what you do and what people perceive." },
@@ -279,4 +322,5 @@ export const FOOTER = {
     { label: "X", href: "https://x.com/" }, // TODO
   ],
   year: new Date().getFullYear(),
+  rights: "All rights reserved.",
 } as const;

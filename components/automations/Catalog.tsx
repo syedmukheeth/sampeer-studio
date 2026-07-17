@@ -3,8 +3,7 @@
 import { useMemo, useState } from "react";
 import { A_CATALOG, A_CATALOG_HEADER } from "@/lib/content-automations";
 import { serpentine } from "@/lib/flow";
-import { Shell } from "@/components/ui/Shell";
-import { SectionHeader } from "@/components/ui/Section";
+import { Section, SectionHeader } from "@/components/ui/Section";
 import { Flow } from "@/components/ui/Flow";
 import { TiltCard } from "@/components/ui/TiltCard";
 import { Reveal } from "@/components/ui/Reveal";
@@ -57,8 +56,7 @@ function Card({
 /** §A3 The stack. Ten systems, each one a live diagram rather than an icon. */
 export function Catalog() {
   return (
-    <section id="stack" className="relative py-28 md:py-40">
-      <Shell>
+    <Section id="stack">
         <SectionHeader
           eyebrow={A_CATALOG_HEADER.eyebrow}
           title={A_CATALOG_HEADER.title}
@@ -72,7 +70,6 @@ export function Catalog() {
             <Card key={item.id} item={item} index={i} />
           ))}
         </div>
-      </Shell>
-    </section>
+    </Section>
   );
 }

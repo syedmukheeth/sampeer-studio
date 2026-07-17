@@ -1,8 +1,7 @@
 "use client";
 
 import { A_IMPACT, A_IMPACT_HEADER } from "@/lib/content-automations";
-import { Shell } from "@/components/ui/Shell";
-import { SectionHeader } from "@/components/ui/Section";
+import { Section, SectionHeader } from "@/components/ui/Section";
 import { CountUp } from "@/components/ui/CountUp";
 import { Reveal } from "@/components/ui/Reveal";
 
@@ -10,12 +9,8 @@ import { Reveal } from "@/components/ui/Reveal";
  *  tags in lib/content-automations. Swap the data, not this file. */
 export function Impact() {
   return (
-    <section id="impact" className="relative py-28 md:py-40">
-      <Shell>
-        <SectionHeader
-          eyebrow={A_IMPACT_HEADER.eyebrow}
-          title={A_IMPACT_HEADER.title}
-        />
+    <Section id="impact">
+        <SectionHeader title={A_IMPACT_HEADER.title} />
 
         <div className="mt-14 grid gap-px overflow-hidden rounded-md border border-line bg-line sm:grid-cols-2 lg:grid-cols-4">
           {A_IMPACT.map((m, i) => (
@@ -33,7 +28,6 @@ export function Impact() {
             </Reveal>
           ))}
         </div>
-      </Shell>
-    </section>
+    </Section>
   );
 }
