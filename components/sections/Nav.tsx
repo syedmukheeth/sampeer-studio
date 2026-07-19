@@ -119,7 +119,7 @@ export function Nav() {
             <Magnetic>
               <Link
                 href={isHome ? hashOf(NAV.cta.href) ?? NAV.cta.href : NAV.cta.href}
-                className="inline-block rounded-md bg-accent px-4 py-2 font-sans text-sm font-medium text-ink transition-transform active:scale-[0.98]"
+                className="inline-block rounded-md bg-accent-solid px-4 py-2 font-sans text-sm font-medium text-accent-ink transition-[transform,background-color] active:scale-[0.98] active:bg-accent-dim"
               >
                 {NAV.cta.label}
               </Link>
@@ -200,7 +200,7 @@ export function Nav() {
               <Link
                 href={isHome ? hashOf(NAV.cta.href) ?? NAV.cta.href : NAV.cta.href}
                 onClick={() => setOpen(false)}
-                className="mt-8 inline-flex w-fit items-center rounded-md bg-accent px-6 py-3 font-sans text-sm font-medium text-ink"
+                className="mt-8 inline-flex w-fit items-center rounded-md bg-accent-solid px-6 py-3 font-sans text-sm font-medium text-accent-ink active:bg-accent-dim"
               >
                 {NAV.cta.label}
               </Link>

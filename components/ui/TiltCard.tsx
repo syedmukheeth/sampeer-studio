@@ -40,14 +40,22 @@ export function TiltCard({
     damping: 20,
   });
 
+  // rect is read once on enter, not per mousemove — a layout read on every
+  // pointer event across ten catalog cards is measurable jank
+  const rect = useRef<DOMRect | null>(null);
+
+  function onEnter() {
+    if (reduce || !ref.current) return;
+    rect.current = ref.current.getBoundingClientRect();
+  }
   function onMove(e: React.MouseEvent<HTMLDivElement>) {
-    const el = ref.current;
-    if (reduce || !el) return;
-    const r = el.getBoundingClientRect();
+    const r = rect.current;
+    if (reduce || !r) return;
     px.set((e.clientX - r.left) / r.width);
     py.set((e.clientY - r.top) / r.height);
   }
   function reset() {
+    rect.current = null;
     if (reduce) return;
     px.set(0.5);
     py.set(0.5);
@@ -56,6 +64,7 @@ export function TiltCard({
   return (
     <motion.div
       ref={ref}
+      onMouseEnter={onEnter}
       onMouseMove={onMove}
       onMouseLeave={reset}
       style={{ rotateX: rx, rotateY: ry, transformPerspective: 900 }}

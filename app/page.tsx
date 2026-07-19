@@ -4,6 +4,7 @@ import { Problem } from "@/components/sections/Problem";
 import { Build } from "@/components/sections/Build";
 import { Work } from "@/components/sections/Work";
 import { AutomationLab } from "@/components/sections/AutomationLab";
+import { Branding } from "@/components/sections/Branding";
 import { Stats } from "@/components/sections/Stats";
 import { Testimonials } from "@/components/sections/Testimonials";
 import { Process } from "@/components/sections/Process";
@@ -21,6 +22,7 @@ export default function Home() {
         <Build />
         <Work />
         <AutomationLab />
+        <Branding />
         <Stats />
         <Testimonials />
         <Process />

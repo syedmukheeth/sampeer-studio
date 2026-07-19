@@ -46,7 +46,7 @@ float noise(vec2 p){
 }
 float fbm(vec2 p){
   float v = 0.0, amp = 0.5;
-  for(int i = 0; i < 5; i++){
+  for(int i = 0; i < 4; i++){
     v += amp * noise(p);
     p *= 2.02; amp *= 0.5;
   }
@@ -160,16 +160,24 @@ export function NoiseField({ className }: { className?: string }) {
     // resolve 0 -> 1 over the intro; reduced-motion jumps straight to settled
     const start = performance.now();
     const RESOLVE_MS = 2400;
+    // after the intro resolves, the grain only "breathes" — half the frame
+    // rate is indistinguishable at 0.018 amplitude and halves the GPU bill
+    const SETTLED_FRAME_MS = 33;
     let raf = 0;
     let visible = true;
+    let lastDraw = 0;
 
     function frame(now: number) {
       const elapsed = now - start;
       const p = Math.min(elapsed / RESOLVE_MS, 1);
-      const resolve = 1 - Math.pow(1 - p, 3); // ease-out cubic
-      ctx.uniform1f(uTime, elapsed / 1000);
-      ctx.uniform1f(uResolve, resolve);
-      ctx.drawArrays(ctx.TRIANGLES, 0, 3);
+      const settled = p >= 1;
+      if (!settled || now - lastDraw >= SETTLED_FRAME_MS) {
+        const resolve = 1 - Math.pow(1 - p, 3); // ease-out cubic
+        ctx.uniform1f(uTime, elapsed / 1000);
+        ctx.uniform1f(uResolve, resolve);
+        ctx.drawArrays(ctx.TRIANGLES, 0, 3);
+        lastDraw = now;
+      }
       // keep a slow living grain after resolve; stop only when offscreen
       if (visible) raf = requestAnimationFrame(frame);
     }

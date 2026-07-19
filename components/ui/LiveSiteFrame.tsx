@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import { DUR } from "@/lib/constants";
 
 /** Virtual desktop viewport the embedded site renders at. 1440x900 is 16:10,
@@ -70,14 +71,13 @@ export function LiveSiteFrame({
     >
       {/* rest state — also the loading state, since the frame fades in over it */}
       {poster ? (
-        /* next/image would route six third-party hosts through the optimizer
-           to re-encode a still that is already sized for exactly one slot. */
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
+        <Image
           src={poster}
           alt=""
           aria-hidden
-          className="absolute inset-0 h-full w-full object-cover object-top"
+          fill
+          sizes="(max-width: 768px) 100vw, 60vw"
+          className="object-cover object-top"
         />
       ) : (
         <div

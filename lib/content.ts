@@ -115,15 +115,18 @@ export const PILLAR_GROWTH_FLOW = serpentine(
 );
 
 /* --------------------------------------------------------------- work */
-/* §04 Real work, horizontal scroll. Each card embeds the live site itself
- * (scaled iframe) — the project's own hero animation is the showcase.
- * Descriptions state what the site is; no invented metrics. */
+/* §04 Real work, vertical sticky-stack. Each card shows a local poster at
+ * rest and embeds the live site (scaled iframe) on hover — the project's own
+ * hero animation is the showcase. Descriptions state what the site is; no
+ * invented metrics. */
 export type LiveProject = {
   id: string;
   client: string;
   industry: string;
   description: string;
   url: string;
+  /** local still of the live site, shown at rest (public/work/*.webp) */
+  poster: string;
 };
 
 export const WORK_HEADER = {
@@ -134,6 +137,7 @@ export const WORK_HEADER = {
 export const WORK: LiveProject[] = [
   {
     id: "asrg",
+    poster: "/work/asrg.webp",
     client: "ASRG Construction",
     industry: "Construction & Civil, Kurnool",
     description: "Full brand site for a 46-year civil contracting firm. Projects, process, and enquiry in one place.",
@@ -141,6 +145,7 @@ export const WORK: LiveProject[] = [
   },
   {
     id: "aurum",
+    poster: "/work/aurum.webp",
     client: "Aurum Resorts",
     industry: "Luxury Hospitality, Maldives",
     description: "A private-island resort experience told in stillness. Villas, dining, and the sea.",
@@ -148,6 +153,7 @@ export const WORK: LiveProject[] = [
   },
   {
     id: "liftx",
+    poster: "/work/liftx.webp",
     client: "LIFT-X",
     industry: "Fitness, Kurnool",
     description: "A premium unisex gym site built on bold type and one decision: start.",
@@ -155,6 +161,7 @@ export const WORK: LiveProject[] = [
   },
   {
     id: "vantara",
+    poster: "/work/vantara.webp",
     client: "Vantara & Rao",
     industry: "Corporate Law, Hyderabad",
     description: "A corporate law firm positioned as a strategic partner, not a reactive counsel.",
@@ -162,6 +169,7 @@ export const WORK: LiveProject[] = [
   },
   {
     id: "novacare",
+    poster: "/work/novacare.webp",
     client: "NovaCare Medical Center",
     industry: "Healthcare, Hyderabad",
     description: "A multi-specialty hospital site that makes fifty departments feel human.",
@@ -169,6 +177,7 @@ export const WORK: LiveProject[] = [
   },
   {
     id: "uniquirk",
+    poster: "/work/uniquirk.webp",
     client: "Uniquirk Solutions",
     industry: "Personal Branding, B2B",
     description: "LinkedIn authority engineering for CXOs, with a dark, sharp site to match the pitch.",
@@ -218,6 +227,30 @@ export const AUTOMATION_TEASER_STATES = {
     label: "Wired",
     caption: "Every step hands off on its own. Nothing waits on memory.",
   },
+} as const;
+
+/* ----------------------------------------------------------- branding */
+/* §04c The third service, said out loud. The Build pillar names it; this
+ * section sells it — claim first, mechanics second, then the Stats band right
+ * below supplies the numbers. Real post screenshots slot in later (intake). */
+export const BRANDING = {
+  title: "Your name should open doors before you do.",
+  sub: "Founders are the new media companies. We turn yours into the reason leads arrive warm.",
+  moves: [
+    {
+      title: "Positioning",
+      body: "One sharp point of view, said the same way everywhere, until the niche repeats it back.",
+    },
+    {
+      title: "Content system",
+      body: "A weekly cadence of posts written from your work, not around it. You approve, we ship.",
+    },
+    {
+      title: "Distribution",
+      body: "Comments, DMs, and the follow-up loop that turns readers into booked calls.",
+    },
+  ],
+  cta: { label: "Watch it happen on LinkedIn", href: "https://www.linkedin.com/" }, // TODO: real profile
 } as const;
 
 /* -------------------------------------------------------------- stats */
@@ -307,9 +340,10 @@ export const CTA = {
   heading: "Tell me about your startup.",
   sub: "One message. No forms, no funnels. It comes straight to me.",
   placeholder: "you@startup.com",
+  messagePlaceholder: "What are you building, and what's in the way?",
   button: "Start",
-  // wire to Calendly or mailto later
-  action: "mailto:hello@sampeerstudio.com", // TODO: real endpoint
+  /** where the form falls back if the send endpoint isn't configured */
+  fallbackEmail: "hello@sampeerstudio.com", // TODO: confirm live inbox
 } as const;
 
 /* ------------------------------------------------------------- footer */

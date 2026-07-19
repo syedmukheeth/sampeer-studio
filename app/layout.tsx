@@ -7,6 +7,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { LenisProvider } from "@/components/providers/LenisProvider";
 import { ScrollDepth } from "@/components/analytics/ScrollDepth";
 import { Spine } from "@/components/ui/Spine";
+import { Grain } from "@/components/ui/Grain";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -66,7 +67,7 @@ const JSON_LD = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0a0a0a",
+  themeColor: "#0a0a0b",
   colorScheme: "dark",
 };
 
@@ -83,6 +84,7 @@ export default function RootLayout({
       </head>
       <body className="min-h-dvh bg-canvas text-ink antialiased">
         <LenisProvider>{children}</LenisProvider>
+        <Grain />
         <Spine />
         <ScrollDepth />
         <Analytics />

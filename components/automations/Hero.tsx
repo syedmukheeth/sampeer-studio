@@ -33,7 +33,7 @@ export function Hero() {
           here it's texture you can actually resolve if you look. */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-x-0 bottom-0 mx-auto hidden w-full max-w-4xl translate-y-[38%] px-6 opacity-25 md:block"
+        className="pointer-events-none absolute inset-x-0 bottom-0 mx-auto hidden w-full max-w-4xl translate-y-[38%] px-6 opacity-15 md:block"
       >
         <Flow
           {...A_HERO_FLOW}

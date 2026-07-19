@@ -30,7 +30,7 @@ function Card({
           onMouseLeave={() => setPlay(false)}
           onFocus={() => setPlay(true)}
           onBlur={() => setPlay(false)}
-          className="group h-full rounded-md border border-line bg-elevated/40 p-5 transition-colors duration-500 hover:border-accent/40 focus-visible:border-accent focus-visible:outline-none"
+          className="group h-full rounded-md border border-line bg-elevated/40 p-5 transition-colors duration-500 hover:border-accent/40 hover:bg-elevated-2 focus-visible:border-accent focus-visible:bg-elevated-2 focus-visible:outline-none"
         >
           <h3 className="font-display text-lg font-medium text-ink">
             {item.name}

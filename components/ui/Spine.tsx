@@ -23,8 +23,12 @@ export function Spine() {
     damping: 28,
     restDelta: 0.001,
   });
-  // map 0..1 progress to a CSS top percentage for the leading node
-  const nodeTop = useTransform(progress, (v) => `${v * 100}%`);
+  // Node rides on transform only — animating `top` would force layout every
+  // scroll frame. calc folds the -50% self-centering into the same channel.
+  const nodeY = useTransform(
+    progress,
+    (v) => `calc(${(v * 100).toFixed(3)}dvh - 50%)`,
+  );
 
   return (
     <div
@@ -41,8 +45,8 @@ export function Spine() {
       {/* leading node */}
       {!reduce && (
         <motion.div
-          style={{ top: nodeTop }}
-          className="absolute left-1/2 h-2 w-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent"
+          style={{ x: "-50%", y: nodeY }}
+          className="absolute left-1/2 top-0 h-2 w-2 rounded-full bg-accent"
         />
       )}
     </div>

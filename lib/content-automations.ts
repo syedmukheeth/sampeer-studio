@@ -284,6 +284,8 @@ export const A_CTA = {
   heading: "Let's find the three systems you actually need.",
   sub: "A free 30-minute audit. We map your current workflow, mark what's automatable, and tell you what it's worth. No deck.",
   placeholder: "you@company.com",
+  messagePlaceholder: "What does your lead flow look like today?",
   button: "Book the audit",
-  action: "mailto:hello@sampeerstudio.com", // TODO: real endpoint — mirrors lib/content.ts CTA
+  /** where the form falls back if the send endpoint isn't configured */
+  fallbackEmail: "hello@sampeerstudio.com", // TODO: confirm live inbox — mirrors lib/content.ts CTA
 } as const;

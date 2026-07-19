@@ -1,7 +1,13 @@
 "use client";
 
 import { useEffect, useId, useMemo, useRef, useState } from "react";
-import { motion, useInView, useReducedMotion } from "motion/react";
+import {
+  motion,
+  useInView,
+  useReducedMotion,
+  useTransform,
+  type MotionValue,
+} from "motion/react";
 import { clsx } from "clsx";
 import { EASE, DUR } from "@/lib/constants";
 import type { FlowNode, FlowEdge } from "@/lib/flow";
@@ -35,7 +41,11 @@ export type FlowMode =
   /** cycles forever while on screen */
   | "loop"
   /** advances only while `play` is true, resets when it goes false */
-  | "sequence";
+  | "sequence"
+  /** constructs itself under the scrollbar: node k and edge k exist only once
+   *  `progress` has passed their window. Requires the `progress` prop. Once a
+   *  piece is revealed it stays static — no pulse, no dot, no loop. */
+  | "build";
 
 /* ---------------------------------------------------------------- geometry */
 
@@ -94,6 +104,8 @@ export function Flow({
   mode = "loop",
   tone = "default",
   play = false,
+  /** scroll progress 0..1 driving `build` mode (from useScroll / a pin) */
+  progress,
   /** ms each node holds the strike before handing off */
   step = 900,
   /** decorative background canvas: leaves the accessibility tree and drops
@@ -107,6 +119,7 @@ export function Flow({
   mode?: FlowMode;
   tone?: FlowTone;
   play?: boolean;
+  progress?: MotionValue<number>;
   step?: number;
   ambient?: boolean;
   /** names the diagram for screen readers */
@@ -130,6 +143,8 @@ export function Flow({
    * grid, an ungated interval per card is the difference between a smooth
    * page and a hot laptop.
    */
+  const build = mode === "build" && !!progress;
+
   const running =
     !reduce && (mode === "loop" ? inView : mode === "sequence" ? play : false);
 
@@ -179,12 +194,27 @@ export function Flow({
             </marker>
           </defs>
 
-          {edges.map((e) => {
+          {edges.map((e, ei) => {
             const a = at.get(e.from);
             const b = at.get(e.to);
             if (!a || !b) return null;
             const d = edgePath(a, b);
             const isFiring = firing?.from === e.from && firing?.to === e.to;
+
+            if (build && progress) {
+              return (
+                <BuildEdge
+                  key={`${e.from}-${e.to}`}
+                  d={d}
+                  uid={uid}
+                  chaos={chaos}
+                  index={ei}
+                  count={nodes.length}
+                  progress={progress}
+                  reduce={!!reduce}
+                />
+              );
+            }
 
             return (
               <g key={`${e.from}-${e.to}`} className="text-line">
@@ -243,9 +273,31 @@ export function Flow({
           })}
         </svg>
 
-        {nodes.map((n) => {
+        {nodes.map((n, ni) => {
           const p = at.get(n.id)!;
           const on = lit === n.id;
+
+          if (build && progress) {
+            return (
+              <BuildNode
+                key={n.id}
+                label={n.label}
+                chaos={chaos}
+                index={ni}
+                count={nodes.length}
+                final={ni === nodes.length - 1}
+                progress={progress}
+                reduce={!!reduce}
+                style={{
+                  left: `${(p.x / w) * 100}%`,
+                  top: `${(p.y / h) * 100}%`,
+                  width: `${(NODE_W / w) * 100}%`,
+                  height: `${(NODE_H / h) * 100}%`,
+                }}
+              />
+            );
+          }
+
           return (
             <motion.div
               key={n.id}
@@ -288,7 +340,7 @@ export function Flow({
         aria-label={ambient ? undefined : label}
       >
         {nodes.map((n, idx) => (
-          <li key={n.id} className="flex items-stretch gap-3">
+          <li key={`${n.id}-step`} className="flex items-stretch gap-3">
             <div className="flex w-4 shrink-0 flex-col items-center">
               <span
                 className={clsx(
@@ -317,5 +369,130 @@ export function Flow({
         ))}
       </ol>
     </div>
+  );
+}
+
+/* ------------------------------------------------------------- build mode */
+/*
+ * Scroll-built pieces. The whole timeline is progress 0..1 divided into
+ * N + 1 units (one per node, one spare so the final accent strike lands
+ * after the last node exists). Node k owns [k*u, k*u + 0.8u]; the edge that
+ * follows it draws in the seam between k and k+1. MotionValue -> style keeps
+ * this hydration-safe: the server renders the same initial frame (progress 0)
+ * for everyone, and reduced motion snaps values to 1 on the client without
+ * branching markup.
+ */
+
+function useBuildValue(
+  progress: MotionValue<number>,
+  from: number,
+  to: number,
+  reduce: boolean,
+) {
+  return useTransform(progress, (v) => {
+    if (reduce) return 1;
+    if (v <= from) return 0;
+    if (v >= to) return 1;
+    return (v - from) / (to - from);
+  });
+}
+
+function BuildEdge({
+  d,
+  uid,
+  chaos,
+  index,
+  count,
+  progress,
+  reduce,
+}: {
+  d: string;
+  uid: string;
+  chaos: boolean;
+  index: number;
+  count: number;
+  progress: MotionValue<number>;
+  reduce: boolean;
+}) {
+  const u = 1 / (count + 1);
+  const t = useBuildValue(progress, (index + 0.6) * u, (index + 1.3) * u, reduce);
+  // fade resolves faster than the draw so the line never pops in fully drawn
+  const opacity = useTransform(t, [0, 0.25], [0, 1]);
+
+  return (
+    <g className="text-line">
+      {chaos ? (
+        /* dashed chaos edges cannot animate pathLength (motion drives
+           stroke-dasharray itself) — they fade in instead */
+        <motion.path
+          d={d}
+          fill="none"
+          stroke="currentColor"
+          strokeWidth={1.5}
+          strokeDasharray="4 5"
+          markerEnd={`url(#${uid}-head)`}
+          style={{ opacity: t }}
+        />
+      ) : (
+        <motion.path
+          d={d}
+          fill="none"
+          stroke="currentColor"
+          strokeWidth={1.5}
+          markerEnd={`url(#${uid}-head)`}
+          style={{ pathLength: t, opacity }}
+        />
+      )}
+    </g>
+  );
+}
+
+function BuildNode({
+  label,
+  chaos,
+  index,
+  count,
+  final,
+  progress,
+  reduce,
+  style,
+}: {
+  label: string;
+  chaos: boolean;
+  index: number;
+  count: number;
+  final: boolean;
+  progress: MotionValue<number>;
+  reduce: boolean;
+  style: React.CSSProperties;
+}) {
+  const u = 1 / (count + 1);
+  const t = useBuildValue(progress, index * u, (index + 0.8) * u, reduce);
+  // centering offset and the 8px rise share the same transform channel
+  const y = useTransform(t, (v) => `calc(-50% + ${(8 * (1 - v)).toFixed(2)}px)`);
+  // the single accent strike: only the terminal node, only once the whole
+  // machine stands — one strike per viewport, preserved in build mode
+  const strike = useBuildValue(progress, count * u, (count + 0.6) * u, reduce);
+
+  return (
+    <motion.div
+      className={clsx(
+        "absolute flex items-center justify-center rounded-md border px-2 text-center font-sans leading-tight",
+        "text-[11px] lg:text-xs",
+        chaos
+          ? "border-line/60 bg-canvas text-faint"
+          : "border-line bg-elevated text-muted",
+      )}
+      style={{ ...style, x: "-50%", y, opacity: t }}
+    >
+      {label}
+      {final && !chaos && (
+        <motion.span
+          aria-hidden
+          className="pointer-events-none absolute inset-0 rounded-md border border-accent"
+          style={{ opacity: strike }}
+        />
+      )}
+    </motion.div>
   );
 }

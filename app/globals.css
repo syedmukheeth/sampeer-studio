@@ -6,17 +6,31 @@
 */
 
 @theme {
-  --color-canvas: #0a0a0a; /* page background, off-black (never #000) */
-  --color-elevated: #141414; /* subtle raised surface within dark family */
+  --color-canvas: #0a0a0b; /* page background, off-black (never #000) */
+  --color-elevated: #141416; /* subtle raised surface within dark family */
+  --color-elevated-2: #1a1a1c; /* second surface tier — hover/active card states only */
   --color-ink: #f5f5f0; /* primary text, warm off-white (never #fff) */
   --color-muted: #8a8a85; /* secondary text */
-  --color-faint: #56564f; /* tertiary / disabled */
-  --color-line: #232320; /* hairline borders */
+  --color-faint: #56564f; /* decorative only — fails AA, never for readable copy */
+  --color-line: #232322; /* hairline borders */
   --color-accent: #6c63ff; /* Electric Indigo — ONE strike per viewport, no glows */
+  --color-accent-solid: #5d54f0; /* button fills — deep enough for AA ink text */
+  --color-accent-dim: #4f48c4; /* pressed / secondary accent state */
+  --color-accent-soft: rgba(108, 99, 255, 0.08); /* tints and veils — no ad-hoc accent/10 */
   --color-accent-ink: #f5f5f0; /* text on accent fills */
 
   --font-display: var(--font-clash), ui-sans-serif, system-ui, sans-serif;
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+
+  --text-display-xl: clamp(3.2rem, 8.5vw, 7.5rem);
+  --text-display-xl--line-height: 0.98;
+  --text-display-xl--letter-spacing: -0.03em;
+  --text-display: clamp(2.4rem, 5vw, 4.5rem);
+  --text-display--line-height: 1.05;
+  --text-display--letter-spacing: -0.02em;
+  --text-eyebrow: 11px;
+  --text-eyebrow--line-height: 1.4;
+  --text-eyebrow--letter-spacing: 0.18em;
 
   --radius-xs: 4px;
   --radius-sm: 6px;
@@ -43,6 +57,13 @@ body {
 ::selection {
   background: var(--color-accent);
   color: var(--color-accent-ink);
+}
+
+/* One focus grammar, page-wide. Keyboard users get the accent ring. */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+  border-radius: var(--radius-xs);
 }
 
 /* Reduced motion: collapse everything to instant/static. */

@@ -1,7 +1,12 @@
 "use client";
 
 import { useMemo, useRef, useState } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import {
+  AnimatePresence,
+  motion,
+  useReducedMotion,
+  useScroll,
+} from "motion/react";
 import {
   A_INDUSTRIES,
   A_INDUSTRIES_HEADER,
@@ -21,6 +26,14 @@ export function Industries() {
   const reduce = useReducedMotion();
   const [active, setActive] = useState(0);
   const tabs = useRef<(HTMLButtonElement | null)[]>([]);
+
+  // The selected chain constructs itself as the panel scrolls into view —
+  // same build grammar as §A2, without a pinned region (tabs need free scroll)
+  const panel = useRef<HTMLDivElement>(null);
+  const { scrollYProgress: buildProgress } = useScroll({
+    target: panel,
+    offset: ["start 92%", "start 38%"],
+  });
 
   const current = A_INDUSTRIES[active];
   const graph = useMemo(
@@ -94,6 +107,7 @@ export function Industries() {
         </div>
 
         <div
+          ref={panel}
           role="tabpanel"
           id={`panel-${current.id}`}
           aria-labelledby={`tab-${current.id}`}
@@ -109,8 +123,8 @@ export function Industries() {
             >
               <Flow
                 {...graph}
-                mode="loop"
-                step={800}
+                mode="build"
+                progress={buildProgress}
                 label={`${current.name} workflow`}
               />
             </motion.div>

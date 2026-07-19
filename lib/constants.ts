@@ -14,10 +14,14 @@ export const Z = {
 
 /** Brand tokens mirrored from globals.css for JS-driven motion/canvas use. */
 export const BRAND = {
-  base: "#0a0a0a",
+  base: "#0a0a0b",
+  elevated: "#141416",
+  elevated2: "#1a1a1c",
   ink: "#f5f5f0",
   muted: "#8a8a85",
   accent: "#6c63ff",
+  accentDim: "#4f48c4",
+  accentSoft: "rgba(108, 99, 255, 0.08)",
 } as const;
 
 /** Standard reveal easing — matches the CSS cubic used across the page. */
@@ -57,3 +61,9 @@ export const VIEWPORT = { once: true, amount: 0.25 } as const;
 
 /** The signature lift distance for fade-up reveals (px). One value, page-wide. */
 export const RISE = 28;
+
+/**
+ * Scroll distance (px) allotted per node when a Flow diagram builds itself
+ * under the scrollbar. N nodes => sticky region of roughly N * FLOW_STEP.
+ */
+export const FLOW_STEP = 140;
