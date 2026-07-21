@@ -26,7 +26,7 @@ export function About() {
                 alt={ABOUT.name}
                 fill
                 sizes="(max-width: 768px) 100vw, 40vw"
-                className="scale-125 object-cover grayscale transition-[filter] duration-700 ease-out group-hover:grayscale-0"
+                className="scale-125 object-cover"
               />
             </Parallax>
             {/* unveil cover — scales away upward once, then never returns */}

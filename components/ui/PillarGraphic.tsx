@@ -54,6 +54,8 @@ export function PillarGraphic({ variant }: { variant: "story" | "growth" | "foun
   }
 
   if (variant === "story") {
+    // Real proof, not a wireframe: a live client site (ASRG Construction)
+    // framed in a browser. The work is the imagery.
     return (
       <motion.div
         aria-hidden
@@ -63,7 +65,7 @@ export function PillarGraphic({ variant }: { variant: "story" | "growth" | "foun
         viewport={{ once: true, amount: 0.4 }}
         className="flex h-full w-full flex-col bg-elevated"
       >
-        {/* browser chrome */}
+        {/* browser chrome — real domain */}
         <motion.div
           variants={rise}
           className="flex items-center gap-2 border-b border-line px-4 py-2.5"
@@ -73,69 +75,26 @@ export function PillarGraphic({ variant }: { variant: "story" | "growth" | "foun
             <span className="h-2 w-2 rounded-full bg-line" />
             <span className="h-2 w-2 rounded-full bg-line" />
           </span>
-          <span className="ml-2 flex-1 rounded-full bg-canvas/70 px-2.5 py-1 text-[8px] text-faint">
-            sampeerstudio.com
+          <span className="ml-2 flex-1 truncate rounded-full bg-canvas/70 px-2.5 py-1 text-[8px] text-faint">
+            asrgcontruction.com
           </span>
         </motion.div>
 
-        {/* the page */}
-        <div className="flex flex-1 flex-col gap-4 p-5">
-          {/* nav */}
-          <motion.div variants={rise} className="flex items-center justify-between">
-            <span className="flex items-center gap-1.5">
-              <span className="h-3 w-3 rounded-sm bg-accent/80" />
-              <span className="text-[9px] font-semibold tracking-tight text-ink">sampeer</span>
-            </span>
-            <span className="flex gap-2.5 text-[8px] text-muted">
-              <span>Work</span>
-              <span>About</span>
-              <span>Contact</span>
-            </span>
-          </motion.div>
-
-          {/* hero */}
-          <div className="mt-1 flex flex-col gap-2">
-            <motion.p
-              variants={rise}
-              className="font-display text-lg font-semibold leading-[1.1] tracking-tight text-ink"
-            >
-              Get noticed.
-              <br />
-              Get chosen.
-            </motion.p>
-            <motion.p variants={rise} className="max-w-[85%] text-[8.5px] leading-relaxed text-muted">
-              A storytelling site that turns first-time visitors into booked calls.
-            </motion.p>
-            <motion.span
-              variants={rise}
-              className="mt-1 inline-flex w-fit items-center rounded-sm bg-accent px-3 py-1.5 text-[9px] font-medium text-accent-ink"
-            >
-              Start your project
-            </motion.span>
-          </div>
-
-          {/* preview strip — a faux hero image */}
-          <motion.div
-            variants={rise}
-            className="mt-1 h-14 rounded-sm border border-line bg-gradient-to-br from-accent/15 to-canvas"
+        {/* the live site screenshot fills the frame */}
+        <motion.div variants={rise} className="relative flex-1 overflow-hidden">
+          <Image
+            src="/work/asrg.webp"
+            alt=""
+            fill
+            sizes="(max-width: 768px) 100vw, 40vw"
+            className="object-cover object-top"
           />
-
-          {/* three feature cards, filled */}
-          <div className="mt-auto grid grid-cols-3 gap-2">
-            {["Design", "Build", "Grow"].map((f) => (
-              <motion.div
-                key={f}
-                variants={rise}
-                className="flex flex-col gap-1.5 rounded-sm border border-line p-2"
-              >
-                <span className="h-1.5 w-1.5 rounded-full bg-accent/70" />
-                <span className="text-[8px] font-medium text-ink">{f}</span>
-                <span className="h-1 w-full rounded-full bg-line" />
-                <span className="h-1 w-2/3 rounded-full bg-line/60" />
-              </motion.div>
-            ))}
-          </div>
-        </div>
+          {/* live badge */}
+          <span className="absolute bottom-3 left-3 inline-flex items-center gap-1.5 rounded-sm border border-line bg-canvas/80 px-2 py-1 text-[8px] text-ink backdrop-blur-sm">
+            <span className="h-1.5 w-1.5 rounded-full bg-accent" />
+            Live client site
+          </span>
+        </motion.div>
       </motion.div>
     );
   }
