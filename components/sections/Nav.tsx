@@ -7,7 +7,7 @@ import { List, X } from "@phosphor-icons/react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { NAV } from "@/lib/content";
 import { Magnetic } from "@/components/ui/Magnetic";
-import { BrandMark } from "@/components/ui/BrandMark";
+import { Logo } from "@/components/ui/Logo";
 import { TrackClick } from "@/components/analytics/TrackClick";
 import { EVENTS } from "@/lib/analytics";
 import { EASE, DUR } from "@/lib/constants";
@@ -78,10 +78,12 @@ export function Nav() {
       <nav className="mx-auto flex h-16 max-w-(--max-shell) items-center justify-between px-6 md:px-10">
         <Link
           href={isHome ? "#hero" : "/"}
-          className="flex items-center gap-2.5 font-display text-base font-semibold tracking-tight"
+          aria-label={NAV.brand}
+          className="flex items-center"
         >
-          <BrandMark size={24} />
-          {NAV.brand}
+          <span className="rounded-lg bg-white/[0.04] p-1.5 ring-1 ring-white/10 transition-colors duration-300 hover:ring-accent/30">
+            <Logo priority sizes="80px" className="h-8 w-auto" />
+          </span>
         </Link>
 
         <div className="hidden items-center gap-8 md:flex">
@@ -149,9 +151,10 @@ export function Nav() {
             transition={{ duration: DUR.fast, ease: EASE.out }}
           >
             <div className="flex h-16 items-center justify-between px-6">
-              <span className="flex items-center gap-2.5 font-display text-base font-semibold tracking-tight">
-                <BrandMark size={24} />
-                {NAV.brand}
+              <span className="flex items-center" aria-label={NAV.brand}>
+                <span className="rounded-lg bg-white/[0.04] p-1.5 ring-1 ring-white/10">
+                  <Logo sizes="80px" className="h-8 w-auto" />
+                </span>
               </span>
               <button
                 type="button"

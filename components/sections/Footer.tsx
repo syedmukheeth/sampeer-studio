@@ -1,8 +1,8 @@
 "use client";
 
-import Image from "next/image";
 import { motion, useReducedMotion } from "motion/react";
 import { FOOTER } from "@/lib/content";
+import { Logo } from "@/components/ui/Logo";
 import { Shell } from "@/components/ui/Shell";
 import { Reveal } from "@/components/ui/Reveal";
 import { MaskText } from "@/components/ui/MaskText";
@@ -25,16 +25,10 @@ export function Footer() {
 
         <div className="mt-14 flex flex-col justify-between gap-10 md:flex-row md:items-end">
           <Reveal delay={STAGGER.base}>
-            <div className="group relative h-20 w-20 overflow-hidden rounded-full border border-line transition-colors duration-500 hover:border-accent/40 md:h-24 md:w-24">
-              <Image
-                src="/logo.png"
-                alt={FOOTER.brand}
-                fill
-                sizes="96px"
-                style={{ objectPosition: "52% 41%" }}
-                className="scale-[2.2] object-cover transition-transform duration-700 ease-out group-hover:scale-[2.35]"
-              />
-            </div>
+            <Logo
+              sizes="(min-width: 768px) 200px, 160px"
+              className="h-auto w-36 md:w-44"
+            />
           </Reveal>
 
           <Reveal delay={STAGGER.loose} className="flex flex-col gap-3 md:items-end">

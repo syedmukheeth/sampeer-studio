@@ -38,6 +38,7 @@ export function Hero() {
       />
 
       <div className="relative z-10 flex flex-col items-center">
+
         <h1 className="max-w-4xl font-display font-semibold leading-[1.05] tracking-tighter text-[clamp(2.5rem,8vw,6.25rem)]">
           <MaskText text={HERO.lead} mode="mount" delay={0.5} />
           <MaskText
