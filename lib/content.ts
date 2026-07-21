@@ -137,6 +137,8 @@ export type LiveProject = {
   /** internal case-study route; when set the card opens this instead of the
    *  live site, and the live site moves inside the case study */
   caseStudy?: string;
+  /** real on-site proof shown as a small photo stack on the card */
+  proof?: { photos: string[]; label: string };
 };
 
 export const WORK_HEADER = {
@@ -153,6 +155,10 @@ export const WORK: LiveProject[] = [
     description: "Full brand site for a 46-year civil contracting firm. Projects, process, and enquiry in one place.",
     url: "https://www.asrgcontruction.com/",
     caseStudy: "/work/asrg",
+    proof: {
+      photos: ["/asrg-client.webp", "/asrg-client-2.webp"],
+      label: "On-site with the client, Kurnool",
+    },
   },
   {
     id: "aurum",

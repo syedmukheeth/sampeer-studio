@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef } from "react";
+import Image from "next/image";
 import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
 import { WORK, WORK_HEADER, type LiveProject } from "@/lib/content";
 import { Shell } from "@/components/ui/Shell";
@@ -100,6 +101,34 @@ function StackCard({
                 <p className="mt-5 font-sans text-sm leading-relaxed text-muted">
                   {w.description}
                 </p>
+
+                {/* real on-site proof — a photo stack, not a stock badge */}
+                {w.proof && (
+                  <div className="mt-6 flex items-center gap-3">
+                    <div className="flex">
+                      {w.proof.photos.map((src, pi) => (
+                        <span
+                          key={src}
+                          className={`relative h-10 w-8 overflow-hidden rounded-sm border border-line bg-elevated ${
+                            pi > 0 ? "-ml-2.5" : ""
+                          }`}
+                          style={{ zIndex: w.proof!.photos.length - pi }}
+                        >
+                          <Image
+                            src={src}
+                            alt=""
+                            fill
+                            sizes="32px"
+                            className="object-cover"
+                          />
+                        </span>
+                      ))}
+                    </div>
+                    <span className="font-sans text-xs leading-tight text-muted">
+                      {w.proof.label}
+                    </span>
+                  </div>
+                )}
               </div>
               <span className="inline-flex items-center gap-1 font-sans text-xs text-muted transition-colors group-hover:text-ink">
                 {study ? "Read the case study" : "Visit live site"}
