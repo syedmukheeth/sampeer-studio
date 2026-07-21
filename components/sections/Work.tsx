@@ -137,7 +137,7 @@ function StackCard({
                       &ldquo;{w.testimonial.quote}&rdquo;
                     </p>
                     <footer className="mt-2 font-sans text-xs text-muted">
-                      — {w.testimonial.author}
+                      - {w.testimonial.author}
                     </footer>
                   </blockquote>
                 )}

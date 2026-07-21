@@ -61,7 +61,7 @@ export const A_CHAOS_FLOW = serpentine(
     { label: "Forgotten", icon: "clock", meta: "4 days ago" },
     { label: "Excel sheet", icon: "table", meta: "v7_final.xlsx" },
     { label: "Confusion", icon: "note", meta: "who has this?" },
-    { label: "Lost customer", icon: "user-minus", meta: "—" },
+    { label: "Lost customer", icon: "user-minus", meta: "-" },
   ],
   4,
 );
@@ -70,10 +70,10 @@ export const A_ORDER_FLOW = serpentine(
   [
     { label: "Customer", icon: "user", kind: "trigger", meta: "on your site", doneMeta: "captured" },
     { label: "Website", icon: "globe", kind: "app", meta: "form fill", doneMeta: "submitted" },
-    { label: "AI assistant", icon: "ai", kind: "ai", meta: "score —", doneMeta: "qualified" },
+    { label: "AI assistant", icon: "ai", kind: "ai", meta: "score -", doneMeta: "qualified" },
     { label: "CRM", icon: "crm", kind: "metric", meta: "2,418 rows", doneMeta: "2,419 rows" },
     { label: "Auto follow-up", icon: "email", kind: "action", meta: "queued", doneMeta: "sent ✓" },
-    { label: "Booking", icon: "calendar", kind: "app", meta: "—", doneMeta: "Tue 10:00" },
+    { label: "Booking", icon: "calendar", kind: "app", meta: "-", doneMeta: "Tue 10:00" },
     { label: "Dashboard", icon: "chart", kind: "metric", meta: "live", doneMeta: "updated" },
     { label: "Owner", icon: "user", kind: "outcome", meta: "reads one number", doneMeta: "asleep at 3am" },
   ],
@@ -233,11 +233,11 @@ export const A_SLIDER_BEFORE = serpentine(
 export const A_SLIDER_AFTER = serpentine(
   [
     { label: "Website", icon: "globe", kind: "trigger", meta: "form fill", activeMeta: "capturing…", doneMeta: "captured" },
-    { label: "AI", icon: "ai", kind: "ai", meta: "score —", activeMeta: "thinking…", doneMeta: "qualified" },
+    { label: "AI", icon: "ai", kind: "ai", meta: "score -", activeMeta: "thinking…", doneMeta: "qualified" },
     { label: "CRM", icon: "crm", kind: "metric", meta: "2,418 rows", activeMeta: "+1 row", doneMeta: "2,419 rows" },
     { label: "Automation", icon: "gear", kind: "action", meta: "idle", activeMeta: "running…", doneMeta: "done" },
     { label: "Customer", icon: "user", kind: "app", meta: "waiting", activeMeta: "notified…", doneMeta: "booked" },
-    { label: "Revenue", icon: "chart", kind: "outcome", meta: "—", activeMeta: "posting…", doneMeta: "+1 sale" },
+    { label: "Revenue", icon: "chart", kind: "outcome", meta: "-", activeMeta: "posting…", doneMeta: "+1 sale" },
   ],
   3,
   { payload: "lead" },

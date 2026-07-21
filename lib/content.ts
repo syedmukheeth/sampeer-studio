@@ -112,10 +112,10 @@ export const PILLARS: Pillar[] = [
 export const PILLAR_GROWTH_FLOW = serpentine(
   [
     { label: "Lead", icon: "lead", kind: "trigger", meta: "just now", activeMeta: "capturing…", doneMeta: "captured" },
-    { label: "AI qualify", icon: "ai", kind: "ai", meta: "score —", activeMeta: "thinking…", doneMeta: "score 87" },
+    { label: "AI qualify", icon: "ai", kind: "ai", meta: "score -", activeMeta: "thinking…", doneMeta: "score 87" },
     { label: "CRM", icon: "crm", kind: "metric", meta: "2,418 rows", activeMeta: "+1 row", doneMeta: "2,419 rows" },
     { label: "Follow-up", icon: "email", kind: "action", meta: "queued", activeMeta: "sending…", doneMeta: "sent ✓" },
-    { label: "Booked", icon: "calendar", kind: "outcome", meta: "—", activeMeta: "confirming…", doneMeta: "Tue 10:00" },
+    { label: "Booked", icon: "calendar", kind: "outcome", meta: "-", activeMeta: "confirming…", doneMeta: "Tue 10:00" },
   ],
   2,
   { payload: "lead" },
@@ -231,7 +231,7 @@ export const CASE_ASRG = {
   },
   solution: {
     title: "The solution",
-    body: "A premium storytelling website that puts the firm's history, projects, and process in one place — fast to load, clear on every device, and built to rank. Paired with SEO groundwork and a fully optimized Google Business Profile so ASRG shows up when Kurnool searches for a civil contractor.",
+    body: "A premium storytelling website that puts the firm's history, projects, and process in one place - fast to load, clear on every device, and built to rank. Paired with SEO groundwork and a fully optimized Google Business Profile so ASRG shows up when Kurnool searches for a civil contractor.",
   },
   servicesTitle: "What we delivered",
   services: [
@@ -244,7 +244,7 @@ export const CASE_ASRG = {
   ],
   gallery: {
     title: "On the ground",
-    caption: "On-site at the ASRG Construction office in Kurnool — where the project was signed.",
+    caption: "On-site at the ASRG Construction office in Kurnool - where the project was signed.",
     photos: [
       { src: "/asrg-client.webp", alt: "Sampeer Studio founder shaking hands with the ASRG Construction owner", caption: "Sealing the project" },
       { src: "/asrg-client-2.webp", alt: "Sampeer Studio founder with the ASRG Construction owner at their office", caption: "With the ASRG team, Kurnool" },
@@ -252,7 +252,7 @@ export const CASE_ASRG = {
   },
   outcome: {
     title: "The outcome",
-    body: "A modern, professional digital presence that finally matches the work — one that earns trust on first impression and lays the foundation for organic search visibility and inbound leads.",
+    body: "A modern, professional digital presence that finally matches the work - one that earns trust on first impression and lays the foundation for organic search visibility and inbound leads.",
   },
   visit: "Visit the live site",
 } as const;
@@ -289,17 +289,17 @@ export const AUTOMATION_TEASER_CHAOS = serpentine(
     { label: "Sticky note", icon: "note", meta: "somewhere" },
     { label: "Forgotten", icon: "clock", meta: "4 days ago" },
     { label: "Excel", icon: "table", meta: "v7_final.xlsx" },
-    { label: "Lost lead", icon: "user-minus", meta: "—" },
+    { label: "Lost lead", icon: "user-minus", meta: "-" },
   ],
   3,
 );
 export const AUTOMATION_TEASER_ORDER = serpentine(
   [
     { label: "New lead", icon: "lead", kind: "trigger", meta: "just now", activeMeta: "capturing…", doneMeta: "captured" },
-    { label: "AI qualify", icon: "ai", kind: "ai", meta: "score —", activeMeta: "thinking…", doneMeta: "score 87" },
+    { label: "AI qualify", icon: "ai", kind: "ai", meta: "score -", activeMeta: "thinking…", doneMeta: "score 87" },
     { label: "CRM", icon: "crm", kind: "metric", meta: "2,418 rows", activeMeta: "+1 row", doneMeta: "2,419 rows" },
     { label: "Auto follow-up", icon: "email", kind: "action", meta: "queued", activeMeta: "sending…", doneMeta: "sent ✓" },
-    { label: "Booked", icon: "calendar", kind: "outcome", meta: "—", activeMeta: "confirming…", doneMeta: "Tue 10:00" },
+    { label: "Booked", icon: "calendar", kind: "outcome", meta: "-", activeMeta: "confirming…", doneMeta: "Tue 10:00" },
   ],
   3,
   { payload: "lead" },

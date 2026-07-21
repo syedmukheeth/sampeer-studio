@@ -26,7 +26,7 @@ const clash = localFont({
   ],
 });
 
-const TITLE = "Sampeer Studio — Storytelling Websites, Growth Systems & AI Automation";
+const TITLE = "Sampeer Studio - Storytelling Websites, Growth Systems & AI Automation";
 const DESCRIPTION =
   "We help startups and ambitious businesses become impossible to ignore through premium storytelling websites, AI-powered growth systems, founder branding, and automation.";
 
