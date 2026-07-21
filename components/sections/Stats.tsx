@@ -79,7 +79,11 @@ export function Stats() {
               text={s.text}
               suffix={s.suffix}
               decimals={s.decimals}
-              className="block font-display text-5xl font-semibold tracking-tight tabular-nums md:text-7xl"
+              className={`block font-display font-semibold tracking-tight tabular-nums ${
+                s.text
+                  ? "text-3xl md:text-4xl" /* word stats: fit the column */
+                  : "text-5xl md:text-7xl" /* number stats: full display scale */
+              }`}
             />
             <div className="mt-3 font-sans text-sm text-muted">{s.label}</div>
           </Reveal>
