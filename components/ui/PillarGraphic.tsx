@@ -1,10 +1,11 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { motion, useReducedMotion } from "motion/react";
+import { AnimatePresence, motion, useInView, useReducedMotion } from "motion/react";
 import { Heart, ChatCircle } from "@phosphor-icons/react/dist/ssr";
 import { Flow } from "@/components/ui/Flow";
-import { PILLAR_GROWTH_FLOW } from "@/lib/content";
+import { PILLAR_GROWTH_FLOW, WORK } from "@/lib/content";
 import { EASE, DUR, STAGGER } from "@/lib/constants";
 
 /**
@@ -54,49 +55,9 @@ export function PillarGraphic({ variant }: { variant: "story" | "growth" | "foun
   }
 
   if (variant === "story") {
-    // Real proof, not a wireframe: a live client site (ASRG Construction)
-    // framed in a browser. The work is the imagery.
-    return (
-      <motion.div
-        aria-hidden
-        variants={parent}
-        initial="hidden"
-        whileInView="show"
-        viewport={{ once: true, amount: 0.4 }}
-        className="flex h-full w-full flex-col bg-elevated"
-      >
-        {/* browser chrome — real domain */}
-        <motion.div
-          variants={rise}
-          className="flex items-center gap-2 border-b border-line px-4 py-2.5"
-        >
-          <span className="flex gap-1.5">
-            <span className="h-2 w-2 rounded-full bg-line" />
-            <span className="h-2 w-2 rounded-full bg-line" />
-            <span className="h-2 w-2 rounded-full bg-line" />
-          </span>
-          <span className="ml-2 flex-1 truncate rounded-full bg-canvas/70 px-2.5 py-1 text-[8px] text-faint">
-            asrgcontruction.com
-          </span>
-        </motion.div>
-
-        {/* the live site screenshot fills the frame */}
-        <motion.div variants={rise} className="relative flex-1 overflow-hidden">
-          <Image
-            src="/work/asrg.webp"
-            alt=""
-            fill
-            sizes="(max-width: 768px) 100vw, 40vw"
-            className="object-cover object-top"
-          />
-          {/* live badge */}
-          <span className="absolute bottom-3 left-3 inline-flex items-center gap-1.5 rounded-sm border border-line bg-canvas/80 px-2 py-1 text-[8px] text-ink backdrop-blur-sm">
-            <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-            Live client site
-          </span>
-        </motion.div>
-      </motion.div>
-    );
+    // Real proof, not a wireframe: every live client site, cycling through a
+    // browser frame. The work is the imagery.
+    return <StorySlideshow />;
   }
 
   // founder — a real LinkedIn post, authority compounding
@@ -164,5 +125,79 @@ export function PillarGraphic({ variant }: { variant: "story" | "growth" | "foun
         </div>
       </motion.div>
     </motion.div>
+  );
+}
+
+/**
+ * STORY PILLAR — a browser frame that cycles through every live client site.
+ * Real screenshots, real domains, a running counter: proof of range, not a
+ * wireframe. Only cycles while on screen; reduced motion holds the first.
+ */
+function StorySlideshow() {
+  const reduce = useReducedMotion();
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { amount: 0.4 });
+  const [i, setI] = useState(0);
+
+  useEffect(() => {
+    if (reduce || !inView) return;
+    const id = setInterval(() => setI((p) => (p + 1) % WORK.length), 2400);
+    return () => clearInterval(id);
+  }, [reduce, inView]);
+
+  const p = WORK[i];
+  let host = "";
+  try {
+    host = new URL(p.url).host.replace(/^www\./, "");
+  } catch {
+    host = p.url;
+  }
+
+  return (
+    <div ref={ref} aria-hidden className="flex h-full w-full flex-col bg-elevated">
+      {/* browser chrome — the real domain of the current site */}
+      <div className="flex items-center gap-2 border-b border-line px-4 py-2.5">
+        <span className="flex gap-1.5">
+          <span className="h-2 w-2 rounded-full bg-line" />
+          <span className="h-2 w-2 rounded-full bg-line" />
+          <span className="h-2 w-2 rounded-full bg-line" />
+        </span>
+        <span className="ml-2 flex-1 truncate rounded-full bg-canvas/70 px-2.5 py-1 text-[8px] text-faint">
+          {host}
+        </span>
+      </div>
+
+      {/* the live site screenshots crossfade through the frame */}
+      <div className="relative flex-1 overflow-hidden">
+        <AnimatePresence mode="sync">
+          <motion.div
+            key={p.id}
+            className="absolute inset-0"
+            initial={reduce ? false : { opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={reduce ? undefined : { opacity: 0 }}
+            transition={{ duration: reduce ? 0 : DUR.base, ease: EASE.out }}
+          >
+            <Image
+              src={p.poster}
+              alt=""
+              fill
+              sizes="(max-width: 768px) 100vw, 40vw"
+              className="object-cover object-top"
+            />
+          </motion.div>
+        </AnimatePresence>
+
+        {/* client badge */}
+        <span className="absolute bottom-3 left-3 inline-flex items-center gap-1.5 rounded-sm border border-line bg-canvas/80 px-2 py-1 text-[8px] text-ink backdrop-blur-sm">
+          <span className="h-1.5 w-1.5 rounded-full bg-accent" />
+          {p.client}
+        </span>
+        {/* running counter — proof of volume */}
+        <span className="absolute bottom-3 right-3 rounded-sm border border-line bg-canvas/80 px-2 py-1 font-sans text-[8px] tabular-nums text-muted backdrop-blur-sm">
+          {String(i + 1).padStart(2, "0")} / {String(WORK.length).padStart(2, "0")}
+        </span>
+      </div>
+    </div>
   );
 }
