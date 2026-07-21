@@ -129,6 +129,18 @@ function StackCard({
                     </span>
                   </div>
                 )}
+
+                {/* client pull-quote — social proof on the card itself */}
+                {w.testimonial && (
+                  <blockquote className="mt-6 border-l-2 border-accent/40 pl-3">
+                    <p className="font-display text-base leading-snug tracking-tight text-ink">
+                      &ldquo;{w.testimonial.quote}&rdquo;
+                    </p>
+                    <footer className="mt-2 font-sans text-xs text-muted">
+                      — {w.testimonial.author}
+                    </footer>
+                  </blockquote>
+                )}
               </div>
               <span className="inline-flex items-center gap-1 font-sans text-xs text-muted transition-colors group-hover:text-ink">
                 {study ? "Read the case study" : "Visit live site"}

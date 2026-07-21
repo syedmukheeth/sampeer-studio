@@ -139,6 +139,8 @@ export type LiveProject = {
   caseStudy?: string;
   /** real on-site proof shown as a small photo stack on the card */
   proof?: { photos: string[]; label: string };
+  /** a short client pull-quote shown on the card */
+  testimonial?: { quote: string; author: string };
 };
 
 export const WORK_HEADER = {
@@ -158,6 +160,10 @@ export const WORK: LiveProject[] = [
     proof: {
       photos: ["/asrg-client.webp", "/asrg-client-2.webp"],
       label: "On-site with the client, Kurnool",
+    },
+    testimonial: {
+      quote: "Our online presence finally matches the work we do.",
+      author: "ASRG Construction",
     },
   },
   {
