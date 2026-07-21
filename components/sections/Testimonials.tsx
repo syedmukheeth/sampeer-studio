@@ -60,7 +60,7 @@ export function Testimonials() {
                       alt={t.name}
                       fill
                       sizes="56px"
-                      className="object-cover grayscale"
+                      className="object-cover"
                     />
                   </span>
                 )}

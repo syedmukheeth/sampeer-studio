@@ -132,23 +132,32 @@ export function CaseStudy({ data }: { data: typeof CASE_ASRG }) {
       {/* ------------------------------------------------------ gallery */}
       <Section>
         <SectionHeader title={data.gallery.title} />
-        <div className="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2">
+        <div className="mx-auto mt-12 grid max-w-4xl grid-cols-1 gap-5 sm:grid-cols-2">
           {data.gallery.photos.map((p, i) => (
             <Reveal key={p.src} delay={i * 0.08}>
-              <div className="group relative aspect-[4/5] overflow-hidden rounded-md border border-line">
+              <figure className="group relative aspect-[4/5] overflow-hidden rounded-md border border-line ring-1 ring-transparent transition duration-500 hover:border-accent/40 hover:ring-accent/20">
                 <Image
                   src={p.src}
                   alt={p.alt}
                   fill
                   sizes="(max-width: 640px) 100vw, 45vw"
-                  className="object-cover grayscale transition-[filter] duration-700 ease-out group-hover:grayscale-0"
+                  className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
                 />
-              </div>
+                {/* legibility scrim + caption, revealed on the image itself */}
+                <div
+                  aria-hidden
+                  className="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-canvas/90 to-transparent"
+                />
+                <figcaption className="absolute inset-x-0 bottom-0 flex items-center gap-2 p-4 font-sans text-xs text-ink">
+                  <span aria-hidden className="h-1 w-1 rounded-full bg-accent" />
+                  {p.caption}
+                </figcaption>
+              </figure>
             </Reveal>
           ))}
         </div>
         <Reveal delay={0.1}>
-          <p className="mt-6 font-sans text-sm text-muted">{data.gallery.caption}</p>
+          <p className="mx-auto mt-6 max-w-4xl font-sans text-sm text-muted">{data.gallery.caption}</p>
         </Reveal>
       </Section>
 

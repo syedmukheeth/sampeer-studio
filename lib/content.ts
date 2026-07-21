@@ -232,10 +232,10 @@ export const CASE_ASRG = {
   ],
   gallery: {
     title: "On the ground",
-    caption: "On-site with the ASRG Construction team, Kurnool — where the project was signed.",
+    caption: "On-site at the ASRG Construction office in Kurnool — where the project was signed.",
     photos: [
-      { src: "/asrg-client.webp", alt: "Sampeer Studio founder shaking hands with the ASRG Construction owner" },
-      { src: "/asrg-client-2.webp", alt: "Sampeer Studio founder with the ASRG Construction owner at their office" },
+      { src: "/asrg-client.webp", alt: "Sampeer Studio founder shaking hands with the ASRG Construction owner", caption: "Sealing the project" },
+      { src: "/asrg-client-2.webp", alt: "Sampeer Studio founder with the ASRG Construction owner at their office", caption: "With the ASRG team, Kurnool" },
     ],
   },
   outcome: {
