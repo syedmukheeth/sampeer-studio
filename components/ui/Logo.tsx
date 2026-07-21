@@ -1,28 +1,31 @@
 import Image from "next/image";
-import logo from "../../public/logo-full.png";
+import full from "../../public/logo-full.png";
+import mark from "../../public/logo-mark.png";
 
-/** The full Sampeer lockup — glowing S-mark over the "sampeer studio" wordmark
- *  and tagline, trimmed tight to its glow. This is the brand's primary signature
- *  and is used whole (never re-typeset) in the nav, hero, and footer.
+/** The Sampeer brand signature, two cuts of one lockup:
+ *   - `full`  — horizontal mark + "sampeer studio" wordmark + tagline. The
+ *               footer signature, given room to read.
+ *   - `mark`  — the S-ribbon alone. Stays crisp and iconic at nav size, where
+ *               a full lockup with a tagline would collapse to mush.
  *
- *  The art ships with a real alpha channel (black ground → transparent, glow and
- *  wordmark kept), so it drops onto any dark surface — the nav's blurred header,
- *  the hero noise field, the footer — with no framed rectangle and no blend hack.
- *
- *  Static import carries the intrinsic 877x737 ratio; size each placement with a
- *  width utility + `h-auto` (or the reverse) and let aspect ratio hold. */
+ *  Both ship with a real alpha channel (white ground removed), so they drop
+ *  onto any dark surface — the blurred nav header, the footer — with no framed
+ *  rectangle and no blend hack. Never re-typeset; size with a width/height
+ *  utility + the paired `-auto` and let the intrinsic ratio hold. */
 export function Logo({
+  variant = "full",
   className = "",
   sizes,
   priority = false,
 }: {
+  variant?: "full" | "mark";
   className?: string;
   sizes?: string;
   priority?: boolean;
 }) {
   return (
     <Image
-      src={logo}
+      src={variant === "mark" ? mark : full}
       alt="Sampeer Studio"
       priority={priority}
       sizes={sizes}

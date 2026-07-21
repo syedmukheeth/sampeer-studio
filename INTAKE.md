@@ -14,13 +14,14 @@ references (all mapped to exact locations). Anything still marked `// mock` or
 - [x] **LinkedIn** — https://www.linkedin.com/in/syedmukheeth/ (wired 4×)
 - [x] **X / Twitter** — removed everywhere per request
 
-## 2. Logo  (light-on-dark; the site is dark only)
+## 2. Logo  ✅ done
 
-- [ ] **Mark only, no name** — square, transparent PNG/SVG, 512×512+.
-      → `public/logo.png` (nav mark, favicon, app icon)
-- [ ] **Full lockup, mark + "Sampeer Studio"** — horizontal, transparent.
-      → `public/logo-full.png` (nav + footer)
-- [ ] Vector (SVG) preferred for both if available — sharper at every size.
+- [x] **Mark** — `public/logo-mark.png` (transparent S-ribbon) → nav
+- [x] **Full lockup** — `public/logo-full.png` (mark + white "sampeer studio"
+      + tagline, transparent) → footer. Rebuilt light-on-dark from the light
+      lockup since the dark-glow file wasn't supplied.
+- [x] **Favicon + square** — `app/icon.png`, `public/logo.png` (512² mark)
+- [ ] Optional upgrade: send an SVG mark for infinitely-crisp scaling.
 
 ## 3. Stats — LinkedIn proof  (`lib/content.ts` `STATS`)  ✅ done
 

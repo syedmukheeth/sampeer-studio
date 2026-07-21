@@ -82,7 +82,7 @@ export function Nav() {
           className="flex items-center"
         >
           <span className="rounded-lg bg-white/[0.04] p-1.5 ring-1 ring-white/10 transition-colors duration-300 hover:ring-accent/30">
-            <Logo priority sizes="80px" className="h-8 w-auto" />
+            <Logo variant="mark" priority sizes="40px" className="h-8 w-auto" />
           </span>
         </Link>
 
@@ -153,7 +153,7 @@ export function Nav() {
             <div className="flex h-16 items-center justify-between px-6">
               <span className="flex items-center" aria-label={NAV.brand}>
                 <span className="rounded-lg bg-white/[0.04] p-1.5 ring-1 ring-white/10">
-                  <Logo sizes="80px" className="h-8 w-auto" />
+                  <Logo variant="mark" sizes="40px" className="h-8 w-auto" />
                 </span>
               </span>
               <button
