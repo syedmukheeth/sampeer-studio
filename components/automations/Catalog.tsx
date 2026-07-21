@@ -44,6 +44,7 @@ function Card({
               mode="sequence"
               play={play}
               step={700}
+              compact
               label={`${item.name} workflow`}
             />
           </div>

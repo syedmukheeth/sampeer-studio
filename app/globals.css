@@ -66,6 +66,19 @@ body {
   border-radius: var(--radius-xs);
 }
 
+/* The Flow AI node's "thinking" dots. The reduced-motion block below
+   collapses this like every other animation — no separate kill needed. */
+@keyframes flow-typing {
+  0%,
+  60%,
+  100% {
+    opacity: 0.25;
+  }
+  30% {
+    opacity: 1;
+  }
+}
+
 /* Reduced motion: collapse everything to instant/static. */
 @media (prefers-reduced-motion: reduce) {
   *,

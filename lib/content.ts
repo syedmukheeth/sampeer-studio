@@ -110,8 +110,15 @@ export const PILLARS: Pillar[] = [
 
 /** The growth pillar's live machine — rendered by PillarGraphic via Flow. */
 export const PILLAR_GROWTH_FLOW = serpentine(
-  ["Lead", "AI qualify", "CRM", "Follow-up", "Booked"],
+  [
+    { label: "Lead", icon: "lead", kind: "trigger", meta: "just now", activeMeta: "capturing…", doneMeta: "captured" },
+    { label: "AI qualify", icon: "ai", kind: "ai", meta: "score —", activeMeta: "thinking…", doneMeta: "score 87" },
+    { label: "CRM", icon: "crm", kind: "metric", meta: "2,418 rows", activeMeta: "+1 row", doneMeta: "2,419 rows" },
+    { label: "Follow-up", icon: "email", kind: "action", meta: "queued", activeMeta: "sending…", doneMeta: "sent ✓" },
+    { label: "Booked", icon: "calendar", kind: "outcome", meta: "—", activeMeta: "confirming…", doneMeta: "Tue 10:00" },
+  ],
   2,
+  { payload: "lead" },
 );
 
 /* --------------------------------------------------------------- work */
@@ -208,13 +215,29 @@ export const AUTOMATION_TEASER = {
 /* The live machine that now plays inline on home. Two 3-col graphs on the same
  * grid footprint so the scroll cross-fade reads as the SAME business rewired,
  * not two unrelated diagrams — same discipline as /automations Transform. */
+/* The chaos side carries STALE metas on purpose — "4 days ago",
+ * "v7_final.xlsx" — so the crossfade to the wired machine reads as relief,
+ * not just a re-skin. */
 export const AUTOMATION_TEASER_CHAOS = serpentine(
-  ["Missed call", "Sticky note", "Forgotten", "Excel", "Lost lead"],
+  [
+    { label: "Missed call", icon: "phone-x", meta: "3 today" },
+    { label: "Sticky note", icon: "note", meta: "somewhere" },
+    { label: "Forgotten", icon: "clock", meta: "4 days ago" },
+    { label: "Excel", icon: "table", meta: "v7_final.xlsx" },
+    { label: "Lost lead", icon: "user-minus", meta: "—" },
+  ],
   3,
 );
 export const AUTOMATION_TEASER_ORDER = serpentine(
-  ["New lead", "AI qualify", "CRM", "Auto follow-up", "Booked"],
+  [
+    { label: "New lead", icon: "lead", kind: "trigger", meta: "just now", activeMeta: "capturing…", doneMeta: "captured" },
+    { label: "AI qualify", icon: "ai", kind: "ai", meta: "score —", activeMeta: "thinking…", doneMeta: "score 87" },
+    { label: "CRM", icon: "crm", kind: "metric", meta: "2,418 rows", activeMeta: "+1 row", doneMeta: "2,419 rows" },
+    { label: "Auto follow-up", icon: "email", kind: "action", meta: "queued", activeMeta: "sending…", doneMeta: "sent ✓" },
+    { label: "Booked", icon: "calendar", kind: "outcome", meta: "—", activeMeta: "confirming…", doneMeta: "Tue 10:00" },
+  ],
   3,
+  { payload: "lead" },
 );
 
 /** The captions that cross-fade with the two machines. */
