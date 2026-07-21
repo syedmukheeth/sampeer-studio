@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { AnimatePresence, motion, useInView, useReducedMotion } from "motion/react";
-import { Heart, ChatCircle } from "@phosphor-icons/react/dist/ssr";
+import { SealCheck } from "@phosphor-icons/react/dist/ssr";
 import { Flow } from "@/components/ui/Flow";
 import { PILLAR_GROWTH_FLOW, WORK } from "@/lib/content";
 import { EASE, DUR, STAGGER } from "@/lib/constants";
@@ -60,7 +60,7 @@ export function PillarGraphic({ variant }: { variant: "story" | "growth" | "foun
     return <StorySlideshow />;
   }
 
-  // founder — a real LinkedIn post, authority compounding
+  // founder — a real LinkedIn profile card, real numbers as proof
   return (
     <motion.div
       aria-hidden
@@ -70,58 +70,52 @@ export function PillarGraphic({ variant }: { variant: "story" | "growth" | "foun
       viewport={{ once: true, amount: 0.4 }}
       className="relative flex h-full w-full items-center justify-center bg-elevated p-6"
     >
-      {/* an earlier post, receded behind — the stack of authority */}
+      {/* an earlier card, receded behind — the authority stack */}
       <motion.div
         variants={rise}
         className="absolute right-8 top-8 h-2/5 w-3/5 rounded-md border border-line/60 bg-canvas/60"
       />
 
-      {/* the post in front, filled */}
+      {/* the profile card in front */}
       <motion.div
         variants={rise}
-        className="relative flex w-[86%] flex-col gap-2.5 rounded-md border border-line bg-canvas p-4"
+        className="relative w-[88%] overflow-hidden rounded-md border border-line bg-canvas"
       >
-        <div className="flex items-center gap-2.5">
-          <span className="relative h-8 w-8 shrink-0 overflow-hidden rounded-full border border-line">
-            <Image src="/founder.webp" alt="" fill sizes="32px" className="object-cover" />
-          </span>
-          <span className="flex flex-col">
-            <span className="text-[9px] font-semibold text-ink">Syed A. M. Peer</span>
-            <span className="text-[8px] text-muted">Founder, Sampeer Studio · 2d</span>
-          </span>
-        </div>
+        {/* cover */}
+        <div className="h-12 bg-gradient-to-r from-accent/30 via-accent/10 to-canvas" />
 
-        <p className="mt-1 text-[9px] leading-relaxed text-ink/90">
-          Most startups don&apos;t fail from bad products. They fail from being
-          invisible. Fix the story first.
-        </p>
+        <div className="px-4 pb-4">
+          {/* avatar over the cover + follow */}
+          <div className="-mt-6 flex items-end justify-between">
+            <span className="relative h-12 w-12 shrink-0 overflow-hidden rounded-full border-2 border-canvas">
+              <Image src="/founder.webp" alt="" fill sizes="48px" className="object-cover" />
+            </span>
+            <span className="rounded-full bg-accent px-3 py-1 text-[8px] font-medium text-accent-ink">
+              Follow
+            </span>
+          </div>
 
-        <div className="flex gap-1.5">
-          <span className="text-[8px] text-accent/80">#founderbrand</span>
-          <span className="text-[8px] text-accent/80">#growth</span>
-        </div>
+          {/* name + verified + headline */}
+          <div className="mt-2 flex items-center gap-1">
+            <span className="text-[10px] font-semibold text-ink">Syed Abdul Mukheeth Peer</span>
+            <SealCheck size={11} weight="fill" className="text-accent" />
+          </div>
+          <p className="mt-0.5 text-[8px] leading-relaxed text-muted">
+            Founder, Sampeer Studio · Storytelling websites, growth systems &amp; AI automation
+          </p>
+          <p className="mt-1 text-[8px] text-accent/80">in/syedmukheeth</p>
 
-        {/* engagement row — the one accent element (the reaction that lands) */}
-        <div className="mt-1 flex items-center gap-3 border-t border-line pt-2.5">
-          <span className="flex items-center gap-1">
-            <motion.span
-              variants={{
-                hidden: { scale: 0 },
-                show: {
-                  scale: 1,
-                  transition: { duration: reduce ? 0 : DUR.fast, ease: EASE.pop },
-                },
-              }}
-              className="grid h-3.5 w-3.5 place-items-center rounded-full bg-accent text-accent-ink"
-            >
-              <Heart size={8} weight="fill" />
-            </motion.span>
-            <span className="text-[8px] text-muted">128</span>
-          </span>
-          <span className="flex items-center gap-1 text-muted">
-            <ChatCircle size={10} />
-            <span className="text-[8px]">24</span>
-          </span>
+          {/* the real proof — numbers from the profile */}
+          <div className="mt-3 flex gap-5 border-t border-line pt-3">
+            <span className="flex flex-col">
+              <span className="text-[11px] font-semibold tabular-nums text-ink">8.7K+</span>
+              <span className="text-[8px] text-muted">followers</span>
+            </span>
+            <span className="flex flex-col">
+              <span className="text-[11px] font-semibold tabular-nums text-ink">350K+</span>
+              <span className="text-[8px] text-muted">monthly views</span>
+            </span>
+          </div>
         </div>
       </motion.div>
     </motion.div>
