@@ -59,6 +59,10 @@ references (all mapped to exact locations). Anything still marked `// mock` or
 
 - [ ] Confirm client names / industries / one-line descriptions are accurate
       and you have permission to feature them (`lib/content.ts` `WORK`)
+- [x] **ASRG case study** live at `/work/asrg` — challenge/solution/services/
+      outcome + on-site client photos + live-site embed. Work card links to it.
+- [ ] Optional: send SEO + Google Business Profile screenshots to add a
+      "proof" gallery row to the case study.
 
 ---
 

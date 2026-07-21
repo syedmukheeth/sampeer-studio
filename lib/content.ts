@@ -134,6 +134,9 @@ export type LiveProject = {
   url: string;
   /** local still of the live site, shown at rest (public/work/*.webp) */
   poster: string;
+  /** internal case-study route; when set the card opens this instead of the
+   *  live site, and the live site moves inside the case study */
+  caseStudy?: string;
 };
 
 export const WORK_HEADER = {
@@ -149,6 +152,7 @@ export const WORK: LiveProject[] = [
     industry: "Construction & Civil, Kurnool",
     description: "Full brand site for a 46-year civil contracting firm. Projects, process, and enquiry in one place.",
     url: "https://www.asrgcontruction.com/",
+    caseStudy: "/work/asrg",
   },
   {
     id: "aurum",
@@ -191,6 +195,55 @@ export const WORK: LiveProject[] = [
     url: "https://uniquirk.vercel.app/",
   },
 ];
+
+/* -------------------------------------------------------- case study */
+/* §04a ASRG Construction — the first full case study. Real client, real
+ * on-site photos (public/asrg-client*.webp), real live site. Rendered at
+ * /work/asrg; the WORK card above links here instead of straight to the
+ * live site. Copy is the owner's, lightly shaped. */
+export const CASE_ASRG = {
+  slug: "asrg",
+  eyebrow: "Case study",
+  client: "ASRG Construction",
+  tagline: "A 46-year civil contracting firm, finally as credible online as it is on site.",
+  liveUrl: "https://www.asrgcontruction.com/",
+  poster: "/work/asrg.webp",
+  meta: [
+    { label: "Industry", value: "Construction & Civil" },
+    { label: "Location", value: "Kurnool, India" },
+    { label: "Engagement", value: "Website · SEO · Google Business" },
+  ],
+  challenge: {
+    title: "The challenge",
+    body: "Four decades of civil contracting, and almost none of it visible online. Prospects searching for a contractor found competitors first, with no way to weigh ASRG's track record before picking up the phone. The reputation was real; nothing digital backed it up.",
+  },
+  solution: {
+    title: "The solution",
+    body: "A premium storytelling website that puts the firm's history, projects, and process in one place — fast to load, clear on every device, and built to rank. Paired with SEO groundwork and a fully optimized Google Business Profile so ASRG shows up when Kurnool searches for a civil contractor.",
+  },
+  servicesTitle: "What we delivered",
+  services: [
+    "Premium storytelling website",
+    "Website design & development",
+    "Search engine optimization (SEO)",
+    "Google Business Profile setup",
+    "Fully responsive build",
+    "Performance optimization",
+  ],
+  gallery: {
+    title: "On the ground",
+    caption: "On-site with the ASRG Construction team, Kurnool — where the project was signed.",
+    photos: [
+      { src: "/asrg-client.webp", alt: "Sampeer Studio founder shaking hands with the ASRG Construction owner" },
+      { src: "/asrg-client-2.webp", alt: "Sampeer Studio founder with the ASRG Construction owner at their office" },
+    ],
+  },
+  outcome: {
+    title: "The outcome",
+    body: "A modern, professional digital presence that finally matches the work — one that earns trust on first impression and lays the foundation for organic search visibility and inbound leads.",
+  },
+  visit: "Visit the live site",
+} as const;
 
 /* -------------------------------------------------- automations teaser */
 /* §04b The doorway to /automations. The nav link alone left the second

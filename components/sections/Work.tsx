@@ -52,6 +52,11 @@ function StackCard({
   const scale = useTransform(scrollYProgress, [0, 1], [1, 0.955]);
   const veil = useTransform(scrollYProgress, [0, 1], [0, 0.6]);
 
+  // A project with a case study opens it (internal); everything else jumps
+  // straight to the live site (external).
+  const study = !!w.caseStudy;
+  const href = w.caseStudy ?? w.url;
+
   return (
     <div ref={wrap} className={last ? "md:pb-4" : "md:h-[120vh]"}>
       <motion.div
@@ -59,9 +64,9 @@ function StackCard({
         className="origin-top md:sticky md:top-24"
       >
         <a
-          href={w.url}
-          target="_blank"
-          rel="noopener noreferrer"
+          href={href}
+          target={study ? undefined : "_blank"}
+          rel={study ? undefined : "noopener noreferrer"}
           onClick={() => track(EVENTS.workVisitSite, { client: w.client })}
           className="group relative block overflow-hidden rounded-md border border-line bg-elevated transition-colors duration-500 hover:border-accent/40 hover:bg-elevated-2"
         >
@@ -97,12 +102,12 @@ function StackCard({
                 </p>
               </div>
               <span className="inline-flex items-center gap-1 font-sans text-xs text-muted transition-colors group-hover:text-ink">
-                Visit live site
+                {study ? "Read the case study" : "Visit live site"}
                 <span
                   aria-hidden
                   className="inline-block transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
                 >
-                  ↗
+                  {study ? "→" : "↗"}
                 </span>
               </span>
             </div>
