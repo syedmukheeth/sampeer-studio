@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { TESTIMONIALS, TESTIMONIALS_HEADER } from "@/lib/content";
 import { Section, SectionHeader } from "@/components/ui/Section";
@@ -17,7 +18,7 @@ export function Testimonials() {
   const [active, setActive] = useState(0);
 
   useEffect(() => {
-    if (reduce) return;
+    if (reduce || TESTIMONIALS.length <= 1) return;
     const id = setInterval(
       () => setActive((i) => (i + 1) % TESTIMONIALS.length),
       6500,
@@ -51,16 +52,29 @@ export function Testimonials() {
               className="font-display text-2xl font-medium leading-snug tracking-tight text-ink md:text-5xl"
             >
               {t.quote}
-              <footer className="mt-8 font-sans text-sm not-italic">
-                <span className="block text-ink">{t.name}</span>
-                <span className="mt-0.5 block text-muted">{t.role}</span>
+              <footer className="mt-8 flex items-center gap-4 font-sans text-sm not-italic">
+                {t.photo && (
+                  <span className="relative h-16 w-14 shrink-0 overflow-hidden rounded-md border border-line">
+                    <Image
+                      src={t.photo}
+                      alt={t.name}
+                      fill
+                      sizes="56px"
+                      className="object-cover grayscale"
+                    />
+                  </span>
+                )}
+                <span>
+                  <span className="block text-ink">{t.name}</span>
+                  <span className="mt-0.5 block text-muted">{t.role}</span>
+                </span>
               </footer>
             </motion.blockquote>
           </AnimatePresence>
         </div>
 
-        {/* speaker rail — a horizontal row under the quote; click to jump,
-            active name underlined in indigo */}
+        {/* speaker rail — only when there's more than one voice to switch */}
+        {TESTIMONIALS.length > 1 && (
         <ul className="mt-12 flex flex-row flex-wrap gap-x-8 gap-y-4 border-t border-line pt-8">
           {TESTIMONIALS.map((item, i) => {
             const on = i === active;
@@ -92,6 +106,7 @@ export function Testimonials() {
             );
           })}
         </ul>
+        )}
       </div>
     </Section>
   );

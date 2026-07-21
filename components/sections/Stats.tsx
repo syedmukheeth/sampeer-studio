@@ -76,6 +76,7 @@ export function Stats() {
             )}
             <CountUp
               value={s.value}
+              text={s.text}
               suffix={s.suffix}
               decimals={s.decimals}
               className="block font-display text-5xl font-semibold tracking-tight tabular-nums md:text-7xl"

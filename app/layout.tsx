@@ -26,9 +26,9 @@ const clash = localFont({
   ],
 });
 
-const TITLE = "Sampeer Studio | The growth layer your startup is missing";
+const TITLE = "Sampeer Studio — Storytelling Websites, Growth Systems & AI Automation";
 const DESCRIPTION =
-  "We help startups become impossible to ignore. Storytelling websites, growth systems, and founder branding. One growth engine.";
+  "We help startups and ambitious businesses become impossible to ignore through premium storytelling websites, AI-powered growth systems, founder branding, and automation.";
 
 // live URL today; swap to the custom domain when it's live (one line)
 const SITE_URL = "https://sampeer-studio.vercel.app";
@@ -62,8 +62,7 @@ const JSON_LD = {
   url: SITE_URL,
   logo: `${SITE_URL}/logo.png`,
   slogan: "Get noticed. Remembered. Chosen.",
-  // TODO real: replace with the live LinkedIn / X profile URLs
-  sameAs: ["https://www.linkedin.com/", "https://x.com/"],
+  sameAs: ["https://www.linkedin.com/in/syedmukheeth/"],
 };
 
 export const viewport: Viewport = {

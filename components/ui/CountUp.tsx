@@ -10,16 +10,20 @@ import {
 
 /** Scroll count-up. Number animates from 0 once it enters view.
  *  Supports decimals (8.6K) and thousands grouping (12,400).
+ *  Pass `text` instead of `value` to render a verbatim, non-animated string
+ *  ("UK & India", "20–80", "<5") — honest proof that isn't a single number.
  *  Feedback: rewards the scroll, signals the proof is real. */
 export function CountUp({
   value,
   suffix = "",
   decimals = 0,
+  text,
   className,
 }: {
-  value: number;
+  value?: number;
   suffix?: string;
   decimals?: number;
+  text?: string;
   className?: string;
 }) {
   const reduce = useReducedMotion();
@@ -27,6 +31,7 @@ export function CountUp({
   const inView = useInView(ref, { once: true, amount: 0.5 });
   const mv = useMotionValue(0);
   const spring = useSpring(mv, { stiffness: 60, damping: 18 });
+  const target = value ?? 0;
 
   const format = (v: number) =>
     decimals > 0
@@ -35,8 +40,8 @@ export function CountUp({
 
   useEffect(() => {
     if (reduce) return;
-    if (inView) mv.set(value);
-  }, [inView, value, mv, reduce]);
+    if (inView) mv.set(target);
+  }, [inView, target, mv, reduce]);
 
   useEffect(() => {
     if (reduce) return;
@@ -55,9 +60,20 @@ export function CountUp({
    */
   useEffect(() => {
     if (!reduce || !ref.current) return;
-    ref.current.firstChild!.textContent = format(value);
+    ref.current.firstChild!.textContent = format(target);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [reduce, value]);
+  }, [reduce, target]);
+
+  // Verbatim proof — no animation, no count. All hooks above still ran, so
+  // this early return keeps the rules-of-hooks contract for a stable prop.
+  if (text !== undefined) {
+    return (
+      <span className={className}>
+        {text}
+        {suffix}
+      </span>
+    );
+  }
 
   return (
     <span ref={ref} className={className}>

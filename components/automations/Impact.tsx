@@ -17,9 +17,9 @@ export function Impact() {
             <Reveal key={m.id} delay={i * 0.06}>
               <div className="h-full bg-canvas p-7">
                 <CountUp
-                  value={m.value}
-                  suffix={m.suffix}
-                  decimals={"decimals" in m ? m.decimals : 0}
+                  value={"value" in m ? m.value : undefined}
+                  text={"text" in m ? m.text : undefined}
+                  suffix={"suffix" in m ? m.suffix : undefined}
                   className="font-display text-4xl font-semibold tracking-tight text-ink md:text-5xl"
                 />
                 <p className="mt-4 font-sans text-sm text-ink">{m.label}</p>

@@ -376,12 +376,13 @@ export const A_IMPACT_HEADER = {
   title: "The point was never the robot.",
 } as const;
 
+/* Honest ranges over invented precision. `text` renders verbatim; `value`
+ * count-ups. See CountUp — it takes either. */
 export const A_IMPACT = [
-  // mock — replace with real aggregates once we have them across clients
-  { id: "hours", value: 62, suffix: "h", label: "Saved per month", note: "Per team, average" },
-  { id: "leads", value: 3.4, decimals: 1, suffix: "x", label: "More leads captured", note: "vs. manual follow-up" },
-  { id: "response", value: 90, suffix: "s", label: "First response time", note: "Down from ~6 hours" },
-  { id: "tasks", value: 100, suffix: "%", label: "Of follow-ups sent", note: "Nothing depends on memory" },
+  { id: "hours", text: "20–80", suffix: "/mo", label: "Hours saved", note: "Per workflow, typical" },
+  { id: "response", text: "<5", suffix: " min", label: "Average first response", note: "Instead of hours" },
+  { id: "tasks", value: 95, suffix: "%", label: "Follow-ups automated", note: "Nothing depends on memory" },
+  { id: "speed", text: "2–4×", label: "Faster lead response", note: "vs. manual chase" },
 ] as const;
 
 /* ---------------------------------------------------------------- §A7 cta */
@@ -393,5 +394,5 @@ export const A_CTA = {
   messagePlaceholder: "What does your lead flow look like today?",
   button: "Book the audit",
   /** where the form falls back if the send endpoint isn't configured */
-  fallbackEmail: "hello@sampeerstudio.com", // TODO: confirm live inbox — mirrors lib/content.ts CTA
+  fallbackEmail: "sampeerstudio@gmail.com",
 } as const;

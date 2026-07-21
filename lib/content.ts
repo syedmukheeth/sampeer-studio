@@ -273,20 +273,22 @@ export const BRANDING = {
       body: "Comments, DMs, and the follow-up loop that turns readers into booked calls.",
     },
   ],
-  cta: { label: "Watch it happen on LinkedIn", href: "https://www.linkedin.com/" }, // TODO: real profile
+  cta: { label: "Watch it happen on LinkedIn", href: "https://www.linkedin.com/in/syedmukheeth/" },
 } as const;
 
 /* -------------------------------------------------------------- stats */
 /* §05 Proof numbers, count-up. LinkedIn-led social proof — the audience is
  * the asset. Only `followers` is real today; the rest are tagged TODO and are
  * a one-line swap once you send the real figures from LinkedIn analytics. */
-export type Stat = { value: number; suffix?: string; decimals?: number; label: string };
+/** `value` count-ups; `text` renders verbatim (for honest non-numeric proof
+ *  like a reach or a portfolio state). One or the other, never both. */
+export type Stat = { value?: number; suffix?: string; decimals?: number; text?: string; label: string };
 
 export const STATS: Stat[] = [
-  { value: 8.6, decimals: 1, suffix: "K+", label: "LinkedIn followers" }, // REAL
-  { value: 250, suffix: "K+", label: "Monthly impressions" }, // TODO real (LinkedIn analytics)
-  { value: 40, suffix: "+", label: "Posts that landed" }, // TODO real
-  { value: 30, suffix: "+", label: "Founders in the DMs" }, // TODO real
+  { value: 8.7, decimals: 1, suffix: "K+", label: "LinkedIn followers" },
+  { value: 350, suffix: "K+", label: "Monthly impressions" },
+  { text: "UK & India", label: "Clients worked with" },
+  { text: "Growing", label: "Premium client portfolio" },
 ];
 
 
@@ -298,33 +300,24 @@ export type Testimonial = {
   quote: string;
   name: string;
   role: string;
+  /** optional proof image (public/*.webp) — a real client, shown as a chip */
+  photo?: string;
 };
 
 export const TESTIMONIALS_HEADER = {
-  title: "Founders, after.",
+  title: "Clients, after.",
 } as const;
 
+/* One real, verified client voice beats three invented ones. Add more here as
+ * clients give quotes — the component handles any length. */
 export const TESTIMONIALS: Testimonial[] = [
   {
-    id: "t1",
+    id: "asrg",
     quote:
-      "We had the product. We didn't have the words. Sampeer found them, and suddenly the right people were paying attention.",
-    name: "Maya Okafor", // mock
-    role: "Founder, Hearthwell",
-  },
-  {
-    id: "t2",
-    quote:
-      "Leads used to sit for days. Now they qualify and book themselves before I'm even at my desk.",
-    name: "Daniel Rhee", // mock
-    role: "CEO, Cadence Labs",
-  },
-  {
-    id: "t3",
-    quote:
-      "I went from invisible to the name people drop in the niche. That's not marketing. That's leverage.",
-    name: "Priya Nair", // mock
-    role: "Founder, Northbeam",
+      "Sampeer Studio gave us a premium storytelling website and handled our SEO and Google Business Profile professionally. Our online presence finally matches the work we do.",
+    name: "ASRG Construction",
+    role: "Construction & Civil · Kurnool",
+    photo: "/asrg-client.webp",
   },
 ];
 
@@ -345,15 +338,15 @@ export const PROCESS: Step[] = [
 /* -------------------------------------------------------------- about */
 /* §07 Syed POV. Manifesto, not bio. */
 export const ABOUT = {
-  name: "Syed",
+  name: "Syed Abdul Mukheeth Peer",
   role: "Founder, Sampeer Studio",
-  photo: stockImg("syed-portrait", 900, 1100),
-  linkedin: "https://www.linkedin.com/", // TODO: real profile
+  photo: "/founder.webp",
+  linkedin: "https://www.linkedin.com/in/syedmukheeth/",
   manifesto: [
-    "I started Sampeer because I watched good startups die quietly.",
-    "Not from bad products. From being unseen.",
-    "I believe growth is not a hack. It is a story people can trust, a system that never sleeps, and a founder worth following.",
-    "Build those three together and a startup stops asking for attention. It starts earning it.",
+    "I help startups and ambitious businesses grow through premium storytelling websites, growth systems, and AI automation.",
+    "Rather than simply building websites, I focus on digital experiences that build trust, attract customers, and support long-term growth.",
+    "My approach combines strategy, design, SEO, automation, and conversion-focused development.",
+    "Built together, they help a business stop asking for attention and start earning it.",
   ],
 } as const;
 
@@ -366,17 +359,16 @@ export const CTA = {
   messagePlaceholder: "What are you building, and what's in the way?",
   button: "Start",
   /** where the form falls back if the send endpoint isn't configured */
-  fallbackEmail: "hello@sampeerstudio.com", // TODO: confirm live inbox
+  fallbackEmail: "sampeerstudio@gmail.com",
 } as const;
 
 /* ------------------------------------------------------------- footer */
 export const FOOTER = {
   brand: "Sampeer Studio",
   line: "The growth layer your startup is missing.",
-  email: "hello@sampeerstudio.com", // TODO: real
+  email: "sampeerstudio@gmail.com",
   socials: [
-    { label: "LinkedIn", href: "https://www.linkedin.com/" }, // TODO
-    { label: "X", href: "https://x.com/" }, // TODO
+    { label: "LinkedIn", href: "https://www.linkedin.com/in/syedmukheeth/" },
   ],
   year: new Date().getFullYear(),
   rights: "All rights reserved.",

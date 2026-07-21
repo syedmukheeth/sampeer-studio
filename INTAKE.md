@@ -9,14 +9,10 @@ references (all mapped to exact locations). Anything still marked `// mock` or
 
 ## 1. Founder
 
-- [ ] **Display name** — currently `Syed` → `lib/content.ts` `ABOUT.name`
-      Real name: `__________`
-- [ ] **Photo** — vertical portrait ~900×1100+ (3:4), clean background.
-      Drop at `public/founder.webp`. Replaces the Picsum placeholder at
-      `ABOUT.photo` (`lib/content.ts`).
-- [ ] **LinkedIn URL** — `__________`
-      (used 4×: `content.ts` branding CTA, About, footer; `layout.tsx` schema)
-- [ ] **X / Twitter URL** — `__________`  (or "remove X" → footer + schema)
+- [x] **Display name** — Syed Abdul Mukheeth Peer
+- [x] **Photo** — `public/founder.webp` (hill portrait, 4:5)
+- [x] **LinkedIn** — https://www.linkedin.com/in/syedmukheeth/ (wired 4×)
+- [x] **X / Twitter** — removed everywhere per request
 
 ## 2. Logo  (light-on-dark; the site is dark only)
 
@@ -26,43 +22,37 @@ references (all mapped to exact locations). Anything still marked `// mock` or
       → `public/logo-full.png` (nav + footer)
 - [ ] Vector (SVG) preferred for both if available — sharper at every size.
 
-## 3. Stats — LinkedIn proof  (`lib/content.ts` `STATS`)
+## 3. Stats — LinkedIn proof  (`lib/content.ts` `STATS`)  ✅ done
 
-- [ ] LinkedIn followers (8.6K on file — still current?): `__________`
-- [ ] Monthly impressions: `__________`
-- [ ] Posts that landed: `__________`
-- [ ] Founders in the DMs: `__________`
+- [x] LinkedIn followers → 8.7K+
+- [x] Monthly impressions → 350K+
+- [x] Clients worked with → "UK & India" (text stat)
+- [x] Premium client portfolio → "Growing" (text stat)
 
-## 4. Testimonials  (`lib/content.ts` `TESTIMONIALS` — all 3 are placeholder)
+## 4. Testimonials  (`lib/content.ts` `TESTIMONIALS`)  ✅ done
 
-For each: quote + name + role/company. Headshot optional.
+- [x] Real ASRG Construction quote + proof photo (`public/asrg-client.webp`).
+      Placeholder names removed. Add more clients here as quotes come in.
 
-- [ ] 1 — quote `__________`  · name `____`  · role `____`
-- [ ] 2 — quote `__________`  · name `____`  · role `____`
-- [ ] 3 — quote `__________`  · name `____`  · role `____`
+## 5. Automations impact numbers  (`lib/content-automations.ts` `A_IMPACT`)  ✅ done
 
-## 5. Automations impact numbers  (`lib/content-automations.ts` `A_IMPACT` — all mock)
-
-- [ ] Hours saved / month: `____`
-- [ ] Leads multiplier (e.g. 3.4x): `____`
-- [ ] First response time: `____`
-- [ ] % of follow-ups sent: `____`
-      (or say "use honest ranges" and these get softened)
+- [x] Honest ranges: Hours saved 20–80/mo · First response <5 min ·
+      Follow-ups automated 95% · Lead response 2–4× faster
 
 ## 6. Contact form delivery  (Vercel → Settings → Environment Variables)
 
-- [ ] `RESEND_API_KEY` — from resend.com
-- [ ] `CONTACT_TO` — inbox where leads should land: `__________`
-- [ ] Public contact email shown on site — confirm real & monitored:
-      `hello@sampeerstudio.com` ? → `content.ts` CTA + footer, `content-automations.ts` CTA
-- [ ] `CONTACT_FROM` — after verifying a sending domain in Resend
-      (until then it sends from `onboarding@resend.dev`)
+- [x] Local: `.env.local` has RESEND_API_KEY + CONTACT_TO + CONTACT_FROM
+- [ ] **Vercel: add the SAME three env vars, then redeploy** (owner action —
+      local env does not apply to production)
+- [x] Public email on site → sampeerstudio@gmail.com
+- [ ] `CONTACT_FROM` — currently onboarding@resend.dev; upgrade after
+      verifying a sending domain in Resend
 
 ## 7. Domain / SEO
 
-- [ ] Custom domain: `__________`
-      → `app/layout.tsx` `SITE_URL`, `app/robots.ts`, `app/sitemap.ts`
-- [ ] Confirm meta title + description read right (`app/layout.tsx`)
+- [x] Meta title + description updated (`app/layout.tsx`)
+- [ ] Custom domain (not bought yet) — on `sampeer-studio.vercel.app` until
+      then → swap `SITE_URL` in `app/layout.tsx`, `robots.ts`, `sitemap.ts`
 
 ## 8. Work section  (already real — 6 live client sites)
 
