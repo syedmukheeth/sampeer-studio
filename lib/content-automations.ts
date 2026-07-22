@@ -9,6 +9,11 @@
 
 import { serpentine } from "@/lib/flow";
 
+/** The live automation console — the real, working product these cards
+ *  describe. Cards with a matching tool deep-link into it so a visitor can
+ *  run the real thing, not just watch a diagram. */
+export const A_CONSOLE_URL = "https://sampeer-automations.vercel.app";
+
 /* --------------------------------------------------------------- §A1 hero */
 
 export const A_HERO = {
@@ -86,7 +91,8 @@ export const A_ORDER_FLOW = serpentine(
 export const A_CATALOG_HEADER = {
   eyebrow: "The stack",
   title: "Ten systems that quietly run a business.",
-  sub: "Hover any card to watch it run. Most companies need three of these, not ten.",
+  sub: "Hover any card to watch it run. The tagged ones are live in our console — open and run the real tool yourself.",
+  cta: { label: "See all 16 running live", href: A_CONSOLE_URL },
 } as const;
 
 /* Each card's diagram is built from its steps — see serpentine(). Cards are
@@ -96,6 +102,7 @@ export const A_CATALOG = [
   {
     id: "lead-capture",
     name: "Lead capture",
+    href: `${A_CONSOLE_URL}/sales-os/lead-pipeline`,
     blurb: "A form fill becomes a tracked, assigned, followed-up lead in seconds.",
     steps: [
       { label: "Visitor", icon: "user", kind: "trigger" },
@@ -143,6 +150,7 @@ export const A_CATALOG = [
   {
     id: "invoice",
     name: "Invoicing",
+    href: `${A_CONSOLE_URL}/business-os/invoice-generator`,
     blurb: "Order to paid to booked, without a spreadsheet in the middle.",
     steps: [
       { label: "Order", icon: "cart", kind: "trigger" },
@@ -165,6 +173,7 @@ export const A_CATALOG = [
   {
     id: "pipeline",
     name: "Sales pipeline",
+    href: `${A_CONSOLE_URL}/sales-os/lead-pipeline`,
     blurb: "Every deal has a stage and a next action. Automatically.",
     steps: [
       { label: "Lead", icon: "lead", kind: "trigger" },
@@ -176,6 +185,7 @@ export const A_CATALOG = [
   {
     id: "marketing",
     name: "Marketing sequence",
+    href: `${A_CONSOLE_URL}/sales-os/cold-email`,
     blurb: "Turns a download into a conversation over two weeks.",
     steps: [
       { label: "Download", icon: "download", kind: "trigger" },
@@ -199,6 +209,7 @@ export const A_CATALOG = [
   {
     id: "analytics",
     name: "Analytics",
+    href: `${A_CONSOLE_URL}/growth-os/analytics`,
     blurb: "One dashboard instead of six tabs and a guess.",
     steps: [
       { label: "Website", icon: "globe", kind: "trigger" },
