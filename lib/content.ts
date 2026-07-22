@@ -173,6 +173,7 @@ export const WORK: LiveProject[] = [
     industry: "Luxury Hospitality, Maldives",
     description: "A private-island resort experience told in stillness. Villas, dining, and the sea.",
     url: "https://luxury-hotel-sooty.vercel.app/",
+    caseStudy: "/work/aurum",
   },
   {
     id: "liftx",
@@ -181,6 +182,7 @@ export const WORK: LiveProject[] = [
     industry: "Fitness, Kurnool",
     description: "A premium unisex gym site built on bold type and one decision: start.",
     url: "https://lift-x-ten.vercel.app/",
+    caseStudy: "/work/liftx",
   },
   {
     id: "vantara",
@@ -189,6 +191,7 @@ export const WORK: LiveProject[] = [
     industry: "Corporate Law, Hyderabad",
     description: "A corporate law firm positioned as a strategic partner, not a reactive counsel.",
     url: "https://law-firm-eight-livid.vercel.app/",
+    caseStudy: "/work/vantara",
   },
   {
     id: "novacare",
@@ -197,6 +200,7 @@ export const WORK: LiveProject[] = [
     industry: "Healthcare, Hyderabad",
     description: "A multi-specialty hospital site that makes fifty departments feel human.",
     url: "https://healthcare-ten-orcin.vercel.app/",
+    caseStudy: "/work/novacare",
   },
   {
     id: "uniquirk",
@@ -205,15 +209,50 @@ export const WORK: LiveProject[] = [
     industry: "Personal Branding, B2B",
     description: "LinkedIn authority engineering for CXOs, with a dark, sharp site to match the pitch.",
     url: "https://uniquirk.vercel.app/",
+    caseStudy: "/work/uniquirk",
   },
 ];
 
 /* -------------------------------------------------------- case study */
-/* §04a ASRG Construction — the first full case study. Real client, real
- * on-site photos (public/asrg-client*.webp), real live site. Rendered at
- * /work/asrg; the WORK card above links here instead of straight to the
- * live site. Copy is the owner's, lightly shaped. */
-export const CASE_ASRG = {
+/* §04a Case studies, data-driven. One shape, two visual variants:
+ *  - `gallery` — real on-site photos (ASRG only, a real client).
+ *  - `shots`   — desktop + mobile captures of the live site (the five concept
+ *    builds, which have no on-site photos).
+ * The CaseStudy component renders whichever is present. Each object gets a
+ * route at /work/<slug>; the matching WORK card links there. */
+export type CaseStudyData = {
+  slug: string;
+  eyebrow: string;
+  client: string;
+  tagline: string;
+  liveUrl: string;
+  poster: string;
+  meta: { label: string; value: string }[];
+  challenge: { title: string; body: string };
+  solution: { title: string; body: string };
+  servicesTitle: string;
+  services: string[];
+  outcome: { title: string; body: string };
+  visit: string;
+  /** real on-site photo gallery (portrait grid) */
+  gallery?: {
+    title: string;
+    caption: string;
+    photos: { src: string; alt: string; caption: string }[];
+  };
+  /** live-site proof — desktop still (the poster) + a live phone-frame render.
+   *  Both are derived from existing fields (poster, liveUrl); this only carries
+   *  the section's copy, so there are no separate capture files to source. */
+  shots?: {
+    title: string;
+    caption: string;
+  };
+};
+
+/* ASRG Construction — the first full case study. Real client, real on-site
+ * photos (public/asrg-client*.webp), real live site. Copy is the owner's,
+ * lightly shaped. */
+export const CASE_ASRG: CaseStudyData = {
   slug: "asrg",
   eyebrow: "Case study",
   client: "ASRG Construction",
@@ -255,7 +294,225 @@ export const CASE_ASRG = {
     body: "A modern, professional digital presence that finally matches the work - one that earns trust on first impression and lays the foundation for organic search visibility and inbound leads.",
   },
   visit: "Visit the live site",
-} as const;
+};
+
+/* --------------------------------------------- concept-build case studies */
+/* §04b The five concept builds. These are portfolio pieces, not paying
+ * clients, so the copy is honest about that: no invented clients, metrics, or
+ * testimonials. The challenge/solution read as design rationale — the problem
+ * the *category* faces, and the decision the build makes about it. Visual proof
+ * is a desktop + mobile capture of the live site (public/work/shots/). */
+
+export const CASE_AURUM: CaseStudyData = {
+  slug: "aurum",
+  eyebrow: "Concept build",
+  client: "Aurum Resorts",
+  tagline: "A private-island resort concept told in stillness — where the design does the selling by getting out of the way.",
+  liveUrl: "https://luxury-hotel-sooty.vercel.app/",
+  poster: "/work/aurum.webp",
+  meta: [
+    { label: "Industry", value: "Luxury Hospitality" },
+    { label: "Focus", value: "Brand & booking experience" },
+    { label: "Type", value: "Concept site" },
+  ],
+  challenge: {
+    title: "The challenge",
+    body: "Most resort sites shout — carousels, badges, ten offers above the fold. Luxury reads as restraint, and the louder a site is, the cheaper the room feels. The problem to solve was making a screen feel expensive.",
+  },
+  solution: {
+    title: "The approach",
+    body: "One image at a time, generous negative space, and type that never hurries. The villas, the dining, and the sea each get room to breathe, so the site sells the way a private island does — by slowing you down.",
+  },
+  servicesTitle: "What this build demonstrates",
+  services: [
+    "Editorial storytelling layout",
+    "Full-bleed cinematic imagery",
+    "Restraint-first typography",
+    "Responsive build",
+    "Motion & scroll pacing",
+    "Booking-intent flow",
+  ],
+  outcome: {
+    title: "Why it exists",
+    body: "A concept piece that proves a hospitality brand can feel five-star on the first scroll — the studio's case for stillness as a sales tool, not a compromise.",
+  },
+  shots: {
+    title: "The build, on screen",
+    caption: "The Aurum Resorts concept, live on desktop and mobile.",
+  },
+  visit: "Visit the live site",
+};
+
+export const CASE_LIFTX: CaseStudyData = {
+  slug: "liftx",
+  eyebrow: "Concept build",
+  client: "LIFT-X",
+  tagline: "A premium unisex gym concept built on bold type and a single decision: start.",
+  liveUrl: "https://lift-x-ten.vercel.app/",
+  poster: "/work/liftx.webp",
+  meta: [
+    { label: "Industry", value: "Fitness" },
+    { label: "Focus", value: "Conversion & sign-up intent" },
+    { label: "Type", value: "Concept site" },
+  ],
+  challenge: {
+    title: "The challenge",
+    body: "Gym sites bury the one action that matters — joining — under class timetables, pricing tiers, and stock photos of equipment. The visitor already knows they should train. They need a reason to act today.",
+  },
+  solution: {
+    title: "The approach",
+    body: "Oversized, confident type carries the whole site, and every section funnels toward one CTA. No hedging, no ten menu items — just momentum and a single decision made easy.",
+  },
+  servicesTitle: "What this build demonstrates",
+  services: [
+    "Bold display typography",
+    "Single-CTA conversion flow",
+    "High-energy motion",
+    "Responsive build",
+    "Performance optimization",
+    "Brand-led art direction",
+  ],
+  outcome: {
+    title: "Why it exists",
+    body: "A concept piece showing how far a fitness brand gets on type and focus alone — proof the studio can build energy without clutter.",
+  },
+  shots: {
+    title: "The build, on screen",
+    caption: "The LIFT-X concept, live on desktop and mobile.",
+  },
+  visit: "Visit the live site",
+};
+
+export const CASE_VANTARA: CaseStudyData = {
+  slug: "vantara",
+  eyebrow: "Concept build",
+  client: "Vantara & Rao",
+  tagline: "A corporate-law concept positioned as a strategic partner, not reactive counsel.",
+  liveUrl: "https://law-firm-eight-livid.vercel.app/",
+  poster: "/work/vantara.webp",
+  meta: [
+    { label: "Industry", value: "Corporate Law" },
+    { label: "Focus", value: "Authority & trust" },
+    { label: "Type", value: "Concept site" },
+  ],
+  challenge: {
+    title: "The challenge",
+    body: "Law-firm sites default to grey templates and stock gavels, which read as interchangeable. For corporate clients choosing counsel for a merger or a dispute, interchangeable is the last thing that wins the brief.",
+  },
+  solution: {
+    title: "The approach",
+    body: "A restrained, confident identity — serious typography, deliberate structure, and copy that speaks like a partner across the table. The design signals judgment before a single case is read.",
+  },
+  servicesTitle: "What this build demonstrates",
+  services: [
+    "Authority-led visual identity",
+    "Structured practice-area IA",
+    "Trust & credibility architecture",
+    "Responsive build",
+    "Accessible, legible typography",
+    "Enquiry-intent flow",
+  ],
+  outcome: {
+    title: "Why it exists",
+    body: "A concept piece proving a professional-services firm can look like the partner it claims to be — the studio's case for positioning over decoration.",
+  },
+  shots: {
+    title: "The build, on screen",
+    caption: "The Vantara & Rao concept, live on desktop and mobile.",
+  },
+  visit: "Visit the live site",
+};
+
+export const CASE_NOVACARE: CaseStudyData = {
+  slug: "novacare",
+  eyebrow: "Concept build",
+  client: "NovaCare Medical Center",
+  tagline: "A multi-specialty hospital concept designed to make fifty departments feel like one calm front door.",
+  liveUrl: "https://healthcare-ten-orcin.vercel.app/",
+  poster: "/work/novacare.webp",
+  meta: [
+    { label: "Industry", value: "Healthcare" },
+    { label: "Focus", value: "Reassurance & wayfinding" },
+    { label: "Type", value: "Concept site" },
+  ],
+  challenge: {
+    title: "The challenge",
+    body: "Hospital sites drown patients in departments and jargon at the exact moment they are anxious and scanning for one answer. The information is all there; the reassurance is missing.",
+  },
+  solution: {
+    title: "The approach",
+    body: "A warm, human hero and a quiet information hierarchy that leads with reassurance, then reveals depth on demand. Care comes first, the fifty specialties come second — findable, not overwhelming.",
+  },
+  servicesTitle: "What this build demonstrates",
+  services: [
+    "Human-first hero & tone",
+    "Calm information hierarchy",
+    "Department wayfinding",
+    "Responsive build",
+    "Accessible, legible typography",
+    "Appointment-intent flow",
+  ],
+  outcome: {
+    title: "Why it exists",
+    body: "A concept piece showing a large hospital can feel personal and calm online — the studio's case for designing around the patient's state of mind, not the org chart.",
+  },
+  shots: {
+    title: "The build, on screen",
+    caption: "The NovaCare concept, live on desktop and mobile.",
+  },
+  visit: "Visit the live site",
+};
+
+export const CASE_UNIQUIRK: CaseStudyData = {
+  slug: "uniquirk",
+  eyebrow: "Concept build",
+  client: "Uniquirk Solutions",
+  tagline: "A personal-branding concept for CXOs — a dark, sharp site that matches the pitch it sells.",
+  liveUrl: "https://uniquirk.vercel.app/",
+  poster: "/work/uniquirk.webp",
+  meta: [
+    { label: "Industry", value: "Personal Branding, B2B" },
+    { label: "Focus", value: "Positioning & credibility" },
+    { label: "Type", value: "Concept site" },
+  ],
+  challenge: {
+    title: "The challenge",
+    body: "A brand that sells authority engineering can't look generic — the site is the proof of the service. A soft, templated page quietly undercuts every promise made on it.",
+  },
+  solution: {
+    title: "The approach",
+    body: "A dark, high-contrast interface with sharp type and deliberate motion, built to feel like the premium positioning it's pitching. The medium is the argument.",
+  },
+  servicesTitle: "What this build demonstrates",
+  services: [
+    "Dark, high-contrast UI",
+    "Sharp, confident typography",
+    "Positioning-led copy structure",
+    "Responsive build",
+    "Motion & interaction detail",
+    "Lead-capture flow",
+  ],
+  outcome: {
+    title: "Why it exists",
+    body: "A concept piece where the site itself demonstrates the service — the studio's case for a brand that practices what it sells.",
+  },
+  shots: {
+    title: "The build, on screen",
+    caption: "The Uniquirk concept, live on desktop and mobile.",
+  },
+  visit: "Visit the live site",
+};
+
+/* --------------------------------------------- case study registry */
+/* slug -> data, so a single dynamic route or lookup can resolve any of them. */
+export const CASE_STUDIES: Record<string, CaseStudyData> = {
+  asrg: CASE_ASRG,
+  aurum: CASE_AURUM,
+  liftx: CASE_LIFTX,
+  vantara: CASE_VANTARA,
+  novacare: CASE_NOVACARE,
+  uniquirk: CASE_UNIQUIRK,
+};
 
 /* -------------------------------------------------- automations teaser */
 /* §04b The doorway to /automations. The nav link alone left the second
