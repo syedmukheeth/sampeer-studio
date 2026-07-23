@@ -1,6 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Inter } from "next/font/google";
-import localFont from "next/font/local";
+import { Inter, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
@@ -15,15 +14,13 @@ const inter = Inter({
   display: "swap",
 });
 
-const clash = localFont({
-  variable: "--font-clash",
+// Display face — Space Grotesk. Geometric, engineered, sharp at huge sizes;
+// weights 400-700 cover every font-display use (semibold headlines, bold hero).
+const spaceGrotesk = Space_Grotesk({
+  variable: "--font-space-grotesk",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
   display: "swap",
-  src: [
-    { path: "../public/fonts/ClashDisplay-Regular.woff2", weight: "400", style: "normal" },
-    { path: "../public/fonts/ClashDisplay-Medium.woff2", weight: "500", style: "normal" },
-    { path: "../public/fonts/ClashDisplay-Semibold.woff2", weight: "600", style: "normal" },
-    { path: "../public/fonts/ClashDisplay-Bold.woff2", weight: "700", style: "normal" },
-  ],
 });
 
 const TITLE = "Sampeer Studio - Storytelling Websites, Growth Systems & AI Automation";
@@ -74,7 +71,7 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${clash.variable} ${inter.variable}`}>
+    <html lang="en" className={`${spaceGrotesk.variable} ${inter.variable}`}>
       <head>
         <script
           type="application/ld+json"

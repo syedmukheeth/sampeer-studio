@@ -35,7 +35,7 @@
      text/fill utilities below and by any component that wants the full sweep. */
   --gradient-accent: linear-gradient(120deg, #a855f7 0%, #c026f0 50%, #d946ef 100%);
 
-  --font-display: var(--font-clash), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
 
   --text-display-xl: clamp(3.2rem, 8.5vw, 7.5rem);
