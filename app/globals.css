@@ -1,39 +1,39 @@
 @import "tailwindcss";
 
 /*
-  Sampeer Studio — DARK electric-violet theme.
-  Body is near-black with a violet tint; type is cool near-white. One accent
-  family (Electric Violet), used freely as glow / fills / strikes since it pops
-  hard on black. Sections wrapped in `.stage` drop to an even DEEPER black so
-  the automation showcase still reads as a lit cinematic stage cut into the
-  page. One radius scale, near-sharp.
+  Sampeer Studio, DARK emerald theme.
+  Body is neutral near-black; type is cool near-white. One accent family
+  (Emerald / Jade), used with restraint as fills, strikes, and soft glow.
+  Sections wrapped in `.stage` drop to an even DEEPER black so the automation
+  showcase still reads as a lit cinematic stage cut into the page. One radius
+  scale, near-sharp.
 
   Accent discipline:
-    --color-accent       electric violet — fills, the one strike, borders, LARGE
-                         display type, glow edges. Bright on black.
-    --color-accent-text  readable violet — small labels / body accent text.
+    --color-accent       emerald, fills, the one strike, borders, LARGE display
+                         type. Confident on black, never neon.
+    --color-accent-text  readable jade, small labels / body accent text.
                          AA on the dark canvas; flips brighter inside `.stage`.
 */
 
 @theme {
-  --color-canvas: #0b0a12; /* page background, near-black w/ violet tint (never #000) */
-  --color-elevated: #141221; /* raised surface — cards sit above the dark canvas */
-  --color-elevated-2: #1d1a30; /* second tier — hover/active/pressed card states */
-  --color-ink: #f4f2fb; /* primary text, cool near-white (never #fff) */
-  --color-muted: #a6a2bd; /* secondary text — AA on canvas */
-  --color-faint: #6b6685; /* decorative only — fails AA, never for readable copy */
-  --color-line: #262238; /* hairline borders on dark */
-  --color-accent: #a855f7; /* Neon Violet — fills / one strike / large display / glow */
-  --color-accent-2: #d946ef; /* Neon Magenta — the far end of every accent gradient */
-  --color-accent-text: #c9a3ff; /* readable neon violet for small text — AA on canvas */
-  --color-accent-solid: #7c3aed; /* button fills — deep enough for near-white ink */
-  --color-accent-dim: #6d28d9; /* pressed / secondary accent state */
-  --color-accent-soft: rgba(168, 85, 247, 0.12); /* tints, veils, active-pill fill — no ad-hoc accent/10 */
-  --color-accent-ink: #f4f2fb; /* text on accent fills (cool near-white) */
+  --color-canvas: #0a0b0b; /* page background, neutral near-black (never #000) */
+  --color-elevated: #121514; /* raised surface, cards sit above the dark canvas */
+  --color-elevated-2: #1a1e1c; /* second tier, hover/active/pressed card states */
+  --color-ink: #f2f5f3; /* primary text, cool near-white (never #fff) */
+  --color-muted: #9aa5a0; /* secondary text, AA on canvas */
+  --color-faint: #5f6a65; /* decorative only, fails AA, never for readable copy */
+  --color-line: #232826; /* hairline borders on dark */
+  --color-accent: #10b981; /* Emerald, fills / one strike / large display */
+  --color-accent-2: #34d399; /* brighter jade, the far end of the accent gradient */
+  --color-accent-text: #34d399; /* readable jade for small text, AA on canvas */
+  --color-accent-solid: #10b981; /* bright emerald button fill, dark ink rides on top */
+  --color-accent-dim: #059669; /* pressed / secondary accent state */
+  --color-accent-soft: rgba(16, 185, 129, 0.1); /* tints, veils, active-pill fill, no ad-hoc accent/10 */
+  --color-accent-ink: #05130d; /* near-black green text on the bright emerald fill (premium, high-contrast) */
 
-  /* the signature neon sweep — violet -> magenta. Referenced by the gradient
-     text/fill utilities below and by any component that wants the full sweep. */
-  --gradient-accent: linear-gradient(120deg, #a855f7 0%, #c026f0 50%, #d946ef 100%);
+  /* a restrained single-hue sweep, emerald -> jade. Tasteful, not a rainbow.
+     Referenced by the gradient text utility and any full-sweep component. */
+  --gradient-accent: linear-gradient(120deg, #10b981 0%, #34d399 100%);
 
   --font-display: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
@@ -56,34 +56,34 @@
 }
 
 /*
-  DEEP STAGE — the body is already dark, so any subtree wrapped in `.stage`
-  drops to an even DEEPER, near-pure black with a brighter violet so the
+  DEEP STAGE. The body is already dark, so any subtree wrapped in `.stage`
+  drops to an even DEEPER, near-pure black with a brighter jade so the
   automation showcase reads as the most cinematic cut on the page. Because
   every component reads these semantic vars, the whole subtree (Flow diagrams,
   text, borders) shifts with no per-component work.
 */
 .stage {
-  --color-canvas: #050408;
-  --color-elevated: #0f0d18;
-  --color-elevated-2: #17142a;
-  --color-ink: #f5f4fb;
-  --color-muted: #9a96b0;
-  --color-faint: #56526a;
-  --color-line: #1e1b2e;
-  --color-accent: #a855f7;
-  --color-accent-2: #e879f9; /* neon magenta lifts brighter on true black */
-  --color-accent-text: #d8b4ff; /* extra-bright neon violet reads as text on true black */
-  --color-accent-solid: #7c3aed;
-  --color-accent-dim: #6d28d9;
-  --color-accent-soft: rgba(168, 85, 247, 0.14);
-  --color-accent-ink: #f5f4fb;
+  --color-canvas: #050605;
+  --color-elevated: #0c0f0d;
+  --color-elevated-2: #12160f;
+  --color-ink: #f4f7f5;
+  --color-muted: #929c97;
+  --color-faint: #545e59;
+  --color-line: #191d1b;
+  --color-accent: #10b981;
+  --color-accent-2: #5eead4; /* bright mint lifts on true black */
+  --color-accent-text: #5eead4; /* extra-bright jade reads as text on true black */
+  --color-accent-solid: #10b981;
+  --color-accent-dim: #059669;
+  --color-accent-soft: rgba(16, 185, 129, 0.12);
+  --color-accent-ink: #05130d;
 
   background: var(--color-canvas);
   color: var(--color-ink);
   color-scheme: dark;
 }
 
-/* Neon gradient text — the violet->magenta sweep clipped to glyphs. Use on a
+/* Gradient text, the restrained emerald->jade sweep clipped to glyphs. Use on a
    single element (a whole word/heading), never across per-word spans. */
 .text-gradient-accent {
   background: var(--gradient-accent);

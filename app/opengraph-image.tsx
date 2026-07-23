@@ -15,15 +15,15 @@ export default function OG() {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          background: "#0b0a12",
+          background: "#0a0b0b",
           backgroundImage:
-            "radial-gradient(120% 90% at 50% 0%, rgba(168,85,247,0.22) 0%, transparent 55%)",
-          color: "#f4f2fb",
+            "radial-gradient(120% 90% at 50% 0%, rgba(16,185,129,0.2) 0%, transparent 55%)",
+          color: "#f2f5f3",
           padding: 80,
           fontFamily: "sans-serif",
         }}
       >
-        <div style={{ fontSize: 28, color: "#a6a2bd", letterSpacing: -0.5 }}>
+        <div style={{ fontSize: 28, color: "#9aa5a0", letterSpacing: -0.5 }}>
           Sampeer Studio
         </div>
         <div
@@ -37,9 +37,9 @@ export default function OG() {
           }}
         >
           <span>Most startups don&apos;t fail.</span>
-          <span style={{ color: "#c9a3ff" }}>They go unnoticed.</span>
+          <span style={{ color: "#34d399" }}>They go unnoticed.</span>
         </div>
-        <div style={{ fontSize: 26, color: "#a6a2bd" }}>
+        <div style={{ fontSize: 26, color: "#9aa5a0" }}>
           The growth layer your startup is missing.
         </div>
       </div>

@@ -1,8 +1,8 @@
 /**
  * SINGLE SOURCE OF CONTENT for the whole page.
- * Components read from here — no copy hardcoded in JSX.
+ * Components read from here, no copy hardcoded in JSX.
  *
- * PLACEHOLDER STATUS: WORK (§04) is real — six live client sites. Pillars,
+ * PLACEHOLDER STATUS: WORK (§04) is real, six live client sites. Pillars,
  * stats, and testimonials still carry stand-ins; mock values are tagged
  * `// mock` / `// TODO`. Swap real data here; components do not change.
  *
@@ -31,14 +31,14 @@ export const NAV = {
 } as const;
 
 /* --------------------------------------------------------------- hero */
-/* §01 The Verdict — one statement plus a quiet anchor into the proof. */
+/* §01 The Verdict, one statement plus a quiet anchor into the proof. */
 export const HERO = {
   // headline split so the accent word can be styled in JSX
   lead: "Most startups don't fail.",
   accent: "They go unnoticed.",
   // quiet follow line, kept under the 20-word cap
   sub: "We build the growth layer that makes founders impossible to ignore.",
-  /** Primary lead CTA — the one solid strike above the fold. A premium agency
+  /** Primary lead CTA, the one solid strike above the fold. A premium agency
    *  site earns the click here, not only in the Nav. */
   ctaPrimary: { label: "Book a free call", href: "#contact" },
   /** Quiet secondary anchor: doubles as the scroll affordance and a skip
@@ -73,7 +73,7 @@ export const PROBLEM = {
 /* -------------------------------------------------------------- build */
 /* §03 Three pillars as outcomes, not deliverables. Sticky-stack. Each panel's
  * visual is a bespoke PillarGraphic (wireframe / live Flow / post skeleton),
- * not stock photography — the work itself is the imagery. */
+ * not stock photography, the work itself is the imagery. */
 export type Pillar = {
   id: string;
   index: string;
@@ -111,7 +111,7 @@ export const PILLARS: Pillar[] = [
   },
 ];
 
-/** The growth pillar's live machine — rendered by PillarGraphic via Flow. */
+/** The growth pillar's live machine, rendered by PillarGraphic via Flow. */
 export const PILLAR_GROWTH_FLOW = serpentine(
   [
     { label: "Lead", icon: "lead", kind: "trigger", meta: "just now", activeMeta: "capturing…", doneMeta: "captured" },
@@ -126,7 +126,7 @@ export const PILLAR_GROWTH_FLOW = serpentine(
 
 /* --------------------------------------------------------------- work */
 /* §04 Real work, vertical sticky-stack. Each card shows a local poster at
- * rest and embeds the live site (scaled iframe) on hover — the project's own
+ * rest and embeds the live site (scaled iframe) on hover, the project's own
  * hero animation is the showcase. Descriptions state what the site is; no
  * invented metrics. */
 export type LiveProject = {
@@ -218,8 +218,8 @@ export const WORK: LiveProject[] = [
 
 /* -------------------------------------------------------- case study */
 /* §04a Case studies, data-driven. One shape, two visual variants:
- *  - `gallery` — real on-site photos (ASRG only, a real client).
- *  - `shots`   — desktop + mobile captures of the live site (the five concept
+ *  - `gallery`, real on-site photos (ASRG only, a real client).
+ *  - `shots`  , desktop + mobile captures of the live site (the five concept
  *    builds, which have no on-site photos).
  * The CaseStudy component renders whichever is present. Each object gets a
  * route at /work/<slug>; the matching WORK card links there. */
@@ -243,7 +243,7 @@ export type CaseStudyData = {
     caption: string;
     photos: { src: string; alt: string; caption: string }[];
   };
-  /** live-site proof — desktop still (the poster) + a live phone-frame render.
+  /** live-site proof, desktop still (the poster) + a live phone-frame render.
    *  Both are derived from existing fields (poster, liveUrl); this only carries
    *  the section's copy, so there are no separate capture files to source. */
   shots?: {
@@ -252,7 +252,7 @@ export type CaseStudyData = {
   };
 };
 
-/* ASRG Construction — the first full case study. Real client, real on-site
+/* ASRG Construction, the first full case study. Real client, real on-site
  * photos (public/asrg-client*.webp), real live site. Copy is the owner's,
  * lightly shaped. */
 export const CASE_ASRG: CaseStudyData = {
@@ -302,7 +302,7 @@ export const CASE_ASRG: CaseStudyData = {
 /* --------------------------------------------- concept-build case studies */
 /* §04b The five concept builds. These are portfolio pieces, not paying
  * clients, so the copy is honest about that: no invented clients, metrics, or
- * testimonials. The challenge/solution read as design rationale — the problem
+ * testimonials. The challenge/solution read as design rationale, the problem
  * the *category* faces, and the decision the build makes about it. Visual proof
  * is a desktop + mobile capture of the live site (public/work/shots/). */
 
@@ -310,7 +310,7 @@ export const CASE_AURUM: CaseStudyData = {
   slug: "aurum",
   eyebrow: "Concept build",
   client: "Aurum Resorts",
-  tagline: "A private-island resort concept told in stillness — where the design does the selling by getting out of the way.",
+  tagline: "A private-island resort concept told in stillness, where the design does the selling by getting out of the way.",
   liveUrl: "https://luxury-hotel-sooty.vercel.app/",
   poster: "/work/aurum.webp",
   meta: [
@@ -320,11 +320,11 @@ export const CASE_AURUM: CaseStudyData = {
   ],
   challenge: {
     title: "The challenge",
-    body: "Most resort sites shout — carousels, badges, ten offers above the fold. Luxury reads as restraint, and the louder a site is, the cheaper the room feels. The problem to solve was making a screen feel expensive.",
+    body: "Most resort sites shout: carousels, badges, ten offers above the fold. Luxury reads as restraint, and the louder a site is, the cheaper the room feels. The problem to solve was making a screen feel expensive.",
   },
   solution: {
     title: "The approach",
-    body: "One image at a time, generous negative space, and type that never hurries. The villas, the dining, and the sea each get room to breathe, so the site sells the way a private island does — by slowing you down.",
+    body: "One image at a time, generous negative space, and type that never hurries. The villas, the dining, and the sea each get room to breathe, so the site sells the way a private island does, by slowing you down.",
   },
   servicesTitle: "What this build demonstrates",
   services: [
@@ -337,7 +337,7 @@ export const CASE_AURUM: CaseStudyData = {
   ],
   outcome: {
     title: "Why it exists",
-    body: "A concept piece that proves a hospitality brand can feel five-star on the first scroll — the studio's case for stillness as a sales tool, not a compromise.",
+    body: "A concept piece that proves a hospitality brand can feel five-star on the first scroll, the studio's case for stillness as a sales tool, not a compromise.",
   },
   shots: {
     title: "The build, on screen",
@@ -360,11 +360,11 @@ export const CASE_LIFTX: CaseStudyData = {
   ],
   challenge: {
     title: "The challenge",
-    body: "Gym sites bury the one action that matters — joining — under class timetables, pricing tiers, and stock photos of equipment. The visitor already knows they should train. They need a reason to act today.",
+    body: "Gym sites bury the one action that matters, joining, under class timetables, pricing tiers, and stock photos of equipment. The visitor already knows they should train. They need a reason to act today.",
   },
   solution: {
     title: "The approach",
-    body: "Oversized, confident type carries the whole site, and every section funnels toward one CTA. No hedging, no ten menu items — just momentum and a single decision made easy.",
+    body: "Oversized, confident type carries the whole site, and every section funnels toward one CTA. No hedging, no ten menu items, just momentum and a single decision made easy.",
   },
   servicesTitle: "What this build demonstrates",
   services: [
@@ -377,7 +377,7 @@ export const CASE_LIFTX: CaseStudyData = {
   ],
   outcome: {
     title: "Why it exists",
-    body: "A concept piece showing how far a fitness brand gets on type and focus alone — proof the studio can build energy without clutter.",
+    body: "A concept piece showing how far a fitness brand gets on type and focus alone, proof the studio can build energy without clutter.",
   },
   shots: {
     title: "The build, on screen",
@@ -404,7 +404,7 @@ export const CASE_VANTARA: CaseStudyData = {
   },
   solution: {
     title: "The approach",
-    body: "A restrained, confident identity — serious typography, deliberate structure, and copy that speaks like a partner across the table. The design signals judgment before a single case is read.",
+    body: "A restrained, confident identity, serious typography, deliberate structure, and copy that speaks like a partner across the table. The design signals judgment before a single case is read.",
   },
   servicesTitle: "What this build demonstrates",
   services: [
@@ -417,7 +417,7 @@ export const CASE_VANTARA: CaseStudyData = {
   ],
   outcome: {
     title: "Why it exists",
-    body: "A concept piece proving a professional-services firm can look like the partner it claims to be — the studio's case for positioning over decoration.",
+    body: "A concept piece proving a professional-services firm can look like the partner it claims to be, the studio's case for positioning over decoration.",
   },
   shots: {
     title: "The build, on screen",
@@ -444,7 +444,7 @@ export const CASE_NOVACARE: CaseStudyData = {
   },
   solution: {
     title: "The approach",
-    body: "A warm, human hero and a quiet information hierarchy that leads with reassurance, then reveals depth on demand. Care comes first, the fifty specialties come second — findable, not overwhelming.",
+    body: "A warm, human hero and a quiet information hierarchy that leads with reassurance, then reveals depth on demand. Care comes first, the fifty specialties come second, findable, not overwhelming.",
   },
   servicesTitle: "What this build demonstrates",
   services: [
@@ -457,7 +457,7 @@ export const CASE_NOVACARE: CaseStudyData = {
   ],
   outcome: {
     title: "Why it exists",
-    body: "A concept piece showing a large hospital can feel personal and calm online — the studio's case for designing around the patient's state of mind, not the org chart.",
+    body: "A concept piece showing a large hospital can feel personal and calm online, the studio's case for designing around the patient's state of mind, not the org chart.",
   },
   shots: {
     title: "The build, on screen",
@@ -470,7 +470,7 @@ export const CASE_UNIQUIRK: CaseStudyData = {
   slug: "uniquirk",
   eyebrow: "Concept build",
   client: "Uniquirk Solutions",
-  tagline: "A personal-branding concept for CXOs — a dark, sharp site that matches the pitch it sells.",
+  tagline: "A personal-branding concept for CXOs, a dark, sharp site that matches the pitch it sells.",
   liveUrl: "https://uniquirk.vercel.app/",
   poster: "/work/uniquirk.webp",
   meta: [
@@ -480,7 +480,7 @@ export const CASE_UNIQUIRK: CaseStudyData = {
   ],
   challenge: {
     title: "The challenge",
-    body: "A brand that sells authority engineering can't look generic — the site is the proof of the service. A soft, templated page quietly undercuts every promise made on it.",
+    body: "A brand that sells authority engineering can't look generic, the site is the proof of the service. A soft, templated page quietly undercuts every promise made on it.",
   },
   solution: {
     title: "The approach",
@@ -497,7 +497,7 @@ export const CASE_UNIQUIRK: CaseStudyData = {
   ],
   outcome: {
     title: "Why it exists",
-    body: "A concept piece where the site itself demonstrates the service — the studio's case for a brand that practices what it sells.",
+    body: "A concept piece where the site itself demonstrates the service, the studio's case for a brand that practices what it sells.",
   },
   shots: {
     title: "The build, on screen",
@@ -521,7 +521,7 @@ export const CASE_STUDIES: Record<string, CaseStudyData> = {
 /* §04b The doorway to /automations. The nav link alone left the second
  * offering invisible to anyone who simply scrolls, so the story now says it
  * out loud: the sites above are what we build, this is what makes them work
- * without you. Deliberately copy-only — the live diagrams live on the route
+ * without you. Deliberately copy-only, the live diagrams live on the route
  * itself, and the home page cannot afford them. */
 export const AUTOMATION_TEASER = {
   eyebrow: "Growth Automation Lab",
@@ -539,9 +539,9 @@ export const AUTOMATION_TEASER = {
 
 /* The live machine that now plays inline on home. Two 3-col graphs on the same
  * grid footprint so the scroll cross-fade reads as the SAME business rewired,
- * not two unrelated diagrams — same discipline as /automations Transform. */
-/* The chaos side carries STALE metas on purpose — "4 days ago",
- * "v7_final.xlsx" — so the crossfade to the wired machine reads as relief,
+ * not two unrelated diagrams, same discipline as /automations Transform. */
+/* The chaos side carries STALE metas on purpose, "4 days ago",
+ * "v7_final.xlsx", so the crossfade to the wired machine reads as relief,
  * not just a re-skin. */
 export const AUTOMATION_TEASER_CHAOS = serpentine(
   [
@@ -577,25 +577,25 @@ export const AUTOMATION_TEASER_STATES = {
   },
 } as const;
 
-/* §04b (home) THE AUTOMATION STAGE — the dark cinematic showcase.
+/* §04b (home) THE AUTOMATION STAGE, the dark cinematic showcase.
  * The home page's centerpiece: a scroll-driven story where four signature
  * systems each build themselves under the scrollbar, fire, and land an
  * outcome, then hand off to the live console. Same Flow dialect as
  * /automations; the copy and the console URL stay single-sourced (the URL is
  * imported from content-automations so it can never drift). The `href` beats
- * deep-link into the real, running product — the console the owner asked to
- * surface — so a visitor can run the actual tool, not just watch a diagram.
+ * deep-link into the real, running product, the console the owner asked to
+ * surface, so a visitor can run the actual tool, not just watch a diagram.
  * Metas are generic-but-true system states; no invented client numbers. */
 export const HOME_AUTOMATION_STORY = {
   eyebrow: "Growth Automation Lab",
   title: "A site brings them in. A system keeps them.",
-  sub: "The work above is the front door. Behind it we wire the follow-up, qualification, invoicing, and reporting that used to depend on someone remembering. Scroll — watch four of them wire themselves.",
+  sub: "The work above is the front door. Behind it we wire the follow-up, qualification, invoicing, and reporting that used to depend on someone remembering. Scroll, watch four of them wire themselves.",
   beats: [
     {
       id: "lead-capture",
       name: "Lead capture",
       outcome:
-        "A form fill becomes a booked call — captured, scored, and followed up while you sleep.",
+        "A form fill becomes a booked call, captured, scored, and followed up while you sleep.",
       href: `${A_CONSOLE_URL}/sales-os/lead-pipeline`,
       cols: 3,
       payload: "lead",
@@ -612,7 +612,7 @@ export const HOME_AUTOMATION_STORY = {
       id: "invoice",
       name: "Invoicing",
       outcome:
-        "Order to paid to reconciled — no spreadsheet in the middle, no month-end scramble.",
+        "Order to paid to reconciled, no spreadsheet in the middle, no month-end scramble.",
       href: `${A_CONSOLE_URL}/business-os/invoice-generator`,
       cols: 3,
       payload: "order",
@@ -628,7 +628,7 @@ export const HOME_AUTOMATION_STORY = {
       id: "marketing",
       name: "Cold outreach",
       outcome:
-        "A cold list becomes warm conversations — personalized, sent, and booked without a rep touching it.",
+        "A cold list becomes warm conversations, personalized, sent, and booked without a rep touching it.",
       href: `${A_CONSOLE_URL}/sales-os/cold-email`,
       cols: 3,
       payload: "lead",
@@ -656,7 +656,7 @@ export const HOME_AUTOMATION_STORY = {
       ],
     },
   ],
-  /** the payoff — surface the live console (the owner's ask) then the full Lab */
+  /** the payoff, surface the live console (the owner's ask) then the full Lab */
   cta: {
     live: { label: "See all 16 systems running live", href: A_CONSOLE_URL },
     lab: { label: "Step inside the Lab", href: "/automations" },
@@ -665,7 +665,7 @@ export const HOME_AUTOMATION_STORY = {
 
 /* ----------------------------------------------------------- branding */
 /* §04c The third service, said out loud. The Build pillar names it; this
- * section sells it — claim first, mechanics second, then the Stats band right
+ * section sells it, claim first, mechanics second, then the Stats band right
  * below supplies the numbers. Real post screenshots slot in later (intake). */
 export const BRANDING = {
   title: "Your name should open doors before you do.",
@@ -688,7 +688,7 @@ export const BRANDING = {
 } as const;
 
 /* -------------------------------------------------------------- stats */
-/* §05 Proof numbers, count-up. LinkedIn-led social proof — the audience is
+/* §05 Proof numbers, count-up. LinkedIn-led social proof, the audience is
  * the asset. Only `followers` is real today; the rest are tagged TODO and are
  * a one-line swap once you send the real figures from LinkedIn analytics. */
 /** `value` count-ups; `text` renders verbatim (for honest non-numeric proof
@@ -705,13 +705,13 @@ export const STATS: Stat[] = [
 
 /* ------------------------------------------------------ testimonials */
 /* §05.5 Founder voices. Editorial pull-quotes, not cards. Placeholder copy +
- * names (mock) — swap for real founder quotes here; component does not change. */
+ * names (mock), swap for real founder quotes here; component does not change. */
 export type Testimonial = {
   id: string;
   quote: string;
   name: string;
   role: string;
-  /** optional proof image (public/*.webp) — a real client, shown as a chip */
+  /** optional proof image (public/*.webp), a real client, shown as a chip */
   photo?: string;
 };
 
@@ -720,7 +720,7 @@ export const TESTIMONIALS_HEADER = {
 } as const;
 
 /* One real, verified client voice beats three invented ones. Add more here as
- * clients give quotes — the component handles any length. */
+ * clients give quotes, the component handles any length. */
 export const TESTIMONIALS: Testimonial[] = [
   {
     id: "asrg",

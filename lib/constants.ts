@@ -17,28 +17,28 @@ export const Z = {
  *  used by any canvas/SVG that renders inside an automation showcase. Keep both
  *  in sync with the `@theme` and `.stage` blocks in globals.css. */
 export const BRAND = {
-  base: "#0b0a12",
-  elevated: "#141221",
-  elevated2: "#1d1a30",
-  ink: "#f4f2fb",
-  muted: "#a6a2bd",
-  accent: "#a855f7",
-  accentText: "#c9a3ff",
-  accentDim: "#6d28d9",
-  accentSoft: "rgba(168, 85, 247, 0.12)",
+  base: "#0a0b0b",
+  elevated: "#121514",
+  elevated2: "#1a1e1c",
+  ink: "#f2f5f3",
+  muted: "#9aa5a0",
+  accent: "#10b981",
+  accentText: "#34d399",
+  accentDim: "#059669",
+  accentSoft: "rgba(16, 185, 129, 0.1)",
 } as const;
 
 /** The deeper, near-pure-black cinematic family for `.stage` subtrees. */
 export const STAGE = {
-  base: "#050408",
-  elevated: "#0f0d18",
-  elevated2: "#17142a",
-  ink: "#f5f4fb",
-  muted: "#9a96b0",
-  accent: "#a855f7",
-  accentText: "#d8b4ff",
-  accentDim: "#6d28d9",
-  accentSoft: "rgba(168, 85, 247, 0.14)",
+  base: "#050605",
+  elevated: "#0c0f0d",
+  elevated2: "#12160f",
+  ink: "#f4f7f5",
+  muted: "#929c97",
+  accent: "#10b981",
+  accentText: "#5eead4",
+  accentDim: "#059669",
+  accentSoft: "rgba(16, 185, 129, 0.12)",
 } as const;
 
 /** Standard reveal easing — matches the CSS cubic used across the page. */

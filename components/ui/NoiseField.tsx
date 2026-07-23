@@ -56,8 +56,8 @@ float fbm(vec2 p){
 void main(){
   vec2 uv = gl_FragCoord.xy / uRes.xy;
 
-  // base canvas colour — near-black w/ violet tint #0b0a12 (never pure #000)
-  vec3 base = vec3(0.043, 0.039, 0.071);
+  // base canvas colour, neutral near-black #0a0b0b (never pure #000)
+  vec3 base = vec3(0.039, 0.043, 0.043);
 
   // drifting fbm grain — agitated while unresolved, quiet once settled. On the
   // dark field the grain reads as fine luminous specks that calm as we resolve.
@@ -69,20 +69,20 @@ void main(){
   float grainAmt = mix(0.11, 0.01, uResolve);
   float grain = (mix(n, fine, 0.4) - 0.5) * grainAmt;
 
-  // violet bloom rises from the lower-centre as signal emerges — a soft wash of
+  // emerald bloom rises from the lower-centre as signal emerges, a soft wash of
   // brand light lifting the near-black (the moment of being seen)
   vec2 c = uv - vec2(0.5, 0.42);
   c.x *= uAspect;
   float d = length(c);
-  float bloom = smoothstep(0.8, 0.0, d) * 0.6 * uResolve;
-  vec3 violet = vec3(0.659, 0.333, 0.969); // neon violet #a855f7
+  float bloom = smoothstep(0.8, 0.0, d) * 0.5 * uResolve;
+  vec3 emerald = vec3(0.063, 0.725, 0.506); // emerald #10b981
 
   // faint vignette to seat the type — darken edges toward the page black
   float vig = smoothstep(1.15, 0.25, length(uv - 0.5));
 
   vec3 col = base + grain;
-  // add violet light in the centre — glow that brightens the near-black base
-  col += violet * bloom;
+  // add emerald light in the centre, glow that brightens the near-black base
+  col += emerald * bloom;
   col *= mix(0.55, 1.0, vig);
 
   gl_FragColor = vec4(col, 1.0);

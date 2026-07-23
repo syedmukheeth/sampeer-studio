@@ -63,7 +63,7 @@ const JSON_LD = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0b0a12",
+  themeColor: "#0a0b0b",
   colorScheme: "dark",
 };
 

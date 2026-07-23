@@ -1,6 +1,6 @@
 /**
  * SINGLE SOURCE OF CONTENT for /automations (the Growth Automation Lab).
- * Components read from here — no copy hardcoded in JSX, same rule as
+ * Components read from here, no copy hardcoded in JSX, same rule as
  * lib/content.ts.
  *
  * PLACEHOLDER STATUS: every number in IMPACT is a stand-in and tagged
@@ -9,7 +9,7 @@
 
 import { serpentine } from "@/lib/flow";
 
-/** The live automation console — the real, working product these cards
+/** The live automation console, the real, working product these cards
  *  describe. Cards with a matching tool deep-link into it so a visitor can
  *  run the real thing, not just watch a diagram. */
 export const A_CONSOLE_URL = "https://sampeer-automations.vercel.app";
@@ -26,7 +26,7 @@ export const A_HERO = {
 } as const;
 
 /** The backdrop machine. Runs forever behind the headline. Icons only, no
- *  metas — it renders at ambient opacity where a meta line is just mush. */
+ *  metas, it renders at ambient opacity where a meta line is just mush. */
 export const A_HERO_FLOW = serpentine(
   [
     { label: "Lead", icon: "lead" },
@@ -55,7 +55,7 @@ export const A_TRANSFORM = {
   },
 } as const;
 
-/* Stale metas on the chaos side — the "before" machine should hurt a
+/* Stale metas on the chaos side, the "before" machine should hurt a
  * little. The order machine answers each one with a live state. */
 export const A_CHAOS_FLOW = serpentine(
   [
@@ -91,13 +91,13 @@ export const A_ORDER_FLOW = serpentine(
 export const A_CATALOG_HEADER = {
   eyebrow: "The stack",
   title: "Ten systems that quietly run a business.",
-  sub: "Hover any card to watch it run. The tagged ones are live in our console — open and run the real tool yourself.",
+  sub: "Hover any card to watch it run. The tagged ones are live in our console, open and run the real tool yourself.",
   cta: { label: "See all 16 running live", href: A_CONSOLE_URL },
 } as const;
 
-/* Each card's diagram is built from its steps — see serpentine(). Cards are
+/* Each card's diagram is built from its steps, see serpentine(). Cards are
  * small, so steps carry an icon + kind (for the app-glyph and status states)
- * but no meta line — a 9px sub-line would be unreadable at card width. */
+ * but no meta line, a 9px sub-line would be unreadable at card width. */
 export const A_CATALOG = [
   {
     id: "lead-capture",
@@ -259,13 +259,13 @@ export const A_SLIDER_AFTER = serpentine(
 export const A_INDUSTRIES_HEADER = {
   title: "Every business is different. So every automation is too.",
   sub: "Same principles, different machine. Pick a business.",
-  /** aria-label for the tablist — was the eyebrow before eyebrow rationing */
+  /** aria-label for the tablist, was the eyebrow before eyebrow rationing */
   tablistLabel: "Industries",
 } as const;
 
 /* Each step carries an icon + a present→settled meta pair so the build
  * reveal reads like a real machine wiring itself, not a labelled box. Metas
- * are generic-but-true system states — no invented client numbers. */
+ * are generic-but-true system states, no invented client numbers. */
 export const A_INDUSTRIES = [
   {
     id: "startup",
@@ -388,7 +388,7 @@ export const A_IMPACT_HEADER = {
 } as const;
 
 /* Honest ranges over invented precision. `text` renders verbatim; `value`
- * count-ups. See CountUp — it takes either. */
+ * count-ups. See CountUp, it takes either. */
 export const A_IMPACT = [
   { id: "hours", text: "20–80", suffix: "/mo", label: "Hours saved", note: "Per workflow, typical" },
   { id: "response", text: "<5", suffix: " min", label: "Average first response", note: "Instead of hours" },
