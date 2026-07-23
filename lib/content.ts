@@ -754,10 +754,10 @@ export const ABOUT = {
   photo: "/founder.webp",
   linkedin: "https://www.linkedin.com/in/syedmukheeth/",
   manifesto: [
-    "I help startups and ambitious businesses grow through premium storytelling websites, growth systems, and AI automation.",
-    "Rather than simply building websites, I focus on digital experiences that build trust, attract customers, and support long-term growth.",
-    "My approach combines strategy, design, SEO, automation, and conversion-focused development.",
-    "Built together, they help a business stop asking for attention and start earning it.",
+    "I help startups and ambitious businesses get noticed, remembered, and chosen.",
+    "Not just websites. Digital experiences that earn trust, pull customers in, and keep compounding long after launch.",
+    "Strategy, design, SEO, automation, and conversion-focused development, built as one engine instead of five disconnected parts.",
+    "Do it right, and a business stops asking for attention and starts earning it.",
   ],
 } as const;
 
