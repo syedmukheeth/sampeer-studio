@@ -47,7 +47,7 @@ export function Hero() {
       {/* seat the type over the graph paper */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(120%_75%_at_50%_45%,rgba(10,10,10,0.9)_30%,rgba(10,10,10,0.45)_100%)]"
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(120%_75%_at_50%_45%,rgba(5,4,8,0.9)_30%,rgba(5,4,8,0.45)_100%)]"
       />
       <div
         aria-hidden

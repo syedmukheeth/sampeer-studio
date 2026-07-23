@@ -5,7 +5,7 @@ import { useEffect, useRef } from "react";
 /**
  * SIGNATURE — "noise -> signal".
  * A WebGL field of animated grain that starts dense (the startup nobody
- * notices) and RESOLVES into a calm, near-black field with one faint indigo
+ * notices) and RESOLVES into a calm, near-black field with one violet
  * bloom (the moment of being seen). Sits behind the hero headline.
  *
  * Performance contract:
@@ -56,34 +56,34 @@ float fbm(vec2 p){
 void main(){
   vec2 uv = gl_FragCoord.xy / uRes.xy;
 
-  // base canvas colour — warm off-white #f7f6f2 (never pure #fff)
-  vec3 base = vec3(0.969, 0.965, 0.949);
+  // base canvas colour — near-black w/ violet tint #0b0a12 (never pure #000)
+  vec3 base = vec3(0.043, 0.039, 0.071);
 
   // drifting fbm grain — agitated while unresolved, quiet once settled. On the
-  // light field the grain reads as fine graphite specks that calm as we resolve.
+  // dark field the grain reads as fine luminous specks that calm as we resolve.
   float t = uTime * 0.06;
   float n = fbm(uv * vec2(uRes.x / uRes.y, 1.0) * 3.0 + t);
   float fine = hash(gl_FragCoord.xy + uTime * 60.0); // per-pixel static
 
-  // grain amplitude collapses as we resolve; biased dark so specks show on white
-  float grainAmt = mix(0.16, 0.012, uResolve);
-  float grain = (mix(n, fine, 0.4) - 0.62) * grainAmt;
+  // grain amplitude collapses as we resolve; centred bias so specks glow on black
+  float grainAmt = mix(0.11, 0.01, uResolve);
+  float grain = (mix(n, fine, 0.4) - 0.5) * grainAmt;
 
-  // indigo bloom rises from the lower-centre as signal emerges — a soft wash of
-  // brand colour tinting the warm white (the moment of being seen)
+  // violet bloom rises from the lower-centre as signal emerges — a soft wash of
+  // brand light lifting the near-black (the moment of being seen)
   vec2 c = uv - vec2(0.5, 0.42);
   c.x *= uAspect;
   float d = length(c);
-  float bloom = smoothstep(0.75, 0.0, d) * 0.10 * uResolve;
-  vec3 indigo = vec3(0.424, 0.388, 1.0);
+  float bloom = smoothstep(0.8, 0.0, d) * 0.5 * uResolve;
+  vec3 violet = vec3(0.545, 0.361, 0.965);
 
-  // faint vignette to seat the type — darken edges a touch toward the page
+  // faint vignette to seat the type — darken edges toward the page black
   float vig = smoothstep(1.15, 0.25, length(uv - 0.5));
 
   vec3 col = base + grain;
-  // tint toward indigo without brightening past the warm-white base
-  col = mix(col, indigo, bloom);
-  col *= mix(0.965, 1.0, vig);
+  // add violet light in the centre — glow that brightens the near-black base
+  col += violet * bloom;
+  col *= mix(0.55, 1.0, vig);
 
   gl_FragColor = vec4(col, 1.0);
 }

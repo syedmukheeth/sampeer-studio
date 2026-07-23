@@ -4,7 +4,7 @@ export const alt = "Sampeer Studio | The growth layer your startup is missing";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-/** On-brand light OG card. Default font (Clash is woff2, not satori-friendly). */
+/** On-brand dark OG card. Default font (Clash is woff2, not satori-friendly). */
 export default function OG() {
   return new ImageResponse(
     (
@@ -15,13 +15,15 @@ export default function OG() {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          background: "#f7f6f2",
-          color: "#1a1a18",
+          background: "#0b0a12",
+          backgroundImage:
+            "radial-gradient(120% 90% at 50% 0%, rgba(139,92,246,0.22) 0%, transparent 55%)",
+          color: "#f4f2fb",
           padding: 80,
           fontFamily: "sans-serif",
         }}
       >
-        <div style={{ fontSize: 28, color: "#57574f", letterSpacing: -0.5 }}>
+        <div style={{ fontSize: 28, color: "#a6a2bd", letterSpacing: -0.5 }}>
           Sampeer Studio
         </div>
         <div
@@ -35,9 +37,9 @@ export default function OG() {
           }}
         >
           <span>Most startups don&apos;t fail.</span>
-          <span style={{ color: "#6c63ff" }}>They go unnoticed.</span>
+          <span style={{ color: "#b8a9ff" }}>They go unnoticed.</span>
         </div>
-        <div style={{ fontSize: 26, color: "#57574f" }}>
+        <div style={{ fontSize: 26, color: "#a6a2bd" }}>
           The growth layer your startup is missing.
         </div>
       </div>

@@ -20,9 +20,9 @@ export function BrandMark({
     >
       <defs>
         <linearGradient id="sampeer-mark" x1="6" y1="3" x2="26" y2="29" gradientUnits="userSpaceOnUse">
-          <stop stopColor="#b3a8ff" />
-          <stop offset="0.55" stopColor="#6c63ff" />
-          <stop offset="1" stopColor="#4b40d6" />
+          <stop stopColor="#c4b8ff" />
+          <stop offset="0.55" stopColor="#8b5cf6" />
+          <stop offset="1" stopColor="#6d4de0" />
         </linearGradient>
       </defs>
       <path

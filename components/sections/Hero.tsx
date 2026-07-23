@@ -28,11 +28,16 @@ export function Hero() {
     >
       {/* signature noise -> signal field */}
       <NoiseField className="pointer-events-none absolute inset-0 h-full w-full" />
-      {/* seat the type: fade the noise field out to the light canvas at the
-          edges so the dark ink headline sits on a calm, near-solid centre */}
+      {/* seat the type: fade the noise field out to the dark canvas at the
+          edges so the near-white headline sits on a calm, near-solid centre */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(120%_80%_at_50%_45%,transparent_42%,rgba(247,246,242,0.8)_100%)]"
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(120%_80%_at_50%_45%,transparent_42%,rgba(11,10,18,0.85)_100%)]"
+      />
+      {/* one violet bloom behind the headline — the accent as light on black */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(60%_45%_at_50%_42%,rgba(139,92,246,0.16)_0%,transparent_70%)]"
       />
       <div
         aria-hidden

@@ -1,33 +1,34 @@
 @import "tailwindcss";
 
 /*
-  Sampeer Studio — HYBRID theme.
-  Body is LIGHT editorial (warm off-white / warm near-black). One accent
-  (Electric Indigo), rationed. Sections wrapped in `.stage` flip to the
-  original cinematic DARK family so the automation showcase reads as a lit
-  stage cut into the light page. One radius scale, near-sharp.
+  Sampeer Studio — DARK electric-violet theme.
+  Body is near-black with a violet tint; type is cool near-white. One accent
+  family (Electric Violet), used freely as glow / fills / strikes since it pops
+  hard on black. Sections wrapped in `.stage` drop to an even DEEPER black so
+  the automation showcase still reads as a lit cinematic stage cut into the
+  page. One radius scale, near-sharp.
 
   Accent discipline:
-    --color-accent       bright indigo — fills, the one strike, borders, LARGE
-                         display type only (too light for small body on white).
-    --color-accent-text  readable accent — small labels / body accent text.
-                         AA on the light canvas; flips bright inside `.stage`.
+    --color-accent       electric violet — fills, the one strike, borders, LARGE
+                         display type, glow edges. Bright on black.
+    --color-accent-text  readable violet — small labels / body accent text.
+                         AA on the dark canvas; flips brighter inside `.stage`.
 */
 
 @theme {
-  --color-canvas: #f7f6f2; /* page background, warm off-white (never #fff) */
-  --color-elevated: #ffffff; /* raised surface — cards sit above the warm canvas */
-  --color-elevated-2: #eceae3; /* second tier — hover/active/pressed card states */
-  --color-ink: #1a1a18; /* primary text, warm near-black (never #000) */
-  --color-muted: #57574f; /* secondary text — AA on canvas */
-  --color-faint: #9a9a90; /* decorative only — fails AA, never for readable copy */
-  --color-line: #e3e1d9; /* hairline borders on light */
-  --color-accent: #6c63ff; /* Electric Indigo — fills / one strike / large display */
-  --color-accent-text: #4b41c7; /* readable accent for small text — AA on canvas */
-  --color-accent-solid: #5d54f0; /* button fills — deep enough for light ink text */
-  --color-accent-dim: #4f48c4; /* pressed / secondary accent state */
-  --color-accent-soft: rgba(108, 99, 255, 0.08); /* tints and veils — no ad-hoc accent/10 */
-  --color-accent-ink: #f7f6f2; /* text on accent fills (warm off-white) */
+  --color-canvas: #0b0a12; /* page background, near-black w/ violet tint (never #000) */
+  --color-elevated: #141221; /* raised surface — cards sit above the dark canvas */
+  --color-elevated-2: #1d1a30; /* second tier — hover/active/pressed card states */
+  --color-ink: #f4f2fb; /* primary text, cool near-white (never #fff) */
+  --color-muted: #a6a2bd; /* secondary text — AA on canvas */
+  --color-faint: #6b6685; /* decorative only — fails AA, never for readable copy */
+  --color-line: #262238; /* hairline borders on dark */
+  --color-accent: #8b5cf6; /* Electric Violet — fills / one strike / large display / glow */
+  --color-accent-text: #b8a9ff; /* readable violet for small text — AA on canvas */
+  --color-accent-solid: #6d4de0; /* button fills — deep enough for near-white ink */
+  --color-accent-dim: #5a3fc4; /* pressed / secondary accent state */
+  --color-accent-soft: rgba(139, 92, 246, 0.1); /* tints, veils, active-pill fill — no ad-hoc accent/10 */
+  --color-accent-ink: #f4f2fb; /* text on accent fills (cool near-white) */
 
   --font-display: var(--font-clash), ui-sans-serif, system-ui, sans-serif;
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
@@ -50,25 +51,26 @@
 }
 
 /*
-  DARK STAGE — any subtree wrapped in `.stage` re-declares the token family to
-  the original cinematic off-black palette. Because every component reads these
-  semantic vars, the whole subtree (Flow diagrams, text, borders) inverts with
-  no per-component work. `color-scheme` flips so form controls/scrollbars match.
+  DEEP STAGE — the body is already dark, so any subtree wrapped in `.stage`
+  drops to an even DEEPER, near-pure black with a brighter violet so the
+  automation showcase reads as the most cinematic cut on the page. Because
+  every component reads these semantic vars, the whole subtree (Flow diagrams,
+  text, borders) shifts with no per-component work.
 */
 .stage {
-  --color-canvas: #0a0a0b;
-  --color-elevated: #141416;
-  --color-elevated-2: #1a1a1c;
-  --color-ink: #f5f5f0;
-  --color-muted: #8a8a85;
-  --color-faint: #56564f;
-  --color-line: #232322;
-  --color-accent: #6c63ff;
-  --color-accent-text: #a7a1ff; /* bright indigo reads as text on off-black */
-  --color-accent-solid: #5d54f0;
-  --color-accent-dim: #4f48c4;
-  --color-accent-soft: rgba(108, 99, 255, 0.08);
-  --color-accent-ink: #f5f5f0;
+  --color-canvas: #050408;
+  --color-elevated: #0f0d18;
+  --color-elevated-2: #17142a;
+  --color-ink: #f5f4fb;
+  --color-muted: #9a96b0;
+  --color-faint: #56526a;
+  --color-line: #1e1b2e;
+  --color-accent: #8b5cf6;
+  --color-accent-text: #c4b8ff; /* extra-bright violet reads as text on true black */
+  --color-accent-solid: #6d4de0;
+  --color-accent-dim: #5a3fc4;
+  --color-accent-soft: rgba(139, 92, 246, 0.12);
+  --color-accent-ink: #f5f4fb;
 
   background: var(--color-canvas);
   color: var(--color-ink);
@@ -78,7 +80,7 @@
 html {
   background: var(--color-canvas);
   color: var(--color-ink);
-  color-scheme: light;
+  color-scheme: dark;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   scroll-padding-top: 5rem; /* clear the fixed 64px nav on anchor jumps */
