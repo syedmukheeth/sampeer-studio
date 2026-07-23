@@ -41,7 +41,10 @@ export function PillarGraphic({ variant }: { variant: "story" | "growth" | "foun
     // NOT ambient: below md the Flow's stepper IS the visual, so the frame
     // never renders empty on phones, and the machine stays in the a11y tree.
     return (
-      <div className="flex h-full w-full items-center bg-elevated p-6">
+      // dark `.stage` frame: the Flow engine is designed for off-black, and a
+      // lit device-like panel in the light editorial stack ties the growth
+      // pillar to the automation showcase's dark cut.
+      <div className="stage flex h-full w-full items-center bg-elevated p-6">
         <Flow
           {...PILLAR_GROWTH_FLOW}
           mode="loop"
@@ -133,7 +136,7 @@ export function PillarGraphic({ variant }: { variant: "story" | "growth" | "foun
           <p className="mt-0.5 text-[8px] leading-relaxed text-muted">
             Founder, Sampeer Studio · Storytelling websites, growth systems &amp; AI automation
           </p>
-          <p className="mt-1 text-[8px] text-accent/80">in/syedmukheeth</p>
+          <p className="mt-1 text-[8px] text-accent-text">in/syedmukheeth</p>
 
           {/* the real proof — numbers from the profile */}
           <div className="mt-3 flex gap-5 border-t border-line pt-3">
@@ -148,7 +151,7 @@ export function PillarGraphic({ variant }: { variant: "story" | "growth" | "foun
           </div>
 
           {/* the link affordance — fills the card and says where it goes */}
-          <span className="mt-3 flex items-center gap-1 border-t border-line pt-3 text-[9px] font-medium text-muted transition-colors group-hover:text-accent">
+          <span className="mt-3 flex items-center gap-1 border-t border-line pt-3 text-[9px] font-medium text-muted transition-colors group-hover:text-accent-text">
             View full profile
             <ArrowUpRight
               size={11}

@@ -6,6 +6,7 @@ import { HERO } from "@/lib/content";
 import { EASE, DUR, STAGGER } from "@/lib/constants";
 import { NoiseField } from "@/components/ui/NoiseField";
 import { MaskText } from "@/components/ui/MaskText";
+import { Magnetic } from "@/components/ui/Magnetic";
 import { TrackClick } from "@/components/analytics/TrackClick";
 import { EVENTS } from "@/lib/analytics";
 
@@ -27,10 +28,11 @@ export function Hero() {
     >
       {/* signature noise -> signal field */}
       <NoiseField className="pointer-events-none absolute inset-0 h-full w-full" />
-      {/* seat the type: darken centre, fade the field into the page below */}
+      {/* seat the type: fade the noise field out to the light canvas at the
+          edges so the dark ink headline sits on a calm, near-solid centre */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(120%_80%_at_50%_45%,transparent_40%,rgba(10,10,10,0.55)_100%)]"
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(120%_80%_at_50%_45%,transparent_42%,rgba(247,246,242,0.8)_100%)]"
       />
       <div
         aria-hidden
@@ -62,24 +64,35 @@ export function Hero() {
           initial={reduce ? false : { opacity: 0, y: 12 }}
           animate={reduce ? false : { opacity: 1, y: 0 }}
           transition={{ duration: DUR.base, delay: 1.6, ease: EASE.out }}
-          className="mt-10"
+          className="mt-10 flex flex-col items-center gap-5 sm:flex-row sm:gap-7"
         >
+          {/* primary: the one solid lead strike above the fold */}
           <TrackClick event={EVENTS.ctaClickHero}>
-            <a
-              href={HERO.cta.href}
-              className="group inline-flex items-center gap-2 font-sans text-sm font-medium text-ink"
-            >
-              <span className="border-b border-line pb-1 transition-colors duration-300 group-hover:border-accent">
-                {HERO.cta.label}
-              </span>
-              <ArrowDown
-                size={16}
-                weight="bold"
-                aria-hidden
-                className="text-muted transition-all duration-300 group-hover:translate-y-0.5 group-hover:text-accent"
-              />
-            </a>
+            <Magnetic>
+              <a
+                href={HERO.ctaPrimary.href}
+                className="inline-flex items-center rounded-md bg-accent-solid px-6 py-3 font-sans text-sm font-medium text-accent-ink transition-[transform,background-color] duration-300 hover:bg-accent active:scale-[0.98]"
+              >
+                {HERO.ctaPrimary.label}
+              </a>
+            </Magnetic>
           </TrackClick>
+
+          {/* secondary: quiet scroll affordance into the proof */}
+          <a
+            href={HERO.cta.href}
+            className="group inline-flex items-center gap-2 font-sans text-sm font-medium text-ink"
+          >
+            <span className="border-b border-line pb-1 transition-colors duration-300 group-hover:border-accent">
+              {HERO.cta.label}
+            </span>
+            <ArrowDown
+              size={16}
+              weight="bold"
+              aria-hidden
+              className="text-muted transition-all duration-300 group-hover:translate-y-0.5 group-hover:text-accent"
+            />
+          </a>
         </motion.div>
       </div>
     </section>

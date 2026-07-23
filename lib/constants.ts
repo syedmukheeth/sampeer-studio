@@ -12,14 +12,31 @@ export const Z = {
   grain: 60,
 } as const;
 
-/** Brand tokens mirrored from globals.css for JS-driven motion/canvas use. */
+/** Brand tokens mirrored from globals.css for JS-driven motion/canvas use.
+ *  BRAND = the LIGHT body palette. STAGE = the dark `.stage` family used by
+ *  any canvas/SVG that renders inside an automation showcase. Keep both in
+ *  sync with the `@theme` and `.stage` blocks in globals.css. */
 export const BRAND = {
+  base: "#f7f6f2",
+  elevated: "#ffffff",
+  elevated2: "#eceae3",
+  ink: "#1a1a18",
+  muted: "#57574f",
+  accent: "#6c63ff",
+  accentText: "#4b41c7",
+  accentDim: "#4f48c4",
+  accentSoft: "rgba(108, 99, 255, 0.08)",
+} as const;
+
+/** The dark cinematic family for subtrees wrapped in `.stage`. */
+export const STAGE = {
   base: "#0a0a0b",
   elevated: "#141416",
   elevated2: "#1a1a1c",
   ink: "#f5f5f0",
   muted: "#8a8a85",
   accent: "#6c63ff",
+  accentText: "#a7a1ff",
   accentDim: "#4f48c4",
   accentSoft: "rgba(108, 99, 255, 0.08)",
 } as const;

@@ -1,23 +1,33 @@
 @import "tailwindcss";
 
 /*
-  Sampeer Studio — theme lock: DARK ONLY (brand-mandated, cinematic).
-  One accent (Electric Indigo), rationed. One radius scale. Off-black / off-white.
+  Sampeer Studio — HYBRID theme.
+  Body is LIGHT editorial (warm off-white / warm near-black). One accent
+  (Electric Indigo), rationed. Sections wrapped in `.stage` flip to the
+  original cinematic DARK family so the automation showcase reads as a lit
+  stage cut into the light page. One radius scale, near-sharp.
+
+  Accent discipline:
+    --color-accent       bright indigo — fills, the one strike, borders, LARGE
+                         display type only (too light for small body on white).
+    --color-accent-text  readable accent — small labels / body accent text.
+                         AA on the light canvas; flips bright inside `.stage`.
 */
 
 @theme {
-  --color-canvas: #0a0a0b; /* page background, off-black (never #000) */
-  --color-elevated: #141416; /* subtle raised surface within dark family */
-  --color-elevated-2: #1a1a1c; /* second surface tier — hover/active card states only */
-  --color-ink: #f5f5f0; /* primary text, warm off-white (never #fff) */
-  --color-muted: #8a8a85; /* secondary text */
-  --color-faint: #56564f; /* decorative only — fails AA, never for readable copy */
-  --color-line: #232322; /* hairline borders */
-  --color-accent: #6c63ff; /* Electric Indigo — ONE strike per viewport, no glows */
-  --color-accent-solid: #5d54f0; /* button fills — deep enough for AA ink text */
+  --color-canvas: #f7f6f2; /* page background, warm off-white (never #fff) */
+  --color-elevated: #ffffff; /* raised surface — cards sit above the warm canvas */
+  --color-elevated-2: #eceae3; /* second tier — hover/active/pressed card states */
+  --color-ink: #1a1a18; /* primary text, warm near-black (never #000) */
+  --color-muted: #57574f; /* secondary text — AA on canvas */
+  --color-faint: #9a9a90; /* decorative only — fails AA, never for readable copy */
+  --color-line: #e3e1d9; /* hairline borders on light */
+  --color-accent: #6c63ff; /* Electric Indigo — fills / one strike / large display */
+  --color-accent-text: #4b41c7; /* readable accent for small text — AA on canvas */
+  --color-accent-solid: #5d54f0; /* button fills — deep enough for light ink text */
   --color-accent-dim: #4f48c4; /* pressed / secondary accent state */
   --color-accent-soft: rgba(108, 99, 255, 0.08); /* tints and veils — no ad-hoc accent/10 */
-  --color-accent-ink: #f5f5f0; /* text on accent fills */
+  --color-accent-ink: #f7f6f2; /* text on accent fills (warm off-white) */
 
   --font-display: var(--font-clash), ui-sans-serif, system-ui, sans-serif;
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
@@ -39,10 +49,36 @@
   --max-shell: 1400px;
 }
 
-html {
+/*
+  DARK STAGE — any subtree wrapped in `.stage` re-declares the token family to
+  the original cinematic off-black palette. Because every component reads these
+  semantic vars, the whole subtree (Flow diagrams, text, borders) inverts with
+  no per-component work. `color-scheme` flips so form controls/scrollbars match.
+*/
+.stage {
+  --color-canvas: #0a0a0b;
+  --color-elevated: #141416;
+  --color-elevated-2: #1a1a1c;
+  --color-ink: #f5f5f0;
+  --color-muted: #8a8a85;
+  --color-faint: #56564f;
+  --color-line: #232322;
+  --color-accent: #6c63ff;
+  --color-accent-text: #a7a1ff; /* bright indigo reads as text on off-black */
+  --color-accent-solid: #5d54f0;
+  --color-accent-dim: #4f48c4;
+  --color-accent-soft: rgba(108, 99, 255, 0.08);
+  --color-accent-ink: #f5f5f0;
+
   background: var(--color-canvas);
   color: var(--color-ink);
   color-scheme: dark;
+}
+
+html {
+  background: var(--color-canvas);
+  color: var(--color-ink);
+  color-scheme: light;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   scroll-padding-top: 5rem; /* clear the fixed 64px nav on anchor jumps */

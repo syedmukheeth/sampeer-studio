@@ -81,7 +81,7 @@ export function Nav() {
           aria-label={NAV.brand}
           className="flex items-center"
         >
-          <span className="rounded-lg bg-white/[0.04] p-1.5 ring-1 ring-white/10 transition-colors duration-300 hover:ring-accent/30">
+          <span className="rounded-lg bg-elevated p-1.5 ring-1 ring-line transition-colors duration-300 hover:ring-accent/40">
             <Logo variant="mark" priority sizes="40px" className="h-8 w-auto" />
           </span>
         </Link>
@@ -152,7 +152,7 @@ export function Nav() {
           >
             <div className="flex h-16 items-center justify-between px-6">
               <span className="flex items-center" aria-label={NAV.brand}>
-                <span className="rounded-lg bg-white/[0.04] p-1.5 ring-1 ring-white/10">
+                <span className="rounded-lg bg-elevated p-1.5 ring-1 ring-line">
                   <Logo variant="mark" sizes="40px" className="h-8 w-auto" />
                 </span>
               </span>

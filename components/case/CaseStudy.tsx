@@ -105,7 +105,7 @@ export function CaseStudy({ data }: { data: CaseStudyData }) {
           {[data.challenge, data.solution].map((block, i) => (
             <Reveal key={block.title} delay={i * 0.08}>
               <div className="border-t border-line pt-6">
-                <h2 className="font-sans text-xs font-medium uppercase tracking-[0.2em] text-accent">
+                <h2 className="font-sans text-xs font-medium uppercase tracking-[0.2em] text-accent-text">
                   {block.title}
                 </h2>
                 <p className="mt-5 font-display text-xl font-medium leading-snug tracking-tight text-ink md:text-2xl">
@@ -124,7 +124,7 @@ export function CaseStudy({ data }: { data: CaseStudyData }) {
           {data.services.map((s, i) => (
             <li key={s} className="bg-canvas">
               <Reveal delay={(i % 3) * 0.05} className="flex h-full items-center gap-3 p-6">
-                <span className="grid h-6 w-6 shrink-0 place-items-center rounded-sm border border-accent/30 text-accent">
+                <span className="grid h-6 w-6 shrink-0 place-items-center rounded-sm border border-accent/30 text-accent-text">
                   <Check size={13} weight="bold" />
                 </span>
                 <span className="font-sans text-sm text-ink">{s}</span>
@@ -221,7 +221,7 @@ export function CaseStudy({ data }: { data: CaseStudyData }) {
       <Section>
         <div className="max-w-3xl border-t border-line pt-6">
           <Reveal>
-            <h2 className="font-sans text-xs font-medium uppercase tracking-[0.2em] text-accent">
+            <h2 className="font-sans text-xs font-medium uppercase tracking-[0.2em] text-accent-text">
               {data.outcome.title}
             </h2>
           </Reveal>

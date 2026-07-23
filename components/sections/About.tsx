@@ -64,7 +64,7 @@ export function About() {
               href={ABOUT.linkedin}
               target="_blank"
               rel="noopener noreferrer"
-              className="ml-auto inline-flex items-center gap-1 font-sans text-sm text-ink transition-colors hover:text-accent"
+              className="ml-auto inline-flex items-center gap-1 font-sans text-sm text-ink transition-colors hover:text-accent-text"
             >
               LinkedIn
               <ArrowUpRight size={16} weight="bold" />

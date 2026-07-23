@@ -34,7 +34,7 @@ export function Footer() {
           <Reveal delay={STAGGER.loose} className="flex flex-col gap-3 md:items-end">
             <a
               href={`mailto:${FOOTER.email}`}
-              className="font-sans text-sm text-ink transition-colors hover:text-accent"
+              className="font-sans text-sm text-ink transition-colors hover:text-accent-text"
             >
               {FOOTER.email}
             </a>

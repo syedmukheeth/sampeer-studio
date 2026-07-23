@@ -7,8 +7,8 @@ export default function manifest(): MetadataRoute.Manifest {
     description: "The growth layer your startup is missing.",
     start_url: "/",
     display: "standalone",
-    background_color: "#0a0a0a",
-    theme_color: "#0a0a0a",
+    background_color: "#f7f6f2",
+    theme_color: "#f7f6f2",
     icons: [{ src: "/icon", sizes: "64x64", type: "image/png" }],
   };
 }

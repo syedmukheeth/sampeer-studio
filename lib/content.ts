@@ -10,6 +10,7 @@
  */
 
 import { serpentine } from "@/lib/flow";
+import { A_CONSOLE_URL } from "@/lib/content-automations";
 
 export function stockImg(seed: string, w: number, h: number) {
   return `https://picsum.photos/seed/${seed}/${w}/${h}`;
@@ -37,9 +38,11 @@ export const HERO = {
   accent: "They go unnoticed.",
   // quiet follow line, kept under the 20-word cap
   sub: "We build the growth layer that makes founders impossible to ignore.",
-  /** Quiet anchor, not a button: the Nav "Start" already owns conversion, and
-   *  a hero button would be a second accent strike in the same viewport. This
-   *  link doubles as the scroll affordance and a 4-viewport skip to proof. */
+  /** Primary lead CTA — the one solid strike above the fold. A premium agency
+   *  site earns the click here, not only in the Nav. */
+  ctaPrimary: { label: "Book a free call", href: "#contact" },
+  /** Quiet secondary anchor: doubles as the scroll affordance and a skip
+   *  straight to the proof. */
   cta: { label: "See the work", href: "#work" },
 } as const;
 
@@ -571,6 +574,92 @@ export const AUTOMATION_TEASER_STATES = {
   after: {
     label: "Wired",
     caption: "Every step hands off on its own. Nothing waits on memory.",
+  },
+} as const;
+
+/* §04b (home) THE AUTOMATION STAGE — the dark cinematic showcase.
+ * The home page's centerpiece: a scroll-driven story where four signature
+ * systems each build themselves under the scrollbar, fire, and land an
+ * outcome, then hand off to the live console. Same Flow dialect as
+ * /automations; the copy and the console URL stay single-sourced (the URL is
+ * imported from content-automations so it can never drift). The `href` beats
+ * deep-link into the real, running product — the console the owner asked to
+ * surface — so a visitor can run the actual tool, not just watch a diagram.
+ * Metas are generic-but-true system states; no invented client numbers. */
+export const HOME_AUTOMATION_STORY = {
+  eyebrow: "Growth Automation Lab",
+  title: "A site brings them in. A system keeps them.",
+  sub: "The work above is the front door. Behind it we wire the follow-up, qualification, invoicing, and reporting that used to depend on someone remembering. Scroll — watch four of them wire themselves.",
+  beats: [
+    {
+      id: "lead-capture",
+      name: "Lead capture",
+      outcome:
+        "A form fill becomes a booked call — captured, scored, and followed up while you sleep.",
+      href: `${A_CONSOLE_URL}/sales-os/lead-pipeline`,
+      cols: 3,
+      payload: "lead",
+      steps: [
+        { label: "Visitor", icon: "user", kind: "trigger", meta: "on your site", doneMeta: "captured" },
+        { label: "Form", icon: "note", kind: "action", meta: "fill", doneMeta: "submitted" },
+        { label: "AI qualify", icon: "ai", kind: "ai", meta: "score -", activeMeta: "thinking…", doneMeta: "score 87" },
+        { label: "CRM", icon: "crm", kind: "metric", meta: "2,418 rows", activeMeta: "+1 row", doneMeta: "2,419 rows" },
+        { label: "Auto follow-up", icon: "email", kind: "action", meta: "queued", activeMeta: "sending…", doneMeta: "sent ✓" },
+        { label: "Booked call", icon: "calendar", kind: "outcome", meta: "-", activeMeta: "confirming…", doneMeta: "Tue 10:00" },
+      ],
+    },
+    {
+      id: "invoice",
+      name: "Invoicing",
+      outcome:
+        "Order to paid to reconciled — no spreadsheet in the middle, no month-end scramble.",
+      href: `${A_CONSOLE_URL}/business-os/invoice-generator`,
+      cols: 3,
+      payload: "order",
+      steps: [
+        { label: "Order", icon: "cart", kind: "trigger", meta: "placed", doneMeta: "received" },
+        { label: "Invoice", icon: "receipt", kind: "action", meta: "drafting", activeMeta: "generating…", doneMeta: "issued" },
+        { label: "Payment", icon: "card", kind: "action", meta: "pending", activeMeta: "collecting…", doneMeta: "paid ✓" },
+        { label: "Reconcile", icon: "calculator", kind: "metric", meta: "open", activeMeta: "matching…", doneMeta: "matched" },
+        { label: "Books", icon: "chart", kind: "outcome", meta: "-", activeMeta: "posting…", doneMeta: "up to date" },
+      ],
+    },
+    {
+      id: "marketing",
+      name: "Cold outreach",
+      outcome:
+        "A cold list becomes warm conversations — personalized, sent, and booked without a rep touching it.",
+      href: `${A_CONSOLE_URL}/sales-os/cold-email`,
+      cols: 3,
+      payload: "lead",
+      steps: [
+        { label: "List", icon: "table", kind: "trigger", meta: "imported", doneMeta: "cleaned" },
+        { label: "AI writes", icon: "ai", kind: "ai", meta: "blank", activeMeta: "drafting…", doneMeta: "personalized" },
+        { label: "Send", icon: "email", kind: "action", meta: "queued", activeMeta: "sending…", doneMeta: "delivered" },
+        { label: "Reply", icon: "chat", kind: "app", meta: "waiting", activeMeta: "watching…", doneMeta: "replied" },
+        { label: "Meeting", icon: "calendar", kind: "outcome", meta: "-", activeMeta: "booking…", doneMeta: "booked" },
+      ],
+    },
+    {
+      id: "analytics",
+      name: "Reporting",
+      outcome:
+        "Six tabs and a guess become one live dashboard that shows the single number that matters.",
+      href: `${A_CONSOLE_URL}/growth-os/analytics`,
+      cols: 2,
+      payload: "event",
+      steps: [
+        { label: "Website", icon: "globe", kind: "trigger", meta: "traffic", doneMeta: "tracked" },
+        { label: "Events", icon: "pulse", kind: "app", meta: "streaming", activeMeta: "capturing…", doneMeta: "captured" },
+        { label: "Dashboard", icon: "chart", kind: "metric", meta: "live", activeMeta: "aggregating…", doneMeta: "updated" },
+        { label: "Insight", icon: "lightbulb", kind: "outcome", meta: "-", activeMeta: "computing…", doneMeta: "one number" },
+      ],
+    },
+  ],
+  /** the payoff — surface the live console (the owner's ask) then the full Lab */
+  cta: {
+    live: { label: "See all 16 systems running live", href: A_CONSOLE_URL },
+    lab: { label: "Step inside the Lab", href: "/automations" },
   },
 } as const;
 
