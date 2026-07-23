@@ -17,7 +17,7 @@ export default function OG() {
           justifyContent: "space-between",
           background: "#0b0a12",
           backgroundImage:
-            "radial-gradient(120% 90% at 50% 0%, rgba(139,92,246,0.22) 0%, transparent 55%)",
+            "radial-gradient(120% 90% at 50% 0%, rgba(168,85,247,0.22) 0%, transparent 55%)",
           color: "#f4f2fb",
           padding: 80,
           fontFamily: "sans-serif",
@@ -37,7 +37,7 @@ export default function OG() {
           }}
         >
           <span>Most startups don&apos;t fail.</span>
-          <span style={{ color: "#b8a9ff" }}>They go unnoticed.</span>
+          <span style={{ color: "#c9a3ff" }}>They go unnoticed.</span>
         </div>
         <div style={{ fontSize: 26, color: "#a6a2bd" }}>
           The growth layer your startup is missing.

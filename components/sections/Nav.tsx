@@ -96,7 +96,7 @@ export function Nav() {
         transition={reduce ? { duration: 0 } : { duration: DUR.fast, ease: EASE.out }}
         className={`flex w-full max-w-(--max-shell) items-center justify-between gap-2 rounded-full border pl-2 pr-2 backdrop-blur-xl transition-colors duration-300 ${
           scrolled
-            ? "border-accent/25 bg-elevated/80 shadow-[0_8px_30px_-12px_rgba(139,92,246,0.45),inset_0_1px_0_0_rgba(255,255,255,0.04)]"
+            ? "border-accent/25 bg-elevated/80 shadow-[0_8px_30px_-12px_rgba(168,85,247,0.45),inset_0_1px_0_0_rgba(255,255,255,0.04)]"
             : "border-line/70 bg-elevated/50 shadow-[0_4px_24px_-16px_rgba(0,0,0,0.8),inset_0_1px_0_0_rgba(255,255,255,0.03)]"
         }`}
       >
@@ -105,7 +105,7 @@ export function Nav() {
           aria-label={NAV.brand}
           className="flex items-center"
         >
-          <span className="grid h-10 w-10 place-items-center rounded-full bg-canvas/60 ring-1 ring-line transition-all duration-300 hover:ring-accent/50 hover:shadow-[0_0_18px_-4px_rgba(139,92,246,0.7)]">
+          <span className="grid h-10 w-10 place-items-center rounded-full bg-canvas/60 ring-1 ring-line transition-all duration-300 hover:ring-accent/50 hover:shadow-[0_0_18px_-4px_rgba(168,85,247,0.7)]">
             <Logo variant="mark" priority sizes="36px" className="h-7 w-auto" />
           </span>
         </Link>
@@ -121,7 +121,7 @@ export function Nav() {
             const indicator = on && (
               <motion.span
                 layoutId="nav-active"
-                className="absolute inset-0 -z-0 rounded-full bg-accent-soft ring-1 ring-inset ring-accent/30 shadow-[0_0_20px_-6px_rgba(139,92,246,0.7)]"
+                className="absolute inset-0 -z-0 rounded-full bg-accent-soft ring-1 ring-inset ring-accent/30 shadow-[0_0_20px_-6px_rgba(168,85,247,0.7)]"
                 transition={reduce ? { duration: 0 } : { duration: DUR.fast, ease: EASE.out }}
               />
             );
@@ -147,7 +147,7 @@ export function Nav() {
             <Magnetic>
               <Link
                 href={isHome ? hashOf(NAV.cta.href) ?? NAV.cta.href : NAV.cta.href}
-                className="group relative inline-flex items-center overflow-hidden rounded-full bg-linear-to-r from-accent-solid to-accent px-5 py-2 font-sans text-sm font-medium text-accent-ink shadow-[0_0_20px_-6px_rgba(139,92,246,0.8)] transition-[transform,box-shadow] duration-300 hover:shadow-[0_0_26px_-4px_rgba(139,92,246,1)] active:scale-[0.98]"
+                className="group relative inline-flex items-center overflow-hidden rounded-full bg-linear-to-r from-accent-solid to-accent px-5 py-2 font-sans text-sm font-medium text-accent-ink shadow-[0_0_20px_-6px_rgba(168,85,247,0.8)] transition-[transform,box-shadow] duration-300 hover:shadow-[0_0_26px_-4px_rgba(168,85,247,1)] active:scale-[0.98]"
               >
                 <span className="relative z-10">{NAV.cta.label}</span>
                 {/* sheen sweep on hover */}
@@ -184,7 +184,7 @@ export function Nav() {
             {/* violet aura bleeding from the top so the sheet reads as lit */}
             <div
               aria-hidden
-              className="pointer-events-none absolute inset-0 bg-[radial-gradient(90%_60%_at_50%_0%,rgba(139,92,246,0.14)_0%,transparent_60%)]"
+              className="pointer-events-none absolute inset-0 bg-[radial-gradient(90%_60%_at_50%_0%,rgba(168,85,247,0.14)_0%,transparent_60%)]"
             />
             <div className="relative flex h-20 items-center justify-between px-6">
               <span className="flex items-center" aria-label={NAV.brand}>
@@ -241,7 +241,7 @@ export function Nav() {
               <Link
                 href={isHome ? hashOf(NAV.cta.href) ?? NAV.cta.href : NAV.cta.href}
                 onClick={() => setOpen(false)}
-                className="mt-8 inline-flex w-fit items-center rounded-full bg-linear-to-r from-accent-solid to-accent px-6 py-3 font-sans text-sm font-medium text-accent-ink shadow-[0_0_22px_-6px_rgba(139,92,246,0.9)] active:scale-[0.98]"
+                className="mt-8 inline-flex w-fit items-center rounded-full bg-linear-to-r from-accent-solid to-accent px-6 py-3 font-sans text-sm font-medium text-accent-ink shadow-[0_0_22px_-6px_rgba(168,85,247,0.9)] active:scale-[0.98]"
               >
                 {NAV.cta.label}
               </Link>

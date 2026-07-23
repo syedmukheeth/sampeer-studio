@@ -33,10 +33,10 @@ export function Testimonials() {
       <SectionHeader title={TESTIMONIALS_HEADER.title} />
 
       <div className="mt-14 md:mt-20">
-        {/* indigo open-quote — the one accent strike here */}
+        {/* neon open-quote — the one accent strike here */}
         <span
           aria-hidden
-          className="block font-display text-7xl leading-none text-accent md:text-8xl"
+          className="block font-display text-7xl leading-none text-gradient-accent md:text-8xl"
         >
           &ldquo;
         </span>

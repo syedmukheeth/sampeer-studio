@@ -79,7 +79,7 @@ export function Hero() {
           }}
           className="mt-6 max-w-4xl font-display font-semibold leading-[1.05] tracking-tighter text-[clamp(2.25rem,7vw,5.5rem)]"
         >
-          {A_HERO.lead} <span className="text-accent">{A_HERO.accent}</span>
+          {A_HERO.lead} <span className="text-gradient-accent">{A_HERO.accent}</span>
         </motion.h1>
 
         <motion.p

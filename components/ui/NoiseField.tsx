@@ -74,8 +74,8 @@ void main(){
   vec2 c = uv - vec2(0.5, 0.42);
   c.x *= uAspect;
   float d = length(c);
-  float bloom = smoothstep(0.8, 0.0, d) * 0.5 * uResolve;
-  vec3 violet = vec3(0.545, 0.361, 0.965);
+  float bloom = smoothstep(0.8, 0.0, d) * 0.6 * uResolve;
+  vec3 violet = vec3(0.659, 0.333, 0.969); // neon violet #a855f7
 
   // faint vignette to seat the type — darken edges toward the page black
   float vig = smoothstep(1.15, 0.25, length(uv - 0.5));

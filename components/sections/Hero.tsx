@@ -37,7 +37,7 @@ export function Hero() {
       {/* one violet bloom behind the headline — the accent as light on black */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(60%_45%_at_50%_42%,rgba(139,92,246,0.16)_0%,transparent_70%)]"
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(60%_45%_at_50%_42%,rgba(168,85,247,0.16)_0%,transparent_70%)]"
       />
       <div
         aria-hidden

@@ -23,12 +23,17 @@
   --color-muted: #a6a2bd; /* secondary text — AA on canvas */
   --color-faint: #6b6685; /* decorative only — fails AA, never for readable copy */
   --color-line: #262238; /* hairline borders on dark */
-  --color-accent: #8b5cf6; /* Electric Violet — fills / one strike / large display / glow */
-  --color-accent-text: #b8a9ff; /* readable violet for small text — AA on canvas */
-  --color-accent-solid: #6d4de0; /* button fills — deep enough for near-white ink */
-  --color-accent-dim: #5a3fc4; /* pressed / secondary accent state */
-  --color-accent-soft: rgba(139, 92, 246, 0.1); /* tints, veils, active-pill fill — no ad-hoc accent/10 */
+  --color-accent: #a855f7; /* Neon Violet — fills / one strike / large display / glow */
+  --color-accent-2: #d946ef; /* Neon Magenta — the far end of every accent gradient */
+  --color-accent-text: #c9a3ff; /* readable neon violet for small text — AA on canvas */
+  --color-accent-solid: #7c3aed; /* button fills — deep enough for near-white ink */
+  --color-accent-dim: #6d28d9; /* pressed / secondary accent state */
+  --color-accent-soft: rgba(168, 85, 247, 0.12); /* tints, veils, active-pill fill — no ad-hoc accent/10 */
   --color-accent-ink: #f4f2fb; /* text on accent fills (cool near-white) */
+
+  /* the signature neon sweep — violet -> magenta. Referenced by the gradient
+     text/fill utilities below and by any component that wants the full sweep. */
+  --gradient-accent: linear-gradient(120deg, #a855f7 0%, #c026f0 50%, #d946ef 100%);
 
   --font-display: var(--font-clash), ui-sans-serif, system-ui, sans-serif;
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
@@ -65,16 +70,27 @@
   --color-muted: #9a96b0;
   --color-faint: #56526a;
   --color-line: #1e1b2e;
-  --color-accent: #8b5cf6;
-  --color-accent-text: #c4b8ff; /* extra-bright violet reads as text on true black */
-  --color-accent-solid: #6d4de0;
-  --color-accent-dim: #5a3fc4;
-  --color-accent-soft: rgba(139, 92, 246, 0.12);
+  --color-accent: #a855f7;
+  --color-accent-2: #e879f9; /* neon magenta lifts brighter on true black */
+  --color-accent-text: #d8b4ff; /* extra-bright neon violet reads as text on true black */
+  --color-accent-solid: #7c3aed;
+  --color-accent-dim: #6d28d9;
+  --color-accent-soft: rgba(168, 85, 247, 0.14);
   --color-accent-ink: #f5f4fb;
 
   background: var(--color-canvas);
   color: var(--color-ink);
   color-scheme: dark;
+}
+
+/* Neon gradient text — the violet->magenta sweep clipped to glyphs. Use on a
+   single element (a whole word/heading), never across per-word spans. */
+.text-gradient-accent {
+  background: var(--gradient-accent);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
 }
 
 html {

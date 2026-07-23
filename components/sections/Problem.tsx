@@ -41,7 +41,7 @@ function Line({ text, reduce }: { text: string; reduce: boolean | null }) {
           >
             <motion.span variants={reduce ? undefined : word} className="inline-block">
               {isEmphasis ? (
-                <span className="relative inline-block text-accent">
+                <span className="relative inline-block text-gradient-accent">
                   {w}
                   <motion.span
                     aria-hidden

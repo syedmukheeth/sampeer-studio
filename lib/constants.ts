@@ -22,10 +22,10 @@ export const BRAND = {
   elevated2: "#1d1a30",
   ink: "#f4f2fb",
   muted: "#a6a2bd",
-  accent: "#8b5cf6",
-  accentText: "#b8a9ff",
-  accentDim: "#5a3fc4",
-  accentSoft: "rgba(139, 92, 246, 0.1)",
+  accent: "#a855f7",
+  accentText: "#c9a3ff",
+  accentDim: "#6d28d9",
+  accentSoft: "rgba(168, 85, 247, 0.12)",
 } as const;
 
 /** The deeper, near-pure-black cinematic family for `.stage` subtrees. */
@@ -35,10 +35,10 @@ export const STAGE = {
   elevated2: "#17142a",
   ink: "#f5f4fb",
   muted: "#9a96b0",
-  accent: "#8b5cf6",
-  accentText: "#c4b8ff",
-  accentDim: "#5a3fc4",
-  accentSoft: "rgba(139, 92, 246, 0.12)",
+  accent: "#a855f7",
+  accentText: "#d8b4ff",
+  accentDim: "#6d28d9",
+  accentSoft: "rgba(168, 85, 247, 0.14)",
 } as const;
 
 /** Standard reveal easing — matches the CSS cubic used across the page. */
