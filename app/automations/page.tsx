@@ -9,7 +9,7 @@ import { Industries } from "@/components/automations/Industries";
 import { Impact } from "@/components/automations/Impact";
 import { CTA } from "@/components/automations/CTA";
 
-const TITLE = "Growth Automation Lab | Sampeer Studio";
+const TITLE = "Growth Automation Lab | SAMPeer Studio";
 const DESCRIPTION =
   "Watch a business get wired. Lead capture, AI qualification, follow-up, booking, and reporting. The systems that let a company grow without adding headcount.";
 
@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: TITLE,
     description: DESCRIPTION,
-    siteName: "Sampeer Studio",
+    siteName: "SAMPeer Studio",
     type: "website",
     url: "/automations",
   },

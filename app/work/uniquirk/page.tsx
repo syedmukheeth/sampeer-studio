@@ -5,9 +5,9 @@ import { CTA } from "@/components/sections/CTA";
 import { CaseStudy } from "@/components/case/CaseStudy";
 import { CASE_UNIQUIRK } from "@/lib/content";
 
-const TITLE = "Uniquirk Solutions - Concept Build | Sampeer Studio";
+const TITLE = "Uniquirk Solutions - Concept Build | SAMPeer Studio";
 const DESCRIPTION =
-  "A personal-branding website concept for CXOs by Sampeer Studio - a dark, sharp interface where the site itself is the proof of the pitch.";
+  "A personal-branding website concept for CXOs by SAMPeer Studio - a dark, sharp interface where the site itself is the proof of the pitch.";
 
 export const metadata: Metadata = {
   title: TITLE,
@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: TITLE,
     description: DESCRIPTION,
-    siteName: "Sampeer Studio",
+    siteName: "SAMPeer Studio",
     type: "article",
     url: "/work/uniquirk",
   },

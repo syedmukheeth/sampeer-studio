@@ -3,6 +3,10 @@
  * Z.grain. Static SVG turbulence via data URI: no canvas, no repaint cost,
  * and it never animates (reduced-motion safe by construction). Kills the
  * flat-hex deadness of large dark surfaces.
+ *
+ * Sits ABOVE the page and the spine but BELOW the nav: the top bar is the
+ * last layer on the page, and its frosted glass is meant to read clean
+ * rather than through a grain pass.
  */
 const NOISE =
   "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E";
@@ -11,7 +15,7 @@ export function Grain() {
   return (
     <div
       aria-hidden
-      className="pointer-events-none fixed inset-0 z-60 opacity-[0.035]"
+      className="pointer-events-none fixed inset-0 z-35 opacity-[0.035]"
       style={{ backgroundImage: `url("${NOISE}")` }}
     />
   );

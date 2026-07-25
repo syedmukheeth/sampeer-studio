@@ -2,8 +2,8 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Sampeer Studio",
-    short_name: "Sampeer",
+    name: "SAMPeer Studio",
+    short_name: "SAMPeer",
     description: "The growth layer your startup is missing.",
     start_url: "/",
     display: "standalone",

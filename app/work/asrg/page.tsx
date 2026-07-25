@@ -5,9 +5,9 @@ import { CTA } from "@/components/sections/CTA";
 import { CaseStudy } from "@/components/case/CaseStudy";
 import { CASE_ASRG } from "@/lib/content";
 
-const TITLE = "ASRG Construction - Case Study | Sampeer Studio";
+const TITLE = "ASRG Construction - Case Study | SAMPeer Studio";
 const DESCRIPTION =
-  "How Sampeer Studio gave a 46-year civil contracting firm a premium storytelling website, SEO, and an optimized Google Business Profile.";
+  "How SAMPeer Studio gave a 46-year civil contracting firm a premium storytelling website, SEO, and an optimized Google Business Profile.";
 
 export const metadata: Metadata = {
   title: TITLE,
@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: TITLE,
     description: DESCRIPTION,
-    siteName: "Sampeer Studio",
+    siteName: "SAMPeer Studio",
     type: "article",
     url: "/work/asrg",
   },

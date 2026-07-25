@@ -134,7 +134,7 @@ export function PillarGraphic({ variant }: { variant: "story" | "growth" | "foun
             <SealCheck size={11} weight="fill" className="text-accent" />
           </div>
           <p className="mt-0.5 text-[8px] leading-relaxed text-muted">
-            Founder, Sampeer Studio · Storytelling websites, growth systems &amp; AI automation
+            Founder, SAMPeer Studio · Storytelling websites, growth systems &amp; AI automation
           </p>
           <p className="mt-1 text-[8px] text-accent-text">in/syedmukheeth</p>
 

@@ -5,9 +5,9 @@ import { CTA } from "@/components/sections/CTA";
 import { CaseStudy } from "@/components/case/CaseStudy";
 import { CASE_NOVACARE } from "@/lib/content";
 
-const TITLE = "NovaCare Medical Center - Concept Build | Sampeer Studio";
+const TITLE = "NovaCare Medical Center - Concept Build | SAMPeer Studio";
 const DESCRIPTION =
-  "A multi-specialty hospital website concept by Sampeer Studio - a calm, human front door that makes fifty departments findable, not overwhelming.";
+  "A multi-specialty hospital website concept by SAMPeer Studio - a calm, human front door that makes fifty departments findable, not overwhelming.";
 
 export const metadata: Metadata = {
   title: TITLE,
@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: TITLE,
     description: DESCRIPTION,
-    siteName: "Sampeer Studio",
+    siteName: "SAMPeer Studio",
     type: "article",
     url: "/work/novacare",
   },

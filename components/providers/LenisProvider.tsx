@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import Lenis from "lenis";
 
 /**
- * Global smooth-scroll. Mandatory motion #1 in the Sampeer plan.
+ * Global smooth-scroll. Mandatory motion #1 in the SAMPeer plan.
  * Honors prefers-reduced-motion by skipping smoothing entirely.
  * Exposes the Lenis instance on window for later GSAP ScrollTrigger sync (Phase 3).
  */

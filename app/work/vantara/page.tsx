@@ -5,9 +5,9 @@ import { CTA } from "@/components/sections/CTA";
 import { CaseStudy } from "@/components/case/CaseStudy";
 import { CASE_VANTARA } from "@/lib/content";
 
-const TITLE = "Vantara & Rao - Concept Build | Sampeer Studio";
+const TITLE = "Vantara & Rao - Concept Build | SAMPeer Studio";
 const DESCRIPTION =
-  "A corporate law firm website concept by Sampeer Studio - authority-led identity that positions counsel as a strategic partner.";
+  "A corporate law firm website concept by SAMPeer Studio - authority-led identity that positions counsel as a strategic partner.";
 
 export const metadata: Metadata = {
   title: TITLE,
@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: TITLE,
     description: DESCRIPTION,
-    siteName: "Sampeer Studio",
+    siteName: "SAMPeer Studio",
     type: "article",
     url: "/work/vantara",
   },

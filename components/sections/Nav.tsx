@@ -85,7 +85,21 @@ export function Nav() {
   }, [open]);
 
   return (
-    <header className="fixed inset-x-0 top-0 z-40 flex justify-center px-4">
+    // pointer-events-none: the header box spans the full viewport width and
+    // includes the strip above the pill, so without this it silently eats
+    // clicks on whatever is scrolling underneath. Only the pill itself and the
+    // mobile sheet opt back in.
+    <header className="pointer-events-none fixed inset-x-0 top-0 z-40 flex justify-center px-4">
+      {/* Masking scrim. The pill is deliberately detached from the top edge,
+          which leaves a transparent strip above and beside it — page content
+          scrolled straight through that gap. This fades the top of the
+          viewport into the canvas so content dissolves as it arrives instead
+          of slicing across the header. Sits behind the pill, never over it. */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-28 bg-linear-to-b from-canvas via-canvas/85 to-transparent"
+      />
+
       <motion.nav
         initial={false}
         animate={{
@@ -94,7 +108,7 @@ export function Nav() {
           paddingBottom: scrolled ? 6 : 8,
         }}
         transition={reduce ? { duration: 0 } : { duration: DUR.fast, ease: EASE.out }}
-        className={`flex w-full max-w-(--max-shell) items-center justify-between gap-2 rounded-full border pl-2 pr-2 backdrop-blur-xl transition-colors duration-300 ${
+        className={`pointer-events-auto relative flex w-full max-w-(--max-shell) items-center justify-between gap-2 rounded-full border pl-2 pr-2 backdrop-blur-xl transition-colors duration-300 ${
           scrolled
             ? "border-accent/20 bg-elevated/80 shadow-[0_8px_30px_-14px_rgba(16,185,129,0.28),inset_0_1px_0_0_rgba(255,255,255,0.04)]"
             : "border-line/70 bg-elevated/50 shadow-[0_4px_24px_-16px_rgba(0,0,0,0.8),inset_0_1px_0_0_rgba(255,255,255,0.03)]"
@@ -175,7 +189,7 @@ export function Nav() {
       <AnimatePresence>
         {open && (
           <motion.div
-            className="fixed inset-0 z-50 flex flex-col bg-canvas/95 backdrop-blur-xl md:hidden"
+            className="pointer-events-auto fixed inset-0 z-50 flex flex-col bg-canvas/95 backdrop-blur-xl md:hidden"
             initial={reduce ? false : { opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={reduce ? undefined : { opacity: 0 }}
