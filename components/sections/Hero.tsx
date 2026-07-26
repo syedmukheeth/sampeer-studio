@@ -90,7 +90,7 @@ export function Hero() {
               size={16}
               weight="bold"
               aria-hidden
-              className="text-muted transition-all duration-300 group-hover:translate-y-0.5 group-hover:text-accent"
+              className="text-muted transition-[transform,color] duration-300 group-hover:translate-y-0.5 group-hover:text-accent"
             />
           </a>
         </motion.div>

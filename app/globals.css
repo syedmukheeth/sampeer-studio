@@ -136,6 +136,55 @@ body {
   border-radius: var(--radius-xs);
 }
 
+/* Headings wrap on meaning rather than on the raw line box, so a display
+   headline never leaves one orphaned word on the last line. Body copy gets the
+   looser `pretty`, which only guards against orphans. */
+h1,
+h2,
+h3 {
+  text-wrap: balance;
+}
+p,
+li {
+  text-wrap: pretty;
+}
+
+/* Kill the ~300ms tap delay mobile browsers hold in case a double-tap-to-zoom
+   is coming. Applied to controls only, so pinch-zoom on the page still works. */
+a,
+button,
+input,
+textarea,
+select,
+summary,
+[role="tab"],
+[role="button"] {
+  touch-action: manipulation;
+}
+
+/* Skip link: first thing in the tab order, visually hidden until focused. The
+   nav is a long list of anchors, so keyboard users otherwise tab through the
+   whole thing on every page. */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 100;
+}
+/* :focus, not :focus-visible. A skip link must reveal on ANY focus, including
+   programmatic; :focus-visible depends on the browser's keyboard heuristic. */
+.skip-link:focus {
+  left: 1rem;
+  top: 1rem;
+  padding: 0.75rem 1.25rem;
+  background: var(--color-accent-solid);
+  color: var(--color-accent-ink);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
 /* The Flow AI node's "thinking" dots. The reduced-motion block below
    collapses this like every other animation — no separate kill needed. */
 @keyframes flow-typing {

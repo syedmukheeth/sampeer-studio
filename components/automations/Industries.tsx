@@ -89,7 +89,9 @@ export function Industries() {
                 aria-controls={`panel-${ind.id}`}
                 tabIndex={on ? 0 : -1}
                 onClick={() => select(i)}
-                className={`relative pb-2 font-sans text-sm transition-colors focus-visible:outline-none focus-visible:text-ink ${
+                // Focus was signalled by colour alone, which is invisible to
+                // anyone who cannot distinguish muted from ink. Ring instead.
+                className={`relative rounded-xs pb-2 font-sans text-sm transition-colors focus-visible:text-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent ${
                   on ? "text-ink" : "text-muted hover:text-ink"
                 }`}
               >

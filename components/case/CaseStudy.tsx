@@ -23,7 +23,7 @@ import { track, EVENTS } from "@/lib/analytics";
  */
 export function CaseStudy({ data }: { data: CaseStudyData }) {
   return (
-    <main>
+    <main id="main">
       {/* ---------------------------------------------------------- hero */}
       <Section size="base">
         <Reveal>

@@ -79,6 +79,10 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-dvh bg-canvas text-ink antialiased">
+        {/* First stop in the tab order; hidden until focused. */}
+        <a className="skip-link" href="#main">
+          Skip to content
+        </a>
         <LenisProvider>{children}</LenisProvider>
         <Grain />
         <Spine />

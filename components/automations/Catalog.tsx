@@ -31,7 +31,7 @@ function Card({
           onMouseLeave={() => setPlay(false)}
           onFocus={() => setPlay(true)}
           onBlur={() => setPlay(false)}
-          className="group flex h-full flex-col rounded-md border border-line bg-elevated/40 p-5 transition-colors duration-500 hover:border-accent/40 hover:bg-elevated-2 focus-visible:border-accent focus-visible:bg-elevated-2 focus-visible:outline-none"
+          className="group flex h-full flex-col rounded-md border border-line bg-elevated/40 p-5 transition-colors duration-500 hover:border-accent/40 hover:bg-elevated-2 focus-visible:border-accent focus-visible:bg-elevated-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
         >
           <div className="flex items-start justify-between gap-3">
             <h3 className="font-display text-lg font-medium text-ink">
