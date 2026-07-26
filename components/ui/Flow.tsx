@@ -619,7 +619,10 @@ function RichNode({
             <span
               className={clsx(
                 "relative block h-3.5 text-[9px] leading-[14px] tabular-nums",
-                chaos ? "text-faint/80" : "text-faint",
+                // The chaos side used to dim this to /80 to feel neglected, but
+                // at 9px that landed on 4.09:1 and failed AA. The dashed border
+                // and stale copy already carry the "neglected" read.
+                "text-faint",
               )}
             >
               <MetaLayer on={status === "idle"}>{node.meta}</MetaLayer>
@@ -859,7 +862,10 @@ function BuildNode({
               <span
                 className={clsx(
                   "relative block h-3.5 text-[9px] leading-[14px] tabular-nums",
-                  chaos ? "text-faint/80" : "text-faint",
+                  // The chaos side used to dim this to /80 to feel neglected, but
+                // at 9px that landed on 4.09:1 and failed AA. The dashed border
+                // and stale copy already carry the "neglected" read.
+                "text-faint",
                 )}
               >
                 <motion.span

@@ -13,32 +13,32 @@ export const Z = {
 } as const;
 
 /** Brand tokens mirrored from globals.css for JS-driven motion/canvas use.
- *  BRAND = the DARK body palette. STAGE = the deeper near-black `.stage` family
+ *  BRAND = the LIGHT paper body palette. STAGE = the one dark `.stage` family
  *  used by any canvas/SVG that renders inside an automation showcase. Keep both
  *  in sync with the `@theme` and `.stage` blocks in globals.css. */
 export const BRAND = {
-  base: "#0a0b0b",
-  elevated: "#121514",
-  elevated2: "#1a1e1c",
-  ink: "#f2f5f3",
-  muted: "#9aa5a0",
-  accent: "#10b981",
-  accentText: "#34d399",
-  accentDim: "#059669",
-  accentSoft: "rgba(16, 185, 129, 0.1)",
+  base: "#fafaf8",
+  elevated: "#ffffff",
+  elevated2: "#f2f2ee",
+  ink: "#1a1a19",
+  muted: "#6e6e69",
+  accent: "#3f6152",
+  accentText: "#34513f",
+  accentDim: "#2c453a",
+  accentSoft: "rgba(63, 97, 82, 0.08)",
 } as const;
 
-/** The deeper, near-pure-black cinematic family for `.stage` subtrees. */
+/** The single dark cinematic family for `.stage` subtrees. */
 export const STAGE = {
-  base: "#050605",
-  elevated: "#0c0f0d",
-  elevated2: "#12160f",
-  ink: "#f4f7f5",
-  muted: "#929c97",
-  accent: "#10b981",
-  accentText: "#5eead4",
-  accentDim: "#059669",
-  accentSoft: "rgba(16, 185, 129, 0.12)",
+  base: "#161917",
+  elevated: "#1d211f",
+  elevated2: "#252a27",
+  ink: "#f0f1ee",
+  muted: "#9ba39d",
+  accent: "#8fae9d",
+  accentText: "#a3bfaf",
+  accentDim: "#74907f",
+  accentSoft: "rgba(143, 174, 157, 0.12)",
 } as const;
 
 /** Standard reveal easing — matches the CSS cubic used across the page. */

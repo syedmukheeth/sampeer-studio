@@ -95,9 +95,11 @@ export function Nav() {
         }}
         transition={reduce ? { duration: 0 } : { duration: DUR.fast, ease: EASE.out }}
         className={`flex w-full max-w-(--max-shell) items-center justify-between gap-2 rounded-full border pl-2 pr-2 backdrop-blur-xl transition-colors duration-300 ${
+          // On paper, elevation reads through a tinted shadow and a hairline,
+          // not an accent glow. Shadow is tinted to the ink hue, never pure black.
           scrolled
-            ? "border-accent/20 bg-elevated/80 shadow-[0_8px_30px_-14px_rgba(16,185,129,0.28),inset_0_1px_0_0_rgba(255,255,255,0.04)]"
-            : "border-line/70 bg-elevated/50 shadow-[0_4px_24px_-16px_rgba(0,0,0,0.8),inset_0_1px_0_0_rgba(255,255,255,0.03)]"
+            ? "border-line bg-elevated/90 shadow-[0_6px_20px_-14px_rgba(26,26,25,0.28)]"
+            : "border-line/70 bg-elevated/60 shadow-[0_2px_10px_-8px_rgba(26,26,25,0.18)]"
         }`}
       >
         <Link
@@ -105,7 +107,7 @@ export function Nav() {
           aria-label={NAV.brand}
           className="flex items-center"
         >
-          <span className="grid h-10 w-10 place-items-center rounded-full bg-canvas/60 ring-1 ring-line transition-all duration-300 hover:ring-accent/40 hover:shadow-[0_0_16px_-6px_rgba(16,185,129,0.4)]">
+          <span className="grid h-10 w-10 place-items-center rounded-full bg-canvas/60 ring-1 ring-line transition-colors duration-300 hover:ring-accent/40">
             <Logo variant="mark" priority sizes="36px" className="h-7 w-auto" />
           </span>
         </Link>
@@ -117,11 +119,12 @@ export function Nav() {
             const className = `relative rounded-full px-4 py-2 font-sans text-sm transition-colors duration-200 ${
               on ? "text-ink" : "text-muted hover:text-ink"
             }`;
-            // the glowing pill that slides behind the active link
+            // the pill that slides behind the active link; a flat tint now,
+            // the glow it used to carry was the loudest thing in the nav
             const indicator = on && (
               <motion.span
                 layoutId="nav-active"
-                className="absolute inset-0 -z-0 rounded-full bg-accent-soft ring-1 ring-inset ring-accent/25 shadow-[0_0_18px_-8px_rgba(16,185,129,0.4)]"
+                className="absolute inset-0 -z-0 rounded-full bg-accent-soft ring-1 ring-inset ring-accent/20"
                 transition={reduce ? { duration: 0 } : { duration: DUR.fast, ease: EASE.out }}
               />
             );
@@ -147,14 +150,9 @@ export function Nav() {
             <Magnetic>
               <Link
                 href={isHome ? hashOf(NAV.cta.href) ?? NAV.cta.href : NAV.cta.href}
-                className="group relative inline-flex items-center overflow-hidden rounded-full bg-linear-to-r from-accent-solid to-accent px-5 py-2 font-sans text-sm font-semibold text-accent-ink shadow-[0_0_18px_-8px_rgba(16,185,129,0.45)] transition-[transform,box-shadow] duration-300 hover:shadow-[0_0_22px_-6px_rgba(16,185,129,0.6)] active:scale-[0.98]"
+                className="group relative inline-flex items-center rounded-full bg-accent-solid px-5 py-2 font-sans text-sm font-semibold text-accent-ink transition-colors duration-300 hover:bg-accent-dim active:scale-[0.98]"
               >
                 <span className="relative z-10">{NAV.cta.label}</span>
-                {/* sheen sweep on hover */}
-                <span
-                  aria-hidden
-                  className="pointer-events-none absolute inset-0 -translate-x-full bg-linear-to-r from-transparent via-white/25 to-transparent transition-transform duration-500 group-hover:translate-x-full"
-                />
               </Link>
             </Magnetic>
           </TrackClick>
@@ -181,10 +179,11 @@ export function Nav() {
             exit={reduce ? undefined : { opacity: 0 }}
             transition={{ duration: DUR.fast, ease: EASE.out }}
           >
-            {/* soft emerald aura bleeding from the top so the sheet reads as lit */}
+            {/* a hairline under the sheet header instead of the aura that used
+                to bleed in from the top; on paper the aura read as a smudge */}
             <div
               aria-hidden
-              className="pointer-events-none absolute inset-0 bg-[radial-gradient(90%_60%_at_50%_0%,rgba(16,185,129,0.1)_0%,transparent_60%)]"
+              className="pointer-events-none absolute inset-x-0 top-20 h-px bg-line"
             />
             <div className="relative flex h-20 items-center justify-between px-6">
               <span className="flex items-center" aria-label={NAV.brand}>
@@ -241,7 +240,7 @@ export function Nav() {
               <Link
                 href={isHome ? hashOf(NAV.cta.href) ?? NAV.cta.href : NAV.cta.href}
                 onClick={() => setOpen(false)}
-                className="mt-8 inline-flex w-fit items-center rounded-full bg-linear-to-r from-accent-solid to-accent px-6 py-3 font-sans text-sm font-semibold text-accent-ink shadow-[0_0_20px_-8px_rgba(16,185,129,0.5)] active:scale-[0.98]"
+                className="mt-8 inline-flex w-fit items-center rounded-full bg-accent-solid px-6 py-3 font-sans text-sm font-semibold text-accent-ink transition-colors hover:bg-accent-dim active:scale-[0.98]"
               >
                 {NAV.cta.label}
               </Link>
