@@ -23,7 +23,7 @@ const spaceGrotesk = Space_Grotesk({
   display: "swap",
 });
 
-const TITLE = "Sampeer Studio - Storytelling Websites, Growth Systems & AI Automation";
+const TITLE = "SAMPeer Studio - Storytelling Websites, Growth Systems & AI Automation";
 const DESCRIPTION =
   "We help startups and ambitious businesses become impossible to ignore through premium storytelling websites, AI-powered growth systems, founder branding, and automation.";
 
@@ -38,7 +38,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: TITLE,
     description: DESCRIPTION,
-    siteName: "Sampeer Studio",
+    siteName: "SAMPeer Studio",
     type: "website",
     url: SITE_URL,
   },
@@ -50,17 +50,28 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 };
 
-/** Structured data — lets Google render Sampeer as a real org, not a page. */
+/** Structured data — lets Google render SAMPeer as a real org, not a page. */
 const JSON_LD = {
   "@context": "https://schema.org",
   "@type": "ProfessionalService",
-  name: "Sampeer Studio",
+  name: "SAMPeer Studio",
   description: DESCRIPTION,
   url: SITE_URL,
   logo: `${SITE_URL}/logo.png`,
   slogan: "Get noticed. Remembered. Chosen.",
   sameAs: ["https://www.linkedin.com/in/syedmukheeth/"],
 };
+
+/**
+ * JSON.stringify does NOT escape `<`, so a value containing `</script>` would
+ * close the tag early and turn the rest into live markup. Everything above is
+ * a hardcoded constant today, so nothing is injectable — but this block is one
+ * careless edit (a CMS field, a prop, a templated description) away from being
+ * an XSS sink, and the escape costs nothing.
+ */
+function safeJsonLd(data: unknown) {
+  return JSON.stringify(data).replace(/</g, "\\u003c");
+}
 
 export const viewport: Viewport = {
   themeColor: "#0a0b0b",
@@ -75,7 +86,7 @@ export default function RootLayout({
       <head>
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }}
+          dangerouslySetInnerHTML={{ __html: safeJsonLd(JSON_LD) }}
         />
       </head>
       <body className="min-h-dvh bg-canvas text-ink antialiased">

@@ -6,21 +6,18 @@
  * stats, and testimonials still carry stand-ins; mock values are tagged
  * `// mock` / `// TODO`. Swap real data here; components do not change.
  *
- * Image helper: stockImg(seed, w, h) -> deterministic Picsum URL.
+ * Every image referenced here is a local /public asset — no remote hosts, so
+ * next/image needs no remotePatterns and never fetches third-party bytes.
  */
 
 import { serpentine } from "@/lib/flow";
 import { A_CONSOLE_URL } from "@/lib/content-automations";
 
-export function stockImg(seed: string, w: number, h: number) {
-  return `https://picsum.photos/seed/${seed}/${w}/${h}`;
-}
-
 /* ---------------------------------------------------------------- nav */
 /* Hrefs are root-relative, not bare hashes: the site is no longer one page,
    and `#work` from /automations goes nowhere. Nav resolves these per route. */
 export const NAV = {
-  brand: "Sampeer Studio",
+  brand: "SAMPeer Studio",
   links: [
     { label: "Work", href: "/#work" },
     { label: "Approach", href: "/#build" },
@@ -288,8 +285,8 @@ export const CASE_ASRG: CaseStudyData = {
     title: "On the ground",
     caption: "On-site at the ASRG Construction office in Kurnool - where the project was signed.",
     photos: [
-      { src: "/asrg-client.webp", alt: "Sampeer Studio founder shaking hands with the ASRG Construction owner", caption: "Sealing the project" },
-      { src: "/asrg-client-2.webp", alt: "Sampeer Studio founder with the ASRG Construction owner at their office", caption: "With the ASRG team, Kurnool" },
+      { src: "/asrg-client.webp", alt: "SAMPeer Studio founder shaking hands with the ASRG Construction owner", caption: "Sealing the project" },
+      { src: "/asrg-client-2.webp", alt: "SAMPeer Studio founder with the ASRG Construction owner at their office", caption: "With the ASRG team, Kurnool" },
     ],
   },
   outcome: {
@@ -725,7 +722,7 @@ export const TESTIMONIALS: Testimonial[] = [
   {
     id: "asrg",
     quote:
-      "Sampeer Studio gave us a premium storytelling website and handled our SEO and Google Business Profile professionally. Our online presence finally matches the work we do.",
+      "SAMPeer Studio gave us a premium storytelling website and handled our SEO and Google Business Profile professionally. Our online presence finally matches the work we do.",
     name: "ASRG Construction",
     role: "Construction & Civil · Kurnool",
     photo: "/asrg-client.webp",
@@ -750,7 +747,7 @@ export const PROCESS: Step[] = [
 /* §07 Syed POV. Manifesto, not bio. */
 export const ABOUT = {
   name: "Syed Abdul Mukheeth Peer",
-  role: "Founder, Sampeer Studio",
+  role: "Founder, SAMPeer Studio",
   photo: "/founder.webp",
   linkedin: "https://www.linkedin.com/in/syedmukheeth/",
   manifesto: [
@@ -775,7 +772,7 @@ export const CTA = {
 
 /* ------------------------------------------------------------- footer */
 export const FOOTER = {
-  brand: "Sampeer Studio",
+  brand: "SAMPeer Studio",
   line: "The growth layer your startup is missing.",
   email: "sampeerstudio@gmail.com",
   socials: [

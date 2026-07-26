@@ -5,9 +5,9 @@ import { CTA } from "@/components/sections/CTA";
 import { CaseStudy } from "@/components/case/CaseStudy";
 import { CASE_AURUM } from "@/lib/content";
 
-const TITLE = "Aurum Resorts - Concept Build | Sampeer Studio";
+const TITLE = "Aurum Resorts - Concept Build | SAMPeer Studio";
 const DESCRIPTION =
-  "A luxury private-island resort website concept by Sampeer Studio - stillness, cinematic imagery, and restraint as a sales tool.";
+  "A luxury private-island resort website concept by SAMPeer Studio - stillness, cinematic imagery, and restraint as a sales tool.";
 
 export const metadata: Metadata = {
   title: TITLE,
@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: TITLE,
     description: DESCRIPTION,
-    siteName: "Sampeer Studio",
+    siteName: "SAMPeer Studio",
     type: "article",
     url: "/work/aurum",
   },

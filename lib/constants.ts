@@ -3,13 +3,20 @@
  * Content/data lands here in Phase 1 — keep copy out of components.
  */
 
-/** Systemic z-index scale. Never spray arbitrary z values in components. */
+/**
+ * Systemic z-index scale. Never spray arbitrary z values in components.
+ *
+ * The nav is the last layer on the page — nothing persistent paints over it.
+ * `overlay` is the one thing above it, and only because the mobile sheet IS
+ * the nav in its expanded state.
+ */
 export const Z = {
   base: 0,
   raised: 10,
+  spine: 30,
+  grain: 35,
   nav: 40,
   overlay: 50,
-  grain: 60,
 } as const;
 
 /** Brand tokens mirrored from globals.css for JS-driven motion/canvas use.
