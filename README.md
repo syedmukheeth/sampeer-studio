@@ -31,15 +31,15 @@ npm run start    # serve production build
 3. Add the custom domain in Vercel → Settings → Domains. SSL is automatic.
 4. Redeploy after the content swaps below.
 
-## Before public launch — swap placeholders
+## Before Public Launch
 
-All marked `// TODO` or `// mock`:
+Code placeholders have been cleared. Remaining launch checks are owner/content tasks:
 
-- [ ] Real domain in `app/layout.tsx` (`metadataBase`), `app/robots.ts`, `app/sitemap.ts`.
-- [ ] Real client names + outcomes + stats in `lib/content.ts` (`WORK`, `STATS`).
-- [ ] Real work screenshots — replace `stockImg(...)` Picsum seeds with real image URLs (add their host to `next.config.ts` `remotePatterns`, or drop files in `public/`).
-- [ ] Syed photo + real LinkedIn in `ABOUT`.
-- [ ] Real email / Calendly endpoint in `CTA.action` and `FOOTER`.
+- [ ] Custom domain: update `SITE_URL` in `lib/constants.ts` after the domain is live.
+- [ ] Confirm client names, industries, descriptions, stats, and permissions in `lib/content.ts`.
+- [x] Work screenshots are local files in `public/work/`.
+- [x] Syed photo and LinkedIn are wired in `ABOUT`.
+- [x] Public email and contact form fallback are wired; add Vercel env vars before production lead capture.
 - [ ] Verify hero verdict + problem copy read the way you want.
 
 ## Go-live checklist

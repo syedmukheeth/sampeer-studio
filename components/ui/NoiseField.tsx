@@ -56,8 +56,8 @@ float fbm(vec2 p){
 void main(){
   vec2 uv = gl_FragCoord.xy / uRes.xy;
 
-  // base canvas colour, off-white paper #fafaf8 (never pure #fff)
-  vec3 base = vec3(0.980, 0.980, 0.973);
+  // base canvas colour, warm daylight paper #f6f2ea (never pure #fff)
+  vec3 base = vec3(0.965, 0.949, 0.918);
 
   // drifting fbm grain, agitated while unresolved and quiet once settled. The
   // whole field is inverted for paper: grain now SUBTRACTS, so it reads as fine

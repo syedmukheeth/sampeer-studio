@@ -1,20 +1,12 @@
 /**
  * SINGLE SOURCE OF CONTENT for the whole page.
  * Components read from here, no copy hardcoded in JSX.
- *
- * PLACEHOLDER STATUS: WORK (§04) is real, six live client sites. Pillars,
- * stats, and testimonials still carry stand-ins; mock values are tagged
- * `// mock` / `// TODO`. Swap real data here; components do not change.
- *
- * Image helper: stockImg(seed, w, h) -> deterministic Picsum URL.
+ * Launch content lives here so components stay focused on presentation.
  */
 
 import { serpentine } from "@/lib/flow";
 import { A_CONSOLE_URL } from "@/lib/content-automations";
 
-export function stockImg(seed: string, w: number, h: number) {
-  return `https://picsum.photos/seed/${seed}/${w}/${h}`;
-}
 
 /* ---------------------------------------------------------------- nav */
 /* Hrefs are root-relative, not bare hashes: the site is no longer one page,
@@ -304,7 +296,7 @@ export const CASE_ASRG: CaseStudyData = {
  * clients, so the copy is honest about that: no invented clients, metrics, or
  * testimonials. The challenge/solution read as design rationale, the problem
  * the *category* faces, and the decision the build makes about it. Visual proof
- * is a desktop + mobile capture of the live site (public/work/shots/). */
+ * is the local poster plus the live embedded site. */
 
 export const CASE_AURUM: CaseStudyData = {
   slug: "aurum",
@@ -688,9 +680,7 @@ export const BRANDING = {
 } as const;
 
 /* -------------------------------------------------------------- stats */
-/* §05 Proof numbers, count-up. LinkedIn-led social proof, the audience is
- * the asset. Only `followers` is real today; the rest are tagged TODO and are
- * a one-line swap once you send the real figures from LinkedIn analytics. */
+/* Section 05: Proof numbers, count-up. LinkedIn-led social proof; the audience is the asset. */
 /** `value` count-ups; `text` renders verbatim (for honest non-numeric proof
  *  like a reach or a portfolio state). One or the other, never both. */
 export type Stat = { value?: number; suffix?: string; decimals?: number; text?: string; label: string };
@@ -704,8 +694,7 @@ export const STATS: Stat[] = [
 
 
 /* ------------------------------------------------------ testimonials */
-/* §05.5 Founder voices. Editorial pull-quotes, not cards. Placeholder copy +
- * names (mock), swap for real founder quotes here; component does not change. */
+/* Section 05.5: Founder voices. Editorial pull-quotes, not cards. */
 export type Testimonial = {
   id: string;
   quote: string;

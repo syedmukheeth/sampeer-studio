@@ -1,7 +1,10 @@
 /**
  * Single source of truth for cross-cutting design constants.
- * Content/data lands here in Phase 1 — keep copy out of components.
+ * Content/data belongs in lib/content.ts; keep copy out of components.
  */
+
+/** Public production URL in use today. Swap this when the custom domain is live. */
+export const SITE_URL = "https://sampeer-studio.vercel.app";
 
 /** Systemic z-index scale. Never spray arbitrary z values in components. */
 export const Z = {
