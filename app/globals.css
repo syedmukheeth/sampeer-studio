@@ -27,7 +27,7 @@
 */
 
 @theme {
-  --color-canvas: #fafaf8; /* page background, off-white paper (never #fff) */
+  --color-canvas: #f6f2ea; /* page background, warm daylight paper (never #fff) */
   --color-elevated: #ffffff; /* raised surface, cards lift off the paper */
   --color-elevated-2: #f2f2ee; /* second tier, hover/active/pressed card states */
   --color-ink: #1a1a19; /* primary text, near-black (never #000) */
@@ -43,7 +43,7 @@
   --color-accent-solid: #3f6152; /* sage button fill, paper-white rides on top */
   --color-accent-dim: #2c453a; /* pressed / secondary accent state */
   --color-accent-soft: rgba(63, 97, 82, 0.08); /* tints, veils, active-pill fill, no ad-hoc accent/10 */
-  --color-accent-ink: #fafaf8; /* paper-white text on the sage fill */
+  --color-accent-ink: #f6f2ea; /* paper-white text on the sage fill */
 
   /* Kept as a token so nothing importing it breaks, but flattened to a single
      hue at two depths. A two-colour sweep was the loudest thing on the page. */
@@ -124,6 +124,10 @@ body {
   font-family: var(--font-sans);
 }
 
+.variable-proximity {
+  font-family: var(--font-roboto-flex), var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
+}
+
 ::selection {
   background: var(--color-accent);
   color: var(--color-accent-ink);
@@ -196,6 +200,78 @@ summary,
   30% {
     opacity: 1;
   }
+}
+
+/* GlitchText (react-bits), repaletted. The duplicated channels are pseudo
+   elements filled with the page ground so they hide the original beneath them;
+   on paper that ground is the canvas, not black. Inline, so it can sit inside a
+   sentence without breaking the line box. */
+.glitch {
+  position: relative;
+  display: inline-block;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.glitch::after,
+.glitch::before {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: inherit;
+  background-color: var(--color-canvas);
+  overflow: hidden;
+  clip-path: inset(0 0 0 0);
+}
+
+.glitch:not(.enable-on-hover)::after {
+  left: 3px;
+  text-shadow: var(--after-shadow, -3px 0 var(--color-accent));
+  animation: animate-glitch var(--after-duration, 3s) infinite linear alternate-reverse;
+}
+.glitch:not(.enable-on-hover)::before {
+  left: -3px;
+  text-shadow: var(--before-shadow, 3px 0 var(--color-muted));
+  animation: animate-glitch var(--before-duration, 2s) infinite linear alternate-reverse;
+}
+
+.glitch.enable-on-hover::after,
+.glitch.enable-on-hover::before {
+  content: "";
+  opacity: 0;
+  animation: none;
+}
+
+.glitch.enable-on-hover:hover::after,
+.glitch.enable-on-hover:focus-visible::after {
+  content: attr(data-text);
+  opacity: 1;
+  left: 3px;
+  text-shadow: var(--after-shadow, -3px 0 var(--color-accent));
+  animation: animate-glitch var(--after-duration, 3s) infinite linear alternate-reverse;
+}
+.glitch.enable-on-hover:hover::before,
+.glitch.enable-on-hover:focus-visible::before {
+  content: attr(data-text);
+  opacity: 1;
+  left: -3px;
+  text-shadow: var(--before-shadow, 3px 0 var(--color-muted));
+  animation: animate-glitch var(--before-duration, 2s) infinite linear alternate-reverse;
+}
+
+@keyframes animate-glitch {
+  0% { clip-path: inset(20% 0 50% 0); }
+  10% { clip-path: inset(15% 0 55% 0); }
+  20% { clip-path: inset(30% 0 40% 0); }
+  30% { clip-path: inset(10% 0 60% 0); }
+  40% { clip-path: inset(25% 0 35% 0); }
+  50% { clip-path: inset(20% 0 50% 0); }
+  60% { clip-path: inset(15% 0 55% 0); }
+  70% { clip-path: inset(30% 0 40% 0); }
+  80% { clip-path: inset(20% 0 50% 0); }
+  90% { clip-path: inset(15% 0 55% 0); }
+  100% { clip-path: inset(30% 0 40% 0); }
 }
 
 /* Reduced motion: collapse everything to instant/static. */

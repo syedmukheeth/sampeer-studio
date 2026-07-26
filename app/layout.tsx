@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Space_Grotesk } from "next/font/google";
+import { Inter, Roboto_Flex, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
@@ -7,6 +7,8 @@ import { LenisProvider } from "@/components/providers/LenisProvider";
 import { ScrollDepth } from "@/components/analytics/ScrollDepth";
 import { Spine } from "@/components/ui/Spine";
 import { Grain } from "@/components/ui/Grain";
+import { ShapeGrid } from "@/components/ui/ShapeGrid";
+import { SITE_URL } from "@/lib/constants";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -23,12 +25,16 @@ const spaceGrotesk = Space_Grotesk({
   display: "swap",
 });
 
+const robotoFlex = Roboto_Flex({
+  variable: "--font-roboto-flex",
+  subsets: ["latin"],
+  display: "swap",
+});
+
 const TITLE = "Sampeer Studio - Storytelling Websites, Growth Systems & AI Automation";
 const DESCRIPTION =
   "We help startups and ambitious businesses become impossible to ignore through premium storytelling websites, AI-powered growth systems, founder branding, and automation.";
 
-// live URL today; swap to the custom domain when it's live (one line)
-const SITE_URL = "https://sampeer-studio.vercel.app";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -71,14 +77,23 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${spaceGrotesk.variable} ${inter.variable}`}>
+    <html lang="en" className={`${spaceGrotesk.variable} ${inter.variable} ${robotoFlex.variable}`}>
       <head>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }}
         />
       </head>
-      <body className="min-h-dvh bg-canvas text-ink antialiased">
+      <body className="relative min-h-dvh bg-canvas text-ink antialiased">
+        <ShapeGrid
+          className="pointer-events-none fixed inset-0 z-0 h-dvh w-dvw opacity-25 [mask-image:linear-gradient(to_bottom,transparent_0%,black_12%,black_88%,transparent_100%)]"
+          speed={0.12}
+          squareSize={76}
+          direction="diagonal"
+          borderColor="rgba(63, 97, 82, 0.12)"
+          hoverFillColor="rgba(63, 97, 82, 0.18)"
+          shape="square"
+        />
         {/* First stop in the tab order; hidden until focused. */}
         <a className="skip-link" href="#main">
           Skip to content
