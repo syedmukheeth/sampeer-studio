@@ -111,18 +111,6 @@ export const PILLARS: Pillar[] = [
   },
 ];
 
-/** The storytelling website pillar's live machine, rendered by PillarGraphic via Flow. */
-export const PILLAR_STORY_FLOW = serpentine(
-  [
-    { label: "Visitor", icon: "globe", kind: "trigger", meta: "0.0s", activeMeta: "arriving…", doneMeta: "landed" },
-    { label: "Story Hook", icon: "lightbulb", kind: "ai", meta: "headline", activeMeta: "engaging…", doneMeta: "hooked ✓" },
-    { label: "Proof Wall", icon: "trophy", kind: "metric", meta: "6 cases", activeMeta: "building trust…", doneMeta: "trust 100%" },
-    { label: "Believer", icon: "star", kind: "outcome", meta: "lead", activeMeta: "converting…", doneMeta: "converted ✓" },
-  ],
-  2,
-  { payload: "trust" },
-);
-
 /** The growth pillar's live machine, rendered by PillarGraphic via Flow. */
 export const PILLAR_GROWTH_FLOW = serpentine(
   [
@@ -134,18 +122,6 @@ export const PILLAR_GROWTH_FLOW = serpentine(
   ],
   2,
   { payload: "lead" },
-);
-
-/** The founder brand pillar's live machine, rendered by PillarGraphic via Flow. */
-export const PILLAR_FOUNDER_FLOW = serpentine(
-  [
-    { label: "Founder Post", icon: "user", kind: "trigger", meta: "in/syedmukheeth", activeMeta: "publishing…", doneMeta: "posted" },
-    { label: "Authority", icon: "megaphone", kind: "action", meta: "8.7K reach", activeMeta: "broadcasting…", doneMeta: "8.7K reach" },
-    { label: "Viral Reach", icon: "rocket", kind: "metric", meta: "350K views", activeMeta: "trending…", doneMeta: "350K views" },
-    { label: "Inbound Deals", icon: "chat", kind: "outcome", meta: "pipeline", activeMeta: "booking…", doneMeta: "partnered ✓" },
-  ],
-  2,
-  { payload: "authority" },
 );
 
 /* --------------------------------------------------------------- work */

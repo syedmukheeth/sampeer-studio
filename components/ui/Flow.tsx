@@ -137,8 +137,11 @@ export function Flow({
    *  like the Catalog cards, where the full anatomy would truncate labels */
   compact = false,
   /** Draw the animated canvas on phones too, with the stepper dropping to
-   *  screen-reader only. On by default so all diagram visuals stay alive on mobile. */
-  canvasOnMobile = true,
+   *  screen-reader only. Off by default: at catalog sizes the diagram is
+   *  unreadable on a narrow screen, so the text stepper is the better visual.
+   *  Where the diagram IS the point — the growth pillar, whose whole claim is
+   *  a machine you watch run — a static list on mobile shows nothing running. */
+  canvasOnMobile = false,
   label,
   className,
 }: {
