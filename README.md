@@ -1,53 +1,67 @@
-# Sampeer Studio
+# SAMPeer — Storytelling & Growth Studio
 
-The growth layer your startup is missing. One-page storytelling site.
+> The growth layer your startup is missing. Modern, high-conversion storytelling website built with Next.js 16, GSAP, Motion, and Tailwind CSS.
 
-**Stack:** Next.js 16 (App Router) · React 19 · Tailwind v4 · Motion · GSAP ScrollTrigger · Lenis · self-hosted Clash Display + Inter.
+🌐 **Live Demo:** [https://sam-peer.vercel.app](https://sam-peer.vercel.app)
 
-## Local
+---
+
+## ⚡ Tech Stack
+
+- **Framework:** Next.js 16 (App Router) & React 19
+- **Styling:** Tailwind CSS v4 & Vanilla CSS Design System
+- **Animations:** GSAP (ScrollTrigger), Motion, Lenis Smooth Scroll
+- **Typography:** Self-hosted Clash Display + Inter
+- **Deployment:** Vercel
+
+---
+
+## 🚀 Getting Started
+
+### Local Development
 
 ```bash
+# Clone the repository
+git clone https://github.com/06Faisal/SAMPeer.git
+cd SAMPeer
+
+# Install dependencies
 npm install
-npm run dev      # http://localhost:3000
-npm run build    # production build
-npm run start    # serve production build
+
+# Run development server
+npm run dev
 ```
 
-## Architecture
+Open [http://localhost:3000](http://localhost:3000) with your browser to view the application.
 
-- `app/layout.tsx` — fonts, Lenis provider, metadata, viewport.
-- `app/page.tsx` — section assembly only.
-- `app/globals.css` — design tokens (dark lock), reduced-motion collapse.
-- `lib/content.ts` — **all copy + data** (edit content here, not in components).
-- `lib/constants.ts` — z-index scale, brand tokens, easing.
-- `components/sections/*` — the 8 sections + nav + footer.
-- `components/ui/*` — motion primitives (Magnetic, TiltCard, CountUp, Reveal).
-- `app/opengraph-image.tsx` · `app/icon.tsx` · `app/robots.ts` · `app/sitemap.ts` · `app/manifest.ts` — generated metadata assets.
+### Production Build
 
-## Deploy (Vercel)
+```bash
+npm run build
+npm run start
+```
 
-1. Push this repo to GitHub.
-2. Import the repo at vercel.com/new. Framework auto-detects Next.js. No build config needed.
-3. Add the custom domain in Vercel → Settings → Domains. SSL is automatic.
-4. Redeploy after the content swaps below.
+---
 
-## Before Public Launch
+## 📁 Architecture Overview
 
-Code placeholders have been cleared. Remaining launch checks are owner/content tasks:
+- `app/layout.tsx` — Root layout, self-hosted fonts, Lenis provider, viewport & metadata.
+- `app/page.tsx` — Main section assembly.
+- `app/globals.css` — Global CSS variables, custom typography, design tokens.
+- `lib/content.ts` — Centralized content structure for all copy, metrics, and project data.
+- `lib/constants.ts` — Core brand constants, layout metrics, and z-index scales.
+- `components/sections/*` — Page sections (Hero, About, Work, Automation Lab, Process, Build, Footer).
+- `components/ui/*` — Reusable interactive UI primitives (CardSwap, TextType, LineSidebar, TiltCard, Magnetic).
+- `app/api/contact/route.ts` — Resend-powered contact submission API with rate limiting and mailto fallback.
 
-- [ ] Custom domain: update `SITE_URL` in `lib/constants.ts` after the domain is live.
-- [ ] Confirm client names, industries, descriptions, stats, and permissions in `lib/content.ts`.
-- [x] Work screenshots are local files in `public/work/`.
-- [x] Syed photo and LinkedIn are wired in `ABOUT`.
-- [x] Public email and contact form fallback are wired; add Vercel env vars before production lead capture.
-- [ ] Verify hero verdict + problem copy read the way you want.
+---
 
-## Go-live checklist
+## 🌐 Deployment (Vercel)
 
-- [ ] Responsive: 375 / 768 / 1024 / 1440.
-- [ ] Motion QA: sticky-stack + horizontal-pan smooth, no cut-off pins.
-- [ ] Reduced-motion: OS toggle → clean static fallback.
-- [ ] Lighthouse: `npx lighthouse <url> --view` (LCP<2.5s, INP<200ms, CLS<0.1).
-- [ ] CTA delivers a real message end to end.
-- [ ] OG card renders in a link-preview test (e.g. paste link in a DM).
-- [ ] Real device: one iOS, one Android.
+This repository is deployed on **Vercel**:
+
+1. Pushes to `main` automatically trigger production deployments.
+2. Production URL: [sam-peer.vercel.app](https://sam-peer.vercel.app)
+3. Environment variables (optional for Resend email service):
+   - `RESEND_API_KEY`: API key for direct email delivery.
+   - `CONTACT_TO`: Receiving email address.
