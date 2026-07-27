@@ -369,6 +369,96 @@ summary,
   transform: translateY(-50%) scaleX(calc(0.7 + var(--effect, 0) * 0.6));
 }
 
+/* BorderBeam: a light that laps the card's outline.
+   The ring is a 1px border painted with a conic gradient whose angle is
+   animated; `mask` clips the fill so only the border shows. An @property
+   declaration makes the angle interpolate — a bare custom property is a string
+   to the animation engine and would jump rather than sweep. */
+@property --beam-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+.border-beam {
+  border: 1px solid transparent;
+  background:
+    conic-gradient(
+        from var(--beam-angle),
+        transparent 0deg,
+        var(--color-accent) 12deg,
+        color-mix(in srgb, var(--color-accent) 40%, transparent) 26deg,
+        transparent 40deg
+      )
+      border-box;
+  /* Shorthands first, composites after: `-webkit-mask` resets the composite
+     mode, so declaring mask-composite before it left the two layers adding
+     together (the whole box filled) instead of cutting the centre out. */
+  -webkit-mask:
+    linear-gradient(#000 0 0) padding-box,
+    linear-gradient(#000 0 0);
+  mask:
+    linear-gradient(#000 0 0) padding-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: border-beam var(--beam-duration, 6s) linear infinite;
+  animation-delay: var(--beam-delay, 0s);
+}
+
+@keyframes border-beam {
+  to {
+    --beam-angle: 360deg;
+  }
+}
+
+/* Shine on links that leave the page.
+   One CSS utility rather than the rAF-driven ShinyText component: these appear
+   a dozen-plus times across the page, and a JS animation frame loop per link
+   would be a real cost for a decorative sweep.
+
+   The band is the accent travelling through the label's own colour, so the
+   link keeps whatever token colour it was given and the text never drops
+   below its normal contrast — `color` stays set for currentColor to resolve
+   against, and only the fill is swapped for the gradient. */
+.link-shine {
+  background-image: linear-gradient(
+    100deg,
+    currentColor 0%,
+    currentColor 40%,
+    var(--color-accent) 50%,
+    currentColor 60%,
+    currentColor 100%
+  );
+  background-size: 250% auto;
+  background-position: 150% center;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: link-shine 4.5s ease-in-out infinite;
+}
+
+/* idles for most of the cycle, then sweeps — a constant travelling highlight
+   on every link at once reads as a page full of loading skeletons */
+@keyframes link-shine {
+  0%,
+  55% {
+    background-position: 150% center;
+  }
+  100% {
+    background-position: -50% center;
+  }
+}
+
+/* on hover the sweep gets out of the way and the label returns to solid ink,
+   so the thing you are about to click is the most legible thing on screen */
+.link-shine:hover,
+a:hover .link-shine,
+.group:hover .link-shine {
+  animation: none;
+  -webkit-text-fill-color: currentColor;
+}
+
 /* The sheen that crosses the founder card. Idles off-frame for most of the
    cycle, then sweeps — a continuous slide would read as a loading shimmer.
    The reduced-motion block below stops it. */
@@ -415,3 +505,6 @@ summary,
     scroll-behavior: auto !important;
   }
 }
+
+/* rebuild touch */
+

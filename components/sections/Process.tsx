@@ -18,7 +18,6 @@ import { EASE, DUR } from "@/lib/constants";
 export function Process() {
   const reduce = useReducedMotion();
   const [active, setActive] = useState(0);
-  const step = PROCESS[active];
 
   return (
     <Section id="process">
@@ -36,24 +35,40 @@ export function Process() {
             />
           </div>
 
-          {/* the selected stage. Height is not reserved: three short bodies of
-              similar length, and pinning it to the tallest would leave a hole
-              under the other two. */}
-          <div className="md:col-span-7 md:pt-4">
-            {/* keyed remount rather than AnimatePresence: `mode="wait"` holds
-                the new paragraph until the old one's exit finishes, so a
-                stalled exit leaves the panel empty. The copy is the point —
-                it swaps immediately and fades in on top of nothing. */}
-            <motion.p
-              key={step.id}
-              initial={reduce ? false : { opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: reduce ? 0 : DUR.fast, ease: EASE.out }}
-              className="max-w-lg font-sans text-lg leading-relaxed text-muted md:text-xl"
-            >
-              {step.body}
-            </motion.p>
-          </div>
+          {/* All three stay readable; the selected one is set larger and in
+              ink, the others shrink back to muted. Swapping to a single body
+              hid two thirds of the process behind a click nobody is told to
+              make — this keeps the whole sequence on the page and still gives
+              the rail something to do. */}
+          <ol className="md:col-span-7 md:pt-2">
+            {PROCESS.map((s, i) => {
+              const on = i === active;
+              return (
+                <motion.li
+                  key={s.id}
+                  onMouseEnter={() => setActive(i)}
+                  animate={
+                    reduce
+                      ? undefined
+                      : { opacity: on ? 1 : 0.55, scale: on ? 1 : 0.97, x: on ? 0 : -4 }
+                  }
+                  transition={{ duration: DUR.fast, ease: EASE.out }}
+                  className="origin-left border-l-2 py-3 pl-5 first:pt-0"
+                  style={{
+                    borderColor: on ? "var(--color-accent)" : "var(--color-line)",
+                  }}
+                >
+                  <p
+                    className={`font-sans leading-relaxed transition-[font-size,color] duration-300 ${
+                      on ? "text-lg text-ink md:text-xl" : "text-sm text-muted md:text-base"
+                    }`}
+                  >
+                    {s.body}
+                  </p>
+                </motion.li>
+              );
+            })}
+          </ol>
         </div>
       </div>
     </Section>

@@ -278,6 +278,19 @@ export function ShapeGrid({
       if (event.type === "pointerleave" ? isMouse : !isMouse) pointer.current = null;
     };
 
+    // A backgrounded tab should not be redrawing a full-viewport canvas. rAF is
+    // usually throttled there, but not reliably across browsers, and this one
+    // runs on every page for the life of the session.
+    const onVisibility = () => {
+      if (document.hidden) {
+        cancelAnimationFrame(requestRef.current);
+        requestRef.current = 0;
+      } else if (!requestRef.current) {
+        requestRef.current = requestAnimationFrame(reduce ? staticFrame : updateAnimation);
+      }
+    };
+    document.addEventListener("visibilitychange", onVisibility);
+
     resizeCanvas();
     window.addEventListener("resize", resizeCanvas);
     window.addEventListener("pointermove", handlePointerMove, { passive: true });
@@ -288,6 +301,7 @@ export function ShapeGrid({
     requestRef.current = requestAnimationFrame(updateAnimation);
 
     return () => {
+      document.removeEventListener("visibilitychange", onVisibility);
       window.removeEventListener("resize", resizeCanvas);
       window.removeEventListener("pointermove", handlePointerMove);
       window.removeEventListener("pointerdown", handlePointerMove);

@@ -35,7 +35,11 @@ export function SplitText({
   delay = 40,
   duration = 1.1,
   ease = "power3.out",
-  splitType = "chars",
+  // "words,chars" rather than bare "chars": splitting straight to characters
+  // makes every letter its own inline-block, which lets the browser wrap
+  // mid-word ("inside" broke as "i" / "nside"). Nesting chars inside word
+  // spans keeps words atomic and still animates per letter.
+  splitType = "words,chars",
   from = { opacity: 0, y: 28 },
   to = { opacity: 1, y: 0 },
   threshold = 0.15,

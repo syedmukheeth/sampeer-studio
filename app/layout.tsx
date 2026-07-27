@@ -86,7 +86,10 @@ export default function RootLayout({
       </head>
       <body className="relative min-h-dvh bg-canvas text-ink antialiased">
         <ShapeGrid
-          className="pointer-events-none fixed inset-0 z-0 h-dvh w-dvw opacity-25 [mask-image:linear-gradient(to_bottom,transparent_0%,black_12%,black_88%,transparent_100%)]"
+          // desktop only: a full-viewport canvas animating for the life of the
+          // session is a real frame budget on a phone, and it is background
+          // texture — the least valuable thing competing with a touch scroll
+          className="pointer-events-none fixed inset-0 z-0 hidden h-dvh w-dvw opacity-25 [mask-image:linear-gradient(to_bottom,transparent_0%,black_12%,black_88%,transparent_100%)] md:block"
           speed={0.12}
           squareSize={76}
           direction="diagonal"

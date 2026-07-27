@@ -1,6 +1,34 @@
 "use client";
 
-import { useCallback, useEffect, useRef, type ReactNode } from "react";
+import { useCallback, useEffect, useRef, useSyncExternalStore, type ReactNode } from "react";
+
+/** Phones and reduced-motion get a plain stack. Read as a live subscription,
+ *  not a one-shot check: the effect below only runs on mount, so a viewport
+ *  that crosses the breakpoint afterwards used to keep whatever transforms it
+ *  had — a desktop-sized page resized down left six cards pinned on top of
+ *  each other and over the section beneath. */
+const PLAIN = "(prefers-reduced-motion: reduce), (max-width: 767px)";
+
+function usePlainStack() {
+  return useSyncExternalStore(
+    (onChange) => {
+      const mq = window.matchMedia(PLAIN);
+      mq.addEventListener("change", onChange);
+      // resize as well: some embedders (and DevTools' responsive mode, which is
+      // exactly where a viewport crosses the breakpoint mid-session) resize
+      // without firing a matchMedia change.
+      window.addEventListener("resize", onChange);
+      return () => {
+        mq.removeEventListener("change", onChange);
+        window.removeEventListener("resize", onChange);
+      };
+    },
+    () => window.matchMedia(PLAIN).matches,
+    // the server cannot know the viewport; assume the plain stack, so the
+    // first paint is the safe one and the effect upgrades it
+    () => true,
+  );
+}
 
 export function ScrollStackItem({
   children,
@@ -64,6 +92,8 @@ export function ScrollStack({
   /** Document-space tops, measured from layout and cached. */
   const tops = useRef<number[]>([]);
   const endTop = useRef(0);
+  const lastScroll = useRef(-1);
+  const plain = usePlainStack();
 
   /** Walk the offsetParent chain: offsetTop is layout position and ignores
    *  transforms, unlike getBoundingClientRect, which reports the box we just
@@ -88,6 +118,11 @@ export function ScrollStack({
     if (!cards.length || !tops.current.length) return;
 
     const scrollTop = window.scrollY;
+    // nothing moved: skip the whole pass rather than recompute six cards to
+    // arrive at the transforms they already have
+    if (scrollTop === lastScroll.current) return;
+    lastScroll.current = scrollTop;
+
     const viewport = window.innerHeight;
     const pct = (value: string) => (parseFloat(value) / 100) * viewport;
     const stackPx = pct(stackPosition);
@@ -146,7 +181,12 @@ export function ScrollStack({
   useEffect(() => {
     const root = scroller.current;
     if (!root) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    // Pinning six poster-sized cards means rewriting six transforms per frame
+    // against a touch scroller that is already the most expensive thing on the
+    // device, and on a screen barely taller than one card it reads as stutter
+    // rather than depth. `plain` is reactive, so crossing the breakpoint
+    // re-runs this effect and the cleanup below strips the stale transforms.
+    if (plain) return;
 
     const cards = Array.from(root.querySelectorAll<HTMLElement>(".scroll-stack-card"));
     cardsRef.current = cards;
@@ -168,21 +208,50 @@ export function ScrollStack({
       update();
       frame.current = requestAnimationFrame(loop);
     };
-    frame.current = requestAnimationFrame(loop);
+
+    // ...but only while the stack is actually on screen. It used to run for the
+    // life of the page: six cards recomputed and rewritten every frame while
+    // the reader was in the hero or the footer, competing with whatever
+    // animation they were actually looking at.
+    let running = false;
+    const play = () => {
+      if (running) return;
+      running = true;
+      frame.current = requestAnimationFrame(loop);
+    };
+    const pause = () => {
+      running = false;
+      cancelAnimationFrame(frame.current);
+    };
+
+    const io = new IntersectionObserver(
+      (entries) => (entries.some((e) => e.isIntersecting) ? play() : pause()),
+      // generous margin: start before the first card is due to pin
+      { rootMargin: "50% 0px 50% 0px" },
+    );
+    io.observe(root);
+
+    // a backgrounded tab keeps firing rAF in some browsers; stop outright
+    const onVisibility = () => (document.hidden ? pause() : play());
+    document.addEventListener("visibilitychange", onVisibility);
 
     const cache = last.current;
     return () => {
-      cancelAnimationFrame(frame.current);
+      pause();
+      io.disconnect();
+      document.removeEventListener("visibilitychange", onVisibility);
       ro.disconnect();
       window.removeEventListener("resize", measure);
       cache.clear();
+      // so a re-enabled stack does not think it is already up to date
+      lastScroll.current = -1;
       cards.forEach((card) => {
         card.style.transform = "";
         card.style.filter = "";
         card.style.marginBottom = "";
       });
     };
-  }, [itemDistance, measure, update]);
+  }, [itemDistance, measure, plain, update]);
 
   return (
     // overflow-anchor:none — the browser's scroll anchoring watches for content
@@ -195,7 +264,9 @@ export function ScrollStack({
           reaches mid-viewport, so without room after the cards that pin was
           still held while the next section scrolled up underneath it — which
           is what put the following copy on top of the cards. */}
-      <div ref={endRef} className="scroll-stack-end h-[70vh] w-full" />
+      {/* zero on phones, where nothing pins and the runway would just be a
+          screen and a half of empty page */}
+      <div ref={endRef} className="scroll-stack-end h-0 w-full md:h-[70vh]" />
     </div>
   );
 }

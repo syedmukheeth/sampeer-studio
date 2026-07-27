@@ -61,7 +61,7 @@ function Card({
               href={href}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-5 inline-flex items-center gap-1 self-start font-sans text-sm font-medium text-accent transition-opacity hover:opacity-80 focus-visible:outline-none focus-visible:underline"
+              className="link-shine mt-5 inline-flex items-center gap-1 self-start font-sans text-sm font-medium text-accent transition-opacity hover:opacity-80 focus-visible:outline-none focus-visible:underline"
             >
               Try it live
               <span aria-hidden>→</span>

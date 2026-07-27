@@ -136,6 +136,12 @@ export function Flow({
   /** shrink the rich card (smaller chip, no status dot) for narrow canvases
    *  like the Catalog cards, where the full anatomy would truncate labels */
   compact = false,
+  /** Draw the animated canvas on phones too, with the stepper dropping to
+   *  screen-reader only. Off by default: at catalog sizes the diagram is
+   *  unreadable on a narrow screen, so the text stepper is the better visual.
+   *  Where the diagram IS the point — the growth pillar, whose whole claim is
+   *  a machine you watch run — a static list on mobile shows nothing running. */
+  canvasOnMobile = false,
   label,
   className,
 }: {
@@ -148,6 +154,7 @@ export function Flow({
   step?: number;
   ambient?: boolean;
   compact?: boolean;
+  canvasOnMobile?: boolean;
   /** names the diagram for screen readers */
   label: string;
   className?: string;
@@ -219,7 +226,7 @@ export function Flow({
       {/* ---------------------------------------------- canvas (md and up) */}
       <div
         aria-hidden
-        className="relative hidden w-full md:block"
+        className={clsx("relative w-full", canvasOnMobile ? "block" : "hidden md:block")}
         style={{ aspectRatio: `${w} / ${h}` }}
       >
         <svg
@@ -459,7 +466,9 @@ export function Flow({
         // an ambient backdrop is decoration, not content — it stays out of the
         // accessibility tree entirely rather than being read aloud
         aria-hidden={ambient || undefined}
-        className={clsx(ambient ? "hidden" : "flex flex-col md:sr-only")}
+        className={clsx(
+          ambient ? "hidden" : canvasOnMobile ? "sr-only" : "flex flex-col md:sr-only",
+        )}
         aria-label={ambient ? undefined : label}
       >
         {nodes.map((n, idx) => {

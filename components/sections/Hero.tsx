@@ -173,7 +173,7 @@ export function Hero() {
             href={HERO.cta.href}
             className="group inline-flex items-center gap-2 font-sans text-sm font-medium text-ink"
           >
-            <span className="border-b border-line pb-1 transition-colors duration-300 group-hover:border-accent">
+            <span className="link-shine border-b border-line pb-1 transition-colors duration-300 group-hover:border-accent">
               {HERO.cta.label}
             </span>
             <ArrowDown

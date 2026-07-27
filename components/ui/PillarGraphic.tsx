@@ -53,6 +53,9 @@ export function PillarGraphic({ variant }: { variant: "story" | "growth" | "foun
           {...PILLAR_GROWTH_FLOW}
           mode="loop"
           step={1000}
+          // this pillar's claim is a machine that runs itself, so the running
+          // machine has to be on screen on a phone too — not a static list
+          canvasOnMobile
           label="The growth system: lead to booked, automatically"
           className="opacity-90"
         />

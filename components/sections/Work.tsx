@@ -29,7 +29,7 @@ export function Work() {
       <Shell className="mb-14">
         <SectionHeader
           eyebrow={WORK_HEADER.eyebrow}
-          title={<SplitText text={WORK_HEADER.title} delay={22} splitType="chars" />}
+          title={<SplitText text={WORK_HEADER.title} delay={22} />}
         />
       </Shell>
 
@@ -78,7 +78,7 @@ function StackCard({ project: w, index }: { project: LiveProject; index: number 
               a card this tall they fell below the fold of the pinned card and
               were the first thing the next card covered */}
           <div className="flex flex-wrap items-center justify-between gap-x-5 gap-y-2">
-            <span className="inline-flex items-center gap-1 font-sans text-xs font-medium text-ink transition-colors group-hover:text-accent-text">
+            <span className="link-shine inline-flex items-center gap-1 font-sans text-xs font-medium text-ink transition-colors group-hover:text-accent-text">
               Visit live site
               <span
                 aria-hidden
@@ -93,7 +93,7 @@ function StackCard({ project: w, index }: { project: LiveProject; index: number 
             {w.caseStudy && (
               <Link
                 href={w.caseStudy}
-                className="relative z-10 inline-flex items-center gap-1 font-sans text-xs text-accent-text underline-offset-4 hover:underline"
+                className="link-shine relative z-10 inline-flex items-center gap-1 font-sans text-xs text-accent-text underline-offset-4 hover:underline"
               >
                 Read the case study
                 <span aria-hidden>→</span>
