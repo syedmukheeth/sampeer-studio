@@ -105,8 +105,14 @@ export function ContactForm({
         name="email"
         type="email"
         required
+        // autoComplete lets the browser fill a known address; inputMode swaps
+        // the phone keyboard to the one with @ and . on the primary row.
+        // Spellcheck on an address only ever produces a red squiggle.
+        autoComplete="email"
+        inputMode="email"
+        spellCheck={false}
         placeholder={emailPlaceholder}
-        className="h-12 rounded-md border border-line bg-elevated px-4 font-sans text-sm text-ink placeholder:text-muted focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/40"
+        className="h-12 rounded-md border border-line bg-elevated px-4 font-sans text-sm text-ink placeholder:text-muted touch-manipulation focus-visible:border-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
       />
 
       <label htmlFor={`${idPrefix}-message`} className="sr-only">
@@ -116,8 +122,9 @@ export function ContactForm({
         id={`${idPrefix}-message`}
         name="message"
         rows={3}
+        autoComplete="off"
         placeholder={messagePlaceholder}
-        className="resize-none rounded-md border border-line bg-elevated px-4 py-3 font-sans text-sm text-ink placeholder:text-muted focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/40"
+        className="resize-none rounded-md border border-line bg-elevated px-4 py-3 font-sans text-sm text-ink placeholder:text-muted touch-manipulation focus-visible:border-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
       />
 
       <Magnetic strength={0.3}>
@@ -126,14 +133,15 @@ export function ContactForm({
           disabled={status === "sending"}
           className="inline-flex h-12 w-full items-center justify-center gap-1.5 rounded-md bg-accent-solid px-6 font-sans text-sm font-medium text-accent-ink transition-[transform,background-color] active:scale-[0.98] active:bg-accent-dim disabled:opacity-60"
         >
-          {status === "sending" ? "Sending" : buttonLabel}
-          <ArrowUpRight size={16} weight="bold" />
+          {status === "sending" ? "Sending…" : buttonLabel}
+          <ArrowUpRight size={16} weight="bold" aria-hidden="true" />
         </button>
       </Magnetic>
 
       {status === "error" && (
         <p className="font-sans text-sm text-muted" role="alert">
-          That didn&apos;t go through. Email directly:{" "}
+          That didn&apos;t go through. Check the address and try again, or email
+          us directly:{" "}
           <a href={`mailto:${fallbackEmail}`} className="text-ink underline underline-offset-4">
             {fallbackEmail}
           </a>

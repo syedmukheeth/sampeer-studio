@@ -19,10 +19,11 @@ export function BrandMark({
       className={className}
     >
       <defs>
+        {/* One hue at two depths. The old three-stop mint-to-green sweep was
+            the brightest thing on the page and fought the paper ground. */}
         <linearGradient id="sampeer-mark" x1="6" y1="3" x2="26" y2="29" gradientUnits="userSpaceOnUse">
-          <stop stopColor="#6ee7b7" />
-          <stop offset="0.55" stopColor="#10b981" />
-          <stop offset="1" stopColor="#059669" />
+          <stop stopColor="#4f7565" />
+          <stop offset="1" stopColor="#2c453a" />
         </linearGradient>
       </defs>
       <path

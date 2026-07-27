@@ -1,50 +1,40 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { List, X } from "@phosphor-icons/react";
-import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { gsap } from "gsap";
 import { NAV } from "@/lib/content";
-import { Magnetic } from "@/components/ui/Magnetic";
 import { Logo } from "@/components/ui/Logo";
 import { TrackClick } from "@/components/analytics/TrackClick";
 import { EVENTS } from "@/lib/analytics";
-import { EASE, DUR } from "@/lib/constants";
 
-/** A nav href is either an on-home anchor ("/#work") or a real route
- *  ("/automations"). Returns the bare hash for the former, null for the
- *  latter — the two need different elements and different active logic. */
 function hashOf(href: string) {
   return href.startsWith("/#") ? href.slice(1) : null;
 }
 
-/** §00 Top nav — a floating frosted-glass PILL, detached from the page edge.
- *  Brand mark + wordmark links + magnetic gradient CTA, all inside one
- *  rounded-full capsule. The active link is lit by a glowing pill that slides
- *  between links (shared-element `layoutId`), not a flat underline. On scroll
- *  the capsule condenses and its glass deepens.
- *
- *  Route-aware since /automations exists: on home, anchors stay plain <a> so
- *  Lenis smooth-scrolls them and the spy drives the indicator. Anywhere else
- *  those sections don't exist, so every link becomes a real <Link> (prefetch
- *  + client transition) and "active" comes from the pathname instead. */
+/** Tilts are hand-set rather than random so the wall of pills reads as a
+ *  deliberate arrangement and stays identical between renders. */
+const ROTATION = [-6, 5, -4, 6, -5, 4, -3];
+
+/** Navigation as a side rail, not a header. Two bubbles ride the left edge —
+ *  the mark and the toggle — and the toggle throws a full-screen wall of tilted
+ *  pills (react-bits BubbleMenu, rebuilt on this project's tokens, routing and
+ *  scroll-spy). The rail is pointer-transparent apart from the bubbles, so the
+ *  page keeps its full width instead of paying for a permanent sidebar. */
 export function Nav() {
-  const reduce = useReducedMotion();
   const pathname = usePathname();
   const [active, setActive] = useState<string>("");
   const [open, setOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  const overlayRef = useRef<HTMLDivElement>(null);
+  const pillsRef = useRef<HTMLAnchorElement[]>([]);
+  const labelsRef = useRef<HTMLSpanElement[]>([]);
+  const toggleRef = useRef<HTMLButtonElement>(null);
 
   const isHome = pathname === "/";
-
-  // condense the capsule once the page has scrolled past the fold's lip
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  const items = [...NAV.links, { href: NAV.cta.href, label: NAV.cta.label }];
 
   // scroll-spy: mark the link whose section owns the upper viewport
   useEffect(() => {
@@ -71,12 +61,73 @@ export function Nav() {
   }, [isHome]);
 
   /** On home the spy wins; elsewhere the route is the only truth. */
-  function isActive(href: string) {
-    const hash = hashOf(href);
-    return isHome ? hash !== null && active === hash : pathname === href;
-  }
+  const isActive = useCallback(
+    (href: string) => {
+      const hash = hashOf(href);
+      return isHome ? hash !== null && active === hash : pathname === href;
+    },
+    [active, isHome, pathname],
+  );
 
-  // lock body scroll while the mobile sheet is open
+  // The overlay only exists while open, so the pills animate on mount; `mounted`
+  // then keeps it in the DOM long enough for the closing tween.
+  const toggle = useCallback(() => {
+    setMounted(true); // no-op while closing; the close tween clears it again
+    setOpen((v) => !v);
+  }, []);
+
+  useEffect(() => {
+    if (!mounted) return;
+    const overlay = overlayRef.current;
+    const pills = pillsRef.current.filter(Boolean);
+    const labels = labelsRef.current.filter(Boolean);
+    if (!overlay || !pills.length) return;
+
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const ctx = gsap.context(() => {
+      if (open) {
+        if (reduce) {
+          gsap.set(pills, { scale: 1, rotate: 0 });
+          gsap.set(labels, { y: 0, autoAlpha: 1 });
+          return;
+        }
+        gsap.set(pills, { scale: 0, transformOrigin: "50% 50%" });
+        gsap.set(labels, { y: 24, autoAlpha: 0 });
+        pills.forEach((pill, i) => {
+          gsap
+            .timeline({ delay: i * 0.07 })
+            .to(pill, { scale: 1, duration: 0.5, ease: "back.out(1.5)" })
+            .to(labels[i], { y: 0, autoAlpha: 1, duration: 0.5, ease: "power3.out" }, "-=0.45");
+        });
+        return;
+      }
+      // closing
+      gsap.to(labels, { y: 16, autoAlpha: 0, duration: reduce ? 0 : 0.15, ease: "power3.in" });
+      gsap.to(pills, {
+        scale: 0,
+        duration: reduce ? 0 : 0.2,
+        ease: "power3.in",
+        onComplete: () => setMounted(false),
+      });
+    }, overlay);
+
+    return () => ctx.revert();
+  }, [open, mounted]);
+
+  // Escape closes; focus goes back to the toggle so the keyboard never strands.
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setOpen(false);
+        toggleRef.current?.focus();
+      }
+    };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [open]);
+
+  // lock body scroll while the wall is up
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
     return () => {
@@ -84,185 +135,121 @@ export function Nav() {
     };
   }, [open]);
 
-  return (
-    // pointer-events-none: the header box spans the full viewport width and
-    // includes the strip above the pill, so without this it silently eats
-    // clicks on whatever is scrolling underneath. Only the pill itself and the
-    // mobile sheet opt back in.
-    <header className="pointer-events-none fixed inset-x-0 top-0 z-40 flex justify-center px-4">
-      {/* Masking scrim. The pill is deliberately detached from the top edge,
-          which leaves a transparent strip above and beside it — page content
-          scrolled straight through that gap. This fades the top of the
-          viewport into the canvas so content dissolves as it arrives instead
-          of slicing across the header. Sits behind the pill, never over it. */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-28 bg-linear-to-b from-canvas via-canvas/85 to-transparent"
-      />
+  const bubble =
+    "pointer-events-auto grid place-items-center rounded-full border border-line/70 bg-elevated shadow-[0_4px_20px_rgba(31,41,36,0.10)] transition-transform duration-300 hover:-translate-y-0.5 active:translate-y-0";
 
-      <motion.nav
-        initial={false}
-        animate={{
-          marginTop: scrolled ? 10 : 18,
-          paddingTop: scrolled ? 6 : 8,
-          paddingBottom: scrolled ? 6 : 8,
-        }}
-        transition={reduce ? { duration: 0 } : { duration: DUR.fast, ease: EASE.out }}
-        className={`pointer-events-auto relative flex w-full max-w-(--max-shell) items-center justify-between gap-2 rounded-full border pl-2 pr-2 backdrop-blur-xl transition-colors duration-300 ${
-          scrolled
-            ? "border-accent/20 bg-elevated/80 shadow-[0_8px_30px_-14px_rgba(16,185,129,0.28),inset_0_1px_0_0_rgba(255,255,255,0.04)]"
-            : "border-line/70 bg-elevated/50 shadow-[0_4px_24px_-16px_rgba(0,0,0,0.8),inset_0_1px_0_0_rgba(255,255,255,0.03)]"
-        }`}
-      >
+  return (
+    <>
+      {/* the rail: fixed to the left edge, transparent except for the bubbles */}
+      <div className="pointer-events-none fixed left-4 top-4 z-50 flex flex-col items-center gap-3 md:left-6 md:top-6">
         <Link
           href={isHome ? "#hero" : "/"}
           aria-label={NAV.brand}
-          className="flex items-center"
+          className={`${bubble} h-12 w-12 md:h-14 md:w-14`}
         >
-          <span className="grid h-10 w-10 place-items-center rounded-full bg-canvas/60 ring-1 ring-line transition-all duration-300 hover:ring-accent/40 hover:shadow-[0_0_16px_-6px_rgba(16,185,129,0.4)]">
-            <Logo variant="mark" priority sizes="36px" className="h-7 w-auto" />
-          </span>
+          <Logo variant="mark" priority sizes="34px" className="h-7 w-auto md:h-8" />
         </Link>
 
-        <div className="hidden items-center gap-0.5 md:flex">
-          {NAV.links.map((l) => {
-            const on = isActive(l.href);
-            const hash = hashOf(l.href);
-            const className = `relative rounded-full px-4 py-2 font-sans text-sm transition-colors duration-200 ${
-              on ? "text-ink" : "text-muted hover:text-ink"
-            }`;
-            // the glowing pill that slides behind the active link
-            const indicator = on && (
-              <motion.span
-                layoutId="nav-active"
-                className="absolute inset-0 -z-0 rounded-full bg-accent-soft ring-1 ring-inset ring-accent/25 shadow-[0_0_18px_-8px_rgba(16,185,129,0.4)]"
-                transition={reduce ? { duration: 0 } : { duration: DUR.fast, ease: EASE.out }}
-              />
-            );
-            const label = <span className="relative z-10">{l.label}</span>;
+        <button
+          ref={toggleRef}
+          type="button"
+          onClick={toggle}
+          aria-label={open ? "Close menu" : "Open menu"}
+          aria-expanded={open}
+          className={`${bubble} h-12 w-12 flex-col gap-[5px] md:h-14 md:w-14`}
+        >
+          <span
+            className={`block h-[2px] w-5 rounded-full bg-ink transition-transform duration-300 ${
+              open ? "translate-y-[3.5px] rotate-45" : ""
+            }`}
+          />
+          <span
+            className={`block h-[2px] w-5 rounded-full bg-ink transition-transform duration-300 ${
+              open ? "-translate-y-[3.5px] -rotate-45" : ""
+            }`}
+          />
+        </button>
 
-            // on home, an anchor must stay an <a> so Lenis owns the scroll
-            return isHome && hash ? (
-              <a key={l.href} href={hash} className={className}>
-                {indicator}
-                {label}
-              </a>
-            ) : (
-              <Link key={l.href} href={l.href} className={className}>
-                {indicator}
-                {label}
-              </Link>
-            );
-          })}
-        </div>
-
-        <div className="flex items-center gap-2">
-          <TrackClick event={EVENTS.ctaClickNav}>
-            <Magnetic>
-              <Link
-                href={isHome ? hashOf(NAV.cta.href) ?? NAV.cta.href : NAV.cta.href}
-                className="group relative inline-flex items-center overflow-hidden rounded-full bg-linear-to-r from-accent-solid to-accent px-5 py-2 font-sans text-sm font-semibold text-accent-ink shadow-[0_0_18px_-8px_rgba(16,185,129,0.45)] transition-[transform,box-shadow] duration-300 hover:shadow-[0_0_22px_-6px_rgba(16,185,129,0.6)] active:scale-[0.98]"
-              >
-                <span className="relative z-10">{NAV.cta.label}</span>
-                {/* sheen sweep on hover */}
-                <span
-                  aria-hidden
-                  className="pointer-events-none absolute inset-0 -translate-x-full bg-linear-to-r from-transparent via-white/25 to-transparent transition-transform duration-500 group-hover:translate-x-full"
-                />
-              </Link>
-            </Magnetic>
-          </TrackClick>
-
-          {/* mobile trigger */}
-          <button
-            type="button"
-            onClick={() => setOpen(true)}
-            aria-label="Open menu"
-            className="inline-flex h-10 w-10 items-center justify-center rounded-full text-ink transition-colors hover:bg-accent-soft md:hidden"
+        <TrackClick event={EVENTS.ctaClickNav}>
+          <Link
+            href={isHome ? (hashOf(NAV.cta.href) ?? NAV.cta.href) : NAV.cta.href}
+            className={`${bubble} hidden h-14 w-14 border-transparent bg-accent-solid text-center font-sans text-[10px] font-semibold uppercase leading-[1.1] tracking-wide text-accent-ink md:grid`}
           >
-            <List size={22} weight="bold" />
-          </button>
-        </div>
-      </motion.nav>
+            {NAV.cta.label}
+          </Link>
+        </TrackClick>
+      </div>
 
-      {/* mobile sheet */}
-      <AnimatePresence>
-        {open && (
-          <motion.div
-            className="pointer-events-auto fixed inset-0 z-50 flex flex-col bg-canvas/95 backdrop-blur-xl md:hidden"
-            initial={reduce ? false : { opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={reduce ? undefined : { opacity: 0 }}
-            transition={{ duration: DUR.fast, ease: EASE.out }}
-          >
-            {/* soft emerald aura bleeding from the top so the sheet reads as lit */}
-            <div
-              aria-hidden
-              className="pointer-events-none absolute inset-0 bg-[radial-gradient(90%_60%_at_50%_0%,rgba(16,185,129,0.1)_0%,transparent_60%)]"
-            />
-            <div className="relative flex h-20 items-center justify-between px-6">
-              <span className="flex items-center" aria-label={NAV.brand}>
-                <span className="grid h-10 w-10 place-items-center rounded-full bg-elevated ring-1 ring-line">
-                  <Logo variant="mark" sizes="36px" className="h-7 w-auto" />
-                </span>
-              </span>
-              <button
-                type="button"
-                onClick={() => setOpen(false)}
-                aria-label="Close menu"
-                className="inline-flex h-10 w-10 items-center justify-center rounded-full text-ink ring-1 ring-line transition-colors hover:bg-accent-soft"
-              >
-                <X size={22} weight="bold" />
-              </button>
-            </div>
-
-            <nav className="relative flex flex-1 flex-col justify-center gap-2 px-6 pb-24">
-              {NAV.links.map((l, i) => {
-                const hash = hashOf(l.href);
-                const linkClass =
-                  "font-display text-4xl font-semibold tracking-tight text-ink transition-colors duration-200 hover:text-accent-text";
-                return (
-                  <motion.div
-                    key={l.href}
-                    initial={reduce ? false : { opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{
-                      duration: DUR.base,
-                      delay: 0.05 + i * 0.06,
-                      ease: EASE.out,
+      {/* the wall */}
+      {mounted && (
+        <div
+          ref={overlayRef}
+          className="fixed inset-0 z-40 flex items-center justify-center bg-canvas/95 backdrop-blur-xl"
+        >
+          <nav aria-label={NAV.brand} className="w-full max-w-4xl px-6 md:px-10">
+            <ul className="flex flex-wrap justify-center gap-2 md:gap-3">
+              {items.map((item, i) => {
+                const hash = hashOf(item.href);
+                const on = isActive(item.href);
+                const isCta = i === items.length - 1;
+                const className = `flex w-full items-center justify-center rounded-full border px-6 py-3 text-center font-display text-xl font-medium tracking-tight transition-colors duration-300 md:py-4 md:text-2xl ${
+                  isCta
+                    ? "border-transparent bg-accent-solid text-accent-ink hover:bg-accent-dim"
+                    : on
+                      ? "border-accent/20 bg-accent-soft text-ink"
+                      : "border-line/70 bg-elevated text-ink hover:bg-accent-solid hover:text-accent-ink"
+                }`;
+                const style = { rotate: `${ROTATION[i % ROTATION.length]}deg` };
+                const label = (
+                  <span
+                    ref={(el) => {
+                      if (el) labelsRef.current[i] = el;
                     }}
+                    className="block"
                   >
+                    {item.label}
+                  </span>
+                );
+                const ref = (el: HTMLAnchorElement | null) => {
+                  if (el) pillsRef.current[i] = el;
+                };
+
+                return (
+                  <li
+                    key={item.href}
+                    className="w-full sm:w-[calc(50%-0.375rem)] lg:w-[calc(33.333%-0.667rem)]"
+                  >
+                    {/* on home, an anchor must stay an <a> so Lenis owns the scroll */}
                     {isHome && hash ? (
                       <a
+                        ref={ref}
                         href={hash}
+                        style={style}
                         onClick={() => setOpen(false)}
-                        className={linkClass}
+                        aria-current={on ? "true" : undefined}
+                        className={className}
                       >
-                        {l.label}
+                        {label}
                       </a>
                     ) : (
                       <Link
-                        href={l.href}
+                        ref={ref}
+                        href={item.href}
+                        style={style}
                         onClick={() => setOpen(false)}
-                        className={linkClass}
+                        aria-current={on ? "page" : undefined}
+                        className={className}
                       >
-                        {l.label}
+                        {label}
                       </Link>
                     )}
-                  </motion.div>
+                  </li>
                 );
               })}
-              <Link
-                href={isHome ? hashOf(NAV.cta.href) ?? NAV.cta.href : NAV.cta.href}
-                onClick={() => setOpen(false)}
-                className="mt-8 inline-flex w-fit items-center rounded-full bg-linear-to-r from-accent-solid to-accent px-6 py-3 font-sans text-sm font-semibold text-accent-ink shadow-[0_0_20px_-8px_rgba(16,185,129,0.5)] active:scale-[0.98]"
-              >
-                {NAV.cta.label}
-              </Link>
-            </nav>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </header>
+            </ul>
+          </nav>
+        </div>
+      )}
+    </>
   );
 }

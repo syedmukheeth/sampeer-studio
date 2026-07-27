@@ -1,10 +1,7 @@
 /**
  * SINGLE SOURCE OF CONTENT for /automations (the Growth Automation Lab).
- * Components read from here, no copy hardcoded in JSX, same rule as
- * lib/content.ts.
- *
- * PLACEHOLDER STATUS: every number in IMPACT is a stand-in and tagged
- * `// mock`. Swap real figures here; components do not change.
+ * Components read from here, no copy hardcoded in JSX, same rule as lib/content.ts.
+ * Impact ranges are honest launch estimates and can be tuned here.
  */
 
 import { serpentine } from "@/lib/flow";

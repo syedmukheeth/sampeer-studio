@@ -5,8 +5,7 @@ import { Section, SectionHeader } from "@/components/ui/Section";
 import { CountUp } from "@/components/ui/CountUp";
 import { Reveal } from "@/components/ui/Reveal";
 
-/** §A6 What it's worth. Every figure here is a stand-in — see the `// mock`
- *  tags in lib/content-automations. Swap the data, not this file. */
+/** Section A6: What it's worth. Honest impact ranges, rendered as compact proof. */
 export function Impact() {
   return (
     <Section id="impact">

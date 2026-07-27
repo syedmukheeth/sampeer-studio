@@ -1,10 +1,7 @@
 /**
  * SINGLE SOURCE OF CONTENT for the whole page.
  * Components read from here, no copy hardcoded in JSX.
- *
- * PLACEHOLDER STATUS: WORK (§04) is real, six live client sites. Pillars,
- * stats, and testimonials still carry stand-ins; mock values are tagged
- * `// mock` / `// TODO`. Swap real data here; components do not change.
+ * Launch content lives here so components stay focused on presentation.
  *
  * Every image referenced here is a local /public asset — no remote hosts, so
  * next/image needs no remotePatterns and never fetches third-party bytes.
@@ -12,6 +9,7 @@
 
 import { serpentine } from "@/lib/flow";
 import { A_CONSOLE_URL } from "@/lib/content-automations";
+
 
 /* ---------------------------------------------------------------- nav */
 /* Hrefs are root-relative, not bare hashes: the site is no longer one page,
@@ -80,6 +78,14 @@ export type Pillar = {
   /** which PillarGraphic variant renders in the panel's visual frame */
   graphic: "story" | "growth" | "founder";
 };
+
+/** The stack had no header — three numbered panels opened cold, with nothing
+ *  naming what they were a list of. */
+export const PILLARS_HEADER = {
+  eyebrow: "What we build",
+  title: "Three systems. One job: make you impossible to overlook.",
+  body: "Each one stands alone. Run together, they compound — the site earns belief, the engine converts it, your name opens the next door.",
+} as const;
 
 export const PILLARS: Pillar[] = [
   {
@@ -301,7 +307,7 @@ export const CASE_ASRG: CaseStudyData = {
  * clients, so the copy is honest about that: no invented clients, metrics, or
  * testimonials. The challenge/solution read as design rationale, the problem
  * the *category* faces, and the decision the build makes about it. Visual proof
- * is a desktop + mobile capture of the live site (public/work/shots/). */
+ * is the local poster plus the live embedded site. */
 
 export const CASE_AURUM: CaseStudyData = {
   slug: "aurum",
@@ -685,9 +691,7 @@ export const BRANDING = {
 } as const;
 
 /* -------------------------------------------------------------- stats */
-/* §05 Proof numbers, count-up. LinkedIn-led social proof, the audience is
- * the asset. Only `followers` is real today; the rest are tagged TODO and are
- * a one-line swap once you send the real figures from LinkedIn analytics. */
+/* Section 05: Proof numbers, count-up. LinkedIn-led social proof; the audience is the asset. */
 /** `value` count-ups; `text` renders verbatim (for honest non-numeric proof
  *  like a reach or a portfolio state). One or the other, never both. */
 export type Stat = { value?: number; suffix?: string; decimals?: number; text?: string; label: string };
@@ -701,8 +705,7 @@ export const STATS: Stat[] = [
 
 
 /* ------------------------------------------------------ testimonials */
-/* §05.5 Founder voices. Editorial pull-quotes, not cards. Placeholder copy +
- * names (mock), swap for real founder quotes here; component does not change. */
+/* Section 05.5: Founder voices. Editorial pull-quotes, not cards. */
 export type Testimonial = {
   id: string;
   quote: string;
@@ -725,7 +728,9 @@ export const TESTIMONIALS: Testimonial[] = [
       "SAMPeer Studio gave us a premium storytelling website and handled our SEO and Google Business Profile professionally. Our online presence finally matches the work we do.",
     name: "ASRG Construction",
     role: "Construction & Civil · Kurnool",
-    photo: "/asrg-client.webp",
+    // client's own photo, supplied July 2026. The /asrg-client*.webp pair is
+    // still the on-site proof in WORK — this replaces the testimonial only.
+    photo: "/client-asrg-1.webp",
   },
 ];
 
@@ -745,9 +750,72 @@ export const PROCESS: Step[] = [
 
 /* -------------------------------------------------------------- about */
 /* §07 Syed POV. Manifesto, not bio. */
+/** What the name actually stands for. It reads as one word, so the letters
+ *  have to be spelled out or the meaning is lost on everyone but us. */
+export const BRAND_MEANING = {
+  title: "Where the name comes from",
+  letters: [
+    { letter: "S", word: "Storytelling", body: "The site that makes strangers believe you." },
+    { letter: "A", word: "Automations", body: "The engine that runs after they do." },
+    { letter: "M", word: "Marketing", body: "The reach that puts you in front of them." },
+  ],
+  /** the half that is not an acronym */
+  suffix: {
+    word: "Peer",
+    body: "Not a vendor you brief. A peer, the way a good friend or colleague is: in it with you, straight with you.",
+  },
+} as const;
+
+export type TeamMember = {
+  id: string;
+  name: string;
+  role: string;
+  photo: string;
+  photoPosition?: string;
+  /** what this person actually owns, in their own register */
+  line: string;
+  linkedin?: string;
+};
+
+export const TEAM: TeamMember[] = [
+  {
+    id: "mukheeth",
+    name: "Syed Abdul Mukheeth Peer",
+    role: "Co-founder & CEO",
+    photo: "/founder.webp",
+    photoPosition: "center 30%",
+    line: "Owns the story and the strategy — what you say, who it is for, and why anyone should believe it. Every project starts at his desk.",
+    linkedin: "https://www.linkedin.com/in/syedmukheeth/",
+  },
+  {
+    id: "faisal",
+    name: "Shaik Faisal Ahmed",
+    role: "Co-founder & CTO",
+    photo: "/faisal.webp",
+    photoPosition: "center",
+    line: "Owns everything that runs — the build, the automations, the systems behind the site. If it has to work at 3am, it is his.",
+  },
+];
+
+/** The CTO's half of the About section. Same shape as ABOUT so the two blocks
+ *  render through one component — a manifesto in his own register (what he
+ *  builds and why), not a restatement of the CEO's. */
+export const ABOUT_CTO = {
+  name: "Shaik Faisal Ahmed",
+  role: "Co-founder & CTO, Sampeer Studio",
+  photo: "/faisal-portrait.webp",
+  photoPosition: "center 15%",
+  manifesto: [
+    "I build the part that has to keep working after everyone goes home.",
+    "Fast sites, wired to systems that capture, qualify, and follow up without anyone remembering to.",
+    "Every automation we ship is one we run ourselves first. If it breaks, it breaks on us, not on a client.",
+    "Good engineering is invisible. You should only notice that things simply happen.",
+  ],
+} as const;
+
 export const ABOUT = {
   name: "Syed Abdul Mukheeth Peer",
-  role: "Founder, SAMPeer Studio",
+  role: "Co-founder & CEO, SAMPeer Studio",
   photo: "/founder.webp",
   linkedin: "https://www.linkedin.com/in/syedmukheeth/",
   manifesto: [

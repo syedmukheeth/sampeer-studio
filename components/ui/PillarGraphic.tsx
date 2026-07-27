@@ -4,6 +4,7 @@ import Image from "next/image";
 import { motion, useReducedMotion } from "motion/react";
 import { ArrowUpRight, SealCheck } from "@phosphor-icons/react/dist/ssr";
 import { Flow } from "@/components/ui/Flow";
+import { CardSwap, Card } from "@/components/ui/CardSwap";
 import { PILLAR_GROWTH_FLOW, WORK, ABOUT } from "@/lib/content";
 import { EASE, DUR, STAGGER } from "@/lib/constants";
 
@@ -44,11 +45,17 @@ export function PillarGraphic({ variant }: { variant: "story" | "growth" | "foun
       // dark `.stage` frame: the Flow engine is designed for off-black, and a
       // lit device-like panel in the light editorial stack ties the growth
       // pillar to the automation showcase's dark cut.
-      <div className="stage flex h-full w-full items-center bg-elevated p-6">
+      // no dark `.stage` panel any more: unframed, the Flow sits directly on
+      // the paper canvas, so it has to run on the light tokens like everything
+      // else in the section
+      <div className="flex h-full w-full items-center py-6">
         <Flow
           {...PILLAR_GROWTH_FLOW}
           mode="loop"
           step={1000}
+          // this pillar's claim is a machine that runs itself, so the running
+          // machine has to be on screen on a phone too — not a static list
+          canvasOnMobile
           label="The growth system: lead to booked, automatically"
           className="opacity-90"
         />
@@ -57,39 +64,49 @@ export function PillarGraphic({ variant }: { variant: "story" | "growth" | "foun
   }
 
   if (variant === "story") {
-    // All six live sites at once — a proof wall, not a rotating single frame.
-    // Static posters (no iframes) so it reveals once and never janks.
+    // Six live sites, dealt one at a time. The six-cell wall showed everything
+    // at once and each site got a thumbnail too small to read as work; a deck
+    // spends the same frame on one poster at a time, at full size.
     return (
-      <motion.div
-        aria-hidden
-        variants={parent}
-        initial="hidden"
-        whileInView="show"
-        viewport={{ once: true, amount: 0.3 }}
-        className="grid h-full w-full grid-cols-2 grid-rows-3 gap-px bg-line"
-      >
-        {WORK.map((w) => (
-          <motion.div
-            key={w.id}
-            variants={rise}
-            className="group relative overflow-hidden bg-elevated"
-          >
-            <Image
-              src={w.poster}
-              alt=""
-              fill
-              sizes="(max-width: 768px) 50vw, 20vw"
-              className="object-cover object-top transition-transform duration-700 ease-out group-hover:scale-[1.06]"
-            />
-            {/* legibility scrim + client label */}
-            <div className="pointer-events-none absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-canvas/95 via-canvas/40 to-transparent" />
-            <span className="pointer-events-none absolute inset-x-0 bottom-0 flex items-center gap-1.5 px-2.5 py-2 font-sans text-[9px] leading-tight text-ink">
-              <span className="h-1 w-1 shrink-0 rounded-full bg-accent" />
-              <span className="truncate">{w.client}</span>
-            </span>
-          </motion.div>
-        ))}
-      </motion.div>
+      <div aria-hidden className="relative h-full w-full">
+        <CardSwap
+          // the posters are all 1440x900; the card takes that ratio so the
+          // site is shown whole instead of being cropped to fit a squarer box
+          width="88%"
+          height="auto"
+          cardDistance={26}
+          verticalDistance={30}
+          skewAmount={4}
+          // one card every two seconds. The elastic preset's tweens run 2s
+          // each, so at this cadence a swap would still be settling when the
+          // next one starts — the shorter linear preset fits inside the beat.
+          delay={2000}
+          easing="linear"
+          pauseOnHover
+        >
+          {WORK.map((w) => (
+            <Card key={w.id} className="aspect-[16/10]">
+              <span className="relative block h-full w-full">
+                <Image
+                  src={w.poster}
+                  alt=""
+                  fill
+                  sizes="(max-width: 768px) 60vw, 24vw"
+                  className="object-cover object-top"
+                />
+                {/* legibility scrim + client label */}
+                {/* just enough scrim to seat the label — at two thirds of the
+                    card it washed the poster out to grey */}
+                <span className="pointer-events-none absolute inset-x-0 bottom-0 block h-1/4 bg-gradient-to-t from-canvas/85 to-transparent" />
+                <span className="pointer-events-none absolute inset-x-0 bottom-0 flex items-center gap-1.5 px-3 py-2 font-sans text-[10px] leading-tight text-ink">
+                  <span className="h-1 w-1 shrink-0 rounded-full bg-accent" />
+                  <span className="truncate">{w.client}</span>
+                </span>
+              </span>
+            </Card>
+          ))}
+        </CardSwap>
+      </div>
     );
   }
 
@@ -100,7 +117,7 @@ export function PillarGraphic({ variant }: { variant: "story" | "growth" | "foun
       initial="hidden"
       whileInView="show"
       viewport={{ once: true, amount: 0.4 }}
-      className="relative flex h-full w-full items-center justify-center bg-elevated p-5"
+      className="relative flex h-full w-full items-center justify-center py-5"
     >
       <motion.a
         variants={rise}
@@ -110,6 +127,18 @@ export function PillarGraphic({ variant }: { variant: "story" | "growth" | "foun
         aria-label={`${ABOUT.name} on LinkedIn`}
         className="group relative block w-[92%] overflow-hidden rounded-md border border-line bg-canvas shadow-lg transition-colors duration-500 hover:border-accent/40"
       >
+        {/* lighting: a soft ambient highlight off the top-left corner, plus a
+            sheen that sweeps the card on hover. Sits above the content but
+            inert, so it lights the card rather than tinting one layer of it. */}
+        <span
+          aria-hidden
+          className="pointer-events-none absolute inset-0 z-20 bg-[radial-gradient(120%_80%_at_15%_0%,rgba(255,255,255,0.55)_0%,transparent_55%)]"
+        />
+        <span
+          aria-hidden
+          className="pointer-events-none absolute inset-y-0 -left-full z-20 w-full animate-[card-sheen_3s_ease-out_infinite] bg-[linear-gradient(105deg,transparent_30%,rgba(255,255,255,0.6)_50%,transparent_70%)] motion-reduce:hidden"
+        />
+
         {/* cover + LinkedIn mark */}
         <div className="relative h-14 bg-gradient-to-r from-accent/40 via-accent/15 to-canvas">
           <span className="absolute right-2.5 top-2.5 grid h-5 w-5 place-items-center rounded-[4px] bg-[#0a66c2] text-[9px] font-bold lowercase text-white">

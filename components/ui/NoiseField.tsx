@@ -56,34 +56,37 @@ float fbm(vec2 p){
 void main(){
   vec2 uv = gl_FragCoord.xy / uRes.xy;
 
-  // base canvas colour, neutral near-black #0a0b0b (never pure #000)
-  vec3 base = vec3(0.039, 0.043, 0.043);
+  // base canvas colour, warm daylight paper #f6f2ea (never pure #fff)
+  vec3 base = vec3(0.965, 0.949, 0.918);
 
-  // drifting fbm grain — agitated while unresolved, quiet once settled. On the
-  // dark field the grain reads as fine luminous specks that calm as we resolve.
+  // drifting fbm grain, agitated while unresolved and quiet once settled. The
+  // whole field is inverted for paper: grain now SUBTRACTS, so it reads as fine
+  // tooth in the sheet rather than luminous specks on black.
   float t = uTime * 0.06;
   float n = fbm(uv * vec2(uRes.x / uRes.y, 1.0) * 3.0 + t);
   float fine = hash(gl_FragCoord.xy + uTime * 60.0); // per-pixel static
 
-  // grain amplitude collapses as we resolve; centred bias so specks glow on black
-  float grainAmt = mix(0.11, 0.01, uResolve);
+  // amplitude collapses as we resolve; far lower than the dark build needed,
+  // because texture on paper is legible at a fraction of the contrast
+  float grainAmt = mix(0.055, 0.006, uResolve);
   float grain = (mix(n, fine, 0.4) - 0.5) * grainAmt;
 
-  // emerald bloom rises from the lower-centre as signal emerges, a soft wash of
-  // brand light lifting the near-black (the moment of being seen)
+  // sage wash rises from the lower-centre as signal emerges. On paper this is a
+  // tint toward the accent, not added light: adding light to near-white just
+  // clips to flat white and the gesture disappears.
   vec2 c = uv - vec2(0.5, 0.42);
   c.x *= uAspect;
   float d = length(c);
-  float bloom = smoothstep(0.8, 0.0, d) * 0.5 * uResolve;
-  vec3 emerald = vec3(0.063, 0.725, 0.506); // emerald #10b981
+  float bloom = smoothstep(0.8, 0.0, d) * 0.16 * uResolve;
+  vec3 sage = vec3(0.247, 0.380, 0.322); // accent #3f6152
 
-  // faint vignette to seat the type — darken edges toward the page black
+  // faint vignette to seat the type. Inverted too: edges settle a touch DARKER
+  // toward the paper's shadow, centre stays the brightest part of the sheet.
   float vig = smoothstep(1.15, 0.25, length(uv - 0.5));
 
-  vec3 col = base + grain;
-  // add emerald light in the centre, glow that brightens the near-black base
-  col += emerald * bloom;
-  col *= mix(0.55, 1.0, vig);
+  vec3 col = base - grain;
+  col = mix(col, sage, bloom);
+  col *= mix(0.965, 1.0, vig);
 
   gl_FragColor = vec4(col, 1.0);
 }

@@ -1,9 +1,6 @@
 # Launch intake — real data & assets
 
-Fill each blank, drop the files, and the site goes from placeholder to real.
-Nothing here is code — the owner fills this; the maintainer wires the file
-references (all mapped to exact locations). Anything still marked `// mock` or
-`// TODO` in `lib/content.ts` / `lib/content-automations.ts` is a placeholder.
+The core launch assets are wired. The remaining unchecked items are owner/content confirmations or production account setup.
 
 ---
 
@@ -53,7 +50,7 @@ references (all mapped to exact locations). Anything still marked `// mock` or
 
 - [x] Meta title + description updated (`app/layout.tsx`)
 - [ ] Custom domain (not bought yet) — on `sampeer-studio.vercel.app` until
-      then → swap `SITE_URL` in `app/layout.tsx`, `robots.ts`, `sitemap.ts`
+      then → swap `SITE_URL` in `lib/constants.ts`
 
 ## 8. Work section  (already real — 6 live client sites)
 

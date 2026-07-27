@@ -50,11 +50,16 @@ export function SectionHeader({
   title,
   className,
   align = "left",
+  accent = false,
 }: {
   eyebrow?: string;
   title: React.ReactNode;
   className?: string;
   align?: "left" | "center";
+  /** Put the section's label and title in the sage, the same colour that marks
+   *  the struck word up top. Rationed — a page of green headings spends the
+   *  accent and it stops meaning anything. */
+  accent?: boolean;
 }) {
   return (
     <div
@@ -67,7 +72,8 @@ export function SectionHeader({
       {eyebrow ? (
         <p
           className={clsx(
-            "flex items-center gap-2.5 font-sans text-xs font-medium uppercase tracking-[0.22em] text-faint",
+            "flex items-center gap-2.5 font-sans text-xs uppercase tracking-[0.22em]",
+            accent ? "font-semibold text-accent-text" : "font-medium text-faint",
             align === "center" && "justify-center",
           )}
         >
@@ -78,6 +84,7 @@ export function SectionHeader({
       <h2
         className={clsx(
           "mt-5 font-display text-3xl font-semibold leading-[1.05] tracking-tight md:text-5xl",
+          accent && "text-accent-text",
         )}
       >
         {title}

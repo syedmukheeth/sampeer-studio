@@ -1,75 +1,67 @@
 "use client";
 
-import { motion, useReducedMotion } from "motion/react";
+import { motion } from "motion/react";
 import { PROBLEM } from "@/lib/content";
 import { Section } from "@/components/ui/Section";
-import { EASE, DUR, STAGGER, VIEWPORT } from "@/lib/constants";
+import { SplitText } from "@/components/ui/SplitText";
+import { GlitchText } from "@/components/ui/GlitchText";
+import { EASE } from "@/lib/constants";
 
-const line = {
-  hidden: {},
-  show: { transition: { staggerChildren: STAGGER.tight } },
-};
-const word = {
-  hidden: { y: "110%" },
-  show: { y: 0, transition: { duration: DUR.base, ease: EASE.out } },
-};
+const TYPE = "font-display text-2xl font-medium leading-snug tracking-tight text-ink md:text-4xl";
 
-/** §02 Brutal prose. Words rise into place; the word "invisible" is literally
- *  struck through in indigo — the metaphor performed, not just stated.
- *  Word gaps come from margin on the mask wrapper (a trailing space inside an
- *  inline-block is trimmed and the words jam). */
-function Line({ text, reduce }: { text: string; reduce: boolean | null }) {
-  const emphasis = PROBLEM.emphasis;
-  const words = text.split(" ");
+/** ms between chars — also the number the glitch word waits on, so keep them
+ *  reading from one place. */
+const STAGGER_MS = 18;
+
+/** §02 Brutal prose, set char by char (gsap SplitText) as each line scrolls in.
+ *  The word "invisible" is the one that breaks the grammar: it keeps the accent
+ *  colour and tears itself apart. The line is cut around that word — SplitText
+ *  owns plain text only, and letting it chew the glitch span would eat its
+ *  data-text channels — and the word is held back until the chars ahead of it
+ *  have landed, so the sentence still reads left to right. */
+function Line({ text, order }: { text: string; order: number }) {
+  const word = PROBLEM.emphasis;
+  const at = text.indexOf(word);
+  const start = order * 0.15;
+
+  if (at === -1) {
+    return (
+      <p className={TYPE}>
+        <SplitText text={text} delay={STAGGER_MS} startDelay={start} />
+      </p>
+    );
+  }
+
+  const before = text.slice(0, at);
+  // last char of `before` lands at start + (n - 1) * stagger + its own duration;
+  // the word arrives just after it
+  const afterBefore = start + (before.length - 1) * (STAGGER_MS / 1000) + 0.35;
 
   return (
-    <motion.p
-      variants={reduce ? undefined : line}
-      initial={reduce ? false : "hidden"}
-      whileInView={reduce ? undefined : "show"}
-      viewport={VIEWPORT}
-      className="font-display text-2xl font-medium leading-snug tracking-tight text-ink md:text-4xl"
-    >
-      {words.map((w, i) => {
-        const clean = w.replace(/[.,]/g, "");
-        const isEmphasis = clean === emphasis;
-        return (
-          <span
-            key={i}
-            className="inline-block overflow-hidden pb-[0.1em] align-bottom"
-            style={{ marginRight: i < words.length - 1 ? "0.28em" : 0 }}
-          >
-            <motion.span variants={reduce ? undefined : word} className="inline-block">
-              {isEmphasis ? (
-                <span className="relative inline-block text-gradient-accent">
-                  {w}
-                  <motion.span
-                    aria-hidden
-                    className="absolute left-0 top-1/2 h-[3px] w-full origin-left -translate-y-1/2 bg-accent"
-                    initial={reduce ? false : { scaleX: 0 }}
-                    whileInView={reduce ? undefined : { scaleX: 1 }}
-                    viewport={{ once: true, amount: 0.8 }}
-                    transition={{ duration: DUR.fast, delay: 0.7, ease: EASE.out }}
-                  />
-                </span>
-              ) : (
-                w
-              )}
-            </motion.span>
-          </span>
-        );
-      })}
-    </motion.p>
+    <p className={TYPE}>
+      <SplitText text={before} delay={STAGGER_MS} startDelay={start} />
+      <motion.span
+        className="inline-block"
+        initial={{ opacity: 0, y: 18 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.15 }}
+        transition={{ duration: 0.5, delay: afterBefore, ease: EASE.out }}
+      >
+        <GlitchText className="text-accent-text" speed={0.8}>
+          {word}
+        </GlitchText>
+      </motion.span>
+      <SplitText text={text.slice(at + word.length)} delay={STAGGER_MS} startDelay={afterBefore + 0.3} />
+    </p>
   );
 }
 
 export function Problem() {
-  const reduce = useReducedMotion();
   return (
     <Section id="problem">
       <div className="max-w-4xl space-y-6">
         {PROBLEM.lines.map((l, i) => (
-          <Line key={i} text={l} reduce={reduce} />
+          <Line key={i} text={l} order={i} />
         ))}
       </div>
     </Section>
