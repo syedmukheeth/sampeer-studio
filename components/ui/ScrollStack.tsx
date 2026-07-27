@@ -7,16 +7,13 @@ import { useCallback, useEffect, useRef, useSyncExternalStore, type ReactNode } 
  *  that crosses the breakpoint afterwards used to keep whatever transforms it
  *  had — a desktop-sized page resized down left six cards pinned on top of
  *  each other and over the section beneath. */
-const PLAIN = "(prefers-reduced-motion: reduce), (max-width: 767px)";
+const PLAIN = "(prefers-reduced-motion: reduce)";
 
 function usePlainStack() {
   return useSyncExternalStore(
     (onChange) => {
       const mq = window.matchMedia(PLAIN);
       mq.addEventListener("change", onChange);
-      // resize as well: some embedders (and DevTools' responsive mode, which is
-      // exactly where a viewport crosses the breakpoint mid-session) resize
-      // without firing a matchMedia change.
       window.addEventListener("resize", onChange);
       return () => {
         mq.removeEventListener("change", onChange);
@@ -24,9 +21,7 @@ function usePlainStack() {
       };
     },
     () => window.matchMedia(PLAIN).matches,
-    // the server cannot know the viewport; assume the plain stack, so the
-    // first paint is the safe one and the effect upgrades it
-    () => true,
+    () => false,
   );
 }
 
@@ -123,14 +118,17 @@ export function ScrollStack({
     if (scrollTop === lastScroll.current) return;
     lastScroll.current = scrollTop;
 
+    const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
     const viewport = window.innerHeight;
     const pct = (value: string) => (parseFloat(value) / 100) * viewport;
-    const stackPx = pct(stackPosition);
+    const effStackPos = isMobile ? "12%" : stackPosition;
+    const effStackDist = isMobile ? 18 : itemStackDistance;
+    const stackPx = pct(effStackPos);
     const scaleEndPx = pct(scaleEndPosition);
 
     cards.forEach((card, i) => {
       const cardTop = tops.current[i];
-      const pinStart = cardTop - stackPx - itemStackDistance * i;
+      const pinStart = cardTop - stackPx - effStackDist * i;
       const pinEnd = endTop.current - viewport / 2;
       const scaleEnd = cardTop - scaleEndPx;
 
@@ -144,16 +142,16 @@ export function ScrollStack({
       if (blurAmount) {
         let top = 0;
         tops.current.forEach((otherTop, j) => {
-          if (scrollTop >= otherTop - stackPx - itemStackDistance * j) top = j;
+          if (scrollTop >= otherTop - stackPx - effStackDist * j) top = j;
         });
         if (i < top) blur = (top - i) * blurAmount;
       }
 
       let y = 0;
       if (scrollTop >= pinStart && scrollTop <= pinEnd) {
-        y = scrollTop - cardTop + stackPx + itemStackDistance * i;
+        y = scrollTop - cardTop + stackPx + effStackDist * i;
       } else if (scrollTop > pinEnd) {
-        y = pinEnd - cardTop + stackPx + itemStackDistance * i;
+        y = pinEnd - cardTop + stackPx + effStackDist * i;
       }
 
       const next = {
