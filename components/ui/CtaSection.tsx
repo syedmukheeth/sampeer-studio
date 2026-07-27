@@ -1,27 +1,50 @@
 "use client";
 
 import { motion, useReducedMotion } from "motion/react";
-import { A_CTA } from "@/lib/content-automations";
 import { ContactForm } from "@/components/ui/ContactForm";
 import { MaskText } from "@/components/ui/MaskText";
-import { EVENTS } from "@/lib/analytics";
 import { Section } from "@/components/ui/Section";
 import { EASE, DUR, RISE, VIEWPORT } from "@/lib/constants";
 
-/** §A7 The one ask on this page. Deliberately a near-copy of sections/CTA
- *  rather than a shared prop-driven component: that one is the site's single
- *  CTA intent ("tell me about your startup"), this one sells a specific
- *  30-minute audit and tracks its own event. Merging them would mean a
- *  component whose every field is a prop, a template, not an abstraction.
- *  Same arrival choreography as the home CTA, kept in sync by hand. */
-export function CTA() {
+/** The closing ask, shared by the home CTA and the Automation Lab audit.
+ *
+ *  The ask arrives the way the verdict did: the hero's mask-reveal returns for
+ *  the heading, a hairline threshold draws itself, and the form rises across
+ *  it. The narrative's open and close speak in the same voice.
+ *
+ *  Both pages ran a byte-identical copy of this markup and drifted apart only
+ *  in their copy, their section id and which event they track, so those are the
+ *  props. The content object stays whole rather than being spread into six
+ *  fields: it is already the shape both content files export. */
+export function CtaSection({
+  id,
+  idPrefix,
+  submitEvent,
+  source,
+  content,
+}: {
+  /** the section anchor, `contact` on home, `audit` on the Lab */
+  id: string;
+  /** namespaces the two form controls' ids, since both can exist per route */
+  idPrefix: string;
+  submitEvent: string;
+  source: string;
+  content: {
+    heading: string;
+    sub: string;
+    placeholder: string;
+    messagePlaceholder: string;
+    button: string;
+    fallbackEmail: string;
+  };
+}) {
   const reduce = useReducedMotion();
 
   return (
-    <Section id="audit" size="lg">
+    <Section id={id} size="lg">
       <div className="mx-auto max-w-2xl text-center">
         <h2 className="font-display text-4xl font-semibold leading-tight tracking-tighter md:text-6xl">
-          <MaskText text={A_CTA.heading} />
+          <MaskText text={content.heading} />
         </h2>
         <motion.p
           initial={reduce ? false : { opacity: 0, y: 16 }}
@@ -30,7 +53,7 @@ export function CTA() {
           transition={{ duration: reduce ? 0 : DUR.base, delay: reduce ? 0 : 0.35, ease: EASE.out }}
           className="mt-5 font-sans text-base text-muted md:text-lg"
         >
-          {A_CTA.sub}
+          {content.sub}
         </motion.p>
 
         {/* threshold, a hairline the reader crosses to act */}
@@ -50,13 +73,13 @@ export function CTA() {
           transition={{ duration: reduce ? 0 : DUR.base, delay: reduce ? 0 : 0.6, ease: EASE.out }}
         >
           <ContactForm
-            idPrefix="audit"
-            emailPlaceholder={A_CTA.placeholder}
-            messagePlaceholder={A_CTA.messagePlaceholder}
-            buttonLabel={A_CTA.button}
-            submitEvent={EVENTS.auditSubmit}
-            source="automations"
-            fallbackEmail={A_CTA.fallbackEmail}
+            idPrefix={idPrefix}
+            emailPlaceholder={content.placeholder}
+            messagePlaceholder={content.messagePlaceholder}
+            buttonLabel={content.button}
+            submitEvent={submitEvent}
+            source={source}
+            fallbackEmail={content.fallbackEmail}
           />
         </motion.div>
       </div>

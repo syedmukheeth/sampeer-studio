@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { Nav } from "@/components/sections/Nav";
 import { Footer } from "@/components/sections/Footer";
-import { CTA } from "@/components/sections/CTA";
+import { CtaSection } from "@/components/ui/CtaSection";
+import { CTA as CTA_CONTENT } from "@/lib/content";
+import { EVENTS } from "@/lib/analytics";
 import { CaseStudy } from "@/components/case/CaseStudy";
 import { CASE_LIFTX } from "@/lib/content";
 
@@ -32,7 +34,13 @@ export default function LiftxCaseStudyPage() {
     <>
       <Nav />
       <CaseStudy data={CASE_LIFTX} />
-      <CTA />
+      <CtaSection
+        id="contact"
+        idPrefix="contact"
+        submitEvent={EVENTS.ctaSubmit}
+        source="home"
+        content={CTA_CONTENT}
+      />
       <Footer />
     </>
   );

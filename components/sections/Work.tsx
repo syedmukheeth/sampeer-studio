@@ -113,17 +113,17 @@ function StackCard({ project: w, index }: { project: LiveProject; index: number 
 
             {/* real on-site proof, a photo stack, not a stock badge */}
             {w.proof && (
-              <div className="mt-6 flex items-center gap-3">
+              <div className="mt-6 flex items-center gap-3.5">
                 <div className="flex">
                   {w.proof.photos.map((src, pi) => (
                     <span
                       key={src}
-                      className={`relative h-10 w-8 overflow-hidden rounded-sm border border-line bg-elevated ${
-                        pi > 0 ? "-ml-2.5" : ""
+                      className={`relative h-16 w-14 overflow-hidden rounded-md border border-line bg-elevated shadow-sm ${
+                        pi > 0 ? "-ml-3.5" : ""
                       }`}
                       style={{ zIndex: w.proof!.photos.length - pi }}
                     >
-                      <Image src={src} alt="" fill sizes="32px" className="object-cover" />
+                      <Image src={src} alt="" fill sizes="64px" className="object-cover" />
                     </span>
                   ))}
                 </div>

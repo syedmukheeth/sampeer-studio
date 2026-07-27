@@ -32,82 +32,96 @@ export function Testimonials() {
     <Section id="testimonials">
       <SectionHeader title={TESTIMONIALS_HEADER.title} />
 
-      <div className="mt-14 md:mt-20">
-        {/* neon open-quote, the one accent strike here */}
-        <span
-          aria-hidden
-          className="block font-display text-7xl leading-none text-gradient-accent md:text-8xl"
-        >
-          &ldquo;
-        </span>
-
-        {/* the reserve has to hold the tallest quote at the narrowest width, or
-            each rotation resizes the container and shoves the page under it */}
-        <div className="relative -mt-4 min-h-[10em] max-w-4xl sm:min-h-[7.5em] md:min-h-[4.5em]">
-          <AnimatePresence mode="wait">
-            <motion.blockquote
-              key={t.id}
-              initial={reduce ? false : { opacity: 0, y: 18 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={reduce ? undefined : { opacity: 0, y: -18 }}
-              transition={{ duration: DUR.base, ease: EASE.out }}
-              className="font-display text-2xl font-medium leading-snug tracking-tight text-ink sm:text-3xl md:text-5xl"
-            >
-              {t.quote}
-              <footer className="mt-8 flex items-center gap-4 font-sans text-sm not-italic">
-                {t.photo && (
-                  <span className="relative h-16 w-14 shrink-0 overflow-hidden rounded-md border border-line">
-                    <Image
-                      src={t.photo}
-                      alt={t.name}
-                      fill
-                      sizes="56px"
-                      className="object-cover"
-                    />
-                  </span>
-                )}
-                <span>
-                  <span className="block text-ink">{t.name}</span>
-                  <span className="mt-0.5 block text-muted">{t.role}</span>
-                </span>
+      <div className="mt-10 md:mt-16">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={t.id}
+            initial={reduce ? false : { opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={reduce ? undefined : { opacity: 0, y: -18 }}
+            transition={{ duration: DUR.base, ease: EASE.out }}
+            className="grid gap-8 md:grid-cols-12 md:items-center"
+          >
+            {t.photo && (
+              /* A left rail rather than a cropped hero image. The photo keeps
+                 its own aspect ratio and is never cropped or blown up: the
+                 rail is capped, the image sits at its natural ratio inside the
+                 padded card, and the card's paper/hairline/accent-tab language
+                 is the same one Section and the work cards already speak. */
+              <aside className="md:col-span-4 md:self-start">
+                <figure className="relative mx-auto w-full max-w-[20rem] rounded-xl border border-line bg-elevated p-2 shadow-lg md:mx-0">
+                  {/* the single accent strike this section allows itself, the
+                      same rail motif as the speaker underline below */}
+                  <span
+                    aria-hidden
+                    className="absolute left-2 top-0 h-px w-10 -translate-y-px bg-accent"
+                  />
+                  <Image
+                    src={t.photo}
+                    alt={t.name}
+                    width={1600}
+                    height={1200}
+                    sizes="(max-width: 768px) 20rem, 25vw"
+                    className="h-auto w-full rounded-lg"
+                  />
+                  <figcaption className="px-1 pb-1 pt-3 font-sans text-[11px] uppercase tracking-[0.18em] text-faint">
+                    On site with {t.name}
+                  </figcaption>
+                </figure>
+              </aside>
+            )}
+            <blockquote className={t.photo ? "md:col-span-8" : "md:col-span-12"}>
+              {/* neon open-quote mark */}
+              <span
+                aria-hidden
+                className="-ml-1 block font-display text-6xl leading-none text-gradient-accent md:text-7xl"
+              >
+                &ldquo;
+              </span>
+              <p className="-mt-3 font-display text-xl font-medium leading-relaxed tracking-tight text-ink sm:text-2xl md:text-3xl">
+                {t.quote}&rdquo;
+              </p>
+              <footer className="mt-6 font-sans text-sm not-italic">
+                <span className="block font-semibold text-ink md:text-base">{t.name}</span>
+                <span className="mt-0.5 block text-xs text-muted md:text-sm">{t.role}</span>
               </footer>
-            </motion.blockquote>
-          </AnimatePresence>
-        </div>
+            </blockquote>
+          </motion.div>
+        </AnimatePresence>
 
         {/* speaker rail, only when there's more than one voice to switch */}
         {TESTIMONIALS.length > 1 && (
-        <ul className="mt-12 flex flex-row flex-wrap gap-x-8 gap-y-4 border-t border-line pt-8">
-          {TESTIMONIALS.map((item, i) => {
-            const on = i === active;
-            return (
-              <li key={item.id}>
-                <button
-                  type="button"
-                  onClick={() => setActive(i)}
-                  className="group relative block text-left"
-                  aria-current={on}
-                >
-                  <span
-                    className={`font-display text-base font-medium tracking-tight transition-colors md:text-lg ${
-                      on ? "text-ink" : "text-faint group-hover:text-muted"
-                    }`}
+          <ul className="mt-12 flex flex-row flex-wrap gap-x-8 gap-y-4 border-t border-line pt-8">
+            {TESTIMONIALS.map((item, i) => {
+              const on = i === active;
+              return (
+                <li key={item.id}>
+                  <button
+                    type="button"
+                    onClick={() => setActive(i)}
+                    className="group relative block text-left"
+                    aria-current={on}
                   >
-                    {item.name}
-                  </span>
-                  {/* active underline draws in */}
-                  <motion.span
-                    aria-hidden
-                    className="absolute -bottom-1 left-0 h-px w-full origin-left bg-accent"
-                    initial={false}
-                    animate={{ scaleX: on ? 1 : 0 }}
-                    transition={{ duration: DUR.fast, ease: EASE.out }}
-                  />
-                </button>
-              </li>
-            );
-          })}
-        </ul>
+                    <span
+                      className={`font-display text-base font-medium tracking-tight transition-colors md:text-lg ${
+                        on ? "text-ink" : "text-faint group-hover:text-muted"
+                      }`}
+                    >
+                      {item.name}
+                    </span>
+                    {/* active underline draws in */}
+                    <motion.span
+                      aria-hidden
+                      className="absolute -bottom-1 left-0 h-px w-full origin-left bg-accent"
+                      initial={false}
+                      animate={{ scaleX: on ? 1 : 0 }}
+                      transition={{ duration: DUR.fast, ease: EASE.out }}
+                    />
+                  </button>
+                </li>
+              );
+            })}
+          </ul>
         )}
       </div>
     </Section>

@@ -9,7 +9,9 @@ import { Stats } from "@/components/sections/Stats";
 import { Testimonials } from "@/components/sections/Testimonials";
 import { Process } from "@/components/sections/Process";
 import { About } from "@/components/sections/About";
-import { CTA } from "@/components/sections/CTA";
+import { CtaSection } from "@/components/ui/CtaSection";
+import { CTA as CTA_CONTENT } from "@/lib/content";
+import { EVENTS } from "@/lib/analytics";
 import { Footer } from "@/components/sections/Footer";
 
 export default function Home() {
@@ -27,7 +29,13 @@ export default function Home() {
         <Testimonials />
         <Process />
         <About />
-        <CTA />
+        <CtaSection
+          id="contact"
+          idPrefix="contact"
+          submitEvent={EVENTS.ctaSubmit}
+          source="home"
+          content={CTA_CONTENT}
+        />
       </main>
       <Footer />
     </>

@@ -7,7 +7,9 @@ import { Catalog } from "@/components/automations/Catalog";
 import { BeforeAfter } from "@/components/automations/BeforeAfter";
 import { Industries } from "@/components/automations/Industries";
 import { Impact } from "@/components/automations/Impact";
-import { CTA } from "@/components/automations/CTA";
+import { CtaSection } from "@/components/ui/CtaSection";
+import { A_CTA } from "@/lib/content-automations";
+import { EVENTS } from "@/lib/analytics";
 
 const TITLE = "Growth Automation Lab | SAMPeer Studio";
 const DESCRIPTION =
@@ -48,7 +50,13 @@ export default function AutomationsPage() {
         <BeforeAfter />
         <Industries />
         <Impact />
-        <CTA />
+        <CtaSection
+          id="audit"
+          idPrefix="audit"
+          submitEvent={EVENTS.auditSubmit}
+          source="automations"
+          content={A_CTA}
+        />
       </main>
       <Footer />
     </>

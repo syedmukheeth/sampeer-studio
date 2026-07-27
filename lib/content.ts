@@ -16,10 +16,14 @@ import { A_CONSOLE_URL } from "@/lib/content-automations";
    and `#work` from /automations goes nowhere. Nav resolves these per route. */
 export const NAV = {
   brand: "SAMPeer Studio",
+  /** In page order, one entry per section the reader can actually land on, so
+   *  the wall is a map of the page rather than a shortlist of four. */
   links: [
-    { label: "Work", href: "/#work" },
     { label: "Approach", href: "/#build" },
+    { label: "Work", href: "/#work" },
     { label: "Automations", href: "/automations" },
+    { label: "Clients", href: "/#testimonials" },
+    { label: "Process", href: "/#process" },
     { label: "About", href: "/#about" },
   ],
   cta: { label: "Start", href: "/#contact" },
@@ -657,9 +661,10 @@ export const TESTIMONIALS: Testimonial[] = [
       "SAMPeer Studio gave us a premium storytelling website and handled our SEO and Google Business Profile professionally. Our online presence finally matches the work we do.",
     name: "ASRG Construction",
     role: "Construction & Civil · Kurnool",
-    // client's own photo, supplied July 2026. The /asrg-client*.webp pair is
-    // still the on-site proof in WORK, this replaces the testimonial only.
-    photo: "/client-asrg-1.webp",
+    // the client's own on-site photo, supplied July 2026, at its full frame.
+    // Its own file: the WORK gallery's /asrg-client*.webp are different
+    // moments from the same visit and stay untouched.
+    photo: "/client-asrg.webp",
   },
 ];
 
