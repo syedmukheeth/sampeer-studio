@@ -21,11 +21,13 @@ function FounderBlock({
   photo,
   manifesto,
   flip = false,
+  photoPosition = "center top",
 }: {
   name: string;
   photo: string;
   manifesto: readonly string[];
   flip?: boolean;
+  photoPosition?: string;
 }) {
   const reduce = useReducedMotion();
 
@@ -40,6 +42,7 @@ function FounderBlock({
               fill
               sizes="(max-width: 768px) 100vw, 40vw"
               className="scale-125 object-cover"
+              style={{ objectPosition: photoPosition }}
             />
           </Parallax>
           {/* unveil cover — scales away upward once, then never returns */}
@@ -85,6 +88,7 @@ export function About() {
           name={ABOUT_CTO.name}
           photo={ABOUT_CTO.photo}
           manifesto={ABOUT_CTO.manifesto}
+          photoPosition={ABOUT_CTO.photoPosition}
           flip
         />
       </div>
@@ -103,7 +107,14 @@ export function About() {
                   <BorderBeam duration={7} delay={i * 3.5} />
                   <div className="flex items-center gap-3">
                     <span className="relative h-12 w-12 shrink-0 overflow-hidden rounded-full border border-line">
-                      <Image src={member.photo} alt={member.name} fill sizes="48px" className="object-cover" />
+                      <Image
+                        src={member.photo}
+                        alt={member.name}
+                        fill
+                        sizes="48px"
+                        className="object-cover"
+                        style={{ objectPosition: member.photoPosition || "center 15%" }}
+                      />
                     </span>
                     <div className="min-w-0">
                       <div className="font-display text-base font-semibold leading-tight">{member.name}</div>

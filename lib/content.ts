@@ -768,6 +768,7 @@ export type TeamMember = {
   name: string;
   role: string;
   photo: string;
+  photoPosition?: string;
   /** what this person actually owns, in their own register */
   line: string;
   linkedin?: string;
@@ -779,6 +780,7 @@ export const TEAM: TeamMember[] = [
     name: "Syed Abdul Mukheeth Peer",
     role: "Co-founder & CEO",
     photo: "/founder.webp",
+    photoPosition: "center 30%",
     line: "Owns the story and the strategy — what you say, who it is for, and why anyone should believe it. Every project starts at his desk.",
     linkedin: "https://www.linkedin.com/in/syedmukheeth/",
   },
@@ -787,6 +789,7 @@ export const TEAM: TeamMember[] = [
     name: "Shaik Faisal Ahmed",
     role: "Co-founder & CTO",
     photo: "/faisal.webp",
+    photoPosition: "center",
     line: "Owns everything that runs — the build, the automations, the systems behind the site. If it has to work at 3am, it is his.",
   },
 ];
@@ -798,6 +801,7 @@ export const ABOUT_CTO = {
   name: "Shaik Faisal Ahmed",
   role: "Co-founder & CTO, Sampeer Studio",
   photo: "/faisal-portrait.webp",
+  photoPosition: "center 15%",
   manifesto: [
     "I build the part that has to keep working after everyone goes home.",
     "Fast sites, wired to systems that capture, qualify, and follow up without anyone remembering to.",
