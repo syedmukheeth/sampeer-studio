@@ -274,6 +274,136 @@ summary,
   100% { clip-path: inset(30% 0 40% 0); }
 }
 
+/* LineSidebar (react-bits), repaletted to the site's tokens rather than the
+   colour props the original takes — the palette already lives in one place.
+   Pseudo-elements do the markers and ticks, so this genuinely needs a
+   stylesheet; the geometry that a component can own stays in the component.
+
+   --effect (0..1) is driven per item by a rAF lerp in JS, so every property
+   below reads the same continuously-animating value and stays in step. */
+.line-sidebar {
+  --marker-length: 56px;
+  --marker-gap: 0px;
+  --tick-scale: 0.5;
+  --max-shift: 22px;
+  --item-gap: 22px;
+  --font-size: 1.6rem;
+
+  position: relative;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.line-sidebar--markers {
+  padding-left: calc(var(--marker-length) + var(--marker-gap));
+}
+
+.line-sidebar__list {
+  list-style: none;
+  margin: 0;
+  padding: 0.5rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--item-gap);
+}
+
+.line-sidebar__item {
+  position: relative;
+}
+
+/* widen the pointer target so items react a touch before the cursor arrives */
+.line-sidebar__item::before {
+  content: "";
+  position: absolute;
+  inset: -6px -48px;
+}
+
+.line-sidebar__label {
+  position: relative;
+  display: inline-flex;
+  align-items: baseline;
+  cursor: pointer;
+  text-align: left;
+  font-family: var(--font-display);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  font-size: var(--font-size);
+  line-height: 1.2;
+  color: color-mix(in srgb, var(--color-accent-text) calc(var(--effect, 0) * 100%), var(--color-ink));
+  transform: translateX(calc(var(--effect, 0) * var(--max-shift)));
+}
+
+.line-sidebar__index {
+  font-family: var(--font-sans);
+  margin-right: 0.6rem;
+  font-size: 0.5em;
+  font-variant-numeric: tabular-nums;
+  opacity: calc(0.45 + var(--effect, 0) * 0.55);
+}
+
+.line-sidebar__marker {
+  position: absolute;
+  top: 50%;
+  left: calc(-1 * var(--marker-length) - var(--marker-gap));
+  height: 1px;
+  width: var(--marker-length);
+  background-color: color-mix(in srgb, var(--color-accent) calc(var(--effect, 0) * 100%), var(--color-line));
+  transform-origin: left center;
+  transform: translateY(-50%) scaleX(calc(0.7 + var(--effect, 0) * 0.5));
+}
+
+/* short static tick centred in the gap between two items */
+.line-sidebar--markers .line-sidebar__item:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  top: calc(100% + var(--item-gap) / 2);
+  left: calc(-1 * var(--marker-length) - var(--marker-gap));
+  height: 1px;
+  width: calc(var(--marker-length) * var(--tick-scale));
+  background-color: var(--color-line);
+  transform: translateY(-50%);
+}
+
+.line-sidebar--scale-tick .line-sidebar__item:not(:last-child)::after {
+  transform-origin: left center;
+  transform: translateY(-50%) scaleX(calc(0.7 + var(--effect, 0) * 0.6));
+}
+
+/* The sheen that crosses the founder card. Idles off-frame for most of the
+   cycle, then sweeps — a continuous slide would read as a loading shimmer.
+   The reduced-motion block below stops it. */
+@keyframes card-sheen {
+  0%,
+  25% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(300%);
+  }
+}
+
+/* TextType's caret. CSS keyframes rather than the gsap tween react-bits uses —
+   a blinking cursor does not need a tween engine, and the reduced-motion block
+   below already flattens it. */
+.text-type__cursor {
+  display: inline-block;
+  margin-left: 0.08em;
+  font-weight: 300;
+  color: var(--color-accent);
+  animation: text-type-blink 1s steps(1, end) infinite;
+}
+
+@keyframes text-type-blink {
+  0%,
+  50% {
+    opacity: 1;
+  }
+  50.01%,
+  100% {
+    opacity: 0;
+  }
+}
+
 /* Reduced motion: collapse everything to instant/static. */
 @media (prefers-reduced-motion: reduce) {
   *,

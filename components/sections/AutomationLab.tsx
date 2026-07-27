@@ -8,6 +8,9 @@ import { ArrowRight, ArrowUpRight } from "@phosphor-icons/react/dist/ssr";
 import { HOME_AUTOMATION_STORY } from "@/lib/content";
 import { serpentine } from "@/lib/flow";
 import { Section, SectionHeader } from "@/components/ui/Section";
+import { Shell } from "@/components/ui/Shell";
+import { MaskText } from "@/components/ui/MaskText";
+import { SplitText } from "@/components/ui/SplitText";
 import { Reveal } from "@/components/ui/Reveal";
 import { Flow } from "@/components/ui/Flow";
 import { STAGGER } from "@/lib/constants";
@@ -47,11 +50,18 @@ function StoryBeat({ beat, index }: { beat: Beat; index: number }) {
           </p>
         </Reveal>
 
-        <Reveal delay={STAGGER.base}>
-          <p className="mt-5 font-display text-xl font-medium leading-snug tracking-tight text-ink md:text-2xl">
-            {beat.outcome}
-          </p>
-        </Reveal>
+        {/* word-by-word, unblurring as it lands — the beats get their own
+            register again, distinct from the section title's mask rise */}
+        <p className="mt-5 font-display text-xl font-medium leading-snug tracking-tight text-ink md:text-2xl">
+          <SplitText
+            text={beat.outcome}
+            splitType="words"
+            delay={70}
+            duration={0.9}
+            from={{ opacity: 0, y: 18, filter: "blur(8px)" }}
+            to={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+          />
+        </p>
 
         {beat.href ? (
           <Reveal delay={STAGGER.base * 2}>
@@ -98,8 +108,15 @@ export function AutomationLab() {
   const { eyebrow, title, sub, beats, cta } = HOME_AUTOMATION_STORY;
 
   return (
-    <Section id="automation-lab" className="stage border-y border-line">
-      <SectionHeader eyebrow={eyebrow} title={title} />
+    // The dark `.stage` cut is gone: it was the only inversion left on the
+    // page and read as a different site rather than a deliberate change of
+    // register. Paper like everything else, separated by rule lines instead.
+    <Section id="automation-lab" shell={false} className="isolate overflow-hidden border-y border-line">
+      <Shell>
+      {/* the section's own type treatment: words rise out of a mask, rather
+          than the typing in Build or the character fade in Work — three
+          sections running the same effect reads as a template */}
+      <SectionHeader eyebrow={eyebrow} title={<MaskText text={title} />} />
 
       <Reveal delay={STAGGER.base}>
         <p className="mt-6 max-w-2xl font-sans text-base leading-relaxed text-muted">
@@ -154,6 +171,7 @@ export function AutomationLab() {
           </div>
         </Reveal>
       </div>
+      </Shell>
     </Section>
   );
 }

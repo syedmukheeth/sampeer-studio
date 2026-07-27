@@ -76,6 +76,14 @@ export type Pillar = {
   graphic: "story" | "growth" | "founder";
 };
 
+/** The stack had no header — three numbered panels opened cold, with nothing
+ *  naming what they were a list of. */
+export const PILLARS_HEADER = {
+  eyebrow: "What we build",
+  title: "Three systems. One job: make you impossible to overlook.",
+  body: "Each one stands alone. Run together, they compound — the site earns belief, the engine converts it, your name opens the next door.",
+} as const;
+
 export const PILLARS: Pillar[] = [
   {
     id: "story",
@@ -717,7 +725,9 @@ export const TESTIMONIALS: Testimonial[] = [
       "Sampeer Studio gave us a premium storytelling website and handled our SEO and Google Business Profile professionally. Our online presence finally matches the work we do.",
     name: "ASRG Construction",
     role: "Construction & Civil · Kurnool",
-    photo: "/asrg-client.webp",
+    // client's own photo, supplied July 2026. The /asrg-client*.webp pair is
+    // still the on-site proof in WORK — this replaces the testimonial only.
+    photo: "/client-asrg-1.webp",
   },
 ];
 
@@ -737,9 +747,49 @@ export const PROCESS: Step[] = [
 
 /* -------------------------------------------------------------- about */
 /* §07 Syed POV. Manifesto, not bio. */
+/** What the name actually stands for. It reads as one word, so the letters
+ *  have to be spelled out or the meaning is lost on everyone but us. */
+export const BRAND_MEANING = {
+  title: "Where the name comes from",
+  letters: [
+    { letter: "S", word: "Storytelling", body: "The site that makes strangers believe you." },
+    { letter: "A", word: "Automations", body: "The engine that runs after they do." },
+    { letter: "M", word: "Marketing", body: "The reach that puts you in front of them." },
+  ],
+  /** the half that is not an acronym */
+  suffix: {
+    word: "Peer",
+    body: "Not a vendor you brief. A peer, the way a good friend or colleague is: in it with you, straight with you.",
+  },
+} as const;
+
+export type TeamMember = {
+  id: string;
+  name: string;
+  role: string;
+  photo: string;
+  linkedin?: string;
+};
+
+export const TEAM: TeamMember[] = [
+  {
+    id: "mukheeth",
+    name: "Syed Abdul Mukheeth Peer",
+    role: "Co-founder & CEO",
+    photo: "/founder.webp",
+    linkedin: "https://www.linkedin.com/in/syedmukheeth/",
+  },
+  {
+    id: "faisal",
+    name: "Shaik Faisal Ahmed",
+    role: "Co-founder & CTO",
+    photo: "/faisal.webp",
+  },
+];
+
 export const ABOUT = {
   name: "Syed Abdul Mukheeth Peer",
-  role: "Founder, Sampeer Studio",
+  role: "Co-founder & CEO, Sampeer Studio",
   photo: "/founder.webp",
   linkedin: "https://www.linkedin.com/in/syedmukheeth/",
   manifesto: [
