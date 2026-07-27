@@ -7,7 +7,7 @@ import { Reveal } from "@/components/ui/Reveal";
 import { EASE, DUR, STAGGER } from "@/lib/constants";
 import { track, EVENTS } from "@/lib/analytics";
 
-/** §04c Founder brand — the third service gets its own room. Editorial split:
+/** §04c Founder brand, the third service gets its own room. Editorial split:
  *  the claim owns the left column, the three moves stack on the right behind
  *  self-fading hairlines. The Stats band directly below carries the numbers,
  *  so this section stays words-only and doesn't double-print the proof. */

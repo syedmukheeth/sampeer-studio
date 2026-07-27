@@ -7,7 +7,7 @@ type BorderBeamProps = {
   size?: number;
   /** seconds for one full lap */
   duration?: number;
-  /** seconds before this beam starts — offset siblings so they do not lockstep */
+  /** seconds before this beam starts, offset siblings so they do not lockstep */
   delay?: number;
   className?: string;
 };

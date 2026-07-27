@@ -27,7 +27,7 @@ export function Industries() {
   const [active, setActive] = useState(0);
   const tabs = useRef<(HTMLButtonElement | null)[]>([]);
 
-  // The selected chain constructs itself as the panel scrolls into view —
+  // The selected chain constructs itself as the panel scrolls into view -
   // same build grammar as §A2, without a pinned region (tabs need free scroll)
   const panel = useRef<HTMLDivElement>(null);
   const { scrollYProgress: buildProgress } = useScroll({

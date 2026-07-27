@@ -38,7 +38,7 @@ export function CaseStudy({ data }: { data: CaseStudyData }) {
 
         <div className="mt-10 max-w-4xl">
           <Reveal>
-            <p className="flex items-center gap-2.5 font-sans text-xs font-medium uppercase tracking-[0.22em] text-faint">
+            <p className="flex items-center gap-2.5 font-sans text-xs font-medium uppercase tracking-[0.18em] text-faint">
               <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-accent" />
               {data.eyebrow}
             </p>
@@ -105,7 +105,7 @@ export function CaseStudy({ data }: { data: CaseStudyData }) {
           {[data.challenge, data.solution].map((block, i) => (
             <Reveal key={block.title} delay={i * 0.08}>
               <div className="border-t border-line pt-6">
-                <h2 className="font-sans text-xs font-medium uppercase tracking-[0.2em] text-accent-text">
+                <h2 className="font-sans text-xs font-medium uppercase tracking-[0.18em] text-accent-text">
                   {block.title}
                 </h2>
                 <p className="mt-5 font-display text-xl font-medium leading-snug tracking-tight text-ink md:text-2xl">
@@ -171,7 +171,7 @@ export function CaseStudy({ data }: { data: CaseStudyData }) {
       {/* -------------------------------------------------------- shots */}
       {/* Live-site proof for the concept builds: the desktop still (the poster,
           a real capture already in the repo) in a browser frame, with a LIVE
-          phone-frame render of the site overlapping its lower-right — one figure
+          phone-frame render of the site overlapping its lower-right, one figure
           reading as "the same build, both screens". No separate capture files:
           desktop is data.poster, mobile is a scaled live iframe of data.liveUrl. */}
       {data.shots && (
@@ -180,7 +180,7 @@ export function CaseStudy({ data }: { data: CaseStudyData }) {
           <Reveal>
             <div className="mx-auto mt-12 max-w-5xl">
               <div className="relative pb-20 sm:pb-0 sm:pr-32 md:pr-44">
-                {/* desktop — the poster in a browser chrome frame */}
+                {/* desktop, the poster in a browser chrome frame */}
                 <figure className="group relative aspect-16/10 overflow-hidden rounded-md border border-line bg-elevated ring-1 ring-transparent transition duration-500 hover:border-accent/40 hover:ring-accent/20">
                   <div className="absolute inset-x-0 top-0 z-10 flex h-7 items-center gap-1.5 border-b border-line bg-canvas/80 px-3 backdrop-blur-sm">
                     <span aria-hidden className="h-2 w-2 rounded-full bg-line" />
@@ -199,7 +199,7 @@ export function CaseStudy({ data }: { data: CaseStudyData }) {
                   />
                 </figure>
 
-                {/* phone — a live, inert render of the site at mobile width */}
+                {/* phone, a live, inert render of the site at mobile width */}
                 <figure className="absolute bottom-0 right-0 w-32 overflow-hidden rounded-[1.25rem] border border-line bg-elevated p-1 shadow-xl ring-1 ring-transparent transition duration-500 hover:border-accent/40 hover:ring-accent/20 sm:w-36 md:w-44">
                   <div className="overflow-hidden rounded-[1rem]">
                     <MobilePreview
@@ -221,7 +221,7 @@ export function CaseStudy({ data }: { data: CaseStudyData }) {
       <Section>
         <div className="max-w-3xl border-t border-line pt-6">
           <Reveal>
-            <h2 className="font-sans text-xs font-medium uppercase tracking-[0.2em] text-accent-text">
+            <h2 className="font-sans text-xs font-medium uppercase tracking-[0.18em] text-accent-text">
               {data.outcome.title}
             </h2>
           </Reveal>
@@ -252,8 +252,8 @@ const M_H = 844;
 
 /**
  * A live, inert render of a site at mobile width, scaled into a phone frame.
- * Same guarantees as LiveSiteFrame's embed — sandboxed, pointer-events none,
- * aria-hidden — but sized for a phone so the case study shows the responsive
+ * Same guarantees as LiveSiteFrame's embed, sandboxed, pointer-events none,
+ * aria-hidden, but sized for a phone so the case study shows the responsive
  * build without needing a separate captured screenshot. Only one mounts per
  * case-study page, so the cost is a single frame.
  */

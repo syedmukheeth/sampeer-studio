@@ -9,7 +9,7 @@ import { PILLAR_GROWTH_FLOW, WORK, ABOUT } from "@/lib/content";
 import { EASE, DUR, STAGGER } from "@/lib/constants";
 
 /**
- * PILLAR GRAPHIC — the Build section's visuals, drawn instead of photographed.
+ * PILLAR GRAPHIC, the Build section's visuals, drawn instead of photographed.
  * Stock imagery said nothing; these say exactly what each pillar builds, in
  * the site's own vocabulary: hairlines, one accent element, motion aliveness.
  *
@@ -54,7 +54,7 @@ export function PillarGraphic({ variant }: { variant: "story" | "growth" | "foun
           mode="loop"
           step={1000}
           // this pillar's claim is a machine that runs itself, so the running
-          // machine has to be on screen on a phone too — not a static list
+          // machine has to be on screen on a phone too, not a static list
           canvasOnMobile
           label="The growth system: lead to booked, automatically"
           className="opacity-90"
@@ -79,7 +79,7 @@ export function PillarGraphic({ variant }: { variant: "story" | "growth" | "foun
           skewAmount={4}
           // one card every two seconds. The elastic preset's tweens run 2s
           // each, so at this cadence a swap would still be settling when the
-          // next one starts — the shorter linear preset fits inside the beat.
+          // next one starts, the shorter linear preset fits inside the beat.
           delay={2000}
           easing="linear"
           pauseOnHover
@@ -95,7 +95,7 @@ export function PillarGraphic({ variant }: { variant: "story" | "growth" | "foun
                   className="object-cover object-top"
                 />
                 {/* legibility scrim + client label */}
-                {/* just enough scrim to seat the label — at two thirds of the
+                {/* just enough scrim to seat the label, at two thirds of the
                     card it washed the poster out to grey */}
                 <span className="pointer-events-none absolute inset-x-0 bottom-0 block h-1/4 bg-gradient-to-t from-canvas/85 to-transparent" />
                 <span className="pointer-events-none absolute inset-x-0 bottom-0 flex items-center gap-1.5 px-3 py-2 font-sans text-[10px] leading-tight text-ink">
@@ -110,7 +110,7 @@ export function PillarGraphic({ variant }: { variant: "story" | "growth" | "foun
     );
   }
 
-  // founder — the real LinkedIn profile card, and a link to the real profile
+  // founder, the real LinkedIn profile card, and a link to the real profile
   return (
     <motion.div
       variants={parent}
@@ -152,7 +152,7 @@ export function PillarGraphic({ variant }: { variant: "story" | "growth" | "foun
             <span className="relative h-14 w-14 shrink-0 overflow-hidden rounded-full border-2 border-canvas">
               <Image src={ABOUT.photo} alt="" fill sizes="56px" className="object-cover" />
             </span>
-            <span className="rounded-full bg-accent px-3 py-1 text-[8px] font-medium text-accent-ink">
+            <span className="rounded-full bg-accent px-3 py-1 text-[10px] font-medium text-accent-ink">
               Follow
             </span>
           </div>
@@ -162,24 +162,24 @@ export function PillarGraphic({ variant }: { variant: "story" | "growth" | "foun
             <span className="text-[11px] font-semibold text-ink">{ABOUT.name}</span>
             <SealCheck size={11} weight="fill" className="text-accent" />
           </div>
-          <p className="mt-0.5 text-[8px] leading-relaxed text-muted">
+          <p className="mt-0.5 text-[10px] leading-relaxed text-muted">
             Founder, SAMPeer Studio · Storytelling websites, growth systems &amp; AI automation
           </p>
-          <p className="mt-1 text-[8px] text-accent-text">in/syedmukheeth</p>
+          <p className="mt-1 text-[10px] text-accent-text">in/syedmukheeth</p>
 
-          {/* the real proof — numbers from the profile */}
+          {/* the real proof, numbers from the profile */}
           <div className="mt-3 flex gap-5 border-t border-line pt-3">
             <span className="flex flex-col">
               <span className="text-[11px] font-semibold tabular-nums text-ink">8.7K+</span>
-              <span className="text-[8px] text-muted">followers</span>
+              <span className="text-[10px] text-muted">followers</span>
             </span>
             <span className="flex flex-col">
               <span className="text-[11px] font-semibold tabular-nums text-ink">350K+</span>
-              <span className="text-[8px] text-muted">monthly views</span>
+              <span className="text-[10px] text-muted">monthly views</span>
             </span>
           </div>
 
-          {/* the link affordance — fills the card and says where it goes */}
+          {/* the link affordance, fills the card and says where it goes */}
           <span className="mt-3 flex items-center gap-1 border-t border-line pt-3 text-[9px] font-medium text-muted transition-colors group-hover:text-accent-text">
             View full profile
             <ArrowUpRight

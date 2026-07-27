@@ -9,15 +9,15 @@ import { EASE } from "@/lib/constants";
 
 const TYPE = "font-display text-2xl font-medium leading-snug tracking-tight text-ink md:text-4xl";
 
-/** ms between chars — also the number the glitch word waits on, so keep them
+/** ms between chars, also the number the glitch word waits on, so keep them
  *  reading from one place. */
 const STAGGER_MS = 18;
 
 /** §02 Brutal prose, set char by char (gsap SplitText) as each line scrolls in.
  *  The word "invisible" is the one that breaks the grammar: it keeps the accent
- *  colour and tears itself apart. The line is cut around that word — SplitText
+ *  colour and tears itself apart. The line is cut around that word, SplitText
  *  owns plain text only, and letting it chew the glitch span would eat its
- *  data-text channels — and the word is held back until the chars ahead of it
+ *  data-text channels, and the word is held back until the chars ahead of it
  *  have landed, so the sentence still reads left to right. */
 function Line({ text, order }: { text: string; order: number }) {
   const word = PROBLEM.emphasis;

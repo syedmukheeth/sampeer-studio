@@ -9,14 +9,14 @@ const isDev = process.env.NODE_ENV === "development";
  * not the proxy/nonce one: nonces require every page to render dynamically,
  * which would throw away the static prerender of all 15 routes. On a marketing
  * site with no auth, no cookies, and no user-generated content, that trade is
- * not worth it — the load time IS part of the pitch.
+ * not worth it, the load time IS part of the pitch.
  *
  * So `'unsafe-inline'` stays on script-src (Next's own bootstrap is inline) and
  * on style-src (Tailwind + Motion write inline styles). Everything that does
  * not cost us rendering is locked down hard: no plugins, no <base> hijack, no
  * cross-origin form posts, no framing.
  *
- * `'unsafe-eval'` is dev-only — React uses eval there to rebuild server error
+ * `'unsafe-eval'` is dev-only, React uses eval there to rebuild server error
  * stacks in the browser. It never ships to production.
  */
 const csp = [
@@ -60,7 +60,7 @@ const nextConfig: NextConfig = {
 
   images: {
     // No remotePatterns by design. Every image on the site ships from /public,
-    // so /_next/image cannot be aimed at a third-party host — which keeps
+    // so /_next/image cannot be aimed at a third-party host, which keeps
     // attacker-supplied bytes away from the sharp/libvips decoders entirely.
     dangerouslyAllowSVG: false,
     contentDispositionType: "attachment",

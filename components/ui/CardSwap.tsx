@@ -65,7 +65,7 @@ type CardSwapProps = {
 
 /** react-bits CardSwap, ported to TS. The deck drops its front card, promotes
  *  the rest, and sends the dropped one to the back. Reduced motion lays the
- *  deck out and leaves it — a card falling every few seconds is exactly the
+ *  deck out and leaves it, a card falling every few seconds is exactly the
  *  kind of thing that setting exists to stop. */
 export function CardSwap({
   width = "100%",
@@ -163,6 +163,12 @@ export function CardSwap({
       window.clearInterval(intervalRef.current);
     };
     const resume = () => {
+      // Only resume a deck the observer still considers on screen, and clear
+      // first: without the guard, an off-screen stop() followed by a mouseleave
+      // restarts an invisible deck, and without the clear a pause/resume pair
+      // can leave two intervals racing the same timeline.
+      if (!running) return;
+      window.clearInterval(intervalRef.current);
       tlRef.current?.play();
       intervalRef.current = window.setInterval(swap, delay);
     };

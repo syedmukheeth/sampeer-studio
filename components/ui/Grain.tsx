@@ -1,5 +1,5 @@
 /**
- * Film grain over the whole app — one fixed, pointer-events-none layer at
+ * Film grain over the whole app, one fixed, pointer-events-none layer at
  * Z.grain. Static SVG turbulence via data URI: no canvas, no repaint cost,
  * and it never animates (reduced-motion safe by construction). Kills the
  * flat-hex deadness of large dark surfaces.

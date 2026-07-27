@@ -11,7 +11,7 @@ import {
 /**
  * THE SIGNAL SPINE.
  * A hairline pinned to the right edge of the page. A faint track (noise) with
- * an indigo fill that grows as you scroll — the story arc made physical:
+ * an indigo fill that grows as you scroll, the story arc made physical:
  * the further you travel, the stronger the signal. A soft node rides the
  * leading edge so the line reads as "alive", not a static scrollbar.
  */
@@ -23,7 +23,7 @@ export function Spine() {
     damping: 28,
     restDelta: 0.001,
   });
-  // Node rides on transform only — animating `top` would force layout every
+  // Node rides on transform only, animating `top` would force layout every
   // scroll frame. calc folds the -50% self-centering into the same channel.
   const nodeY = useTransform(
     progress,

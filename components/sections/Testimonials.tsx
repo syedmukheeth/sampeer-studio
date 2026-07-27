@@ -9,7 +9,7 @@ import { EASE, DUR } from "@/lib/constants";
 
 /** §05.5 Founder voices. One full-measure editorial pull-quote at a time; the
  *  words crossfade as the speaker changes. The speaker row below doubles as a
- *  quiet progress rail — the active name carries the single indigo strike.
+ *  quiet progress rail, the active name carries the single indigo strike.
  *  Auto-advances on a calm cadence; pauses to nothing under reduced-motion.
  *  Deliberately NOT a split grid: Build and About already own that skeleton,
  *  so this one reads as a full-width editorial beat between them. */
@@ -33,7 +33,7 @@ export function Testimonials() {
       <SectionHeader title={TESTIMONIALS_HEADER.title} />
 
       <div className="mt-14 md:mt-20">
-        {/* neon open-quote — the one accent strike here */}
+        {/* neon open-quote, the one accent strike here */}
         <span
           aria-hidden
           className="block font-display text-7xl leading-none text-gradient-accent md:text-8xl"
@@ -41,7 +41,9 @@ export function Testimonials() {
           &ldquo;
         </span>
 
-        <div className="relative -mt-4 min-h-[7.5em] max-w-4xl md:min-h-[4.5em]">
+        {/* the reserve has to hold the tallest quote at the narrowest width, or
+            each rotation resizes the container and shoves the page under it */}
+        <div className="relative -mt-4 min-h-[10em] max-w-4xl sm:min-h-[7.5em] md:min-h-[4.5em]">
           <AnimatePresence mode="wait">
             <motion.blockquote
               key={t.id}
@@ -49,7 +51,7 @@ export function Testimonials() {
               animate={{ opacity: 1, y: 0 }}
               exit={reduce ? undefined : { opacity: 0, y: -18 }}
               transition={{ duration: DUR.base, ease: EASE.out }}
-              className="font-display text-2xl font-medium leading-snug tracking-tight text-ink md:text-5xl"
+              className="font-display text-2xl font-medium leading-snug tracking-tight text-ink sm:text-3xl md:text-5xl"
             >
               {t.quote}
               <footer className="mt-8 flex items-center gap-4 font-sans text-sm not-italic">
@@ -73,7 +75,7 @@ export function Testimonials() {
           </AnimatePresence>
         </div>
 
-        {/* speaker rail — only when there's more than one voice to switch */}
+        {/* speaker rail, only when there's more than one voice to switch */}
         {TESTIMONIALS.length > 1 && (
         <ul className="mt-12 flex flex-row flex-wrap gap-x-8 gap-y-4 border-t border-line pt-8">
           {TESTIMONIALS.map((item, i) => {

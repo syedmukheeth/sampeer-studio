@@ -11,7 +11,7 @@ import {
 /** Scroll count-up. Number animates from 0 once it enters view.
  *  Supports decimals (8.6K) and thousands grouping (12,400).
  *  Pass `text` instead of `value` to render a verbatim, non-animated string
- *  ("UK & India", "20–80", "<5") — honest proof that isn't a single number.
+ *  ("UK & India", "20–80", "<5"), honest proof that isn't a single number.
  *  Feedback: rewards the scroll, signals the proof is real. */
 export function CountUp({
   value,
@@ -52,7 +52,7 @@ export function CountUp({
   }, [spring, reduce]);
 
   /**
-   * Reduced motion still has to ARRIVE at the number — it just can't count up
+   * Reduced motion still has to ARRIVE at the number, it just can't count up
    * to it. Jumping there during render would desync SSR: the server has no
    * matchMedia, so it always renders 0, and a reduced-motion client rendering
    * the final value on first paint is a hydration mismatch. Write it after
@@ -64,7 +64,7 @@ export function CountUp({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reduce, target]);
 
-  // Verbatim proof — no animation, no count. All hooks above still ran, so
+  // Verbatim proof, no animation, no count. All hooks above still ran, so
   // this early return keeps the rules-of-hooks contract for a stable prop.
   if (text !== undefined) {
     return (

@@ -22,7 +22,7 @@ type TextTypeProps = {
    *  driven by one trigger instead of two observers that can disagree. */
   start?: boolean;
   /** Hold the finished string's box from the start so the text below does not
-   *  jump line by line as the heading types. Only sane for a single phrase —
+   *  jump line by line as the heading types. Only sane for a single phrase -
    *  a rotating list has no one final size. */
   reserveSpace?: boolean;
 };
@@ -30,7 +30,7 @@ type TextTypeProps = {
 /** react-bits TextType, trimmed to the props this site uses and made
  *  accessible: the typed characters are decorative, so the full string is
  *  exposed once via aria-label and the animating span is hidden from the
- *  accessibility tree — a screen reader should not hear a heading arrive one
+ *  accessibility tree, a screen reader should not hear a heading arrive one
  *  letter at a time. Reduced motion prints the text immediately. */
 export function TextType({
   text,

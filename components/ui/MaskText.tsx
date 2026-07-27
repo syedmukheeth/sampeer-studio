@@ -4,12 +4,12 @@ import { motion, useReducedMotion } from "motion/react";
 import { EASE, DUR, STAGGER, VIEWPORT } from "@/lib/constants";
 
 /**
- * MASK TEXT — the site's signature type treatment. Words rise out of a
+ * MASK TEXT, the site's signature type treatment. Words rise out of a
  * clipping mask, one after another: the verdict assembles itself. Lifted out
  * of the home Hero so the same voice can open the page (mount) and close it
  * at the CTA (inView) without two implementations drifting apart.
  *
- * Word spacing comes from margin on the mask wrapper — a trailing space
+ * Word spacing comes from margin on the mask wrapper, a trailing space
  * INSIDE an inline-block gets trimmed and the words jam together.
  *
  * Reduced motion: durations collapse to 0, markup never branches, so the

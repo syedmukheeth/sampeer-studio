@@ -6,7 +6,7 @@ import { motion, useMotionValue, useSpring, useReducedMotion } from "motion/reac
 /** Magnetic hover. Wrapper drifts toward the cursor, springs back on leave.
  *  Continuous pointer values stay OUT of React state (motion values only).
  *
- *  Renders one shape regardless of `reduce` — see TiltCard for why: the server
+ *  Renders one shape regardless of `reduce`, see TiltCard for why: the server
  *  can't know the preference, so branching the markup here desyncs hydration
  *  for reduced-motion users. The springs just never leave 0. */
 export function Magnetic({
@@ -25,7 +25,7 @@ export function Magnetic({
   const sx = useSpring(x, { stiffness: 200, damping: 18, mass: 0.4 });
   const sy = useSpring(y, { stiffness: 200, damping: 18, mass: 0.4 });
 
-  // centre is read once on enter — no layout read per mousemove
+  // centre is read once on enter, no layout read per mousemove
   const centre = useRef<{ cx: number; cy: number } | null>(null);
 
   function onEnter() {

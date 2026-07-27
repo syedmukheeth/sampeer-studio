@@ -52,19 +52,17 @@
   --font-display: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
 
-  --text-display-xl: clamp(3.2rem, 8.5vw, 7.5rem);
-  --text-display-xl--line-height: 0.98;
-  --text-display-xl--letter-spacing: -0.03em;
-  --text-display: clamp(2.4rem, 5vw, 4.5rem);
-  --text-display--line-height: 1.05;
-  --text-display--letter-spacing: -0.02em;
+  /* The two display sizes that used to sit here were referenced by nothing:
+     both heroes hand-roll their own clamp. A token nobody reads is worse than
+     no token, because the next person edits it and nothing moves. The eyebrow
+     values below stay because they document the 0.18em every eyebrow uses. */
   --text-eyebrow: 11px;
   --text-eyebrow--line-height: 1.4;
   --text-eyebrow--letter-spacing: 0.18em;
 
   --radius-xs: 4px;
   --radius-sm: 6px;
-  --radius-md: 8px; /* page corner-radius ceiling — premium-tech, near-sharp */
+  --radius-md: 8px; /* page corner-radius ceiling, premium-tech, near-sharp */
 
   --max-shell: 1400px;
 }
@@ -190,7 +188,7 @@ summary,
 }
 
 /* The Flow AI node's "thinking" dots. The reduced-motion block below
-   collapses this like every other animation — no separate kill needed. */
+   collapses this like every other animation, no separate kill needed. */
 @keyframes flow-typing {
   0%,
   60%,
@@ -275,7 +273,7 @@ summary,
 }
 
 /* LineSidebar (react-bits), repaletted to the site's tokens rather than the
-   colour props the original takes — the palette already lives in one place.
+   colour props the original takes, the palette already lives in one place.
    Pseudo-elements do the markers and ticks, so this genuinely needs a
    stylesheet; the geometry that a component can own stays in the component.
 
@@ -372,7 +370,7 @@ summary,
 /* BorderBeam: a light that laps the card's outline.
    The ring is a 1px border painted with a conic gradient whose angle is
    animated; `mask` clips the fill so only the border shows. An @property
-   declaration makes the angle interpolate — a bare custom property is a string
+   declaration makes the angle interpolate, a bare custom property is a string
    to the animation engine and would jump rather than sweep. */
 @property --beam-angle {
   syntax: "<angle>";
@@ -419,7 +417,7 @@ summary,
 
    The band is the accent travelling through the label's own colour, so the
    link keeps whatever token colour it was given and the text never drops
-   below its normal contrast — `color` stays set for currentColor to resolve
+   below its normal contrast, `color` stays set for currentColor to resolve
    against, and only the fill is swapped for the gradient. */
 .link-shine {
   background-image: linear-gradient(
@@ -438,7 +436,7 @@ summary,
   animation: link-shine 4.5s ease-in-out infinite;
 }
 
-/* idles for most of the cycle, then sweeps — a constant travelling highlight
+/* idles for most of the cycle, then sweeps, a constant travelling highlight
    on every link at once reads as a page full of loading skeletons */
 @keyframes link-shine {
   0%,
@@ -460,7 +458,7 @@ a:hover .link-shine,
 }
 
 /* The sheen that crosses the founder card. Idles off-frame for most of the
-   cycle, then sweeps — a continuous slide would read as a loading shimmer.
+   cycle, then sweeps, a continuous slide would read as a loading shimmer.
    The reduced-motion block below stops it. */
 @keyframes card-sheen {
   0%,
@@ -472,7 +470,7 @@ a:hover .link-shine,
   }
 }
 
-/* TextType's caret. CSS keyframes rather than the gsap tween react-bits uses —
+/* TextType's caret. CSS keyframes rather than the gsap tween react-bits uses -
    a blinking cursor does not need a tween engine, and the reduced-motion block
    below already flattens it. */
 .text-type__cursor {
@@ -503,6 +501,15 @@ a:hover .link-shine,
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
     scroll-behavior: auto !important;
+  }
+}
+
+/* Nav wall: below `sm` every pill is full width, so a vertical offset would
+   only push the column off its own rhythm and eat into the gap. Null it there
+   and let the tilt alone carry the looseness. */
+@media (width < 40rem) {
+  .nav-pill {
+    --pill-dy: 0px;
   }
 }
 

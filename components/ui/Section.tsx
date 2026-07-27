@@ -2,7 +2,7 @@ import { clsx } from "clsx";
 import { Shell } from "@/components/ui/Shell";
 
 /**
- * VERTICAL RHYTHM — one source of truth.
+ * VERTICAL RHYTHM, one source of truth.
  * Before this, every section invented its own padding (py-20 / py-32 md:py-40 /
  * py-40 md:py-48 ...). The eye read that randomness as "cheap". Now there are
  * three deliberate sizes and nothing else.
@@ -10,7 +10,7 @@ import { Shell } from "@/components/ui/Shell";
 const SIZE = {
   /** standard storytelling block */
   base: "py-28 md:py-40",
-  /** climactic block (the CTA) — extra air, feels like an arrival */
+  /** climactic block (the CTA), extra air, feels like an arrival */
   lg: "py-36 md:py-56",
   /** section owns its own spacing (pinned/full-bleed/horizontal) */
   flush: "py-0",
@@ -57,7 +57,7 @@ export function SectionHeader({
   className?: string;
   align?: "left" | "center";
   /** Put the section's label and title in the sage, the same colour that marks
-   *  the struck word up top. Rationed — a page of green headings spends the
+   *  the struck word up top. Rationed, a page of green headings spends the
    *  accent and it stops meaning anything. */
   accent?: boolean;
 }) {
@@ -72,7 +72,7 @@ export function SectionHeader({
       {eyebrow ? (
         <p
           className={clsx(
-            "flex items-center gap-2.5 font-sans text-xs uppercase tracking-[0.22em]",
+            "flex items-center gap-2.5 font-sans text-xs uppercase tracking-[0.18em]",
             accent ? "font-semibold text-accent-text" : "font-medium text-faint",
             align === "center" && "justify-center",
           )}

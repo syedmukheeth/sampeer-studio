@@ -1,6 +1,27 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useSyncExternalStore } from "react";
+
+/** Every mount of this canvas is hidden under `md` by its caller's CSS. But
+ *  `display:none` only stops the paint: the effect still mounts, the rAF loop
+ *  still runs, and five window pointer listeners still fire on every touch
+ *  move. Gate the work in JS so a phone pays nothing at all. Read as a live
+ *  subscription so a resize across the breakpoint starts/stops it cleanly. */
+const DESKTOP = "(min-width: 768px)";
+
+function useDesktop() {
+  return useSyncExternalStore(
+    (onChange) => {
+      const mq = window.matchMedia(DESKTOP);
+      mq.addEventListener("change", onChange);
+      return () => mq.removeEventListener("change", onChange);
+    },
+    () => window.matchMedia(DESKTOP).matches,
+    // the server cannot know the viewport; assume phone, so the first paint is
+    // the cheap one and the effect upgrades it
+    () => false,
+  );
+}
 
 type Direction = "up" | "down" | "left" | "right" | "diagonal";
 type Shape = "square" | "hexagon" | "circle" | "triangle";
@@ -34,8 +55,10 @@ export function ShapeGrid({
   const pointer = useRef<{ x: number; y: number } | null>(null);
   const trailCells = useRef<Cell[]>([]);
   const cellOpacities = useRef(new Map<string, number>());
+  const desktop = useDesktop();
 
   useEffect(() => {
+    if (!desktop) return;
     const canvas = canvasRef.current;
     const ctx = canvas?.getContext("2d");
     if (!canvas || !ctx) return;
@@ -254,11 +277,19 @@ export function ShapeGrid({
     };
 
     // The canvas is pointer-events-none (it sits over the whole page), so the
-    // pointer is tracked on the window instead — hovering anything, anywhere,
+    // pointer is tracked on the window instead, hovering anything, anywhere,
     // still lights the cell underneath it.
     const staticFrame = () => {
       updateCellOpacities();
       drawGrid();
+      // Under reduced motion the grid never moves on its own, so once the last
+      // hover has faded out there is nothing left to redraw. Park the loop
+      // rather than repainting an unchanging full-viewport canvas for the rest
+      // of the session; handlePointerMove wakes it on the next move.
+      if (!pointer.current && cellOpacities.current.size === 0) {
+        requestRef.current = 0;
+        return;
+      }
       requestRef.current = requestAnimationFrame(staticFrame);
     };
 
@@ -310,7 +341,7 @@ export function ShapeGrid({
       document.removeEventListener("pointerleave", handlePointerOut);
       cancelAnimationFrame(requestRef.current);
     };
-  }, [borderColor, direction, hoverFillColor, hoverTrailAmount, shape, speed, squareSize]);
+  }, [borderColor, desktop, direction, hoverFillColor, hoverTrailAmount, shape, speed, squareSize]);
 
   return <canvas ref={canvasRef} aria-hidden className={`block h-full w-full border-0 ${className}`} />;
 }

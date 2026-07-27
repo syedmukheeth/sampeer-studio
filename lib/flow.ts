@@ -1,11 +1,11 @@
 /**
- * The workflow graph model — pure data, no React.
+ * The workflow graph model, pure data, no React.
  *
  * This lives outside components/ui/Flow.tsx on purpose. Flow.tsx is a
  * "use client" module, and Next turns every export of a client module into a
  * client-reference proxy on the server. Calling serpentine() from a server
  * component (or from a content module a server component imports) would blow
- * up. Keeping the model here means both sides can use it — which is also why
+ * up. Keeping the model here means both sides can use it, which is also why
  * icons are string KEYS here, resolved to components inside the client layer
  * (components/ui/flow-icons.tsx).
  */
@@ -99,7 +99,7 @@ export type FlowStep =
     };
 
 /**
- * Builds a boustrophedon graph — left-to-right, drop a row, right-to-left —
+ * Builds a boustrophedon graph, left-to-right, drop a row, right-to-left -
  * from a plain list of steps. Every workflow on the page is a straight
  * chain, so authoring col/row by hand would be a few hundred lines of
  * coordinates that can drift into an invalid shape without anyone noticing.

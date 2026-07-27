@@ -13,7 +13,7 @@ import { TextType } from "@/components/ui/TextType";
  * One pillar in the Build stack, with a premium scroll-linked handoff.
  *
  * The panels still pin (CSS sticky) and the next one slides up to cover this
- * one — but instead of a flat hard cut, this panel *recedes* as it is covered:
+ * one, but instead of a flat hard cut, this panel *recedes* as it is covered:
  * the content scales down a touch and a canvas veil fades over it, so the eye
  * reads depth (this pillar stepping back into the page) rather than a swap.
  * The graphic drifts up a little slower for parallax. Same mechanism and the
@@ -23,13 +23,13 @@ import { TextType } from "@/components/ui/TextType";
  * panel has no room to stay pinned while the next one covers it. It runs one
  * viewport of hold plus half a viewport of recede; progress goes 0 (just
  * pinned) -> 1 (covered and leaving). The last panel gets no tall wrap and no
- * recede — nothing covers it, so it simply rests.
+ * recede, nothing covers it, so it simply rests.
  *
- * Reduced motion: no transforms, no veil — the panels simply stack. Markup is
+ * Reduced motion: no transforms, no veil, the panels simply stack. Markup is
  * identical either way (the veil is the only extra node and it is inert), so
  * there is no hydration branch.
  */
-/** ms per character in the outcome heading — shared with the body's delay. */
+/** ms per character in the outcome heading, shared with the body's delay. */
 const TYPING_SPEED = 28;
 
 export function PillarPanel({ pillar: p, last = false }: { pillar: Pillar; last?: boolean }) {
@@ -38,8 +38,8 @@ export function PillarPanel({ pillar: p, last = false }: { pillar: Pillar; last?
   const reduce = useReducedMotion();
 
   // One trigger for the whole panel. Previously the heading and the graphic
-  // each ran their own observer against their own element, and the graphic —
-  // a tall column — crossed its threshold first, so the visual arrived before
+  // each ran their own observer against their own element, and the graphic -
+  // a tall column, crossed its threshold first, so the visual arrived before
   // the words it was supposed to follow.
   const started = useInView(copy, { once: true, amount: 0.4 });
 
@@ -51,7 +51,7 @@ export function PillarPanel({ pillar: p, last = false }: { pillar: Pillar; last?
   // recede: hold through the first ~65%, then step back as the cover arrives
   const scale = useTransform(scrollYProgress, [0, 0.65, 1], [1, 1, 0.93]);
   const veil = useTransform(scrollYProgress, [0, 0.7, 1], [0, 0, 0.62]);
-  // graphic parallax — a slower drift than the text for depth
+  // graphic parallax, a slower drift than the text for depth
   const graphicY = useTransform(scrollYProgress, [0, 1], [0, -48]);
 
   const animate = !reduce && !last;
@@ -61,10 +61,13 @@ export function PillarPanel({ pillar: p, last = false }: { pillar: Pillar; last?
   const typingDuration = (p.outcome.length * TYPING_SPEED) / 1000 + 0.15;
 
   return (
-    <div ref={wrap} className={last ? "relative" : "relative h-[150vh]"}>
+    // dvh, not vh: the sticky child below is sized in dvh, and on mobile the
+    // two units differ by the URL bar's height, so mixing them drifts the pin
+    // math as the bar shows and hides
+    <div ref={wrap} className={last ? "relative" : "relative h-[150dvh]"}>
       <article className="sticky top-0 flex min-h-dvh items-center overflow-hidden bg-canvas">
         {/* the panel's own background is opaque (it has to cover the panel
-            below it), which hides the page-wide grid — so the ruling is
+            below it), which hides the page-wide grid, so the ruling is
             repainted here, on top */}
         <GraphPaper className="[mask-image:radial-gradient(ellipse_at_center,black_0%,black_55%,transparent_88%)]" />
         <motion.div
@@ -93,7 +96,7 @@ export function PillarPanel({ pillar: p, last = false }: { pillar: Pillar; last?
                 cursorCharacter="_"
               />
             </h3>
-            {/* held back until the heading above has finished typing — the
+            {/* held back until the heading above has finished typing, the
                 body arriving first gave away the line before it was written */}
             <motion.p
               initial={reduce ? false : { opacity: 0, y: 12 }}
@@ -129,7 +132,7 @@ export function PillarPanel({ pillar: p, last = false }: { pillar: Pillar; last?
           </motion.div>
         </motion.div>
 
-        {/* recede veil — dims this panel to canvas as the next slides over it */}
+        {/* recede veil, dims this panel to canvas as the next slides over it */}
         {animate && (
           <motion.div
             aria-hidden

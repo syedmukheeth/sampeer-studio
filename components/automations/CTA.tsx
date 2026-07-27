@@ -12,7 +12,7 @@ import { EASE, DUR, RISE, VIEWPORT } from "@/lib/constants";
  *  rather than a shared prop-driven component: that one is the site's single
  *  CTA intent ("tell me about your startup"), this one sells a specific
  *  30-minute audit and tracks its own event. Merging them would mean a
- *  component whose every field is a prop — a template, not an abstraction.
+ *  component whose every field is a prop, a template, not an abstraction.
  *  Same arrival choreography as the home CTA, kept in sync by hand. */
 export function CTA() {
   const reduce = useReducedMotion();
@@ -33,7 +33,7 @@ export function CTA() {
           {A_CTA.sub}
         </motion.p>
 
-        {/* threshold — a hairline the reader crosses to act */}
+        {/* threshold, a hairline the reader crosses to act */}
         <motion.span
           aria-hidden
           initial={reduce ? false : { scaleX: 0 }}

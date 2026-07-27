@@ -12,7 +12,7 @@ import { Flow } from "@/components/ui/Flow";
 import { BuildSequence } from "@/components/automations/BuildSequence";
 import { EASE, DUR } from "@/lib/constants";
 
-/** §A2 The transform — the signature moment of the page. One sticky canvas,
+/** §A2 The transform, the signature moment of the page. One sticky canvas,
  *  one scroll timeline: the chaos graph assembles itself piece by piece
  *  (0 → 0.42), collapses (0.44 → 0.52), and the wired machine constructs on
  *  the same grid (0.52 → 0.97). Nothing exists before your scroll builds it;

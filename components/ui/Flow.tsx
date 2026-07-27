@@ -15,7 +15,7 @@ import type { FlowNode, FlowEdge } from "@/lib/flow";
 import { FLOW_ICONS } from "@/components/ui/flow-icons";
 
 /**
- * FLOW — the one workflow diagram on this site.
+ * FLOW, the one workflow diagram on this site.
  *
  * Every canvas on /automations is this component with different data. The
  * brand forbids glows, neon, and particles, so "aliveness" is carried by
@@ -25,14 +25,14 @@ import { FLOW_ICONS } from "@/components/ui/flow-icons";
  * mandate while still reading as a live machine.
  *
  * Two node renderings share the engine. A node that carries `icon`/`meta`
- * data renders as a RICH app card — icon chip, live meta line, status
- * indicator — sized on a larger grid. A bare `{id, label}` node renders the
+ * data renders as a RICH app card, icon chip, live meta line, status
+ * indicator, sized on a larger grid. A bare `{id, label}` node renders the
  * original simple box on the original grid. The switch is per-canvas
  * (any icon flips the whole graph rich) so mixed sizing never happens.
  *
  * Layout: authored on a grid (col/row). The viewBox is sized from that grid
  * and the container is given a matching aspect-ratio, so SVG user units and
- * the percentage-positioned HTML nodes land on exactly the same pixels — no
+ * the percentage-positioned HTML nodes land on exactly the same pixels, no
  * ResizeObserver, no measurement pass, no drift.
  *
  * Mobile: the diagram does not shrink, it changes form. The <ol> that exists
@@ -52,7 +52,7 @@ export type FlowMode =
   | "sequence"
   /** constructs itself under the scrollbar: node k and edge k exist only once
    *  `progress` has passed their window. Requires the `progress` prop. Once a
-   *  piece is revealed it stays static — no pulse, no dot, no loop. */
+   *  piece is revealed it stays static, no pulse, no dot, no loop. */
   | "build";
 
 /** idle → active (holding the strike) → done (already fired this run) */
@@ -88,7 +88,7 @@ function layout(nodes: FlowNode[], dims: Dims) {
 }
 
 /**
- * Orthogonal elbows, never beziers — the page's radius ceiling is 8px and a
+ * Orthogonal elbows, never beziers, the page's radius ceiling is 8px and a
  * swoopy curve reads as a different brand. Leaves a gap before the target so
  * the arrowhead has somewhere to sit.
  */
@@ -131,7 +131,7 @@ export function Flow({
   /** ms each node holds the strike before handing off */
   step = 900,
   /** decorative background canvas: leaves the accessibility tree and drops
-   *  the stepper. Opacity is the caller's call — pass it via className. */
+   *  the stepper. Opacity is the caller's call, pass it via className. */
   ambient = false,
   /** shrink the rich card (smaller chip, no status dot) for narrow canvases
    *  like the Catalog cards, where the full anatomy would truncate labels */
@@ -139,8 +139,8 @@ export function Flow({
   /** Draw the animated canvas on phones too, with the stepper dropping to
    *  screen-reader only. Off by default: at catalog sizes the diagram is
    *  unreadable on a narrow screen, so the text stepper is the better visual.
-   *  Where the diagram IS the point — the growth pillar, whose whole claim is
-   *  a machine you watch run — a static list on mobile shows nothing running. */
+   *  Where the diagram IS the point, the growth pillar, whose whole claim is
+   *  a machine you watch run, a static list on mobile shows nothing running. */
   canvasOnMobile = false,
   label,
   className,
@@ -208,7 +208,7 @@ export function Flow({
   const lit = running && !chaos ? order[i] : null;
   const firing = lit ? edges.find((e) => e.from === lit) : undefined;
 
-  // the outcome toast fires when a rich loop reaches its terminal node —
+  // the outcome toast fires when a rich loop reaches its terminal node -
   // `running` is false on the server, first client render, and under reduced
   // motion, so this never desyncs hydration and never shows when static.
   const last = nodes[nodes.length - 1];
@@ -270,7 +270,7 @@ export function Flow({
             }
 
             // rich edges remember what they carried: once the strike moves
-            // past an edge's source it settles brighter than virgin line —
+            // past an edge's source it settles brighter than virgin line -
             // a hairline "data has flowed here" trace, not a glow.
             const srcIdx = indexOf.get(e.from) ?? ei;
             const carried = rich && !chaos && lit !== null && srcIdx < i;
@@ -291,7 +291,7 @@ export function Flow({
                     motion implements pathLength by driving stroke-dasharray
                     itself, so a dashed chaos edge silently renders solid if
                     you animate its length. Chaos keeps its dashes and only
-                    fades — the missing self-draw is the point.
+                    fades, the missing self-draw is the point.
 
                     Neither branches on `reduce`, and neither passes
                     `initial={false}`: the server can't know the preference, so
@@ -299,7 +299,7 @@ export function Flow({
                     `initial` leaves motion animating opacity from a value it
                     can't read off an SVG node (a warning per edge). Instead
                     the shape is fixed and reduced motion collapses the
-                    DURATION to zero — same resolved frame, no travel. */}
+                    DURATION to zero, same resolved frame, no travel. */}
                 {chaos ? (
                   <motion.path
                     d={d}
@@ -463,7 +463,7 @@ export function Flow({
           Real text, real order. A screen reader gets the workflow as prose;
           it never meets the SVG. */}
       <ol
-        // an ambient backdrop is decoration, not content — it stays out of the
+        // an ambient backdrop is decoration, not content, it stays out of the
         // accessibility tree entirely rather than being read aloud
         aria-hidden={ambient || undefined}
         className={clsx(
@@ -536,7 +536,7 @@ export function Flow({
  * The "living app node": icon chip, title, live meta line, status indicator.
  * Everything a state can change is either a color class behind
  * `transition-colors` or one of three stacked meta spans crossfading on
- * opacity — no AnimatePresence, no re-mounts, nothing for hydration to trip
+ * opacity, no AnimatePresence, no re-mounts, nothing for hydration to trip
  * on. The active treatment is a hairline and a pop, never a glow.
  */
 function RichNode({
@@ -574,7 +574,7 @@ function RichNode({
       animate={active && !reduce ? { scale: [1, 1.04, 1] } : { scale: 1 }}
       transition={{ duration: reduce ? 0 : DUR.fast, ease: EASE.pop }}
     >
-      {/* top hairline — the card's "edge light", 1px, inside brand rules */}
+      {/* top hairline, the card's "edge light", 1px, inside brand rules */}
       <span
         aria-hidden
         className={clsx(
@@ -642,7 +642,7 @@ function RichNode({
         </span>
 
         {/* status: sleeping dot → live accent dot → done tick. Dropped in
-            compact — the icon swap already signals state and the column is
+            compact, the icon swap already signals state and the column is
             width the label needs more. */}
         {!compact && (
           <span className="grid w-3 shrink-0 place-items-center">
@@ -753,7 +753,7 @@ function BuildEdge({
     <g className="text-line">
       {chaos ? (
         /* dashed chaos edges cannot animate pathLength (motion drives
-           stroke-dasharray itself) — they fade in instead */
+           stroke-dasharray itself), they fade in instead */
         <motion.path
           d={d}
           fill="none"
@@ -801,7 +801,7 @@ function BuildNode({
   // centering offset and the 8px rise share the same transform channel
   const y = useTransform(t, (v) => `calc(-50% + ${(8 * (1 - v)).toFixed(2)}px)`);
   // the single accent strike: only the terminal node, only once the whole
-  // machine stands — one strike per viewport, preserved in build mode
+  // machine stands, one strike per viewport, preserved in build mode
   const strike = useBuildValue(progress, count * u, (count + 0.6) * u, reduce);
 
   /* Rich-card build states, all MotionValue-driven so scrubbing backwards

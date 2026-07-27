@@ -3,7 +3,7 @@
  * Components read from here, no copy hardcoded in JSX.
  * Launch content lives here so components stay focused on presentation.
  *
- * Every image referenced here is a local /public asset — no remote hosts, so
+ * Every image referenced here is a local /public asset, no remote hosts, so
  * next/image needs no remotePatterns and never fetches third-party bytes.
  */
 
@@ -32,7 +32,7 @@ export const HERO = {
   lead: "Most startups don't fail.",
   accent: "They go unnoticed.",
   // quiet follow line, kept under the 20-word cap
-  sub: "We build the growth layer that makes founders impossible to ignore.",
+  sub: "We build the growth layer that turns a good product into the obvious choice.",
   /** Primary lead CTA, the one solid strike above the fold. A premium agency
    *  site earns the click here, not only in the Nav. */
   ctaPrimary: { label: "Book a free call", href: "#contact" },
@@ -41,25 +41,13 @@ export const HERO = {
   cta: { label: "See the work", href: "#work" },
 } as const;
 
-/**
- * A/B test bench for the hero verdict (Phase 6, post-launch).
- * Not wired by default: rendering a random variant on the client causes a
- * hydration flash. To enable safely, assign a variant via middleware/cookie
- * (server-stable), pass it into <Hero variant=...>, and `track("hero_view",
- * { variant })`. Pick the winner, then promote it into HERO above.
- */
-export const HERO_VARIANTS = [
-  { id: "a", lead: "Most startups don't fail.", accent: "They go unnoticed." },
-  { id: "b", lead: "Your product is not the problem.", accent: "Your silence is." },
-] as const;
-
 /* ------------------------------------------------------------ problem */
 /* §02 No heading. Brutal prose. Creates the itch. */
 export const PROBLEM = {
   lines: [
     "Your product is good. That was never the question.",
-    "Nobody notices it. Nobody remembers it. Nobody trusts it yet.",
-    "So the users don't come, the momentum never starts, and the work stays invisible.",
+    "But nobody has heard of it, nobody remembers it, and nobody has a reason to trust it yet.",
+    "So the users never arrive, the momentum never starts, and the best work of your life stays invisible.",
   ],
   // one word gets the indigo strike in JSX
   emphasis: "invisible",
@@ -79,12 +67,12 @@ export type Pillar = {
   graphic: "story" | "growth" | "founder";
 };
 
-/** The stack had no header — three numbered panels opened cold, with nothing
+/** The stack had no header, three numbered panels opened cold, with nothing
  *  naming what they were a list of. */
 export const PILLARS_HEADER = {
   eyebrow: "What we build",
   title: "Three systems. One job: make you impossible to overlook.",
-  body: "Each one stands alone. Run together, they compound — the site earns belief, the engine converts it, your name opens the next door.",
+  body: "Each one stands alone. Run together they compound. The site earns belief, the engine turns that belief into booked calls, and your name opens the next door before you knock on it.",
 } as const;
 
 export const PILLARS: Pillar[] = [
@@ -521,65 +509,6 @@ export const CASE_STUDIES: Record<string, CaseStudyData> = {
 };
 
 /* -------------------------------------------------- automations teaser */
-/* §04b The doorway to /automations. The nav link alone left the second
- * offering invisible to anyone who simply scrolls, so the story now says it
- * out loud: the sites above are what we build, this is what makes them work
- * without you. Deliberately copy-only, the live diagrams live on the route
- * itself, and the home page cannot afford them. */
-export const AUTOMATION_TEASER = {
-  eyebrow: "Growth Automation Lab",
-  title: "A site brings them in. A system keeps them.",
-  sub: "The work above is the front door. Behind it, we wire the follow-up, qualification, booking, and reporting that used to depend on someone remembering.",
-  /** a taste of the ten-system catalog, not the whole menu */
-  systems: [
-    "Lead capture",
-    "WhatsApp assistant",
-    "Appointment booking",
-    "Review engine",
-  ],
-  cta: { label: "Step inside the Lab", href: "/automations" },
-} as const;
-
-/* The live machine that now plays inline on home. Two 3-col graphs on the same
- * grid footprint so the scroll cross-fade reads as the SAME business rewired,
- * not two unrelated diagrams, same discipline as /automations Transform. */
-/* The chaos side carries STALE metas on purpose, "4 days ago",
- * "v7_final.xlsx", so the crossfade to the wired machine reads as relief,
- * not just a re-skin. */
-export const AUTOMATION_TEASER_CHAOS = serpentine(
-  [
-    { label: "Missed call", icon: "phone-x", meta: "3 today" },
-    { label: "Sticky note", icon: "note", meta: "somewhere" },
-    { label: "Forgotten", icon: "clock", meta: "4 days ago" },
-    { label: "Excel", icon: "table", meta: "v7_final.xlsx" },
-    { label: "Lost lead", icon: "user-minus", meta: "-" },
-  ],
-  3,
-);
-export const AUTOMATION_TEASER_ORDER = serpentine(
-  [
-    { label: "New lead", icon: "lead", kind: "trigger", meta: "just now", activeMeta: "capturing…", doneMeta: "captured" },
-    { label: "AI qualify", icon: "ai", kind: "ai", meta: "score -", activeMeta: "thinking…", doneMeta: "score 87" },
-    { label: "CRM", icon: "crm", kind: "metric", meta: "2,418 rows", activeMeta: "+1 row", doneMeta: "2,419 rows" },
-    { label: "Auto follow-up", icon: "email", kind: "action", meta: "queued", activeMeta: "sending…", doneMeta: "sent ✓" },
-    { label: "Booked", icon: "calendar", kind: "outcome", meta: "-", activeMeta: "confirming…", doneMeta: "Tue 10:00" },
-  ],
-  3,
-  { payload: "lead" },
-);
-
-/** The captions that cross-fade with the two machines. */
-export const AUTOMATION_TEASER_STATES = {
-  before: {
-    label: "Today",
-    caption: "Every step waits on someone remembering. Miss one, the lead is gone.",
-  },
-  after: {
-    label: "Wired",
-    caption: "Every step hands off on its own. Nothing waits on memory.",
-  },
-} as const;
-
 /* §04b (home) THE AUTOMATION STAGE, the dark cinematic showcase.
  * The home page's centerpiece: a scroll-driven story where four signature
  * systems each build themselves under the scrollbar, fire, and land an
@@ -729,7 +658,7 @@ export const TESTIMONIALS: Testimonial[] = [
     name: "ASRG Construction",
     role: "Construction & Civil · Kurnool",
     // client's own photo, supplied July 2026. The /asrg-client*.webp pair is
-    // still the on-site proof in WORK — this replaces the testimonial only.
+    // still the on-site proof in WORK, this replaces the testimonial only.
     photo: "/client-asrg-1.webp",
   },
 ];
@@ -784,7 +713,7 @@ export const TEAM: TeamMember[] = [
     role: "Co-founder & CEO",
     photo: "/founder.webp",
     photoPosition: "center 30%",
-    line: "Owns the story and the strategy — what you say, who it is for, and why anyone should believe it. Every project starts at his desk.",
+    line: "Owns the architecture and the story. He designs the systems, writes the backend, and decides what the whole engine has to do before anyone builds a screen. Every project starts and ends at his desk.",
     linkedin: "https://www.linkedin.com/in/syedmukheeth/",
   },
   {
@@ -793,21 +722,21 @@ export const TEAM: TeamMember[] = [
     role: "Co-founder & CTO",
     photo: "/faisal.webp",
     photoPosition: "center",
-    line: "Owns everything that runs — the build, the automations, the systems behind the site. If it has to work at 3am, it is his.",
+    line: "Builds and runs what that architecture calls for. Ships the front end, wires the automations, and keeps the whole thing standing in production.",
   },
 ];
 
 /** The CTO's half of the About section. Same shape as ABOUT so the two blocks
- *  render through one component — a manifesto in his own register (what he
+ *  render through one component, a manifesto in his own register (what he
  *  builds and why), not a restatement of the CEO's. */
 export const ABOUT_CTO = {
   name: "Shaik Faisal Ahmed",
-  role: "Co-founder & CTO, Sampeer Studio",
+  role: "Co-founder & CTO, SAMPeer Studio",
   photo: "/faisal-portrait.webp",
   photoPosition: "center 15%",
   manifesto: [
-    "I build the part that has to keep working after everyone goes home.",
-    "Fast sites, wired to systems that capture, qualify, and follow up without anyone remembering to.",
+    "I take the architecture Mukheeth draws and make it real, then keep it running after everyone goes home.",
+    "Fast sites, wired into the systems that capture, qualify, and follow up without anyone remembering to.",
     "Every automation we ship is one we run ourselves first. If it breaks, it breaks on us, not on a client.",
     "Good engineering is invisible. You should only notice that things simply happen.",
   ],
@@ -820,8 +749,8 @@ export const ABOUT = {
   linkedin: "https://www.linkedin.com/in/syedmukheeth/",
   manifesto: [
     "I help startups and ambitious businesses get noticed, remembered, and chosen.",
-    "Not just websites. Digital experiences that earn trust, pull customers in, and keep compounding long after launch.",
-    "Strategy, design, SEO, automation, and conversion-focused development, built as one engine instead of five disconnected parts.",
+    "I design the system before anyone designs a screen. How the data moves, where the leads land, what the backend has to guarantee, and how it all holds when the traffic is real.",
+    "Strategy, system design, backend, SEO, and automation are one engine here, not five disconnected projects. I own that engine end to end.",
     "Do it right, and a business stops asking for attention and starts earning it.",
   ],
 } as const;

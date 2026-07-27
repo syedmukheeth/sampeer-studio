@@ -5,9 +5,9 @@ import { useCallback, useEffect, useRef, useSyncExternalStore, type ReactNode } 
 /** Phones and reduced-motion get a plain stack. Read as a live subscription,
  *  not a one-shot check: the effect below only runs on mount, so a viewport
  *  that crosses the breakpoint afterwards used to keep whatever transforms it
- *  had — a desktop-sized page resized down left six cards pinned on top of
+ *  had, a desktop-sized page resized down left six cards pinned on top of
  *  each other and over the section beneath. */
-const PLAIN = "(prefers-reduced-motion: reduce)";
+const PLAIN = "(max-width: 767px), (prefers-reduced-motion: reduce)";
 
 function usePlainStack() {
   return useSyncExternalStore(
@@ -68,7 +68,7 @@ type ScrollStackProps = {
  *
  *  The upstream component owns its own scroller and spins up its own Lenis
  *  instance. Both are wrong here: the page already runs one global Lenis from
- *  LenisProvider, and a second one — plus a nested overflow container — would
+ *  LenisProvider, and a second one, plus a nested overflow container, would
  *  fight it for the wheel and trap the scroll inside the section. This version
  *  reads window scroll in a rAF loop instead, so it rides whatever is already
  *  driving the page. Reduced motion leaves the cards as a plain stack. */
@@ -254,7 +254,7 @@ export function ScrollStack({
   }, [itemDistance, measure, plain, update]);
 
   return (
-    // overflow-anchor:none — the browser's scroll anchoring watches for content
+    // overflow-anchor:none, the browser's scroll anchoring watches for content
     // shifting above the viewport and silently corrects scrollTop to compensate.
     // Pinned cards move every frame, so it kept nudging the scroll position and
     // the whole stack shivered.
@@ -262,7 +262,7 @@ export function ScrollStack({
       {children}
       {/* Release runway. The last card stays pinned until the end marker
           reaches mid-viewport, so without room after the cards that pin was
-          still held while the next section scrolled up underneath it — which
+          still held while the next section scrolled up underneath it, which
           is what put the following copy on top of the cards. */}
       {/* zero on phones, where nothing pins and the runway would just be a
           screen and a half of empty page */}

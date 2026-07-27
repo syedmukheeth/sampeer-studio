@@ -16,7 +16,7 @@ import { EVENTS } from "@/lib/analytics";
 
 /** §01 The verdict. Words mask-reveal up out of the noise field; the second
  *  line carries the page's accent strike. The CTA is deliberately a quiet
- *  anchor, not a button — Nav "Start" owns conversion, and this link doubles
+ *  anchor, not a button, Nav "Start" owns conversion, and this link doubles
  *  as the scroll affordance and a skip straight to the proof. */
 export function Hero() {
   const reduce = useReducedMotion();
@@ -54,7 +54,10 @@ export function Hero() {
       {/* signature noise -> signal field */}
       <NoiseField className="pointer-events-none absolute inset-0 h-full w-full" />
       <ShapeGrid
-        className="pointer-events-none absolute inset-0 h-full w-full opacity-45 [mask-image:radial-gradient(ellipse_at_center,black_0%,black_58%,transparent_86%)]"
+        // desktop only, same trade as the page-level grid in layout.tsx: a
+        // full-viewport canvas animating for the life of the session is a real
+        // frame budget on a phone, and it is texture behind the headline
+        className="pointer-events-none absolute inset-0 hidden h-full w-full opacity-45 [mask-image:radial-gradient(ellipse_at_center,black_0%,black_58%,transparent_86%)] md:block"
         speed={0.18}
         squareSize={72}
         direction="diagonal"
@@ -105,7 +108,7 @@ export function Hero() {
                   reveal={ready}
                   revealDelay={0.35}
                   // the weight wave rides in behind the words, then the cursor
-                  // inherits it — one gesture, not two unrelated effects
+                  // inherits it, one gesture, not two unrelated effects
                   introSweep={ready}
                   introDelay={0.75}
                   introDuration={1.3}
@@ -143,7 +146,7 @@ export function Hero() {
             speed={2.4}
             delay={0.4}
             color="#6e6e69"
-            shineColor="#111110"
+            shineColor="#1a1a19"
             spread={100}
             direction="left"
             yoyo

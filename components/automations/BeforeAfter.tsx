@@ -17,7 +17,7 @@ import { Flow } from "@/components/ui/Flow";
  *  Pointer handling is manual (pointer events + setPointerCapture) rather than
  *  motion's drag: we need the value in percent of the container to feed
  *  clip-path, and capture means the drag survives the pointer leaving the
- *  element. Keyboard gets a real role="slider" — this is the one control on
+ *  element. Keyboard gets a real role="slider", this is the one control on
  *  the page that would otherwise be mouse-only. */
 export function BeforeAfter() {
   const reduce = useReducedMotion();

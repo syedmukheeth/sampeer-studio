@@ -1,4 +1,4 @@
-# Launch intake — real data & assets
+# Launch intake, real data & assets
 
 The core launch assets are wired. The remaining unchecked items are owner/content confirmations or production account setup.
 
@@ -6,21 +6,21 @@ The core launch assets are wired. The remaining unchecked items are owner/conten
 
 ## 1. Founder
 
-- [x] **Display name** — Syed Abdul Mukheeth Peer
-- [x] **Photo** — `public/founder.webp` (hill portrait, 4:5)
-- [x] **LinkedIn** — https://www.linkedin.com/in/syedmukheeth/ (wired 4×)
-- [x] **X / Twitter** — removed everywhere per request
+- [x] **Display name**, Syed Abdul Mukheeth Peer
+- [x] **Photo**, `public/founder.webp` (hill portrait, 4:5)
+- [x] **LinkedIn**, https://www.linkedin.com/in/syedmukheeth/ (wired 4×)
+- [x] **X / Twitter**, removed everywhere per request
 
 ## 2. Logo  ✅ done
 
-- [x] **Mark** — `public/logo-mark.png` (transparent S-ribbon) → nav
-- [x] **Full lockup** — `public/logo-full.png` (mark + white "sampeer studio"
+- [x] **Mark**, `public/logo-mark.png` (transparent S-ribbon) → nav
+- [x] **Full lockup**, `public/logo-full.png` (mark + white "sampeer studio"
       + tagline, transparent) → footer. Rebuilt light-on-dark from the light
       lockup since the dark-glow file wasn't supplied.
-- [x] **Favicon + square** — `app/icon.png`, `public/logo.png` (512² mark)
+- [x] **Favicon + square**, `app/icon.png`, `public/logo.png` (512² mark)
 - [ ] Optional upgrade: send an SVG mark for infinitely-crisp scaling.
 
-## 3. Stats — LinkedIn proof  (`lib/content.ts` `STATS`)  ✅ done
+## 3. Stats, LinkedIn proof  (`lib/content.ts` `STATS`)  ✅ done
 
 - [x] LinkedIn followers → 8.7K+
 - [x] Monthly impressions → 350K+
@@ -40,28 +40,28 @@ The core launch assets are wired. The remaining unchecked items are owner/conten
 ## 6. Contact form delivery  (Vercel → Settings → Environment Variables)
 
 - [x] Local: `.env.local` has RESEND_API_KEY + CONTACT_TO + CONTACT_FROM
-- [ ] **Vercel: add the SAME three env vars, then redeploy** (owner action —
+- [ ] **Vercel: add the SAME three env vars, then redeploy** (owner action -
       local env does not apply to production)
 - [x] Public email on site → sampeerstudio@gmail.com
-- [ ] `CONTACT_FROM` — currently onboarding@resend.dev; upgrade after
+- [ ] `CONTACT_FROM`, currently onboarding@resend.dev; upgrade after
       verifying a sending domain in Resend
 
 ## 7. Domain / SEO
 
 - [x] Meta title + description updated (`app/layout.tsx`)
-- [ ] Custom domain (not bought yet) — on `sampeer-studio.vercel.app` until
+- [ ] Custom domain (not bought yet), on `sampeer-studio.vercel.app` until
       then → swap `SITE_URL` in `lib/constants.ts`
 
-## 8. Work section  (already real — 6 live client sites)
+## 8. Work section  (already real, 6 live client sites)
 
 - [ ] Confirm client names / industries / one-line descriptions are accurate
       and you have permission to feature them (`lib/content.ts` `WORK`)
-- [x] **ASRG case study** live at `/work/asrg` — challenge/solution/services/
+- [x] **ASRG case study** live at `/work/asrg`, challenge/solution/services/
       outcome + on-site client photos + live-site embed. Work card links to it.
 - [ ] Optional: send SEO + Google Business Profile screenshots to add a
       "proof" gallery row to the case study.
 
 ---
 
-Send items 1–2 (photo + logo files) and 6 (Resend) first — those are the
+Send items 1–2 (photo + logo files) and 6 (Resend) first, those are the
 highest-impact for "looks professional + actually captures leads."

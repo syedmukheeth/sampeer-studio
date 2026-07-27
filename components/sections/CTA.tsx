@@ -31,7 +31,7 @@ export function CTA() {
           {C.sub}
         </motion.p>
 
-        {/* threshold — a hairline the reader crosses to act */}
+        {/* threshold, a hairline the reader crosses to act */}
         <motion.span
           aria-hidden
           initial={reduce ? false : { scaleX: 0 }}

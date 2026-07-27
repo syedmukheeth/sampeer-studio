@@ -4,7 +4,7 @@
  * told to fall back to a direct mailto so no lead is ever silently dropped.
  *
  * This is the only route on the site that accepts input, so it is the only
- * real attack surface — it is written accordingly: bounded body, bounded
+ * real attack surface, it is written accordingly: bounded body, bounded
  * memory, allow-listed fields, and a throttle keyed on an IP the caller
  * cannot choose.
  */
@@ -32,7 +32,7 @@ const WINDOW_MS = 60 * 60 * 1000;
 const LIMIT = 5;
 /** Bound the table so a flood of distinct keys can't grow it without limit.
  *  Expired rows are swept first; if everything is still live we stop admitting
- *  new keys rather than grow — a full table fails closed, not open. */
+ *  new keys rather than grow, a full table fails closed, not open. */
 const MAX_TRACKED_IPS = 10_000;
 
 function limited(ip: string) {
@@ -115,7 +115,7 @@ export async function POST(request: Request) {
     return Response.json({ ok: false, error: "bad_request" }, { status: 400 });
   }
 
-  // honeypot — bots fill every field; humans never see this one
+  // honeypot, bots fill every field; humans never see this one
   if (body.company) return Response.json({ ok: true });
 
   const email = typeof body.email === "string" ? body.email.trim() : "";
@@ -132,7 +132,7 @@ export async function POST(request: Request) {
 
   const key = process.env.RESEND_API_KEY;
   if (!key) {
-    // not configured yet — tell the client to open mailto instead
+    // not configured yet, tell the client to open mailto instead
     return Response.json({ ok: false, error: "not_configured" }, { status: 503 });
   }
 

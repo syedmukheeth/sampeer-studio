@@ -16,7 +16,7 @@ import {
  *  matchMedia, so it always renders the un-reduced tree; a reduced-motion
  *  client that renders a different element (or a different `style`) on first
  *  paint is a hydration mismatch. So the markup is identical either way and
- *  only the handler bodies bail — the springs simply never leave 0, which is
+ *  only the handler bodies bail, the springs simply never leave 0, which is
  *  exactly "no tilt". */
 export function TiltCard({
   children,
@@ -40,7 +40,7 @@ export function TiltCard({
     damping: 20,
   });
 
-  // rect is read once on enter, not per mousemove — a layout read on every
+  // rect is read once on enter, not per mousemove, a layout read on every
   // pointer event across ten catalog cards is measurable jank
   const rect = useRef<DOMRect | null>(null);
 

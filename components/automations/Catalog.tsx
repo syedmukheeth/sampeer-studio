@@ -8,7 +8,7 @@ import { Flow } from "@/components/ui/Flow";
 import { TiltCard } from "@/components/ui/TiltCard";
 import { Reveal } from "@/components/ui/Reveal";
 
-/** One card. Its diagram only runs while the card is hovered OR focused —
+/** One card. Its diagram only runs while the card is hovered OR focused -
  *  hover-only would make ten of these unreachable from a keyboard, and
  *  running all ten at once would cook the page. */
 function Card({

@@ -11,12 +11,12 @@ import { ScrollStack, ScrollStackItem } from "@/components/ui/ScrollStack";
 import { SplitText } from "@/components/ui/SplitText";
 import { track, EVENTS } from "@/lib/analytics";
 
-/** §04 Real Work — a scroll stack. Each project is a full-width exhibit that
+/** §04 Real Work, a scroll stack. Each project is a full-width exhibit that
  *  pins near the top of the viewport while the next one rises to cover it, the
  *  covered cards shrinking back into a visible deck rather than disappearing:
  *  at any point you can see the pile of work behind the one you are reading.
  *
- *  The whole card is the link — poster at rest, live site on hover, and a click
+ *  The whole card is the link, poster at rest, live site on hover, and a click
  *  anywhere on it opens the real thing.
  *
  *  Ordering: the heading writes itself in, then the stack fades up. Reduced
@@ -60,10 +60,10 @@ function StackCard({ project: w, index }: { project: LiveProject; index: number 
   return (
     <div className="group relative overflow-hidden rounded-lg border border-line bg-elevated shadow-[0_10px_36px_rgba(31,41,36,0.07)] transition-colors duration-500 hover:border-accent/40 hover:bg-elevated-2">
       <div className="grid gap-0 md:grid-cols-12">
-        {/* exhibit — poster at rest, live site on hover */}
+        {/* exhibit, poster at rest, live site on hover */}
         <div className="relative aspect-16/10 overflow-hidden md:col-span-8 md:border-r md:border-line">
           <LiveSiteFrame url={w.url} title={`${w.client}, live site`} poster={w.poster} />
-          {/* accent veil at rest, lifts on hover — plain tint, no blend mode:
+          {/* accent veil at rest, lifts on hover, plain tint, no blend mode:
               mix-blend on six poster-sized layers taxes the compositor every
               frame of the stack scroll */}
           <div
@@ -111,7 +111,7 @@ function StackCard({ project: w, index }: { project: LiveProject; index: number 
             <p className="mt-2 font-sans text-xs text-muted">{w.industry}</p>
             <p className="mt-5 font-sans text-sm leading-relaxed text-muted">{w.description}</p>
 
-            {/* real on-site proof — a photo stack, not a stock badge */}
+            {/* real on-site proof, a photo stack, not a stock badge */}
             {w.proof && (
               <div className="mt-6 flex items-center gap-3">
                 <div className="flex">
@@ -131,7 +131,7 @@ function StackCard({ project: w, index }: { project: LiveProject; index: number 
               </div>
             )}
 
-            {/* client pull-quote — social proof on the card itself */}
+            {/* client pull-quote, social proof on the card itself */}
             {w.testimonial && (
               <blockquote className="mt-6 border-l-2 border-accent/40 pl-3">
                 <p className="font-display text-base leading-snug tracking-tight text-ink">

@@ -5,18 +5,18 @@ import Image from "next/image";
 import { DUR } from "@/lib/constants";
 
 /** Virtual desktop viewport the embedded site renders at. 1440x900 is 16:10,
- *  matching the card's aspect-[16/10] exactly — one measured width scales
+ *  matching the card's aspect-[16/10] exactly, one measured width scales
  *  both axes. */
 const FRAME_W = 1440;
 const FRAME_H = 900;
 
 /**
- * Live, scaled-down embed of a real site — mounted ONLY while the card is
+ * Live, scaled-down embed of a real site, mounted ONLY while the card is
  * hovered.
  *
  * The earlier version mounted every frame on approach and never unmounted, on
  * the logic that a reload flash is worse than the memory. With six cards that
- * left six full websites — six sets of scripts, fonts, and hero animations —
+ * left six full websites, six sets of scripts, fonts, and hero animations -
  * running for the rest of the session, including long after the section had
  * been scrolled past. That is a permanent frame-rate tax on every section
  * below Work, so the trade is inverted here: at most ONE site is ever live,
@@ -24,7 +24,7 @@ const FRAME_H = 900;
  * asking for it.
  *
  * At rest the card shows `poster` if given, otherwise a monogram plate. Touch
- * devices never hover, so they only ever see the poster — which is the right
+ * devices never hover, so they only ever see the poster, which is the right
  * outcome for a phone anyway.
  *
  * The iframe is inert (pointer-events none, tabIndex -1, aria-hidden): the
@@ -65,11 +65,16 @@ export function LiveSiteFrame({
   return (
     <div
       ref={wrapper}
-      onMouseEnter={() => setHot(true)}
+      // Mouse-capable pointers only. Mobile browsers synthesise mouseenter on
+      // tap for hover-styled elements, so on a phone this was mounting a whole
+      // third-party site on a tap, with no reliable mouseleave to unmount it.
+      onMouseEnter={() => {
+        if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) setHot(true);
+      }}
       onMouseLeave={leave}
       className="absolute inset-0 overflow-hidden bg-elevated"
     >
-      {/* rest state — also the loading state, since the frame fades in over it */}
+      {/* rest state, also the loading state, since the frame fades in over it */}
       {poster ? (
         <Image
           src={poster}

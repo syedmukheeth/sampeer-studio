@@ -6,10 +6,12 @@ import {
   useEffect,
   useMemo,
   useRef,
+  useState,
+  useSyncExternalStore,
   type CSSProperties,
   type RefObject,
 } from "react";
-import { motion } from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
 
 type Falloff = "linear" | "exponential" | "gaussian";
 
@@ -37,8 +39,13 @@ type VariableProximityProps = {
   revealStagger?: number;
 };
 
-function useAnimationFrame(callback: () => void) {
+/** The loop is the whole cost of this component, so it is opt-in rather than
+ *  unconditional: two of these mount in the hero, and an ungated version kept
+ *  both calling getBoundingClientRect() on every letter every frame for the
+ *  life of the session, including while the hero sat a page above. */
+function useAnimationFrame(callback: () => void, active: boolean) {
   useEffect(() => {
+    if (!active) return;
     let frameId = 0;
 
     const loop = () => {
@@ -48,7 +55,40 @@ function useAnimationFrame(callback: () => void) {
 
     frameId = requestAnimationFrame(loop);
     return () => cancelAnimationFrame(frameId);
-  }, [callback]);
+  }, [active, callback]);
+}
+
+/** Without a fine pointer there is no hover to react to, so once the intro
+ *  sweep has played there is nothing left for the loop to do. */
+const HOVER = "(hover: hover) and (pointer: fine)";
+
+function useHoverCapable() {
+  return useSyncExternalStore(
+    (onChange) => {
+      const mq = window.matchMedia(HOVER);
+      mq.addEventListener("change", onChange);
+      return () => mq.removeEventListener("change", onChange);
+    },
+    () => window.matchMedia(HOVER).matches,
+    () => false,
+  );
+}
+
+/** Pause the loop while the text is off screen. */
+function useInView(containerRef: RefObject<HTMLElement | null>) {
+  const [inView, setInView] = useState(true);
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(([entry]) => setInView(entry.isIntersecting), {
+      rootMargin: "10% 0px",
+    });
+    io.observe(el);
+    return () => io.disconnect();
+  }, [containerRef]);
+
+  return inView;
 }
 
 function usePointerPositionRef(containerRef: RefObject<HTMLElement | null>) {
@@ -100,6 +140,14 @@ export const VariableProximity = forwardRef<HTMLSpanElement, VariableProximityPr
     // Not seeded from introSweep: callers flip it on once the section is ready,
     // so it is false on the first render and seeding would skip the sweep.
     const introDoneRef = useRef(false);
+    const [introDone, setIntroDone] = useState(false);
+    const reduce = useReducedMotion();
+    const hoverCapable = useHoverCapable();
+    const inView = useInView(containerRef);
+
+    // Run only while there is something to compute: never under reduced motion,
+    // never off screen, and on a touch device only for the one-shot intro sweep.
+    const active = !reduce && inView && (hoverCapable || (introSweep && !introDone));
 
     const parsedSettings = useMemo(() => {
       const parseSettings = (settings: string) =>
@@ -153,7 +201,7 @@ export const VariableProximity = forwardRef<HTMLSpanElement, VariableProximityPr
 
       // Entrance: a virtual pointer crosses the line once. It runs on the same
       // per-letter falloff as the hover, so both effects are literally the same
-      // gesture — one automatic, one under the cursor.
+      // gesture, one automatic, one under the cursor.
       if (introSweep && !introDoneRef.current) {
         const now = performance.now();
         introStartRef.current ??= now;
@@ -177,6 +225,7 @@ export const VariableProximity = forwardRef<HTMLSpanElement, VariableProximityPr
 
         if (progress >= 1) {
           introDoneRef.current = true;
+          setIntroDone(true);
           // force the first pointer pass to recompute
           lastPositionRef.current = { x: NaN, y: NaN };
         }
@@ -215,7 +264,7 @@ export const VariableProximity = forwardRef<HTMLSpanElement, VariableProximityPr
       settingsFor,
     ]);
 
-    useAnimationFrame(updateLetters);
+    useAnimationFrame(updateLetters, active);
 
     let letterIndex = 0;
     const words = label.split(" ");

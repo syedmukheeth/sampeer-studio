@@ -11,7 +11,7 @@ import { EVENTS } from "@/lib/analytics";
 /** §A1 The promise. The home hero's signature is "noise -> signal" (a WebGL
  *  grain field). This page's signature is different on purpose: a machine
  *  already running behind the words, before you've read them. Grid lines are
- *  a CSS gradient, not a particle system — the brand bans glow, and the
+ *  a CSS gradient, not a particle system, the brand bans glow, and the
  *  ambient Flow is the only thing that needs to move. */
 export function Hero() {
   const reduce = useReducedMotion();
@@ -21,7 +21,7 @@ export function Hero() {
       id="lab"
       className="relative flex min-h-dvh flex-col items-center justify-center overflow-hidden px-6 pt-24 text-center"
     >
-      {/* graph paper — one repeating-linear-gradient per axis, in `line` */}
+      {/* graph paper, one repeating-linear-gradient per axis, in `line` */}
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 opacity-60 [background-image:repeating-linear-gradient(to_right,var(--color-line)_0_1px,transparent_1px_88px),repeating-linear-gradient(to_bottom,var(--color-line)_0_1px,transparent_1px_88px)]"
@@ -47,7 +47,7 @@ export function Hero() {
       {/* seat the type over the graph paper */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(120%_75%_at_50%_45%,rgba(5,4,8,0.9)_30%,rgba(5,4,8,0.45)_100%)]"
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(120%_75%_at_50%_45%,rgba(22,25,23,0.9)_30%,rgba(22,25,23,0.45)_100%)]"
       />
       <div
         aria-hidden
@@ -57,13 +57,13 @@ export function Hero() {
       <div className="relative z-10 flex flex-col items-center">
         {/* Reduced motion collapses the DURATION rather than skipping the
             `initial` frame. `initial={reduce ? false : ...}` would render
-            different markup on a reduced client than the server produced —
-            the server has no matchMedia — and that's a hydration mismatch. */}
+            different markup on a reduced client than the server produced -
+            the server has no matchMedia, and that's a hydration mismatch. */}
         <motion.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: reduce ? 0 : DUR.base, ease: EASE.out }}
-          className="flex items-center gap-2.5 font-sans text-xs font-medium uppercase tracking-[0.22em] text-faint"
+          className="flex items-center gap-2.5 font-sans text-xs font-medium uppercase tracking-[0.18em] text-faint"
         >
           <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-accent" />
           {A_HERO.eyebrow}

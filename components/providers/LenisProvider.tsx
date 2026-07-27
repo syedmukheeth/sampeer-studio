@@ -31,7 +31,21 @@ export function LenisProvider({ children }: { children: React.ReactNode }) {
     }
     rafId = requestAnimationFrame(raf);
 
+    // This is the loop that keeps the page from ever going idle, so it must not
+    // survive a tab switch. rAF is usually throttled in a background tab, but
+    // not reliably, and nothing can be scrolling there anyway.
+    const onVisibility = () => {
+      if (document.hidden) {
+        cancelAnimationFrame(rafId);
+        rafId = 0;
+      } else if (!rafId) {
+        rafId = requestAnimationFrame(raf);
+      }
+    };
+    document.addEventListener("visibilitychange", onVisibility);
+
     return () => {
+      document.removeEventListener("visibilitychange", onVisibility);
       cancelAnimationFrame(rafId);
       lenis.destroy();
       delete (window as unknown as { lenis?: Lenis }).lenis;

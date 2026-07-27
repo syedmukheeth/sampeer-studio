@@ -38,7 +38,7 @@ export default function AutomationsPage() {
   return (
     <>
       <Nav />
-      {/* The Automation Lab is the dark cinematic STAGE — the diagram engine
+      {/* The Automation Lab is the dark cinematic STAGE, the diagram engine
           reads best on off-black, and it ties to the home showcase's dark cut.
           Nav + Footer stay light; the body inverts via the `.stage` tokens. */}
       <main id="main" className="stage">

@@ -1,5 +1,5 @@
 /**
- * Placeholder brand glyph — an indigo ribbon "S" echoing the logo lockup.
+ * Placeholder brand glyph, an indigo ribbon "S" echoing the logo lockup.
  * DEMO: swap for the real standalone S-mark (SVG) when it lands. One file.
  */
 export function BrandMark({

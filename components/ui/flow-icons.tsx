@@ -4,7 +4,7 @@
  * FlowIconKey → Phosphor component. Lives outside Flow.tsx so the mobile
  * stepper and any future consumer share one registry, and so Flow.tsx stays
  * about geometry and state rather than a wall of imports. Keys are the only
- * thing content files know — components never cross the server boundary.
+ * thing content files know, components never cross the server boundary.
  */
 
 import type { Icon } from "@phosphor-icons/react";

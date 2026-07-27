@@ -10,7 +10,7 @@ import { EASE, DUR, STAGGER, VIEWPORT } from "@/lib/constants";
 
 /** §09 Footer. The page signs off in its own voice: the brand line arrives
  *  with the hero's mask-reveal, the closing rule draws itself, and the round
- *  mark resolves from grayscale — the "noise -> signal" arc, one last time.
+ *  mark resolves from grayscale, the "noise -> signal" arc, one last time.
  *  No version stamps, no locale strips. */
 export function Footer() {
   const reduce = useReducedMotion();
@@ -18,7 +18,7 @@ export function Footer() {
   return (
     <footer className="border-t border-line py-16 md:py-20">
       <Shell>
-        {/* the last word, in display type — same treatment as the first */}
+        {/* the last word, in display type, same treatment as the first */}
         <p className="max-w-3xl font-display text-3xl font-semibold leading-[1.1] tracking-tight md:text-5xl">
           <MaskText text={FOOTER.line} />
         </p>
@@ -60,7 +60,7 @@ export function Footer() {
           </Reveal>
         </div>
 
-        {/* closing rule draws itself in — the page's final gesture */}
+        {/* closing rule draws itself in, the page's final gesture */}
         <motion.span
           aria-hidden
           initial={reduce ? false : { scaleX: 0 }}

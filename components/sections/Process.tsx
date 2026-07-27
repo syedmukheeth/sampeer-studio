@@ -14,7 +14,7 @@ import { EASE, DUR } from "@/lib/constants";
  *  was a wall of paragraphs; here you read one stage at a time and the
  *  sequence stays visible as a single line down the page.
  *
- *  Reduced motion: no shift, no cross-fade — clicking simply swaps the copy. */
+ *  Reduced motion: no shift, no cross-fade, clicking simply swaps the copy. */
 export function Process() {
   const reduce = useReducedMotion();
   const [active, setActive] = useState(0);
@@ -38,7 +38,7 @@ export function Process() {
           {/* All three stay readable; the selected one is set larger and in
               ink, the others shrink back to muted. Swapping to a single body
               hid two thirds of the process behind a click nobody is told to
-              make — this keeps the whole sequence on the page and still gives
+              make, this keeps the whole sequence on the page and still gives
               the rail something to do. */}
           <ol className="md:col-span-7 md:pt-2">
             {PROCESS.map((s, i) => {
@@ -50,7 +50,7 @@ export function Process() {
                   animate={
                     reduce
                       ? undefined
-                      : { opacity: on ? 1 : 0.55, scale: on ? 1 : 0.97, x: on ? 0 : -4 }
+                      : { opacity: on ? 1 : 0.5, scale: on ? 1 : 0.94, x: on ? 0 : -4 }
                   }
                   transition={{ duration: DUR.fast, ease: EASE.out }}
                   className="origin-left border-l-2 py-3 pl-5 first:pt-0"
@@ -59,8 +59,12 @@ export function Process() {
                   }}
                 >
                   <p
-                    className={`font-sans leading-relaxed transition-[font-size,color] duration-300 ${
-                      on ? "text-lg text-ink md:text-xl" : "text-sm text-muted md:text-base"
+                    // One size, transform-driven emphasis. Transitioning
+                    // font-size relayouts the whole list every frame for 300ms
+                    // and re-fires on each hover; the li's scale already does
+                    // the same job on the compositor.
+                    className={`font-sans text-base leading-relaxed transition-colors duration-300 md:text-lg ${
+                      on ? "text-ink" : "text-muted"
                     }`}
                   >
                     {s.body}

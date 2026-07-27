@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import { ArrowUpRight } from "@phosphor-icons/react/dist/ssr";
 import { Magnetic } from "@/components/ui/Magnetic";
+import { CurvedInput } from "@/components/ui/CurvedInput";
 import { EASE, DUR } from "@/lib/constants";
 import { track } from "@/lib/analytics";
 
@@ -13,7 +14,7 @@ type Status = "idle" | "sending" | "sent" | "error";
  * The one contact form, shared by both CTAs. Email + a short message,
  * honeypot for bots, full state cycle (sending / sent / error). If the
  * endpoint isn't configured yet it degrades to opening the visitor's mail
- * app — a lead is never dropped on the floor.
+ * app, a lead is never dropped on the floor.
  */
 export function ContactForm({
   idPrefix,
@@ -58,7 +59,7 @@ export function ContactForm({
         return;
       }
       if (res.status === 503) {
-        // endpoint not wired yet — hand off to the visitor's mail app
+        // endpoint not wired yet, hand off to the visitor's mail app
         window.location.href = `mailto:${fallbackEmail}?subject=${encodeURIComponent(
           "New project",
         )}&body=${encodeURIComponent(message)}`;
@@ -87,7 +88,7 @@ export function ContactForm({
 
   return (
     <form onSubmit={onSubmit} className="mx-auto mt-10 flex max-w-md flex-col gap-3">
-      {/* honeypot — hidden from people, irresistible to bots */}
+      {/* honeypot, hidden from people, irresistible to bots */}
       <input
         type="text"
         name="company"
@@ -100,32 +101,41 @@ export function ContactForm({
       <label htmlFor={`${idPrefix}-email`} className="sr-only">
         Your email
       </label>
-      <input
-        id={`${idPrefix}-email`}
-        name="email"
-        type="email"
-        required
-        // autoComplete lets the browser fill a known address; inputMode swaps
-        // the phone keyboard to the one with @ and . on the primary row.
-        // Spellcheck on an address only ever produces a red squiggle.
-        autoComplete="email"
-        inputMode="email"
-        spellCheck={false}
-        placeholder={emailPlaceholder}
-        className="h-12 rounded-md border border-line bg-elevated px-4 font-sans text-sm text-ink placeholder:text-muted touch-manipulation focus-visible:border-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
-      />
+      {/* CurvedInput draws the border and background; the control keeps every
+          attribute it had, so nothing about validation or submission changes */}
+      <CurvedInput>
+        <input
+          id={`${idPrefix}-email`}
+          name="email"
+          type="email"
+          required
+          // autoComplete lets the browser fill a known address; inputMode swaps
+          // the phone keyboard to the one with @ and . on the primary row.
+          // Spellcheck on an address only ever produces a red squiggle.
+          autoComplete="email"
+          inputMode="email"
+          spellCheck={false}
+          placeholder={emailPlaceholder}
+          // text-base under md: iOS Safari zooms the whole page when a focused
+          // input is under 16px, and the zoom does not come back out
+          className="h-14 w-full rounded-[1.75rem] bg-transparent px-7 font-sans text-base text-ink placeholder:text-muted touch-manipulation focus-visible:outline-none md:text-sm"
+        />
+      </CurvedInput>
 
       <label htmlFor={`${idPrefix}-message`} className="sr-only">
         What are you building?
       </label>
-      <textarea
-        id={`${idPrefix}-message`}
-        name="message"
-        rows={3}
-        autoComplete="off"
-        placeholder={messagePlaceholder}
-        className="resize-none rounded-md border border-line bg-elevated px-4 py-3 font-sans text-sm text-ink placeholder:text-muted touch-manipulation focus-visible:border-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
-      />
+      <CurvedInput>
+        <textarea
+          id={`${idPrefix}-message`}
+          name="message"
+          rows={3}
+          autoComplete="off"
+          placeholder={messagePlaceholder}
+          // extra vertical padding so three rows of text clear the bowed edges
+          className="w-full resize-none rounded-[1.75rem] bg-transparent px-7 py-5 font-sans text-base text-ink placeholder:text-muted touch-manipulation focus-visible:outline-none md:text-sm"
+        />
+      </CurvedInput>
 
       <Magnetic strength={0.3}>
         <button

@@ -11,7 +11,7 @@ import { BorderBeam } from "@/components/ui/BorderBeam";
 import { EASE, DUR, STAGGER } from "@/lib/constants";
 
 /** One founder: portrait one side, manifesto the other. The portrait is
- *  unveiled bottom-up by a canvas-coloured cover as it enters — the founder
+ *  unveiled bottom-up by a canvas-coloured cover as it enters, the founder
  *  arrives the way the sites do, not as a static plate.
  *
  *  `flip` alternates which side the photo sits on, so the second block reads as
@@ -45,7 +45,7 @@ function FounderBlock({
               style={{ objectPosition: photoPosition }}
             />
           </Parallax>
-          {/* unveil cover — scales away upward once, then never returns */}
+          {/* unveil cover, scales away upward once, then never returns */}
           <motion.span
             aria-hidden
             initial={reduce ? false : { scaleY: 1 }}
@@ -75,7 +75,7 @@ function FounderBlock({
   );
 }
 
-/** §07 About. Both founders get the full treatment — portrait and manifesto —
+/** §07 About. Both founders get the full treatment, portrait and manifesto -
  *  then the pair of cards names who owns what, then the brand meaning. */
 export function About() {
   return (
@@ -96,7 +96,7 @@ export function About() {
       <div className="mt-20 md:mt-24">
         <div>
           {/* the two of us side by side. Each card carries what that person
-              actually owns — a name and a title alone says there are two
+              actually owns, a name and a title alone says there are two
               people, not what either of them does */}
           <div className="grid gap-4 border-t border-line pt-8 sm:grid-cols-2">
             {TEAM.map((member, i) => (
@@ -146,7 +146,7 @@ export function About() {
           the promise the manifesto just made, rather than opening with trivia. */}
       <div className="mt-20 border-t border-line pt-12 md:mt-28">
         <Reveal>
-          <p className="flex items-center gap-2.5 font-sans text-xs font-medium uppercase tracking-[0.22em] text-faint">
+          <p className="flex items-center gap-2.5 font-sans text-xs font-medium uppercase tracking-[0.18em] text-faint">
             <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-accent" />
             {BRAND_MEANING.title}
           </p>

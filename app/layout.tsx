@@ -16,7 +16,7 @@ const inter = Inter({
   display: "swap",
 });
 
-// Display face — Space Grotesk. Geometric, engineered, sharp at huge sizes;
+// Display face, Space Grotesk. Geometric, engineered, sharp at huge sizes;
 // weights 400-700 cover every font-display use (semibold headlines, bold hero).
 const spaceGrotesk = Space_Grotesk({
   variable: "--font-space-grotesk",
@@ -56,7 +56,7 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 };
 
-/** Structured data — lets Google render SAMPeer as a real org, not a page. */
+/** Structured data, lets Google render SAMPeer as a real org, not a page. */
 const JSON_LD = {
   "@context": "https://schema.org",
   "@type": "ProfessionalService",
@@ -71,7 +71,7 @@ const JSON_LD = {
 /**
  * JSON.stringify does NOT escape `<`, so a value containing `</script>` would
  * close the tag early and turn the rest into live markup. Everything above is
- * a hardcoded constant today, so nothing is injectable — but this block is one
+ * a hardcoded constant today, so nothing is injectable, but this block is one
  * careless edit (a CMS field, a prop, a templated description) away from being
  * an XSS sink, and the escape costs nothing.
  */
@@ -80,7 +80,7 @@ function safeJsonLd(data: unknown) {
 }
 
 export const viewport: Viewport = {
-  themeColor: "#fafaf8",
+  themeColor: "#f6f2ea",
   colorScheme: "light",
 };
 
@@ -99,7 +99,7 @@ export default function RootLayout({
         <ShapeGrid
           // desktop only: a full-viewport canvas animating for the life of the
           // session is a real frame budget on a phone, and it is background
-          // texture — the least valuable thing competing with a touch scroll
+          // texture, the least valuable thing competing with a touch scroll
           className="pointer-events-none fixed inset-0 z-0 hidden h-dvh w-dvw opacity-25 [mask-image:linear-gradient(to_bottom,transparent_0%,black_12%,black_88%,transparent_100%)] md:block"
           speed={0.12}
           squareSize={76}

@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { gsap } from "gsap";
@@ -13,15 +13,27 @@ function hashOf(href: string) {
   return href.startsWith("/#") ? href.slice(1) : null;
 }
 
-/** Tilts are hand-set rather than random so the wall of pills reads as a
- *  deliberate arrangement and stays identical between renders. */
-const ROTATION = [-6, 5, -4, 6, -5, 4, -3];
+/** Scatter is hand-set rather than random, for two reasons: Math.random() would
+ *  desync between the server and client renders, and an arrangement that is
+ *  actually random reads as broken rather than as loose. Each entry is one
+ *  pill: `rot` tilts it, `dy` lifts or drops it off the row's baseline, and
+ *  `w` gives the row a ragged edge so four pills never line up as a grid. */
+const SCATTER = [
+  { rot: -7, dy: -18, w: "sm:w-[46%] lg:w-[34%]" },
+  { rot: 5, dy: 14, w: "sm:w-[38%] lg:w-[27%]" },
+  { rot: -4, dy: 22, w: "sm:w-[44%] lg:w-[31%]" },
+  { rot: 8, dy: -10, w: "sm:w-[36%] lg:w-[25%]" },
+  { rot: -6, dy: 16, w: "sm:w-[42%] lg:w-[29%]" },
+  { rot: 4, dy: -14, w: "sm:w-[40%] lg:w-[33%]" },
+  { rot: -3, dy: 10, w: "sm:w-[45%] lg:w-[26%]" },
+];
 
-/** Navigation as a side rail, not a header. Two bubbles ride the left edge —
- *  the mark and the toggle — and the toggle throws a full-screen wall of tilted
- *  pills (react-bits BubbleMenu, rebuilt on this project's tokens, routing and
- *  scroll-spy). The rail is pointer-transparent apart from the bubbles, so the
- *  page keeps its full width instead of paying for a permanent sidebar. */
+/** Navigation as a side rail, not a header. Two bubbles ride the left edge,
+ *  the mark and the toggle, and the toggle throws a full-screen wall of
+ *  scattered pills (react-bits BubbleMenu, rebuilt on this project's tokens,
+ *  routing and scroll-spy). "Start" sits alone in the top-right corner at
+ *  z-50, above the z-40 wall, so conversion stays one click away whether the
+ *  menu is open or shut, and the wall itself carries no highlighted pill. */
 export function Nav() {
   const pathname = usePathname();
   const [active, setActive] = useState<string>("");
@@ -34,11 +46,13 @@ export function Nav() {
   const toggleRef = useRef<HTMLButtonElement>(null);
 
   const isHome = pathname === "/";
-  const items = [...NAV.links, { href: NAV.cta.href, label: NAV.cta.label }];
+  // the CTA is not one of these: it owns the top-right corner instead of
+  // sitting in the wall as a highlighted pill
+  const items = NAV.links;
 
   // scroll-spy: mark the link whose section owns the upper viewport
   useEffect(() => {
-    // off home there is nothing to spy on — the target ids live on the home page
+    // off home there is nothing to spy on, the target ids live on the home page
     if (!isHome) return;
 
     const targets = NAV.links
@@ -170,10 +184,16 @@ export function Nav() {
           />
         </button>
 
+      </div>
+
+      {/* Start, alone in the opposite corner. z-50 puts it over the z-40 wall,
+          so it stays live while the menu is open, which is what lets the wall
+          drop its own CTA pill. */}
+      <div className="pointer-events-none fixed right-4 top-4 z-50 md:right-6 md:top-6">
         <TrackClick event={EVENTS.ctaClickNav}>
           <Link
             href={isHome ? (hashOf(NAV.cta.href) ?? NAV.cta.href) : NAV.cta.href}
-            className={`${bubble} hidden h-14 w-14 border-transparent bg-accent-solid text-center font-sans text-[10px] font-semibold uppercase leading-[1.1] tracking-wide text-accent-ink md:grid`}
+            className={`${bubble} h-12 w-12 border-transparent bg-accent-solid text-center font-sans text-[10px] font-semibold uppercase leading-[1.1] tracking-[0.18em] text-accent-ink md:h-14 md:w-14`}
           >
             {NAV.cta.label}
           </Link>
@@ -191,15 +211,25 @@ export function Nav() {
               {items.map((item, i) => {
                 const hash = hashOf(item.href);
                 const on = isActive(item.href);
-                const isCta = i === items.length - 1;
+                const scatter = SCATTER[i % SCATTER.length];
                 const className = `flex w-full items-center justify-center rounded-full border px-6 py-3 text-center font-display text-xl font-medium tracking-tight transition-colors duration-300 md:py-4 md:text-2xl ${
-                  isCta
-                    ? "border-transparent bg-accent-solid text-accent-ink hover:bg-accent-dim"
-                    : on
-                      ? "border-accent/20 bg-accent-soft text-ink"
-                      : "border-line/70 bg-elevated text-ink hover:bg-accent-solid hover:text-accent-ink"
+                  on
+                    ? "border-accent/20 bg-accent-soft text-ink"
+                    : "border-line/70 bg-elevated text-ink hover:bg-accent-solid hover:text-accent-ink"
                 }`;
-                const style = { rotate: `${ROTATION[i % ROTATION.length]}deg` };
+                // The scatter rides the <li>, not the pill itself. GSAP's
+                // CSSPlugin clears the independent `rotate`/`translate`/`scale`
+                // longhands on anything it animates, so setting them on the
+                // pill (which the open/close timeline scales) silently zeroes
+                // them the moment the wall opens. The wrapper is untouched by
+                // the timeline, so the tilt survives and still composes with
+                // the tween. `dy` rides a custom property so the media query in
+                // globals.css can null it where every pill is full width.
+                const style = {
+                  rotate: `${scatter.rot}deg`,
+                  translate: "0 var(--pill-dy, 0px)",
+                  "--pill-dy": `${scatter.dy}px`,
+                } as CSSProperties;
                 const label = (
                   <span
                     ref={(el) => {
@@ -215,16 +245,12 @@ export function Nav() {
                 };
 
                 return (
-                  <li
-                    key={item.href}
-                    className="w-full sm:w-[calc(50%-0.375rem)] lg:w-[calc(33.333%-0.667rem)]"
-                  >
+                  <li key={item.href} style={style} className={`nav-pill w-full ${scatter.w}`}>
                     {/* on home, an anchor must stay an <a> so Lenis owns the scroll */}
                     {isHome && hash ? (
                       <a
                         ref={ref}
                         href={hash}
-                        style={style}
                         onClick={() => setOpen(false)}
                         aria-current={on ? "true" : undefined}
                         className={className}
@@ -235,7 +261,6 @@ export function Nav() {
                       <Link
                         ref={ref}
                         href={item.href}
-                        style={style}
                         onClick={() => setOpen(false)}
                         aria-current={on ? "page" : undefined}
                         className={className}

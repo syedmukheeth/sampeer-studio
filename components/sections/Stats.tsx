@@ -9,7 +9,7 @@ import { EASE, DUR, STAGGER } from "@/lib/constants";
 /** §05 Proof numbers. LinkedIn-led: the audience is the asset. No cards,
  *  hairline dividers, big display numerals. The band assembles as it enters:
  *  the top and bottom rules draw themselves in, the internal dividers fade up,
- *  and the numbers count — arrival instead of furniture. */
+ *  and the numbers count, arrival instead of furniture. */
 export function Stats() {
   const reduce = useReducedMotion();
 
@@ -22,7 +22,7 @@ export function Stats() {
 
   return (
     <section id="stats" className="relative">
-      {/* the band's frame draws itself — replaces a passive border-y */}
+      {/* the band's frame draws itself, replaces a passive border-y */}
       <motion.span
         aria-hidden
         {...rule}
@@ -39,7 +39,7 @@ export function Stats() {
           <Reveal
             key={s.label}
             delay={i * STAGGER.base}
-            className="relative px-6 py-12 md:px-10 md:py-16"
+            className="relative px-4 py-12 sm:px-6 md:px-10 md:py-16"
           >
             {/* internal dividers fade in after the frame has drawn */}
             {i % 2 !== 0 && (
@@ -79,10 +79,12 @@ export function Stats() {
               text={s.text}
               suffix={s.suffix}
               decimals={s.decimals}
+              // the small step is not cosmetic: at 320px a two-column grid
+              // leaves ~112px of content, and "350K+" at text-5xl overflows it
               className={`block font-display font-semibold tracking-tight tabular-nums ${
                 s.text
-                  ? "text-3xl md:text-4xl" /* word stats: fit the column */
-                  : "text-5xl md:text-7xl" /* number stats: full display scale */
+                  ? "text-2xl sm:text-3xl md:text-4xl" /* word stats: fit the column */
+                  : "text-4xl sm:text-5xl md:text-7xl" /* number stats: full display scale */
               }`}
             />
             <div className="mt-3 font-sans text-sm text-muted">{s.label}</div>

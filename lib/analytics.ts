@@ -1,6 +1,6 @@
 import { track } from "@vercel/analytics";
 
-/** Named events, one place. Keep names stable — dashboards depend on them. */
+/** Named events, one place. Keep names stable, dashboards depend on them. */
 export const EVENTS = {
   ctaClickNav: "cta_click_nav",
   ctaClickHero: "cta_click_hero",

@@ -39,7 +39,7 @@ type LineSidebarProps = {
  *
  *  Each item's `--effect` (0..1) is eased toward its target in one rAF loop and
  *  every derived property reads that same value, so colour, shift and scale
- *  stay in step — CSS transitions on each would stagger against each other.
+ *  stay in step, CSS transitions on each would stagger against each other.
  *
  *  Items are real buttons here, not clickable <li>s: this is a control, and the
  *  original markup gives a keyboard no way to reach it. */

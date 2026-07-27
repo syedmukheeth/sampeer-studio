@@ -28,7 +28,7 @@ type SplitTextProps = {
 /** react-bits SplitText, ported to TS and to this project's deps: gsap ships
  *  SplitText and ScrollTrigger in the package we already have, so nothing new
  *  is installed and useGSAP (@gsap/react) is a plain effect instead.
- *  Reduced motion skips the split entirely — the text just is. */
+ *  Reduced motion skips the split entirely, the text just is. */
 export function SplitText({
   text,
   className = "",

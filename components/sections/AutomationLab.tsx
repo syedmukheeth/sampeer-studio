@@ -22,7 +22,7 @@ type Beat = (typeof HOME_AUTOMATION_STORY)["beats"][number];
 const PAYOFF_DELAY = 0.9;
 
 /** One movement of the story. The diagram wires itself under the scrollbar
- *  (Flow `build` mode, driven by this beat's own scroll progress — the same
+ *  (Flow `build` mode, driven by this beat's own scroll progress, the same
  *  grammar as /automations Industries, no pin required so the page scrolls
  *  freely). Text and machine alternate sides down the stack for rhythm. */
 function StoryBeat({ beat, index }: { beat: Beat; index: number }) {
@@ -44,14 +44,14 @@ function StoryBeat({ beat, index }: { beat: Beat; index: number }) {
   // The diagram follows the copy, but only just. A delay measured off the whole
   // sentence (words * 70ms + 0.9s) put the machine two seconds behind, by which
   // point a normal scroll had already carried its build past the interesting
-  // part — sequence it a beat later, not a paragraph later.
+  // part, sequence it a beat later, not a paragraph later.
   const copyDuration = Math.min(beat.outcome.split(" ").length * 0.05, 0.55);
 
   return (
     <div className="grid items-center gap-8 md:grid-cols-12 md:gap-14">
       <div className={clsx("md:col-span-4", flip && "md:order-2")}>
         <Reveal>
-          <p className="flex items-center gap-3 font-sans text-xs font-medium uppercase tracking-[0.22em] text-faint">
+          <p className="flex items-center gap-3 font-sans text-xs font-medium uppercase tracking-[0.18em] text-faint">
             <span
               aria-hidden
               className="grid h-6 w-6 place-items-center rounded-full border border-line text-[11px] tabular-nums text-muted"
@@ -62,7 +62,7 @@ function StoryBeat({ beat, index }: { beat: Beat; index: number }) {
           </p>
         </Reveal>
 
-        {/* word-by-word, unblurring as it lands — the beats get their own
+        {/* word-by-word, unblurring as it lands, the beats get their own
             register again, distinct from the section title's mask rise */}
         <p ref={copy} className="mt-5 font-display text-xl font-medium leading-snug tracking-tight text-ink md:text-2xl">
           <SplitText
@@ -98,7 +98,7 @@ function StoryBeat({ beat, index }: { beat: Beat; index: number }) {
       </div>
 
       {/* the machine lands after the words that introduce it. Only the wrapper
-          fades — `ref` stays on the element the scroll progress is measured
+          fades, `ref` stays on the element the scroll progress is measured
           against, so the build itself is still driven by position, not by this */}
       <motion.div
         ref={ref}
@@ -121,7 +121,7 @@ function StoryBeat({ beat, index }: { beat: Beat; index: number }) {
   );
 }
 
-/** §04b The Automation Stage — the home page's centerpiece and its one dark
+/** §04b The Automation Stage, the home page's centerpiece and its one dark
  *  cinematic cut. It sits directly under Work on purpose: the reader has just
  *  watched six live sites, the strongest possible moment to say "and then we
  *  make it run itself". Four signature systems build themselves on scroll and
@@ -138,7 +138,7 @@ export function AutomationLab() {
     <Section id="automation-lab" shell={false} className="isolate overflow-hidden border-y border-line">
       <Shell>
       {/* the section's own type treatment: words rise out of a mask, rather
-          than the typing in Build or the character fade in Work — three
+          than the typing in Build or the character fade in Work, three
           sections running the same effect reads as a template */}
       <SectionHeader eyebrow={eyebrow} title={<MaskText text={title} />} />
 
@@ -154,7 +154,7 @@ export function AutomationLab() {
         ))}
       </div>
 
-      {/* The payoff — the live console first (the real, running product), the
+      {/* The payoff, the live console first (the real, running product), the
           full Lab second. It waits out the last beat above it: this line is the
           conclusion of the four systems, so arriving alongside the fourth one
           reads as a caption rather than a close. */}

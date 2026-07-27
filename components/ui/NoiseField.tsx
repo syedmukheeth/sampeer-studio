@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react";
 
 /**
- * SIGNATURE — "noise -> signal".
+ * SIGNATURE, "noise -> signal".
  * A WebGL field of animated grain that starts dense (the startup nobody
  * notices) and RESOLVES into a calm, near-black field with one violet
  * bloom (the moment of being seen). Sits behind the hero headline.
@@ -161,12 +161,19 @@ export function NoiseField({ className }: { className?: string }) {
     resize();
     window.addEventListener("resize", resize);
 
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    // Phones get the resolved frame and nothing else. A full-viewport 4-octave
+    // fbm shader breathing forever is the single most expensive thing on the
+    // page, and at 0.018 amplitude the breathing is invisible on a small
+    // screen anyway, it costs a phone's frame budget to render a texture
+    // nobody can see.
+    const reduce =
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
+      window.matchMedia("(max-width: 767px)").matches;
 
     // resolve 0 -> 1 over the intro; reduced-motion jumps straight to settled
     const start = performance.now();
     const RESOLVE_MS = 2400;
-    // after the intro resolves, the grain only "breathes" — half the frame
+    // after the intro resolves, the grain only "breathes", half the frame
     // rate is indistinguishable at 0.018 amplitude and halves the GPU bill
     const SETTLED_FRAME_MS = 33;
     let raf = 0;
