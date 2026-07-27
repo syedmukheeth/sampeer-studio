@@ -7,7 +7,7 @@ import { useCallback, useEffect, useRef, useSyncExternalStore, type ReactNode } 
  *  that crosses the breakpoint afterwards used to keep whatever transforms it
  *  had — a desktop-sized page resized down left six cards pinned on top of
  *  each other and over the section beneath. */
-const PLAIN = "(prefers-reduced-motion: reduce), (max-width: 767px)";
+const PLAIN = "(prefers-reduced-motion: reduce)";
 
 function usePlainStack() {
   return useSyncExternalStore(
@@ -266,7 +266,7 @@ export function ScrollStack({
           is what put the following copy on top of the cards. */}
       {/* zero on phones, where nothing pins and the runway would just be a
           screen and a half of empty page */}
-      <div ref={endRef} className="scroll-stack-end h-0 w-full md:h-[70vh]" />
+      <div ref={endRef} className="scroll-stack-end h-[50vh] w-full md:h-[70vh]" />
     </div>
   );
 }

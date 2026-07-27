@@ -2,7 +2,7 @@
 
 import { useMemo, useRef } from "react";
 import Link from "next/link";
-import { motion, useInView, useReducedMotion, useScroll } from "motion/react";
+import { motion, useInView, useReducedMotion } from "motion/react";
 import { clsx } from "clsx";
 import { ArrowRight, ArrowUpRight } from "@phosphor-icons/react/dist/ssr";
 import { HOME_AUTOMATION_STORY } from "@/lib/content";
@@ -29,14 +29,6 @@ function StoryBeat({ beat, index }: { beat: Beat; index: number }) {
   const ref = useRef<HTMLDivElement>(null);
   const copy = useRef<HTMLParagraphElement>(null);
   const reduce = useReducedMotion();
-  // Starts later than it used to (85% -> 65%). The diagram now fades in behind
-  // the copy, and with the old offsets the scroll-driven build ran while the
-  // wrapper was still transparent — by the time you saw the machine it was
-  // already wired, which is the whole point missing.
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start 65%", "start 25%"],
-  });
 
   // the copy column is the trigger for the whole beat, so the machine can
   // never arrive before the sentence that introduces it
@@ -117,8 +109,8 @@ function StoryBeat({ beat, index }: { beat: Beat; index: number }) {
       >
         <Flow
           {...graph}
-          mode="build"
-          progress={scrollYProgress}
+          mode="loop"
+          step={1000}
           // these beats ARE the section: four systems wiring themselves as you
           // scroll. On a phone the static stepper showed four lists instead
           canvasOnMobile
