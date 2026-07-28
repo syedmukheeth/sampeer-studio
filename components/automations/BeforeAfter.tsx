@@ -9,6 +9,7 @@ import {
 } from "@/lib/content-automations";
 import { Section, SectionHeader } from "@/components/ui/Section";
 import { Flow } from "@/components/ui/Flow";
+import { Reveal } from "@/components/ui/Reveal";
 
 /** §A4 Drag to compare. Two graphs stacked in one cell; the top one is
  *  revealed by clip-path so the divider reads as a wipe between two versions
@@ -76,16 +77,25 @@ export function BeforeAfter() {
 
   return (
     <Section id="compare">
-        <SectionHeader title={A_SLIDER.title} />
-        <p className="mt-6 max-w-2xl font-sans text-base leading-relaxed text-muted">
-          {A_SLIDER.sub}
-        </p>
+        <Reveal from="left">
+          <SectionHeader title={A_SLIDER.title} />
+        </Reveal>
+        <Reveal from="left" delay={0.1}>
+          <p className="mt-6 max-w-2xl font-sans text-base leading-relaxed text-muted">
+            {A_SLIDER.sub}
+          </p>
+        </Reveal>
 
         {/* the wipe is a desktop affordance; mobile gets both steppers plain */}
         <div className="mt-14 hidden md:block">
+          {/* each label enters from its own side of the wipe */}
           <div className="mb-4 flex justify-between font-sans text-xs font-medium uppercase tracking-[0.18em]">
-            <span className="text-faint">{A_SLIDER.leftLabel}</span>
-            <span className="text-accent">{A_SLIDER.rightLabel}</span>
+            <Reveal from="left" as="p" className="text-faint">
+              {A_SLIDER.leftLabel}
+            </Reveal>
+            <Reveal from="right" as="p" className="text-accent">
+              {A_SLIDER.rightLabel}
+            </Reveal>
           </div>
 
           <div

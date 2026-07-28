@@ -9,7 +9,9 @@ import { Reveal } from "@/components/ui/Reveal";
 export function Impact() {
   return (
     <Section id="impact">
-        <SectionHeader title={A_IMPACT_HEADER.title} />
+        <Reveal from="left">
+          <SectionHeader title={A_IMPACT_HEADER.title} />
+        </Reveal>
 
         <div className="mt-14 grid gap-px overflow-hidden rounded-md border border-line bg-line sm:grid-cols-2 lg:grid-cols-4">
           {A_IMPACT.map((m, i) => (

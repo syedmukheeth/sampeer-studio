@@ -77,22 +77,28 @@ function Card({
 export function Catalog() {
   return (
     <Section id="stack">
-        <SectionHeader
-          eyebrow={A_CATALOG_HEADER.eyebrow}
-          title={A_CATALOG_HEADER.title}
-        />
-        <p className="mt-6 max-w-2xl font-sans text-base leading-relaxed text-muted">
-          {A_CATALOG_HEADER.sub}
-        </p>
-        <a
-          href={A_CATALOG_HEADER.cta.href}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="mt-6 inline-flex items-center gap-2 rounded-full border border-accent/40 bg-accent/10 px-5 py-2.5 font-sans text-sm font-medium text-accent transition-colors hover:bg-accent/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
-        >
-          {A_CATALOG_HEADER.cta.label}
-          <span aria-hidden>→</span>
-        </a>
+        <Reveal from="right">
+          <SectionHeader
+            eyebrow={A_CATALOG_HEADER.eyebrow}
+            title={A_CATALOG_HEADER.title}
+          />
+        </Reveal>
+        <Reveal from="right" delay={0.1}>
+          <p className="mt-6 max-w-2xl font-sans text-base leading-relaxed text-muted">
+            {A_CATALOG_HEADER.sub}
+          </p>
+        </Reveal>
+        <Reveal delay={0.2}>
+          <a
+            href={A_CATALOG_HEADER.cta.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-6 inline-flex items-center gap-2 rounded-full border border-accent/40 bg-accent/10 px-5 py-2.5 font-sans text-sm font-medium text-accent transition-colors hover:bg-accent/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+          >
+            {A_CATALOG_HEADER.cta.label}
+            <span aria-hidden>→</span>
+          </a>
+        </Reveal>
 
         <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {A_CATALOG.map((item, i) => (

@@ -17,6 +17,7 @@ import { Section, SectionHeader } from "@/components/ui/Section";
 import { Flow } from "@/components/ui/Flow";
 import { EASE, DUR } from "@/lib/constants";
 import { track, EVENTS } from "@/lib/analytics";
+import { Reveal } from "@/components/ui/Reveal";
 
 /** §A5 Same principles, different machine. Picking a tab rebuilds the graph.
  *  Tabs follow the APG tabs pattern: one tab stop for the whole list, arrows
@@ -61,13 +62,18 @@ export function Industries() {
 
   return (
     <Section id="industries">
-        <SectionHeader
-          title={A_INDUSTRIES_HEADER.title}
-        />
-        <p className="mt-6 max-w-2xl font-sans text-base leading-relaxed text-muted">
-          {A_INDUSTRIES_HEADER.sub}
-        </p>
+        <Reveal from="right">
+          <SectionHeader
+            title={A_INDUSTRIES_HEADER.title}
+          />
+        </Reveal>
+        <Reveal from="right" delay={0.1}>
+          <p className="mt-6 max-w-2xl font-sans text-base leading-relaxed text-muted">
+            {A_INDUSTRIES_HEADER.sub}
+          </p>
+        </Reveal>
 
+        <Reveal from="top" delay={0.2}>
         <div
           role="tablist"
           aria-label={A_INDUSTRIES_HEADER.tablistLabel}
@@ -107,6 +113,7 @@ export function Industries() {
             );
           })}
         </div>
+        </Reveal>
 
         <div
           ref={panel}
