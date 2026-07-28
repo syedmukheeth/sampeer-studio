@@ -10,6 +10,7 @@ import { Section, SectionHeader } from "@/components/ui/Section";
 import { Shell } from "@/components/ui/Shell";
 import { Flow } from "@/components/ui/Flow";
 import { BuildSequence } from "@/components/automations/BuildSequence";
+import { Reveal } from "@/components/ui/Reveal";
 import { EASE, DUR } from "@/lib/constants";
 
 /** §A2 The transform, the signature moment of the page. One sticky canvas,
@@ -24,10 +25,14 @@ export function Transform() {
   return (
     <Section id="transform" shell={false} size="flush" className="py-28 md:pb-0 md:pt-40">
       <Shell>
-        <SectionHeader title={A_TRANSFORM.title} />
-        <p className="mt-6 max-w-2xl font-sans text-base leading-relaxed text-muted">
-          {A_TRANSFORM.sub}
-        </p>
+        <Reveal from="left">
+          <SectionHeader title={A_TRANSFORM.title} />
+        </Reveal>
+        <Reveal from="left" delay={0.1}>
+          <p className="mt-6 max-w-2xl font-sans text-base leading-relaxed text-muted">
+            {A_TRANSFORM.sub}
+          </p>
+        </Reveal>
       </Shell>
 
       {/* ---- desktop: one sticky canvas, scroll constructs both machines ---- */}

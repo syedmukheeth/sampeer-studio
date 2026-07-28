@@ -4,6 +4,8 @@ import { motion, useReducedMotion } from "motion/react";
 import { A_HERO, A_HERO_FLOW } from "@/lib/content-automations";
 import { EASE, DUR } from "@/lib/constants";
 import { Flow } from "@/components/ui/Flow";
+import { ShapeGrid } from "@/components/ui/ShapeGrid";
+import { GraphPaper } from "@/components/ui/GraphPaper";
 import { Magnetic } from "@/components/ui/Magnetic";
 import { TrackClick } from "@/components/analytics/TrackClick";
 import { EVENTS } from "@/lib/analytics";
@@ -21,11 +23,18 @@ export function Hero() {
       id="lab"
       className="relative flex min-h-dvh flex-col items-center justify-center overflow-hidden px-6 pt-24 text-center"
     >
-      {/* graph paper, one repeating-linear-gradient per axis, in `line` */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 opacity-60 [background-image:repeating-linear-gradient(to_right,var(--color-line)_0_1px,transparent_1px_88px),repeating-linear-gradient(to_bottom,var(--color-line)_0_1px,transparent_1px_88px)]"
+      {/* same animated grid as the home hero, so the two read as one system */}
+      <ShapeGrid
+        className="pointer-events-none absolute inset-0 hidden h-full w-full opacity-45 [mask-image:radial-gradient(ellipse_at_center,black_0%,black_58%,transparent_86%)] md:block"
+        speed={0.18}
+        squareSize={72}
+        direction="diagonal"
+        borderColor="rgba(63, 97, 82, 0.16)"
+        hoverFillColor="rgba(63, 97, 82, 0.08)"
+        shape="square"
       />
+      {/* mobile gets the static ruling: no per-frame canvas on a phone */}
+      <GraphPaper className="opacity-60 md:hidden" />
 
       {/* The machine, always running, never louder than the headline. It sits
           below the type rather than behind it: at any opacity where the nodes
@@ -47,7 +56,7 @@ export function Hero() {
       {/* seat the type over the graph paper */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(120%_75%_at_50%_45%,rgba(22,25,23,0.9)_30%,rgba(22,25,23,0.45)_100%)]"
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(120%_80%_at_50%_45%,transparent_42%,rgba(246,242,234,0.9)_100%)]"
       />
       <div
         aria-hidden
