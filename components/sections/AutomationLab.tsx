@@ -39,6 +39,15 @@ function StoryBeat({ beat, index }: { beat: Beat; index: number }) {
     [beat],
   );
 
+  // The phone gets its OWN graph, not a shrunk copy of the desktop one. Three
+  // columns inside a 342px screen leaves ~16px of label per card, so every
+  // node rendered as "V…", "C…". Two columns plus the compact card (no meta
+  // line, no status column) gives the label the width it needs.
+  const mobileGraph = useMemo(
+    () => serpentine(beat.steps, 2, { payload: beat.payload }),
+    [beat],
+  );
+
   const flip = index % 2 === 1; // even beats: text left; odd: text right
 
   // The diagram follows the copy, but only just. A delay measured off the whole
@@ -107,15 +116,32 @@ function StoryBeat({ beat, index }: { beat: Beat; index: number }) {
         transition={{ duration: 0.5, delay: copyDuration, ease: EASE.out }}
         className={clsx("md:col-span-8", flip && "md:order-1")}
       >
-        <Flow
-          {...graph}
-          mode="loop"
-          step={1000}
-          // these beats ARE the section: four systems wiring themselves as you
-          // scroll. On a phone the static stepper showed four lists instead
-          canvasOnMobile
-          label={`${beat.name} workflow`}
-        />
+        {/* these beats ARE the section: four systems wiring themselves as you
+            scroll. On a phone the static stepper showed four lists instead, so
+            the canvas runs there too, just re-laid-out. Exactly one of the two
+            is in the layout at a time: the hidden one has no size, so its
+            useInView is false and its interval never starts. */}
+        <div className="md:hidden">
+          <Flow
+            {...mobileGraph}
+            mode="loop"
+            step={1000}
+            canvasOnMobile
+            compact
+            label={`${beat.name} workflow`}
+          />
+        </div>
+        {/* md+: the authored column count, full card anatomy. Its stepper is
+            the sr-only one at this breakpoint, so screen readers still get
+            exactly one list per beat. */}
+        <div className="hidden md:block">
+          <Flow
+            {...graph}
+            mode="loop"
+            step={1000}
+            label={`${beat.name} workflow`}
+          />
+        </div>
       </motion.div>
     </div>
   );

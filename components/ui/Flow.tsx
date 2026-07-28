@@ -212,14 +212,11 @@ export function Flow({
   // `running` is false on the server, first client render, and under reduced
   // motion, so this never desyncs hydration and never shows when static.
   const last = nodes[nodes.length - 1];
-  const toast =
-    rich &&
-    !ambient &&
-    !chaos &&
-    mode === "loop" &&
-    running &&
-    i === nodes.length - 1 &&
-    last?.kind === "outcome";
+  // whether this canvas can ever toast. Its strip is reserved from the first
+  // render (server included) so the toast entering never reflows the diagram.
+  const toastSlot =
+    rich && !ambient && !chaos && mode === "loop" && last?.kind === "outcome";
+  const toast = toastSlot && running && i === nodes.length - 1;
 
   return (
     <div ref={ref} className={clsx("w-full", className)}>
@@ -440,24 +437,39 @@ export function Flow({
           );
         })}
 
-        {/* the payoff toast: the machine's terminal outcome surfacing as a
-            product notification. Mounts fresh each cycle (conditional render),
-            so it re-enters every loop without any counter state. */}
-        {toast && (
-          <motion.div
-            className="absolute right-3 top-3 flex items-center gap-1.5 rounded-md border border-line bg-elevated-2 px-2.5 py-1.5 font-sans text-[10px] text-ink"
-            initial={{ opacity: 0, y: 6 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: DUR.fast, ease: EASE.out }}
-          >
-            <Check size={10} weight="bold" className="text-accent" />
-            {last.label}
-            {last.doneMeta ? (
-              <span className="text-muted">· {last.doneMeta}</span>
-            ) : null}
-          </motion.div>
-        )}
       </div>
+
+      {/* the payoff toast: the machine's terminal outcome surfacing as a
+          product notification. It used to float at the canvas's top-right,
+          where it sat squarely on top of a node, on a phone it covered the
+          card's whole label. It now lives under the machine in a strip of
+          reserved height, so it can never occlude a node and its mount never
+          moves anything. Mounts fresh each cycle (conditional render), so it
+          re-enters every loop without any counter state. */}
+      {toastSlot && (
+        <div
+          aria-hidden
+          className={clsx(
+            "mt-2 h-7 items-center justify-end",
+            canvasOnMobile ? "flex" : "hidden md:flex",
+          )}
+        >
+          {toast && (
+            <motion.div
+              className="flex items-center gap-1.5 rounded-md border border-line bg-elevated-2 px-2.5 py-1.5 font-sans text-[10px] text-ink"
+              initial={{ opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: DUR.fast, ease: EASE.out }}
+            >
+              <Check size={10} weight="bold" className="text-accent" />
+              {last.label}
+              {last.doneMeta ? (
+                <span className="text-muted">· {last.doneMeta}</span>
+              ) : null}
+            </motion.div>
+          )}
+        </div>
+      )}
 
       {/* ------------------------------------- stepper (mobile) / a11y (all)
           Real text, real order. A screen reader gets the workflow as prose;
