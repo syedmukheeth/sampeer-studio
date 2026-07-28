@@ -131,11 +131,31 @@ body {
   color: var(--color-accent-ink);
 }
 
-/* One focus grammar, page-wide. Keyboard users get the accent ring. */
-:focus-visible {
-  outline: 2px solid var(--color-accent);
-  outline-offset: 2px;
-  border-radius: var(--radius-xs);
+/* One focus grammar, page-wide. Keyboard users get the accent ring.
+
+   Inside `@layer base` on purpose. Unlayered CSS outranks every layered rule
+   regardless of specificity, so as a bare rule this outline beat any
+   `focus-visible:outline-none` utility and stamped a rectangle over the curved
+   contact fields the moment they were clicked. In `base` it still overrides
+   preflight and still covers every control that asks for nothing, while a
+   utility on a specific control can now opt out. */
+@layer base {
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+    border-radius: var(--radius-xs);
+  }
+}
+
+/* Autofill paints its own opaque rectangle behind the control, which turns the
+   curved contact fields into plain boxes the moment the browser fills them. The
+   long transition is the standard way to keep that paint from ever landing. */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill {
+  -webkit-text-fill-color: var(--color-ink);
+  transition: background-color 9999s ease-in-out 0s;
 }
 
 /* Headings wrap on meaning rather than on the raw line box, so a display
@@ -162,6 +182,9 @@ summary,
 [role="tab"],
 [role="button"] {
   touch-action: manipulation;
+  /* mobile browsers flash a grey rectangle over the tapped control; on the
+     curved contact fields that rectangle is the one thing the shape avoids. */
+  -webkit-tap-highlight-color: transparent;
 }
 
 /* Skip link: first thing in the tab order, visually hidden until focused. The
@@ -508,6 +531,16 @@ a:hover .link-shine,
    only push the column off its own rhythm and eat into the gap. Null it there
    and let the tilt alone carry the looseness. */
 @media (width < 40rem) {
+  .nav-pill {
+    --pill-dy: 0px;
+  }
+}
+
+/* From `md` the pills are placed absolutely across the wall, so the column's
+   baseline offset has nothing left to offset against. The translate itself
+   stays on the element (it is set inline, and inline wins), so the value is
+   nulled here rather than removed there. */
+@media (width >= 48rem) {
   .nav-pill {
     --pill-dy: 0px;
   }

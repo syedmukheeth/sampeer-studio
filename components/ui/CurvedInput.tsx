@@ -15,11 +15,12 @@ import type { ReactNode } from "react";
  * the browser scales it to whatever width the field ends up at. No measuring,
  * no ResizeObserver, no rAF, nothing to recalculate on resize.
  *
- * Focus is deliberately doubled. The stroke recolours through
- * `group-focus-within`, but a decorative SVG stroke is invisible to Windows
- * High Contrast and reads as nothing to assistive tech, so the wrapper also
- * keeps a real ring in the same accent. The stroke is the flourish; the ring is
- * the indicator.
+ * Focus recolours the stroke through `group-focus-within`, so the indicator
+ * keeps the field's bowed silhouette. A `ring` would be a rounded RECTANGLE
+ * drawn over a lens, which reads as the field turning into a plain box the
+ * moment someone clicks into it, so the ring is kept only for forced-colors
+ * (Windows High Contrast), where the decorative SVG stroke is dropped by the
+ * OS and something real has to stand in for it.
  */
 export function CurvedInput({
   children,
@@ -30,7 +31,7 @@ export function CurvedInput({
 }) {
   return (
     <div
-      className={`group relative rounded-[1.75rem] transition-shadow duration-300 focus-within:ring-2 focus-within:ring-accent/40 ${className}`.trim()}
+      className={`group relative rounded-[1.75rem] forced-colors:focus-within:ring-2 forced-colors:focus-within:ring-accent/40 ${className}`.trim()}
     >
       <svg
         aria-hidden

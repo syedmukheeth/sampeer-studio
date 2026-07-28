@@ -118,7 +118,7 @@ export function ContactForm({
           placeholder={emailPlaceholder}
           // text-base under md: iOS Safari zooms the whole page when a focused
           // input is under 16px, and the zoom does not come back out
-          className="h-14 w-full rounded-[1.75rem] bg-transparent px-7 font-sans text-base text-ink placeholder:text-muted touch-manipulation focus-visible:outline-none md:text-sm"
+          className="h-14 w-full rounded-[1.75rem] bg-transparent px-7 font-sans text-base text-ink placeholder:text-muted touch-manipulation outline-none focus:outline-none focus-visible:outline-none md:text-sm"
         />
       </CurvedInput>
 
@@ -133,7 +133,7 @@ export function ContactForm({
           autoComplete="off"
           placeholder={messagePlaceholder}
           // extra vertical padding so three rows of text clear the bowed edges
-          className="w-full resize-none rounded-[1.75rem] bg-transparent px-7 py-5 font-sans text-base text-ink placeholder:text-muted touch-manipulation focus-visible:outline-none md:text-sm"
+          className="w-full resize-none rounded-[1.75rem] bg-transparent px-7 py-5 font-sans text-base text-ink placeholder:text-muted touch-manipulation outline-none focus:outline-none focus-visible:outline-none md:text-sm"
         />
       </CurvedInput>
 
