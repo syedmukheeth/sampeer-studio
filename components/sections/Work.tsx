@@ -8,13 +8,18 @@ import { Shell } from "@/components/ui/Shell";
 import { Section, SectionHeader } from "@/components/ui/Section";
 import { LiveSiteFrame } from "@/components/ui/LiveSiteFrame";
 import { ScrollStack, ScrollStackItem } from "@/components/ui/ScrollStack";
-import { SplitText } from "@/components/ui/SplitText";
 import { track, EVENTS } from "@/lib/analytics";
 
-/** §04 Real Work, a scroll stack. Each project is a full-width exhibit that
- *  pins near the top of the viewport while the next one rises to cover it, the
- *  covered cards shrinking back into a visible deck rather than disappearing:
- *  at any point you can see the pile of work behind the one you are reading.
+/** §04 Real Work. Each project is a full-width exhibit that pins near the top
+ *  of the viewport while the next one rises to take its place; the outgoing
+ *  card recedes and fades out behind it, so exactly one project is on screen at
+ *  a time.
+ *
+ *  It used to leave every covered card visible as a shrinking deck. Two things
+ *  were wrong with that: the pile meant the card you were reading was never the
+ *  only thing competing for attention, and holding six cards on screen needed
+ *  five viewports of scroll to get through, which read as a section that had
+ *  stalled. One card at a time, 400px of scroll each.
  *
  *  The whole card is the link, poster at rest, live site on hover, and a click
  *  anywhere on it opens the real thing.
@@ -29,7 +34,7 @@ export function Work() {
       <Shell className="mb-14">
         <SectionHeader
           eyebrow={WORK_HEADER.eyebrow}
-          title={<SplitText text={WORK_HEADER.title} delay={22} />}
+          title={WORK_HEADER.title}
         />
       </Shell>
 
@@ -38,12 +43,12 @@ export function Work() {
           initial={reduce ? false : { opacity: 0, y: 30 }}
           whileInView={reduce ? undefined : { opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.05 }}
-          // the heading is ~45 characters at 22ms; the stack follows it
-          transition={{ duration: 0.7, delay: 1.15, ease: [0.16, 1, 0.3, 1] }}
+          // Was 1.15s, timed to a heading that used to write itself in one
+          // character at a time. That heading is plain text now, so the delay
+          // was a second of empty section before the first project showed up.
+          transition={{ duration: 0.5, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
         >
-          {/* blurAmount 0: a filter recomputed every frame on six poster-sized
-              cards shimmers on the edges, which read as part of the shake */}
-          <ScrollStack itemDistance={96} itemStackDistance={26} baseScale={0.88} blurAmount={0}>
+          <ScrollStack scrollPerCard={400}>
             {WORK.map((w, i) => (
               <ScrollStackItem key={w.id}>
                 <StackCard project={w} index={i} />
@@ -58,7 +63,7 @@ export function Work() {
 
 function StackCard({ project: w, index }: { project: LiveProject; index: number }) {
   return (
-    <div className="group relative overflow-hidden rounded-lg border border-line bg-elevated shadow-[0_10px_36px_rgba(31,41,36,0.07)] transition-colors duration-500 hover:border-accent/40 hover:bg-elevated-2">
+    <div className="group relative overflow-hidden rounded-lg border border-line bg-elevated shadow-[0_10px_36px_rgba(30,26,42,0.07)] transition-colors duration-500 hover:border-accent/40 hover:bg-elevated-2">
       <div className="grid gap-0 md:grid-cols-12">
         {/* exhibit, poster at rest, live site on hover */}
         <div className="relative aspect-16/10 overflow-hidden md:col-span-8 md:border-r md:border-line">

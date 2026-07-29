@@ -22,34 +22,13 @@ export const Z = {
   overlay: 50,
 } as const;
 
-/** Brand tokens mirrored from globals.css for JS-driven motion/canvas use.
- *  BRAND = the LIGHT paper body palette. STAGE = the one dark `.stage` family
- *  used by any canvas/SVG that renders inside an automation showcase. Keep both
- *  in sync with the `@theme` and `.stage` blocks in globals.css. */
-export const BRAND = {
-  base: "#f6f2ea",
-  elevated: "#ffffff",
-  elevated2: "#f2f2ee",
-  ink: "#1a1a19",
-  muted: "#6e6e69",
-  accent: "#3f6152",
-  accentText: "#34513f",
-  accentDim: "#2c453a",
-  accentSoft: "rgba(63, 97, 82, 0.08)",
-} as const;
-
-/** The single dark cinematic family for `.stage` subtrees. */
-export const STAGE = {
-  base: "#161917",
-  elevated: "#1d211f",
-  elevated2: "#252a27",
-  ink: "#f0f1ee",
-  muted: "#9ba39d",
-  accent: "#8fae9d",
-  accentText: "#a3bfaf",
-  accentDim: "#74907f",
-  accentSoft: "rgba(143, 174, 157, 0.12)",
-} as const;
+/* BRAND and STAGE palette mirrors used to live here. They duplicated every
+   colour from globals.css as hex strings and told the reader to keep the two in
+   sync by hand, but nothing ever imported them, so the copy just drifted. The
+   `@theme` and `.stage` blocks in app/globals.css are the only source of truth;
+   the handful of places that genuinely cannot read a CSS var (the NoiseField
+   shader, the ShapeGrid canvas, the satori OG card, the PWA manifest) hold
+   their own literal and say so in a comment. */
 
 /** Standard reveal easing, matches the CSS cubic used across the page. */
 export const EASE_OUT = [0.16, 1, 0.3, 1] as const;
@@ -65,7 +44,7 @@ export const EASE = {
   out: [0.16, 1, 0.3, 1] as const,
   /** smooth symmetric, for pinned scrub / camera-like moves */
   inOut: [0.65, 0, 0.35, 1] as const,
-  /** soft overshoot, for accents that "pop" once (the indigo strike) */
+  /** soft overshoot, for accents that "pop" once (the violet strike) */
   pop: [0.34, 1.4, 0.64, 1] as const,
 } as const;
 

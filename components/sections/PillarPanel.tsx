@@ -1,146 +1,80 @@
 "use client";
 
-import { useRef } from "react";
-import { motion, useInView, useReducedMotion, useScroll, useTransform } from "motion/react";
 import type { Pillar } from "@/lib/content";
 import { TiltCard } from "@/components/ui/TiltCard";
 import { Reveal } from "@/components/ui/Reveal";
 import { PillarGraphic } from "@/components/ui/PillarGraphic";
 import { GraphPaper } from "@/components/ui/GraphPaper";
-import { TextType } from "@/components/ui/TextType";
+import { STAGGER } from "@/lib/constants";
 
 /**
- * One pillar in the Build stack, with a premium scroll-linked handoff.
+ * One pillar in the Build stack.
  *
- * The panels still pin (CSS sticky) and the next one slides up to cover this
- * one, but instead of a flat hard cut, this panel *recedes* as it is covered:
- * the content scales down a touch and a canvas veil fades over it, so the eye
- * reads depth (this pillar stepping back into the page) rather than a swap.
- * The graphic drifts up a little slower for parallax. Same mechanism and the
- * same feel as the Work sticky-stack, so the two sections move as one system.
+ * This was a pinned sticky-stack: each panel got a 150dvh scroll wrapper, held
+ * a `min-h-dvh` sticky article, then receded behind a canvas veil as the next
+ * one slid over it. Two things were wrong with that. The panel centred its
+ * content in a full viewport, so on any tall screen a short pillar left a large
+ * empty band above and below it, and the 50dvh of wrapper past the pin meant
+ * the reader scrolled through a blank canvas to get to the next pillar. The
+ * page read as mostly empty.
  *
- * `wrap` is the scroll subject and MUST be taller than the sticky panel, or the
- * panel has no room to stay pinned while the next one covers it. It runs one
- * viewport of hold plus half a viewport of recede; progress goes 0 (just
- * pinned) -> 1 (covered and leaving). The last panel gets no tall wrap and no
- * recede, nothing covers it, so it simply rests.
+ * Now each pillar is an ordinary section in normal flow. Height follows content
+ * instead of the viewport, nothing pins, nothing recedes, and the spacing
+ * between pillars is real rhythm rather than leftover scroll distance. The
+ * entrance is the site's standard fade-and-rise.
  *
- * Reduced motion: no transforms, no veil, the panels simply stack. Markup is
- * identical either way (the veil is the only extra node and it is inert), so
- * there is no hydration branch.
+ * The graphic itself is untouched: each pillar's visual is its own deliberate
+ * design (CardSwap, flow, LinkedIn card) and stays that way.
  */
-/** ms per character in the outcome heading, shared with the body's delay. */
-const TYPING_SPEED = 28;
-
 export function PillarPanel({ pillar: p, last = false }: { pillar: Pillar; last?: boolean }) {
-  const wrap = useRef<HTMLDivElement>(null);
-  const copy = useRef<HTMLDivElement>(null);
-  const reduce = useReducedMotion();
-
-  // One trigger for the whole panel. Previously the heading and the graphic
-  // each ran their own observer against their own element, and the graphic -
-  // a tall column, crossed its threshold first, so the visual arrived before
-  // the words it was supposed to follow.
-  const started = useInView(copy, { once: true, amount: 0.4 });
-
-  const { scrollYProgress } = useScroll({
-    target: wrap,
-    offset: ["start start", "end start"],
-  });
-
-  // recede: hold through the first ~65%, then step back as the cover arrives
-  const scale = useTransform(scrollYProgress, [0, 0.65, 1], [1, 1, 0.93]);
-  const veil = useTransform(scrollYProgress, [0, 0.7, 1], [0, 0, 0.62]);
-  // graphic parallax, a slower drift than the text for depth
-  const graphicY = useTransform(scrollYProgress, [0, 1], [0, -48]);
-
-  const animate = !reduce && !last;
-
-  // the body waits out the heading's typing; both read the same speed so the
-  // handoff cannot drift when one of them is tuned
-  const typingDuration = (p.outcome.length * TYPING_SPEED) / 1000 + 0.15;
-
   return (
-    // dvh, not vh: the sticky child below is sized in dvh, and on mobile the
-    // two units differ by the URL bar's height, so mixing them drifts the pin
-    // math as the bar shows and hides
-    <div ref={wrap} className={last ? "relative" : "relative h-[150dvh]"}>
-      <article className="sticky top-0 flex min-h-dvh items-center overflow-hidden bg-canvas">
-        {/* the panel's own background is opaque (it has to cover the panel
-            below it), which hides the page-wide grid, so the ruling is
-            repainted here, on top */}
-        <GraphPaper className="[mask-image:radial-gradient(ellipse_at_center,black_0%,black_55%,transparent_88%)]" />
-        <motion.div
-          style={animate ? { scale } : undefined}
-          className="relative mx-auto grid w-full max-w-(--max-shell) origin-center grid-cols-1 items-center gap-10 px-6 py-20 md:grid-cols-12 md:gap-16"
-        >
-          <Reveal className="relative md:col-span-7">
-            <p className="relative flex items-center gap-3 font-sans text-sm text-muted">
-              <span aria-hidden className="font-sans text-xs tabular-nums text-faint">
-                {p.index}
-              </span>
-              <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-accent" />
-              {p.title}
-            </p>
-            {/* the outcome types itself in as the panel arrives. The heading
-                is the panel's trigger: everything after it keys off this same
-                moment, so the order can never invert */}
-            <h3
-              ref={copy}
-              className="relative mt-4 max-w-2xl font-display text-3xl font-semibold leading-[1.05] tracking-tight text-accent-text md:text-5xl"
-            >
-              <TextType
-                text={p.outcome}
-                start={started}
-                typingSpeed={TYPING_SPEED}
-                cursorCharacter="_"
-              />
-            </h3>
-            {/* held back until the heading above has finished typing, the
-                body arriving first gave away the line before it was written */}
-            <motion.p
-              initial={reduce ? false : { opacity: 0, y: 12 }}
-              animate={reduce ? undefined : started ? { opacity: 1, y: 0 } : undefined}
-              transition={{ duration: 0.5, delay: typingDuration, ease: [0.16, 1, 0.3, 1] }}
-              className="relative mt-6 max-w-xl font-sans text-base leading-relaxed text-muted"
-            >
-              {p.body}
-            </motion.p>
-          </Reveal>
+    <article
+      className={`relative overflow-hidden bg-canvas py-14 md:py-20 ${
+        last ? "" : "border-b border-line/60"
+      }`}
+    >
+      <GraphPaper className="[mask-image:radial-gradient(ellipse_at_center,black_0%,black_55%,transparent_88%)]" />
 
-          {/* the visual is the payoff, so it lands last: only once this panel
-              is actually on screen, and only after the heading has typed and
-              the body has arrived */}
-          {/* two wrappers, because both effects drive y: the outer one owns the
-              scroll parallax, the inner one the entrance. On one element the
-              reveal's tween and the scroll value would fight. */}
-          <motion.div style={animate ? { y: graphicY } : undefined} className="md:col-span-5">
-            <motion.div
-              initial={reduce ? false : { opacity: 0, y: 28 }}
-              animate={reduce ? undefined : started ? { opacity: 1, y: 0 } : undefined}
-              transition={{ duration: 0.7, delay: typingDuration + 0.45, ease: [0.16, 1, 0.3, 1] }}
-            >
-              {/* no frame: the graphics are the image. A border and a raised
-                  panel around each one read as three boxes stacked down the
-                  page, and the card deck needs to drop out of its bounds. */}
-              <TiltCard className="group relative aspect-[4/5]">
-                <div className="absolute inset-0">
-                  <PillarGraphic variant={p.graphic} />
-                </div>
-              </TiltCard>
-            </motion.div>
-          </motion.div>
-        </motion.div>
+      <div className="relative mx-auto grid w-full max-w-(--max-shell) grid-cols-1 items-center gap-10 px-6 md:grid-cols-12 md:gap-16">
+        <Reveal className="relative md:col-span-7">
+          <p className="relative flex items-center gap-3 font-sans text-sm text-muted">
+            <span aria-hidden className="font-sans text-xs tabular-nums text-faint">
+              {p.index}
+            </span>
+            <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-accent" />
+            {p.title}
+          </p>
 
-        {/* recede veil, dims this panel to canvas as the next slides over it */}
-        {animate && (
-          <motion.div
-            aria-hidden
-            style={{ opacity: veil }}
-            className="pointer-events-none absolute inset-0 bg-canvas"
-          />
-        )}
-      </article>
-    </div>
+          {/* The outcome used to type itself in character by character, and the
+              body was held back for the length of that animation before it was
+              allowed to appear. On a lead-facing page that is a deliberate
+              delay in front of the sentence doing the selling. Both land
+              immediately now; the heading carries the weight instead. */}
+          <h3 className="relative mt-4 max-w-2xl font-display text-3xl font-bold leading-[1.05] tracking-tight text-accent-text md:text-5xl">
+            {p.outcome}
+          </h3>
+
+          <p className="relative mt-6 max-w-xl font-sans text-base leading-relaxed text-muted">
+            {p.body}
+          </p>
+        </Reveal>
+
+        <Reveal delay={STAGGER.loose} className="md:col-span-5">
+          {/* The 4:5 box is unchanged, but it is capped now. Uncapped it took
+              the full column width, and at ~700px wide a 4:5 ratio resolves to
+              ~880px tall against roughly 140px of copy beside it. The row
+              centres on the taller child, so the difference came out as a band
+              of empty canvas running the width of the page, three times over.
+              A max-width holds the graphic near the copy's own scale. */}
+          <div className="mx-auto w-full max-w-[340px] md:max-w-[400px]">
+            <TiltCard className="group relative aspect-[4/5]">
+              <div className="absolute inset-0">
+                <PillarGraphic variant={p.graphic} />
+              </div>
+            </TiltCard>
+          </div>
+        </Reveal>
+      </div>
+    </article>
   );
 }

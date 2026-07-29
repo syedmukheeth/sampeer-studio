@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Roboto_Flex, Space_Grotesk } from "next/font/google";
+import { Inter, Poppins, Roboto_Flex, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
@@ -28,6 +28,17 @@ const spaceGrotesk = Space_Grotesk({
 const robotoFlex = Roboto_Flex({
   variable: "--font-roboto-flex",
   subsets: ["latin"],
+  display: "swap",
+});
+
+// The logo lockup's wordmark only. The artwork is set in a geometric sans of
+// the Product Sans family, which is not licensed for the web; Poppins is the
+// closest freely available match for the circular bowls and the wide, even
+// letterfit. Nothing else on the page uses it.
+const poppins = Poppins({
+  variable: "--font-poppins",
+  subsets: ["latin"],
+  weight: ["400", "500"],
   display: "swap",
 });
 
@@ -64,7 +75,7 @@ const JSON_LD = {
   description: DESCRIPTION,
   url: SITE_URL,
   logo: `${SITE_URL}/logo.png`,
-  slogan: "Get noticed. Remembered. Chosen.",
+  slogan: "Get noticed. Remembered. Chosen",
   sameAs: ["https://www.linkedin.com/in/syedmukheeth/"],
 };
 
@@ -80,7 +91,7 @@ function safeJsonLd(data: unknown) {
 }
 
 export const viewport: Viewport = {
-  themeColor: "#f6f2ea",
+  themeColor: "#f7f5f9",
   colorScheme: "light",
 };
 
@@ -88,7 +99,10 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${spaceGrotesk.variable} ${inter.variable} ${robotoFlex.variable}`}>
+    <html
+      lang="en"
+      className={`${spaceGrotesk.variable} ${inter.variable} ${robotoFlex.variable} ${poppins.variable}`}
+    >
       <head>
         <script
           type="application/ld+json"
@@ -104,8 +118,8 @@ export default function RootLayout({
           speed={0.12}
           squareSize={76}
           direction="diagonal"
-          borderColor="rgba(63, 97, 82, 0.12)"
-          hoverFillColor="rgba(63, 97, 82, 0.18)"
+          borderColor="rgba(109, 40, 217, 0.09)"
+          hoverFillColor="rgba(109, 40, 217, 0.13)"
           shape="square"
         />
         {/* First stop in the tab order; hidden until focused. */}

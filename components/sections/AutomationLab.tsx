@@ -10,7 +10,6 @@ import { serpentine } from "@/lib/flow";
 import { Section, SectionHeader } from "@/components/ui/Section";
 import { Shell } from "@/components/ui/Shell";
 import { MaskText } from "@/components/ui/MaskText";
-import { SplitText } from "@/components/ui/SplitText";
 import { Reveal } from "@/components/ui/Reveal";
 import { Flow } from "@/components/ui/Flow";
 import { EASE, STAGGER } from "@/lib/constants";
@@ -71,18 +70,13 @@ function StoryBeat({ beat, index }: { beat: Beat; index: number }) {
           </p>
         </Reveal>
 
-        {/* word-by-word, unblurring as it lands, the beats get their own
-            register again, distinct from the section title's mask rise */}
-        <p ref={copy} className="mt-5 font-display text-xl font-medium leading-snug tracking-tight text-ink md:text-2xl">
-          <SplitText
-            text={beat.outcome}
-            splitType="words"
-            delay={70}
-            duration={0.9}
-            from={{ opacity: 0, y: 18, filter: "blur(8px)" }}
-            to={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-          />
-        </p>
+        {/* was word-by-word with a blur-in per word; the beat is one short
+            sentence and staggering it just held the reader at a blurred line */}
+        <Reveal>
+          <p ref={copy} className="mt-5 font-display text-xl font-semibold leading-snug tracking-tight text-ink md:text-2xl">
+            {beat.outcome}
+          </p>
+        </Reveal>
 
         {beat.href ? (
           <Reveal delay={copyDuration}>

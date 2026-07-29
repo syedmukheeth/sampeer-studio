@@ -32,96 +32,114 @@ export function Testimonials() {
     <Section id="testimonials">
       <SectionHeader title={TESTIMONIALS_HEADER.title} />
 
-      <div className="mt-10 md:mt-16">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={t.id}
-            initial={reduce ? false : { opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={reduce ? undefined : { opacity: 0, y: -18 }}
-            transition={{ duration: DUR.base, ease: EASE.out }}
-            className="grid gap-8 md:grid-cols-12 md:items-center"
-          >
-            {t.photo && (
-              /* A left rail rather than a cropped hero image. The photo keeps
-                 its own aspect ratio and is never cropped or blown up: the
-                 rail is capped, the image sits at its natural ratio inside the
-                 padded card, and the card's paper/hairline/accent-tab language
-                 is the same one Section and the work cards already speak. */
-              <aside className="md:col-span-4 md:self-start">
-                <figure className="relative mx-auto w-full max-w-[20rem] rounded-xl border border-line bg-elevated p-2 shadow-lg md:mx-0">
-                  {/* the single accent strike this section allows itself, the
-                      same rail motif as the speaker underline below */}
-                  <span
-                    aria-hidden
-                    className="absolute left-2 top-0 h-px w-10 -translate-y-px bg-accent"
-                  />
-                  <Image
-                    src={t.photo}
-                    alt={t.name}
-                    width={1600}
-                    height={1200}
-                    sizes="(max-width: 768px) 20rem, 25vw"
-                    className="h-auto w-full rounded-lg"
-                  />
-                  <figcaption className="px-1 pb-1 pt-3 font-sans text-[11px] uppercase tracking-[0.18em] text-faint">
-                    On site with {t.name}
-                  </figcaption>
-                </figure>
-              </aside>
-            )}
-            <blockquote className={t.photo ? "md:col-span-8" : "md:col-span-12"}>
-              {/* neon open-quote mark */}
-              <span
-                aria-hidden
-                className="-ml-1 block font-display text-6xl leading-none text-gradient-accent md:text-7xl"
-              >
-                &ldquo;
-              </span>
-              <p className="-mt-3 font-display text-xl font-medium leading-relaxed tracking-tight text-ink sm:text-2xl md:text-3xl">
-                {t.quote}&rdquo;
-              </p>
-              <footer className="mt-6 font-sans text-sm not-italic">
-                <span className="block font-semibold text-ink md:text-base">{t.name}</span>
-                <span className="mt-0.5 block text-xs text-muted md:text-sm">{t.role}</span>
-              </footer>
-            </blockquote>
-          </motion.div>
-        </AnimatePresence>
+      <div className="mt-14 md:mt-20">
+        {/* neon open-quote, the one accent strike here */}
+        <span
+          aria-hidden
+          className="block font-display text-7xl leading-none text-gradient-accent md:text-8xl"
+        >
+          &ldquo;
+        </span>
+
+        {/* The min-height reserve that used to sit here was measured for a
+            text-only quote at full page width. The quote is a 7-of-12 column
+            beside a photo now, so those values no longer describe anything: on
+            desktop 4.5em was shorter than the photo and did nothing, and on
+            mobile 10em forced blank space under a short quote. Height comes
+            from the content. If more testimonials are added and rotation starts
+            resizing the block, reserve against the PHOTO column, which is what
+            dominates the height here. */}
+        <div className="relative -mt-4">
+          <AnimatePresence mode="wait">
+            <motion.blockquote
+              key={t.id}
+              initial={reduce ? false : { opacity: 0, y: 18 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={reduce ? undefined : { opacity: 0, y: -18 }}
+              transition={{ duration: DUR.base, ease: EASE.out }}
+              className="not-italic"
+            >
+              <div className="grid gap-10 md:grid-cols-12 md:items-center md:gap-14">
+                <div className="md:col-span-7">
+                  <p className="font-display text-2xl font-medium leading-snug tracking-tight text-ink sm:text-3xl md:text-4xl">
+                    {t.quote}
+                  </p>
+                  <footer className="mt-8 font-sans text-sm">
+                    <span className="block text-ink">{t.name}</span>
+                    <span className="mt-0.5 block text-muted">{t.role}</span>
+                  </footer>
+                </div>
+
+                {/* The photo owns its own column instead of sitting in the
+                    attribution line as a thumbnail.
+
+                    `object-contain`, not `object-cover`. Cover fills the frame
+                    and throws away whatever does not fit, which is what cut
+                    people out of this shot at every size it was tried. Contain
+                    fits the whole picture inside the frame instead: for this
+                    1000x1000 file in a square box the two are identical, but if
+                    a client photo of any other shape is added later it will be
+                    letterboxed rather than cropped. Losing a little background
+                    beats losing a person.
+
+                    The box keeps a fixed aspect so the space is reserved before
+                    the image decodes. Intrinsic sizing (`width={0} height={0}`)
+                    was tried and collapses the figure to a 2px sliver until the
+                    file loads, which is a layout shift on every visit.
+
+                    One thing no layout can fix: `client-asrg-1.webp` is
+                    1000x1000 and the person at the right edge is ALREADY cut in
+                    the source file. That crop is baked in and needs a re-export
+                    from the original photo, not a CSS change. */}
+                {t.photo && (
+                  <figure className="relative aspect-square w-full overflow-hidden rounded-md border border-line bg-elevated md:col-span-5">
+                    <Image
+                      src={t.photo}
+                      alt={`${t.name} with the SAMPeer Studio team`}
+                      fill
+                      sizes="(min-width: 768px) 40vw, 100vw"
+                      className="object-contain"
+                    />
+                  </figure>
+                )}
+              </div>
+            </motion.blockquote>
+          </AnimatePresence>
+        </div>
 
         {/* speaker rail, only when there's more than one voice to switch */}
         {TESTIMONIALS.length > 1 && (
-          <ul className="mt-12 flex flex-row flex-wrap gap-x-8 gap-y-4 border-t border-line pt-8">
-            {TESTIMONIALS.map((item, i) => {
-              const on = i === active;
-              return (
-                <li key={item.id}>
-                  <button
-                    type="button"
-                    onClick={() => setActive(i)}
-                    className="group relative block text-left"
-                    aria-current={on}
+        <ul className="mt-12 flex flex-row flex-wrap gap-x-8 gap-y-4 border-t border-line pt-8">
+          {TESTIMONIALS.map((item, i) => {
+            const on = i === active;
+            return (
+              <li key={item.id}>
+                <button
+                  type="button"
+                  onClick={() => setActive(i)}
+                  className="group relative block text-left"
+                  aria-current={on}
+                >
+                  <span
+                    className={`font-display text-base font-medium tracking-tight transition-colors md:text-lg ${
+                      on ? "text-ink" : "text-faint group-hover:text-muted"
+                    }`}
                   >
-                    <span
-                      className={`font-display text-base font-medium tracking-tight transition-colors md:text-lg ${
-                        on ? "text-ink" : "text-faint group-hover:text-muted"
-                      }`}
-                    >
-                      {item.name}
-                    </span>
-                    {/* active underline draws in */}
-                    <motion.span
-                      aria-hidden
-                      className="absolute -bottom-1 left-0 h-px w-full origin-left bg-accent"
-                      initial={false}
-                      animate={{ scaleX: on ? 1 : 0 }}
-                      transition={{ duration: DUR.fast, ease: EASE.out }}
-                    />
-                  </button>
-                </li>
-              );
-            })}
-          </ul>
+                    {item.name}
+                  </span>
+                  {/* active underline draws in */}
+                  <motion.span
+                    aria-hidden
+                    className="absolute -bottom-1 left-0 h-px w-full origin-left bg-accent"
+                    initial={false}
+                    animate={{ scaleX: on ? 1 : 0 }}
+                    transition={{ duration: DUR.fast, ease: EASE.out }}
+                  />
+                </button>
+              </li>
+            );
+          })}
+        </ul>
         )}
       </div>
     </Section>

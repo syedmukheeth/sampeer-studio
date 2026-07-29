@@ -1,58 +1,52 @@
 "use client";
 
-import { motion } from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
 import { PROBLEM } from "@/lib/content";
 import { Section } from "@/components/ui/Section";
-import { SplitText } from "@/components/ui/SplitText";
-import { GlitchText } from "@/components/ui/GlitchText";
-import { EASE } from "@/lib/constants";
+import { EASE, DUR, VIEWPORT } from "@/lib/constants";
 
-const TYPE = "font-display text-2xl font-medium leading-snug tracking-tight text-ink md:text-4xl";
+const TYPE =
+  "font-display text-2xl font-semibold leading-snug tracking-tight text-ink md:text-4xl";
 
-/** ms between chars, also the number the glitch word waits on, so keep them
- *  reading from one place. */
-const STAGGER_MS = 18;
-
-/** §02 Brutal prose, set char by char (gsap SplitText) as each line scrolls in.
- *  The word "invisible" is the one that breaks the grammar: it keeps the accent
- *  colour and tears itself apart. The line is cut around that word, SplitText
- *  owns plain text only, and letting it chew the glitch span would eat its
- *  data-text channels, and the word is held back until the chars ahead of it
- *  have landed, so the sentence still reads left to right. */
+/** §02 Brutal prose. Three lines, each arriving as one block.
+ *
+ *  This used to set every line character by character (gsap SplitText) and tear
+ *  the word "invisible" apart with a chromatic-channel glitch. Both were cut:
+ *  the per-character stagger meant the reader watched a line assemble instead
+ *  of reading it, and the glitch, at body size on a light ground, did not read
+ *  as a deliberate effect at all, it read as a font failing to load. The
+ *  argument in this section is the product; anything that delays it is working
+ *  against the page.
+ *
+ *  What is left is one fade-and-rise per line. The emphasis word keeps the
+ *  accent and gains weight, so it still lands as the sentence's one strike,
+ *  and it is legible the entire time. */
 function Line({ text, order }: { text: string; order: number }) {
+  const reduce = useReducedMotion();
   const word = PROBLEM.emphasis;
   const at = text.indexOf(word);
-  const start = order * 0.15;
 
-  if (at === -1) {
-    return (
-      <p className={TYPE}>
-        <SplitText text={text} delay={STAGGER_MS} startDelay={start} />
-      </p>
+  const content =
+    at === -1 ? (
+      text
+    ) : (
+      <>
+        {text.slice(0, at)}
+        <strong className="font-semibold text-accent-text">{word}</strong>
+        {text.slice(at + word.length)}
+      </>
     );
-  }
-
-  const before = text.slice(0, at);
-  // last char of `before` lands at start + (n - 1) * stagger + its own duration;
-  // the word arrives just after it
-  const afterBefore = start + (before.length - 1) * (STAGGER_MS / 1000) + 0.35;
 
   return (
-    <p className={TYPE}>
-      <SplitText text={before} delay={STAGGER_MS} startDelay={start} />
-      <motion.span
-        className="inline-block"
-        initial={{ opacity: 0, y: 18 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.15 }}
-        transition={{ duration: 0.5, delay: afterBefore, ease: EASE.out }}
-      >
-        <GlitchText className="text-accent-text" speed={0.8}>
-          {word}
-        </GlitchText>
-      </motion.span>
-      <SplitText text={text.slice(at + word.length)} delay={STAGGER_MS} startDelay={afterBefore + 0.3} />
-    </p>
+    <motion.p
+      className={TYPE}
+      initial={reduce ? false : { opacity: 0, y: 16 }}
+      whileInView={reduce ? undefined : { opacity: 1, y: 0 }}
+      viewport={VIEWPORT}
+      transition={{ duration: DUR.base, delay: order * 0.08, ease: EASE.out }}
+    >
+      {content}
+    </motion.p>
   );
 }
 

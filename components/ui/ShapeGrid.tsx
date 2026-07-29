@@ -41,9 +41,9 @@ type ShapeGridProps = {
 export function ShapeGrid({
   direction = "diagonal",
   speed = 0.25,
-  borderColor = "rgba(63, 97, 82, 0.12)",
+  borderColor = "rgba(109, 40, 217, 0.09)",
   squareSize = 64,
-  hoverFillColor = "rgba(63, 97, 82, 0.08)",
+  hoverFillColor = "rgba(109, 40, 217, 0.06)",
   shape = "square",
   hoverTrailAmount = 0,
   className = "",

@@ -2,7 +2,7 @@
 
 import { motion, useReducedMotion } from "motion/react";
 import { FOOTER } from "@/lib/content";
-import { Logo } from "@/components/ui/Logo";
+import { LogoLockup } from "@/components/ui/LogoLockup";
 import { Shell } from "@/components/ui/Shell";
 import { Reveal } from "@/components/ui/Reveal";
 import { MaskText } from "@/components/ui/MaskText";
@@ -25,10 +25,7 @@ export function Footer() {
 
         <div className="mt-14 flex flex-col justify-between gap-10 md:flex-row md:items-end">
           <Reveal delay={STAGGER.base}>
-            <Logo
-              sizes="(min-width: 768px) 400px, 280px"
-              className="h-auto w-56 md:w-80"
-            />
+            <LogoLockup />
           </Reveal>
 
           <Reveal delay={STAGGER.loose} className="flex flex-col gap-3 md:items-end">

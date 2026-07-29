@@ -12,8 +12,9 @@ type GlitchTextProps = {
 };
 
 /** react-bits GlitchText, repaletted to the brand: the two offset channels
- *  are sage and warm grey, not red/cyan, and the mask behind them is the paper
- *  canvas so the effect reads on a light ground. Styles live in globals.css. */
+ *  are violet and cool grey, not red/cyan, and the mask behind them is the
+ *  paper canvas so the effect reads on a light ground. Styles live in
+ *  globals.css. */
 export function GlitchText({
   children,
   speed = 1,

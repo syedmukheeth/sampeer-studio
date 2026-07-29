@@ -19,7 +19,7 @@ import { gsap } from "gsap";
  *  the component's own layout, and a component whose geometry depends on a
  *  separate stylesheet silently collapses if that sheet is stale or dropped. */
 const CARD_CLASS =
-  "card-swap-card absolute left-1/2 top-1/2 overflow-hidden rounded-md border border-line bg-elevated shadow-[0_8px_20px_rgba(31,41,36,0.07)] [transform-style:preserve-3d] [backface-visibility:hidden] [will-change:transform]";
+  "card-swap-card absolute left-1/2 top-1/2 overflow-hidden rounded-md border border-line bg-elevated shadow-[0_8px_20px_rgba(30,26,42,0.07)] [transform-style:preserve-3d] [backface-visibility:hidden] [will-change:transform]";
 
 export const Card = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement> & { customClass?: string }>(
   function Card({ customClass, className, ...rest }, ref) {

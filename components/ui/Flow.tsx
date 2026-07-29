@@ -62,12 +62,19 @@ type NodeStatus = "idle" | "active" | "done";
 
 /**
  * Two size tables, one engine. Rich cards need room for the icon chip and
- * meta line; the ratios stay close to simple's (130/232 ≈ 112/200) so every
- * canvas keeps roughly the density it was art-directed at.
+ * meta line; the ratios stay close to simple's so every canvas keeps roughly
+ * the density it was art-directed at.
+ *
+ * Row pitch was cut (130 -> 108 rich, 112 -> 94 simple) because the node only
+ * ever filled about half its cell vertically: a 68-unit card in a 130-unit row
+ * left 62 units of empty gutter to carry one arrow, and stacked over four rows
+ * that gutter was most of what the diagram showed. The remaining ~40 units is
+ * still more than the arrow plus its head needs. Card sizes are untouched, so
+ * nothing inside a node reflows.
  */
 const DIMS = {
-  simple: { cellW: 200, cellH: 112, nodeW: 152, nodeH: 54 },
-  rich: { cellW: 232, cellH: 130, nodeW: 184, nodeH: 68 },
+  simple: { cellW: 200, cellH: 94, nodeW: 152, nodeH: 54 },
+  rich: { cellW: 232, cellH: 108, nodeW: 184, nodeH: 68 },
 } as const;
 
 type Dims = (typeof DIMS)[keyof typeof DIMS];
@@ -221,10 +228,21 @@ export function Flow({
   return (
     <div ref={ref} className={clsx("w-full", className)}>
       {/* ---------------------------------------------- canvas (md and up) */}
+      {/* Capped, not free-stretching. The canvas is `w` user units wide and the
+          node cards are HTML positioned over it in percentages, so they scale
+          with the box, but the type inside them is fixed px. Left to fill an
+          8-of-12 column the diagram rendered ~1.6x its authored width, which
+          turned a 184-unit card into a ~300px slab still holding one 11px
+          label: the cards read as empty boxes rather than as dense little
+          machines. Holding it near 1:1 with its own units restores the density
+          it was drawn at. */}
       <div
         aria-hidden
-        className={clsx("relative w-full", canvasOnMobile ? "block" : "hidden md:block")}
-        style={{ aspectRatio: `${w} / ${h}` }}
+        className={clsx(
+          "relative mx-auto w-full",
+          canvasOnMobile ? "block" : "hidden md:block",
+        )}
+        style={{ aspectRatio: `${w} / ${h}`, maxWidth: `${Math.round(w * 1.12)}px` }}
       >
         <svg
           viewBox={`0 0 ${w} ${h}`}
@@ -334,6 +352,22 @@ export function Flow({
                       <animateMotion
                         dur={`${step / 1000}s`}
                         path={d}
+                        fill="freeze"
+                        repeatCount="1"
+                      />
+                      {/* The chip used to ride the path and then freeze on the
+                          last frame, which parks it exactly on the destination
+                          node's edge. The node cards are HTML painted above
+                          this SVG layer, so the chip ended up wedged half under
+                          the card it had just arrived at and read as a clipped
+                          label sitting in the diagram. It now fades up off the
+                          source and back out as it lands, so the payload is
+                          only ever visible in open track between two nodes. */}
+                      <animate
+                        attributeName="opacity"
+                        values="0;1;1;0"
+                        keyTimes="0;0.18;0.78;1"
+                        dur={`${step / 1000}s`}
                         fill="freeze"
                         repeatCount="1"
                       />

@@ -2,7 +2,6 @@ import { PILLARS, PILLARS_HEADER } from "@/lib/content";
 import { PillarPanel } from "@/components/sections/PillarPanel";
 import { Section, SectionHeader } from "@/components/ui/Section";
 import { GraphPaper } from "@/components/ui/GraphPaper";
-import { FallingText } from "@/components/ui/FallingText";
 
 /** §03 What We Build. Three pillars as outcomes.
  *  A sticky stack where each pillar pins and the next slides up to cover it -
@@ -18,13 +17,22 @@ import { FallingText } from "@/components/ui/FallingText";
 export function Build() {
   return (
     <section id="build">
-      <Section className="overflow-hidden bg-canvas">
+      {/* `flush` plus explicit padding, not the `base` rhythm: base pads BOTH
+          edges, and the first pillar adds its own top padding underneath, so
+          the header and the first outcome ended up ~360px apart with nothing
+          between them. The top edge matches the site's rhythm (py-20/md:py-28);
+          only the bottom is cut, because the pillar below supplies that side.
+          Set here rather than on Section, which every other block depends on. */}
+      <Section
+        size="flush"
+        className="overflow-hidden bg-canvas pt-20 pb-10 md:pt-28 md:pb-14"
+      >
         <GraphPaper className="[mask-image:linear-gradient(to_bottom,transparent,black_25%,black_70%,transparent)]" />
         <SectionHeader
           className="relative"
           accent
           eyebrow={PILLARS_HEADER.eyebrow}
-          title={<FallingText text={PILLARS_HEADER.title} />}
+          title={PILLARS_HEADER.title}
         />
         <p className="relative mt-6 max-w-xl font-sans text-base leading-relaxed text-muted">
           {PILLARS_HEADER.body}

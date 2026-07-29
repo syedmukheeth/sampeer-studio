@@ -15,13 +15,13 @@ export default function OG() {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          background: "#f6f2ea",
-          color: "#1a1a19",
+          background: "#f7f5f9",
+          color: "#19181c",
           padding: 80,
           fontFamily: "sans-serif",
         }}
       >
-        <div style={{ fontSize: 28, color: "#6e6e69", letterSpacing: -0.5 }}>
+        <div style={{ fontSize: 28, color: "#6b6873", letterSpacing: -0.5 }}>
           SAMPeer Studio
         </div>
         <div
@@ -35,9 +35,9 @@ export default function OG() {
           }}
         >
           <span>Most startups don&apos;t fail.</span>
-          <span style={{ color: "#3f6152" }}>They go unnoticed.</span>
+          <span style={{ color: "#5b21b6" }}>They go unnoticed.</span>
         </div>
-        <div style={{ fontSize: 26, color: "#6e6e69" }}>
+        <div style={{ fontSize: 26, color: "#6b6873" }}>
           The growth layer your startup is missing.
         </div>
       </div>

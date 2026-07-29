@@ -9,9 +9,9 @@ import { Shell } from "@/components/ui/Shell";
  */
 const SIZE = {
   /** standard storytelling block */
-  base: "py-28 md:py-40",
+  base: "py-20 md:py-28",
   /** climactic block (the CTA), extra air, feels like an arrival */
-  lg: "py-36 md:py-56",
+  lg: "py-28 md:py-40",
   /** section owns its own spacing (pinned/full-bleed/horizontal) */
   flush: "py-0",
 } as const;
@@ -42,7 +42,7 @@ export function Section({
 
 /**
  * The one eyebrow + heading pattern. Kills the three different eyebrow styles
- * that were scattered across sections. Indigo tick = the "noticed" accent,
+ * that were scattered across sections. Violet tick = the "noticed" accent,
  * rationed to one per header.
  */
 export function SectionHeader({
@@ -56,9 +56,9 @@ export function SectionHeader({
   title: React.ReactNode;
   className?: string;
   align?: "left" | "center";
-  /** Put the section's label and title in the sage, the same colour that marks
-   *  the struck word up top. Rationed, a page of green headings spends the
-   *  accent and it stops meaning anything. */
+  /** Put the section's label and title in the violet, the same colour that
+   *  marks the struck word up top. Rationed, a page of violet headings spends
+   *  the accent and it stops meaning anything. */
   accent?: boolean;
 }) {
   return (

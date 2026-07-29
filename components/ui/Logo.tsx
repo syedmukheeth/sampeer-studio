@@ -1,45 +1,35 @@
 import Image from "next/image";
+import mark from "../../public/logo-mark.png";
 
-/**
- * The SAMPeer brand signature lockup, drawn from the supplied brand PNGs
- * (transparent ground, so it sits on paper or elevated cards alike):
- *  - `mark`: the round S-ribbon medallion, for small square containers.
- *  - `full`: horizontal medallion + "SAMPeer / STUDIO" lockup.
- */
+/** The S-ribbon mark on its own, for the nav bubble and anywhere the lockup
+ *  would collapse to mush at small sizes.
+ *
+ *  The `full` variant that used to live here rendered `logo-full.png`, a lockup
+ *  built for a black ground: its wordmark is baked in at #d6d6d6 silver, which
+ *  measured 1.3:1 on the paper canvas, and it still read "sampeer studio" in
+ *  the old lowercase. `LogoLockup` replaced it and sets the wordmark as live
+ *  text, so the raster is gone rather than re-exported.
+ *
+ *  The mark ships with a real alpha channel (white ground removed), so it drops
+ *  onto any surface with no framed rectangle and no blend hack. Never
+ *  re-typeset; size with a width/height utility plus the paired `-auto` and let
+ *  the intrinsic ratio hold. */
 export function Logo({
-  variant = "full",
   className = "",
   sizes,
-  priority,
+  priority = false,
 }: {
-  variant?: "full" | "mark";
   className?: string;
   sizes?: string;
   priority?: boolean;
 }) {
-  if (variant === "mark") {
-    return (
-      <Image
-        src="/logo-mark.png"
-        alt="SAMPeer Studio"
-        width={399}
-        height={411}
-        sizes={sizes ?? "56px"}
-        priority={priority}
-        className={`h-full w-full object-cover ${className}`.trim()}
-      />
-    );
-  }
-
   return (
     <Image
-      src="/logo-full.png"
+      src={mark}
       alt="SAMPeer Studio"
-      width={1212}
-      height={411}
-      sizes={sizes}
       priority={priority}
-      className={`h-auto ${className}`.trim()}
+      sizes={sizes}
+      className={className}
     />
   );
 }

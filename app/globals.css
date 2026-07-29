@@ -3,22 +3,30 @@
 /*
   SAMPeer Studio, MINIMAL LIGHT theme.
 
-  Off-white paper ground, near-black type, one quiet sage accent. Structure is
+  Off-white paper ground, near-black type, one violet accent. Structure is
   carried by hairlines and whitespace rather than glow, elevation, or gradient.
 
-  Why this replaced the previous dark emerald build: the emerald sat at ~85%
-  saturation on near-black and every interactive surface added an outer glow,
-  so the page read as lit rather than composed. The palette below keeps exactly
-  one hue, well under 80% saturation, and no glow anywhere.
+  The accent is the brand mark's own hue. Sampled from the logo artwork, the
+  ribbon runs 263-272deg at 76-100% saturation, so the accent below sits at
+  263deg / 82% rather than being muted into something that no longer matches the
+  logo sitting next to it. The earlier sage build kept saturation low as its
+  discipline; this one keeps the brand's saturation and disciplines WHERE accent
+  is allowed to appear instead. One hue, no glow, and accent stays a strike
+  rather than a surface.
 
-  Neutrals are warm-biased (a trace of the accent's hue) rather than pure grey,
-  so paper and sage belong to the same family instead of looking bolted
-  together.
+  (This replaced a dark emerald build before it: emerald at ~85% saturation on
+  near-black plus an outer glow on every interactive surface read as lit rather
+  than composed. Paper plus no glow is what fixed that, not the hue.)
+
+  Neutrals are cool-biased (a trace of the accent's hue) rather than pure grey,
+  so paper and violet belong to the same family instead of looking bolted
+  together. The old cream was yellow-biased, which is violet's near-complement,
+  and would have put maximum chroma tension under every accent on the page.
 
   Accent discipline, unchanged in spirit:
-    --color-accent       sage, fills, the one strike, borders, LARGE display.
-    --color-accent-text  the darker sage that passes AA for small copy on paper.
-                         Flips lighter inside `.stage`.
+    --color-accent       violet, fills, the one strike, borders, LARGE display.
+    --color-accent-text  the darker violet that passes AA for small copy on
+                         paper. Flips lighter inside `.stage`.
 
   `.stage` remains the single dark block on the page. That is deliberate, not
   an accident of theming: the automation diagrams are the one place where a
@@ -27,27 +35,29 @@
 */
 
 @theme {
-  --color-canvas: #f6f2ea; /* page background, warm daylight paper (never #fff) */
+  --color-canvas: #f7f5f9; /* page background, cool daylight paper (never #fff) */
   --color-elevated: #ffffff; /* raised surface, cards lift off the paper */
-  --color-elevated-2: #f2f2ee; /* second tier, hover/active/pressed card states */
-  --color-ink: #1a1a19; /* primary text, near-black (never #000) */
-  --color-muted: #6e6e69; /* secondary text, 5.9:1 on canvas, passes AA */
+  --color-elevated-2: #f2f0f5; /* second tier, hover/active/pressed card states */
+  --color-ink: #19181c; /* primary text, near-black (never #000), 16.3:1 */
+  --color-muted: #6b6873; /* secondary text, 5.0:1 on canvas, passes AA */
   /* Was documented "decorative only, fails AA" but components use it for
      eyebrow labels and section numbers, which are readable copy. Darkened to
      clear AA at small sizes rather than leaving real text at 2.4:1. */
-  --color-faint: #73736c;
-  --color-line: #e4e4df; /* hairline borders on paper */
-  --color-accent: #3f6152; /* sage, fills / the one strike / large display */
-  --color-accent-2: #4f7565; /* the far end of the accent sweep, one hue only */
-  --color-accent-text: #34513f; /* darker sage, 7.1:1 on canvas, AA for small copy */
-  --color-accent-solid: #3f6152; /* sage button fill, paper-white rides on top */
-  --color-accent-dim: #2c453a; /* pressed / secondary accent state */
-  --color-accent-soft: rgba(63, 97, 82, 0.08); /* tints, veils, active-pill fill, no ad-hoc accent/10 */
-  --color-accent-ink: #f6f2ea; /* paper-white text on the sage fill */
+  --color-faint: #706d78; /* 4.7:1 on canvas, 5.1:1 on elevated */
+  --color-line: #e5e2ea; /* hairline borders on paper */
+  --color-accent: #6d28d9; /* violet, fills / the one strike / large display */
+  --color-accent-2: #7c3aed; /* the far end of the accent sweep, one hue only */
+  --color-accent-text: #5b21b6; /* darker violet, 8.3:1 on canvas, AA for small copy */
+  --color-accent-solid: #6d28d9; /* violet button fill, paper rides on top at 6.6:1 */
+  --color-accent-dim: #4c1d95; /* pressed / secondary accent state */
+  /* 0.06 not 0.08: the old sage sat near 35% saturation, this violet is at 82%
+     and reads heavier at identical alpha. Equal alpha is not equal weight. */
+  --color-accent-soft: rgba(109, 40, 217, 0.06); /* tints, veils, active-pill fill, no ad-hoc accent/10 */
+  --color-accent-ink: #f7f5f9; /* paper text on the violet fill */
 
   /* Kept as a token so nothing importing it breaks, but flattened to a single
      hue at two depths. A two-colour sweep was the loudest thing on the page. */
-  --gradient-accent: linear-gradient(120deg, #3f6152 0%, #4f7565 100%);
+  --gradient-accent: linear-gradient(120deg, #6d28d9 0%, #7c3aed 100%);
 
   --font-display: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
@@ -79,20 +89,20 @@
   work.
 */
 .stage {
-  --color-canvas: #161917;
-  --color-elevated: #1d211f;
-  --color-elevated-2: #252a27;
-  --color-ink: #f0f1ee;
-  --color-muted: #9ba39d;
-  --color-faint: #8b948d; /* lifted to clear AA for the 9px diagram meta lines */
-  --color-line: #2c322e;
-  --color-accent: #8fae9d; /* the sage lifted for a dark ground */
-  --color-accent-2: #a3bfaf;
-  --color-accent-text: #a3bfaf; /* 8.4:1 on the stage canvas */
-  --color-accent-solid: #8fae9d;
-  --color-accent-dim: #74907f;
-  --color-accent-soft: rgba(143, 174, 157, 0.12);
-  --color-accent-ink: #161917; /* dark ink on the light sage fill */
+  --color-canvas: #17161c;
+  --color-elevated: #1e1d25;
+  --color-elevated-2: #26242e;
+  --color-ink: #f0eff3;
+  --color-muted: #a09daa;
+  --color-faint: #948fa0; /* lifted to clear AA for the 9px diagram meta lines */
+  --color-line: #2f2d38;
+  --color-accent: #a78bfa; /* the violet lifted for a dark ground, 6.6:1 */
+  --color-accent-2: #c4b5fd;
+  --color-accent-text: #c4b5fd; /* 9.7:1 on the stage canvas */
+  --color-accent-solid: #a78bfa;
+  --color-accent-dim: #8b5cf6;
+  --color-accent-soft: rgba(167, 139, 250, 0.12);
+  --color-accent-ink: #17161c; /* dark ink on the light violet fill */
 
   background: var(--color-canvas);
   color: var(--color-ink);
@@ -527,14 +537,9 @@ a:hover .link-shine,
   }
 }
 
-/* Nav wall: below `sm` every pill is full width, so a vertical offset would
-   only push the column off its own rhythm and eat into the gap. Null it there
-   and let the tilt alone carry the looseness. */
-@media (width < 40rem) {
-  .nav-pill {
-    --pill-dy: 0px;
-  }
-}
+/* The `.nav-pill` rule that lived here belonged to the old full-screen nav
+   wall of scattered, rotated pills. The nav is a plain top bar now, so there is
+   nothing left to un-scatter. */
 
 /* From `md` the pills are placed absolutely across the wall, so the column's
    baseline offset has nothing left to offset against. The translate itself

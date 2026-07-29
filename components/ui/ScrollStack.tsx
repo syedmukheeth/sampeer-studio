@@ -39,7 +39,7 @@ export function ScrollStackItem({
 }) {
   return (
     <div
-      className={`scroll-stack-card relative origin-top [backface-visibility:hidden] [transform-style:preserve-3d] [will-change:transform,filter] ${itemClassName}`.trim()}
+      className={`scroll-stack-card origin-top [backface-visibility:hidden] [will-change:transform,opacity] ${itemClassName}`.trim()}
     >
       {children}
     </div>
@@ -49,49 +49,60 @@ export function ScrollStackItem({
 type ScrollStackProps = {
   children: ReactNode;
   className?: string;
-  /** px gap between cards before they stack */
-  itemDistance?: number;
-  /** how much bigger each successive card ends up, as a scale delta */
-  itemScale?: number;
-  /** px each stacked card peeks below the one above it */
-  itemStackDistance?: number;
-  /** where in the viewport cards pin, as a % of viewport height */
+  /** px of scroll each card owns before the next takes over. This, not the
+   *  card's own height, sets how long the section is: six cards at 400 is a
+   *  2400px section regardless of how tall a card renders. */
+  scrollPerCard?: number;
+  /** where in the viewport the stage pins, as a % of viewport height */
   stackPosition?: string;
-  /** where the scale-down finishes, as a % of viewport height */
-  scaleEndPosition?: string;
-  baseScale?: number;
-  rotationAmount?: number;
-  blurAmount?: number;
+  /** how far a leaving card recedes before it is gone */
+  exitScale?: number;
+  /** fraction of a card's span spent handing off to the next one */
+  exitFraction?: number;
+  /** fraction of a card's span spent arriving */
+  enterFraction?: number;
 };
 
-/** react-bits ScrollStack, ported to TS and to this project's scrolling.
+/**
+ * One project on screen at a time, on a sticky stage.
  *
- *  The upstream component owns its own scroller and spins up its own Lenis
- *  instance. Both are wrong here: the page already runs one global Lenis from
- *  LenisProvider, and a second one, plus a nested overflow container, would
- *  fight it for the wheel and trap the scroll inside the section. This version
- *  reads window scroll in a rAF loop instead, so it rides whatever is already
- *  driving the page. Reduced motion leaves the cards as a plain stack. */
+ * Two earlier shapes of this both failed, and for the same underlying reason:
+ * the cards shared layout space.
+ *
+ * The first was react-bits' deck, where every card stayed on screen as a
+ * shrinking pile behind the current one. The second tried to shorten the
+ * section by giving each card a NEGATIVE bottom margin so the next one's top
+ * landed `scrollPerCard` below it. That did cut the scroll length, but it also
+ * meant a card physically overlapped its neighbour in normal flow, so before
+ * the pin engaged the next exhibit sat across the bottom of the one above it
+ * and visibly cut it in half.
+ *
+ * Here the cards do not participate in flow at all. One sticky stage holds
+ * them absolutely positioned in the same box; the scroller above it is exactly
+ * `n * scrollPerCard` tall and is the only thing consuming scroll. So a card is
+ * either fully shown or not shown, never clipped by its neighbour, and the
+ * section's length is completely decoupled from how tall a card renders.
+ *
+ * Reduced motion and phones skip all of it: no stage, no absolute positioning,
+ * cards in ordinary flow, which is the right answer on a screen barely taller
+ * than one card.
+ */
 export function ScrollStack({
   children,
   className = "",
-  itemDistance = 88,
-  itemScale = 0.03,
-  itemStackDistance = 28,
-  stackPosition = "22%",
-  scaleEndPosition = "12%",
-  baseScale = 0.86,
-  rotationAmount = 0,
-  blurAmount = 0,
+  scrollPerCard = 420,
+  stackPosition = "14%",
+  exitScale = 0.95,
+  exitFraction = 0.32,
+  enterFraction = 0.14,
 }: ScrollStackProps) {
   const scroller = useRef<HTMLDivElement>(null);
+  const stage = useRef<HTMLDivElement>(null);
   const cardsRef = useRef<HTMLElement[]>([]);
-  const endRef = useRef<HTMLDivElement>(null);
   const frame = useRef(0);
-  const last = useRef(new Map<number, { y: number; scale: number; rotation: number; blur: number }>());
-  /** Document-space tops, measured from layout and cached. */
-  const tops = useRef<number[]>([]);
-  const endTop = useRef(0);
+  const last = useRef(new Map<number, { scale: number; opacity: number }>());
+  /** Document-space top of the scroller, measured from layout and cached. */
+  const scrollerTop = useRef(0);
   const lastScroll = useRef(-1);
   const plain = usePlainStack();
 
@@ -99,23 +110,23 @@ export function ScrollStack({
    *  transforms, unlike getBoundingClientRect, which reports the box we just
    *  moved. Reading the rect here fed each frame's transform back into the
    *  next frame's input and the cards visibly shook. */
+  const documentTop = (el: HTMLElement | null) => {
+    let y = 0;
+    let node: HTMLElement | null = el;
+    while (node) {
+      y += node.offsetTop;
+      node = node.offsetParent as HTMLElement | null;
+    }
+    return y;
+  };
+
   const measure = useCallback(() => {
-    const documentTop = (el: HTMLElement | null) => {
-      let y = 0;
-      let node: HTMLElement | null = el;
-      while (node) {
-        y += node.offsetTop;
-        node = node.offsetParent as HTMLElement | null;
-      }
-      return y;
-    };
-    tops.current = cardsRef.current.map((card) => documentTop(card));
-    endTop.current = documentTop(endRef.current);
+    scrollerTop.current = documentTop(scroller.current);
   }, []);
 
   const update = useCallback(() => {
     const cards = cardsRef.current;
-    if (!cards.length || !tops.current.length) return;
+    if (!cards.length) return;
 
     const scrollTop = window.scrollY;
     // nothing moved: skip the whole pass rather than recompute six cards to
@@ -123,83 +134,106 @@ export function ScrollStack({
     if (scrollTop === lastScroll.current) return;
     lastScroll.current = scrollTop;
 
-    const viewport = window.innerHeight;
-    const pct = (value: string) => (parseFloat(value) / 100) * viewport;
-    const stackPx = pct(stackPosition);
-    const scaleEndPx = pct(scaleEndPosition);
+    const local = scrollTop - scrollerTop.current;
+    const lastIndex = cards.length - 1;
+    const holdEnd = 1 - exitFraction;
 
     cards.forEach((card, i) => {
-      const cardTop = tops.current[i];
-      const pinStart = cardTop - stackPx - itemStackDistance * i;
-      const pinEnd = endTop.current - viewport / 2;
-      const scaleEnd = cardTop - scaleEndPx;
+      // 0 = this card's turn begins, 1 = the next card has fully taken over
+      const p = (local - i * scrollPerCard) / scrollPerCard;
 
-      const progress =
-        scrollTop < pinStart ? 0 : scrollTop > scaleEnd ? 1 : (scrollTop - pinStart) / (scaleEnd - pinStart || 1);
-      const targetScale = baseScale + i * itemScale;
-      const scale = 1 - progress * (1 - targetScale);
-      const rotation = rotationAmount ? i * rotationAmount * progress : 0;
+      let opacity: number;
+      let scale: number;
 
-      let blur = 0;
-      if (blurAmount) {
-        let top = 0;
-        tops.current.forEach((otherTop, j) => {
-          if (scrollTop >= otherTop - stackPx - itemStackDistance * j) top = j;
-        });
-        if (i < top) blur = (top - i) * blurAmount;
-      }
-
-      let y = 0;
-      if (scrollTop >= pinStart && scrollTop <= pinEnd) {
-        y = scrollTop - cardTop + stackPx + itemStackDistance * i;
-      } else if (scrollTop > pinEnd) {
-        y = pinEnd - cardTop + stackPx + itemStackDistance * i;
+      if (i === 0 && p < enterFraction) {
+        // The first card never plays an entrance. `local` is negative while the
+        // section is still scrolling up into view, so anything that ramps card
+        // zero in from zero leaves the stage blank exactly when the reader
+        // arrives at it, which is the emptiness this section was accused of.
+        opacity = 1;
+        scale = 1;
+      } else if (p < 0) {
+        // not reached yet. Cards are stacked in one box, so an unreached card
+        // must be fully hidden or it would paint over the one being read.
+        opacity = 0;
+        scale = 1;
+      } else if (p < enterFraction) {
+        const e = p / enterFraction;
+        opacity = e;
+        scale = 1 - (1 - e) * 0.02;
+      } else if (i === lastIndex || p <= holdEnd) {
+        // the last card has nothing to hand off to, so it simply rests
+        opacity = 1;
+        scale = 1;
+      } else if (p < 1) {
+        const e = (p - holdEnd) / exitFraction;
+        opacity = 1 - e;
+        scale = 1 - e * (1 - exitScale);
+      } else {
+        opacity = 0;
+        scale = exitScale;
       }
 
       const next = {
-        y: Math.round(y * 100) / 100,
         scale: Math.round(scale * 1000) / 1000,
-        rotation: Math.round(rotation * 100) / 100,
-        blur: Math.round(blur * 100) / 100,
+        opacity: Math.round(opacity * 1000) / 1000,
       };
       const prev = last.current.get(i);
       const changed =
         !prev ||
-        Math.abs(prev.y - next.y) > 0.1 ||
         Math.abs(prev.scale - next.scale) > 0.001 ||
-        Math.abs(prev.rotation - next.rotation) > 0.1 ||
-        Math.abs(prev.blur - next.blur) > 0.1;
+        Math.abs(prev.opacity - next.opacity) > 0.005;
 
       if (changed) {
-        card.style.transform = `translate3d(0, ${next.y}px, 0) scale(${next.scale}) rotate(${next.rotation}deg)`;
-        card.style.filter = next.blur > 0 ? `blur(${next.blur}px)` : "";
+        card.style.transform = `scale(${next.scale})`;
+        card.style.opacity = `${next.opacity}`;
+        // a hidden card must not swallow clicks meant for the one on top of it
+        card.style.pointerEvents = next.opacity < 0.05 ? "none" : "";
         last.current.set(i, next);
       }
     });
-  }, [baseScale, blurAmount, itemScale, itemStackDistance, rotationAmount, scaleEndPosition, stackPosition]);
+  }, [enterFraction, exitFraction, exitScale, scrollPerCard]);
 
   useEffect(() => {
     const root = scroller.current;
-    if (!root) return;
-    // Pinning six poster-sized cards means rewriting six transforms per frame
-    // against a touch scroller that is already the most expensive thing on the
-    // device, and on a screen barely taller than one card it reads as stutter
-    // rather than depth. `plain` is reactive, so crossing the breakpoint
-    // re-runs this effect and the cleanup below strips the stale transforms.
+    const stageEl = stage.current;
+    if (!root || !stageEl) return;
+    // Driving six poster-sized cards per frame against a touch scroller that is
+    // already the most expensive thing on the device reads as stutter rather
+    // than depth on a screen barely taller than one card. `plain` is reactive,
+    // so crossing the breakpoint re-runs this effect and the cleanup strips
+    // whatever the other branch left behind.
     if (plain) return;
 
-    const cards = Array.from(root.querySelectorAll<HTMLElement>(".scroll-stack-card"));
+    const cards = Array.from(stageEl.querySelectorAll<HTMLElement>(".scroll-stack-card"));
     cardsRef.current = cards;
-    cards.forEach((card, i) => {
-      card.style.marginBottom = i < cards.length - 1 ? `${itemDistance}px` : "";
-    });
-    measure();
 
-    // Anything that changes the section's height invalidates the cached tops:
-    // a resize, or a poster finishing loading and giving a card its real size.
-    const ro = new ResizeObserver(measure);
-    ro.observe(root);
-    window.addEventListener("resize", measure);
+    /** The stage is as tall as the tallest card and the scroller is exactly
+     *  `n * scrollPerCard` tall. Nothing here reads a card's height to decide
+     *  how much scroll it gets, which is the whole point: card height and
+     *  section length are independent now. */
+    const applyLayout = () => {
+      cards.forEach((card) => {
+        card.style.position = "absolute";
+        card.style.left = "0";
+        card.style.right = "0";
+        card.style.top = "0";
+      });
+      const tallest = cards.reduce((m, c) => Math.max(m, c.offsetHeight), 0);
+      stageEl.style.height = `${tallest}px`;
+      root.style.height = `${cards.length * scrollPerCard + tallest}px`;
+      measure();
+      // force the next pass to repaint even if the scroll position is unchanged
+      lastScroll.current = -1;
+      update();
+    };
+    applyLayout();
+
+    // Anything that changes a card's height invalidates the stage: a resize, or
+    // a poster finishing loading and giving a card its real size.
+    const ro = new ResizeObserver(applyLayout);
+    cards.forEach((c) => ro.observe(c));
+    window.addEventListener("resize", applyLayout);
 
     // rAF loop rather than a scroll listener: the global Lenis animates scroll
     // between native scroll events, so listening alone leaves the cards
@@ -226,7 +260,7 @@ export function ScrollStack({
 
     const io = new IntersectionObserver(
       (entries) => (entries.some((e) => e.isIntersecting) ? play() : pause()),
-      // generous margin: start before the first card is due to pin
+      // generous margin: start before the first card is due
       { rootMargin: "50% 0px 50% 0px" },
     );
     io.observe(root);
@@ -241,34 +275,37 @@ export function ScrollStack({
       io.disconnect();
       document.removeEventListener("visibilitychange", onVisibility);
       ro.disconnect();
-      window.removeEventListener("resize", measure);
+      window.removeEventListener("resize", applyLayout);
       cache.clear();
       // so a re-enabled stack does not think it is already up to date
       lastScroll.current = -1;
+      root.style.height = "";
+      stageEl.style.height = "";
       cards.forEach((card) => {
         card.style.transform = "";
-        card.style.filter = "";
-        card.style.marginBottom = "";
+        card.style.opacity = "";
+        card.style.pointerEvents = "";
+        card.style.position = "";
+        card.style.left = "";
+        card.style.right = "";
+        card.style.top = "";
       });
     };
-  }, [itemDistance, measure, plain, update]);
+  }, [measure, plain, scrollPerCard, update]);
 
   return (
     // overflow-anchor:none, the browser's scroll anchoring watches for content
     // shifting above the viewport and silently corrects scrollTop to compensate.
-    // Pinned cards move every frame, so it kept nudging the scroll position and
-    // the whole stack shivered.
+    // The stage's contents change every frame, so it kept nudging the scroll
+    // position and the whole section shivered.
     <div ref={scroller} className={`relative [overflow-anchor:none] ${className}`.trim()}>
-      {children}
-      {/* Release runway. The last card stays pinned until the end marker
-          reaches mid-viewport, so without room after the cards that pin was
-          still held while the next section scrolled up underneath it, which
-          is what put the following copy on top of the cards. */}
-      {/* zero on phones, where nothing pins and the runway would just be a
-          screen and a half of empty page */}
-      <div ref={endRef} className="scroll-stack-end h-[50vh] w-full md:h-[70vh]" />
+      <div
+        ref={stage}
+        className={plain ? "flex flex-col gap-8" : "sticky"}
+        style={plain ? undefined : { top: stackPosition }}
+      >
+        {children}
+      </div>
     </div>
   );
 }
-
-export default ScrollStack;
