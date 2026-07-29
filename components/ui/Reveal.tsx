@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useReducedMotion } from "motion/react";
-import { EASE_OUT } from "@/lib/constants";
+import { DUR, EASE_OUT, RISE, VIEWPORT } from "@/lib/constants";
 
 /** Lightweight scroll-reveal. Enters once when it hits the viewport.
  *  Storytelling: content arrives in sequence as you scroll. */
@@ -9,10 +9,10 @@ import { EASE_OUT } from "@/lib/constants";
  *  page can vary the direction of travel between neighbouring blocks instead
  *  of every element sliding up in lockstep. */
 const FROM = {
-  bottom: { y: 24, x: 0 },
-  top: { y: -24, x: 0 },
-  left: { y: 0, x: -32 },
-  right: { y: 0, x: 32 },
+  bottom: { y: RISE, x: 0 },
+  top: { y: -RISE, x: 0 },
+  left: { y: 0, x: -RISE * 1.3 },
+  right: { y: 0, x: RISE * 1.3 },
 } as const;
 
 export function Reveal({
@@ -42,9 +42,12 @@ export function Reveal({
       className={className}
       initial={{ opacity: 0, ...offset }}
       whileInView={{ opacity: 1, x: 0, y: 0 }}
-      viewport={{ once: true, amount: 0.3 }}
+      viewport={VIEWPORT}
       transition={{
-        duration: reduce ? 0 : 0.7,
+        // was a hardcoded 0.7s with a hardcoded 24/32px travel, so the single
+        // most used reveal on the page was the one thing the motion tokens did
+        // not actually govern; retuning DUR moved nothing until this was wired
+        duration: reduce ? 0 : DUR.base,
         delay: reduce ? 0 : delay,
         ease: EASE_OUT,
       }}

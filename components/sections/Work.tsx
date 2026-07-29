@@ -8,6 +8,7 @@ import { Shell } from "@/components/ui/Shell";
 import { Section, SectionHeader } from "@/components/ui/Section";
 import { LiveSiteFrame } from "@/components/ui/LiveSiteFrame";
 import { ScrollStack, ScrollStackItem } from "@/components/ui/ScrollStack";
+import { DUR, EASE, RISE } from "@/lib/constants";
 import { track, EVENTS } from "@/lib/analytics";
 
 /** §04 Real Work. Each project is a full-width exhibit that pins near the top
@@ -40,13 +41,13 @@ export function Work() {
 
       <Shell>
         <motion.div
-          initial={reduce ? false : { opacity: 0, y: 30 }}
+          initial={reduce ? false : { opacity: 0, y: RISE }}
           whileInView={reduce ? undefined : { opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.05 }}
           // Was 1.15s, timed to a heading that used to write itself in one
           // character at a time. That heading is plain text now, so the delay
           // was a second of empty section before the first project showed up.
-          transition={{ duration: 0.5, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: reduce ? 0 : DUR.slow, delay: 0.1, ease: EASE.out }}
         >
           <ScrollStack scrollPerCard={400}>
             {WORK.map((w, i) => (
@@ -77,8 +78,15 @@ function StackCard({ project: w, index }: { project: LiveProject; index: number 
           />
         </div>
 
-        {/* meta */}
-        <div className="flex flex-col gap-6 p-6 md:col-span-4 md:p-8">
+        {/* meta.
+            `justify-between`, because the column's height is set by the 16:10
+            poster beside it and its content does not fill that: it was leaving
+            roughly 130px of blank card under the pull-quote, which on the one
+            section that exists to look expensive read as an unfinished layout.
+            The destinations stay pinned to the top and the client's quote sits
+            on the bottom edge, so the whitespace lands between blocks as
+            breathing room rather than pooling at the end. */}
+        <div className="flex flex-col justify-between gap-6 p-6 md:col-span-4 md:p-8">
           {/* the two destinations sit at the top of the column: at the foot of
               a card this tall they fell below the fold of the pinned card and
               were the first thing the next card covered */}
@@ -98,7 +106,11 @@ function StackCard({ project: w, index }: { project: LiveProject; index: number 
             {w.caseStudy && (
               <Link
                 href={w.caseStudy}
-                className="link-shine relative z-10 inline-flex items-center gap-1 font-sans text-xs text-accent-text underline-offset-4 hover:underline"
+                // py-2/-my-2: the link was 132x16, under the 24px minimum
+                // target size, so the tappable area was thinner than the text
+                // looked. Padding grows the hit box, the matching negative
+                // margin keeps it exactly where it sat in the row.
+                className="link-shine relative z-10 -my-2 inline-flex items-center gap-1 py-2 font-sans text-xs text-accent-text underline-offset-4 hover:underline"
               >
                 Read the case study
                 <span aria-hidden>→</span>
@@ -120,15 +132,28 @@ function StackCard({ project: w, index }: { project: LiveProject; index: number 
             {w.proof && (
               <div className="mt-6 flex items-center gap-3.5">
                 <div className="flex">
+                  {/* Square, not the old 14:16 upright. These thumbnails are a
+                      fixed size while the photos behind them are not: one is a
+                      900x1125 portrait and one a 1600x1200 landscape, so any
+                      upright frame crops a quarter off the sides of the group
+                      shot. A square is the only ratio that treats both sources
+                      symmetrically, and it costs each one the same small trim
+                      from its own long edge. */}
                   {w.proof.photos.map((src, pi) => (
                     <span
                       key={src}
-                      className={`relative h-16 w-14 overflow-hidden rounded-md border border-line bg-elevated shadow-sm ${
+                      className={`relative aspect-square w-14 overflow-hidden rounded-md border border-line bg-elevated shadow-sm ${
                         pi > 0 ? "-ml-3.5" : ""
                       }`}
                       style={{ zIndex: w.proof!.photos.length - pi }}
                     >
-                      <Image src={src} alt="" fill sizes="64px" className="object-cover" />
+                      <Image
+                        src={src}
+                        alt=""
+                        fill
+                        sizes="56px"
+                        className="object-cover object-center"
+                      />
                     </span>
                   ))}
                 </div>

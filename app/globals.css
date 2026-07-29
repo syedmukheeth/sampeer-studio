@@ -525,6 +525,74 @@ a:hover .link-shine,
   }
 }
 
+/* ------------------------------------------------- interaction system */
+/*
+  Three shared behaviours, defined once here rather than re-typed as ad-hoc
+  utility strings per component. The site had hover colour changes and almost
+  nothing else, which is the single clearest tell between a template and
+  considered work: on a good site every interactive thing acknowledges the
+  pointer, and it acknowledges it the SAME way everywhere.
+
+  All three are transitions on transform/opacity/colour only, so they composite
+  on the GPU and cost nothing per frame, and all three collapse under the
+  reduced-motion block below.
+*/
+
+/* Buttons and solid CTAs. The press is the important half: a control that does
+   not move under the finger reads as an image of a button. */
+.btn-press {
+  transition:
+    transform 0.18s cubic-bezier(0.16, 1, 0.3, 1),
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
+}
+.btn-press:hover {
+  transform: translateY(-1px);
+}
+.btn-press:active {
+  transform: translateY(0) scale(0.985);
+  transition-duration: 0.06s;
+}
+
+/* Body links. An underline that wipes in from the left, rather than the
+   browser's instant one. `scaleX` on a pseudo-element, so nothing reflows. */
+.link-wipe {
+  position: relative;
+}
+.link-wipe::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  bottom: -2px;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.link-wipe:hover::after,
+.link-wipe:focus-visible::after {
+  transform: scaleX(1);
+}
+/* leaving reverses out to the right, so hover-off is not a snap */
+.link-wipe:not(:hover)::after {
+  transform-origin: right;
+}
+
+/* Cards. One lift value page-wide; the shadow is the violet-black used by every
+   other elevated surface, not a neutral grey. */
+.card-lift {
+  transition:
+    transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.35s ease;
+}
+.card-lift:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 40px rgba(30, 26, 42, 0.1);
+}
+
 /* Reduced motion: collapse everything to instant/static. */
 @media (prefers-reduced-motion: reduce) {
   *,
@@ -535,21 +603,19 @@ a:hover .link-shine,
     transition-duration: 0.001ms !important;
     scroll-behavior: auto !important;
   }
-}
 
-/* The `.nav-pill` rule that lived here belonged to the old full-screen nav
-   wall of scattered, rotated pills. The nav is a plain top bar now, so there is
-   nothing left to un-scatter. */
-
-/* From `md` the pills are placed absolutely across the wall, so the column's
-   baseline offset has nothing left to offset against. The translate itself
-   stays on the element (it is set inline, and inline wins), so the value is
-   nulled here rather than removed there. */
-@media (width >= 48rem) {
-  .nav-pill {
-    --pill-dy: 0px;
+  /* the interaction utilities are transitions, so the rule above already
+     flattens them, but the transforms themselves still need neutralising or a
+     hover leaves the element permanently displaced */
+  .btn-press:hover,
+  .btn-press:active,
+  .card-lift:hover {
+    transform: none;
   }
 }
 
-/* rebuild touch */
+/* The `.nav-pill` rules that lived here belonged to the old full-screen nav
+   wall of scattered, rotated pills. The nav is a plain top bar now, so there is
+   nothing left to un-scatter and both the base rule and its `md` override are
+   gone. */
 

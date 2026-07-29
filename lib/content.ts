@@ -156,7 +156,7 @@ export const WORK: LiveProject[] = [
     url: "https://www.asrgcontruction.com/",
     caseStudy: "/work/asrg",
     proof: {
-      photos: ["/asrg-client.webp", "/asrg-client-2.webp"],
+      photos: ["/asrg-client.webp", "/asrg-team.webp"],
       label: "On-site with the client, Kurnool",
     },
     testimonial: {
@@ -236,7 +236,9 @@ export type CaseStudyData = {
   gallery?: {
     title: string;
     caption: string;
-    photos: { src: string; alt: string; caption: string }[];
+    /** `w`/`h` are the file's real pixel dimensions; the grid gives each figure
+     *  that exact ratio so `object-cover` has nothing to crop. */
+    photos: { src: string; w: number; h: number; alt: string; caption: string }[];
   };
   /** live-site proof, desktop still (the poster) + a live phone-frame render.
    *  Both are derived from existing fields (poster, liveUrl); this only carries
@@ -282,9 +284,13 @@ export const CASE_ASRG: CaseStudyData = {
   gallery: {
     title: "On the ground",
     caption: "On-site at the ASRG Construction office in Kurnool - where the project was signed.",
+    /* `w`/`h` are the files' real pixel dimensions, and the grid sizes each
+       figure from them. The gallery used to force every photo into one 4:5
+       portrait box with object-cover, which is fine while every photo is
+       portrait and silently amputates people the moment one is not. */
     photos: [
-      { src: "/asrg-client.webp", alt: "SAMPeer Studio founder shaking hands with the ASRG Construction owner", caption: "Sealing the project" },
-      { src: "/asrg-client-2.webp", alt: "SAMPeer Studio founder with the ASRG Construction owner at their office", caption: "With the ASRG team, Kurnool" },
+      { src: "/asrg-client.webp", w: 900, h: 1125, alt: "SAMPeer Studio founder shaking hands with the ASRG Construction owner", caption: "Sealing the project" },
+      { src: "/asrg-team.webp", w: 1600, h: 1200, alt: "The SAMPeer Studio team with the ASRG Construction owner at their office in Kurnool", caption: "With the ASRG team, Kurnool" },
     ],
   },
   outcome: {

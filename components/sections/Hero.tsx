@@ -118,7 +118,7 @@ export function Hero() {
             <Magnetic>
               <a
                 href={HERO.ctaPrimary.href}
-                className="inline-flex items-center rounded-md bg-accent-solid px-6 py-3 font-sans text-sm font-medium text-accent-ink transition-[transform,background-color] duration-300 hover:bg-accent active:scale-[0.98]"
+                className="btn-press inline-flex items-center rounded-md bg-accent-solid px-6 py-3 font-sans text-sm font-medium text-accent-ink hover:bg-accent"
               >
                 {HERO.ctaPrimary.label}
               </a>

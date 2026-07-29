@@ -7,6 +7,7 @@ import { LenisProvider } from "@/components/providers/LenisProvider";
 import { ScrollDepth } from "@/components/analytics/ScrollDepth";
 import { Spine } from "@/components/ui/Spine";
 import { Grain } from "@/components/ui/Grain";
+import { Cursor } from "@/components/ui/Cursor";
 import { ShapeGrid } from "@/components/ui/ShapeGrid";
 import { SITE_URL } from "@/lib/constants";
 
@@ -129,6 +130,9 @@ export default function RootLayout({
         <LenisProvider>{children}</LenisProvider>
         <Grain />
         <Spine />
+        {/* mounts itself only for a real mouse, and not at all under reduced
+            motion; returns null everywhere else */}
+        <Cursor />
         <ScrollDepth />
         <Analytics />
         <SpeedInsights />

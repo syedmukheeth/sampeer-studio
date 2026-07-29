@@ -16,7 +16,10 @@ export function LenisProvider({ children }: { children: React.ReactNode }) {
     if (reduce) return;
 
     const lenis = new Lenis({
-      duration: 1.1,
+      // 1.1 left the page gliding for over a second after the wheel stopped,
+      // which reads as lag rather than smoothness and fought the tightened
+      // reveal timings. 0.9 keeps the smoothing without the float.
+      duration: 0.9,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
     });

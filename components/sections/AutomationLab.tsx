@@ -84,7 +84,10 @@ function StoryBeat({ beat, index }: { beat: Beat; index: number }) {
               href={beat.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="group mt-6 inline-flex items-center gap-1.5 font-sans text-sm font-medium text-accent-text"
+              // padding for the 24px minimum target size (was 82x23); the
+              // underline lives on the inner span, so growing the anchor's box
+              // does not move the rule under the words
+              className="group mt-6 inline-flex items-center gap-1.5 py-1.5 font-sans text-sm font-medium text-accent-text"
             >
               <span className="link-shine border-b border-accent/40 pb-0.5 transition-colors group-hover:border-accent">
                 Try it live
@@ -191,7 +194,7 @@ export function AutomationLab() {
               href={cta.live.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="group inline-flex items-center gap-2 rounded-md bg-accent-solid px-6 py-3 font-sans text-sm font-medium text-accent-ink transition-[transform,background-color] hover:bg-accent active:scale-[0.98]"
+              className="btn-press group inline-flex items-center gap-2 rounded-md bg-accent-solid px-6 py-3 font-sans text-sm font-medium text-accent-ink hover:bg-accent"
             >
               {cta.live.label}
               <ArrowUpRight

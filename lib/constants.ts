@@ -48,25 +48,39 @@ export const EASE = {
   pop: [0.34, 1.4, 0.64, 1] as const,
 } as const;
 
+/**
+ * Durations, in seconds.
+ *
+ * Halved from the previous scale (0.45 / 0.7 / 1.0 / 0.85). Those numbers were
+ * the real reason the page felt slow: a 0.7s "base" means every reveal on the
+ * way down the page costs most of a second before its content settles, and the
+ * reader spends the visit waiting for text to finish arriving. Motion at this
+ * band is felt but never waited for, which is the whole difference between
+ * expensive and sluggish.
+ */
 export const DUR = {
-  fast: 0.45,
-  base: 0.7,
-  slow: 1.0,
-  hero: 0.85,
+  fast: 0.2,
+  base: 0.35,
+  slow: 0.5,
+  hero: 0.45,
 } as const;
 
-/** Reveal cadence, shared so staggers read as one rhythm everywhere. */
+/** Reveal cadence, shared so staggers read as one rhythm everywhere. Tightened
+ *  with DUR: a stagger longer than the item's own duration reads as a queue,
+ *  not a group. */
 export const STAGGER = {
-  tight: 0.06,
-  base: 0.09,
-  loose: 0.14,
+  tight: 0.04,
+  base: 0.06,
+  loose: 0.08,
 } as const;
 
 /** Default in-view trigger, reveal a touch before fully on screen. */
 export const VIEWPORT = { once: true, amount: 0.25 } as const;
 
-/** The signature lift distance for fade-up reveals (px). One value, page-wide. */
-export const RISE = 28;
+/** The signature lift distance for fade-up reveals (px). One value, page-wide.
+ *  Shortened with the durations: travel and time have to scale together, or a
+ *  fast tween across a long distance reads as a jump rather than a rise. */
+export const RISE = 16;
 
 /**
  * Scroll distance (px) allotted per node when a Flow diagram builds itself

@@ -129,7 +129,9 @@ export function About() {
                       href={member.linkedin}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="link-shine mt-3 inline-flex items-center gap-1 font-sans text-xs text-accent-text transition-colors hover:text-ink"
+                      // was a 64x16 target, under the 24px minimum; padded to
+                      // clear it without moving the link in the card
+                      className="link-shine mt-3 inline-flex items-center gap-1 py-1.5 font-sans text-xs text-accent-text transition-colors hover:text-ink"
                     >
                       LinkedIn
                       <ArrowUpRight size={12} weight="bold" />

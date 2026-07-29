@@ -141,7 +141,7 @@ export function ContactForm({
         <button
           type="submit"
           disabled={status === "sending"}
-          className="inline-flex h-12 w-full items-center justify-center gap-1.5 rounded-md bg-accent-solid px-6 font-sans text-sm font-medium text-accent-ink transition-[transform,background-color] active:scale-[0.98] active:bg-accent-dim disabled:opacity-60"
+          className="btn-press inline-flex h-12 w-full items-center justify-center gap-1.5 rounded-md bg-accent-solid px-6 font-sans text-sm font-medium text-accent-ink active:bg-accent-dim disabled:opacity-60"
         >
           {status === "sending" ? "Sending…" : buttonLabel}
           <ArrowUpRight size={16} weight="bold" aria-hidden="true" />

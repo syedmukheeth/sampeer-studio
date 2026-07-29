@@ -31,7 +31,9 @@ export function Footer() {
           <Reveal delay={STAGGER.loose} className="flex flex-col gap-3 md:items-end">
             <a
               href={`mailto:${FOOTER.email}`}
-              className="font-sans text-sm text-ink transition-colors hover:text-accent-text"
+              // the email is the primary conversion path off this page and was
+              // a 180x20 target; padded to clear the 24px minimum
+              className="-my-1.5 py-1.5 font-sans text-sm text-ink transition-colors hover:text-accent-text"
             >
               {FOOTER.email}
             </a>
@@ -42,7 +44,7 @@ export function Footer() {
                   href={s.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="link-shine group font-sans text-sm text-muted transition-colors hover:text-ink"
+                  className="link-shine group -my-1.5 py-1.5 font-sans text-sm text-muted transition-colors hover:text-ink"
                 >
                   {s.label}
                   <span

@@ -138,10 +138,18 @@ export function CaseStudy({ data }: { data: CaseStudyData }) {
       {data.gallery && (
         <Section>
           <SectionHeader title={data.gallery.title} />
-          <div className="mx-auto mt-12 grid max-w-4xl grid-cols-1 gap-5 sm:grid-cols-2">
+          {/* `items-start`, because the two figures no longer share a height:
+              each one takes its own photo's ratio rather than being forced into
+              a single 4:5 portrait box. That box was fine while every gallery
+              photo was portrait, and cropped 44% off a landscape one the moment
+              a group shot was added, which is how people kept losing limbs. */}
+          <div className="mx-auto mt-12 grid max-w-4xl grid-cols-1 items-start gap-5 sm:grid-cols-2">
             {data.gallery.photos.map((p, i) => (
               <Reveal key={p.src} delay={i * 0.08}>
-                <figure className="group relative aspect-[4/5] overflow-hidden rounded-md border border-line ring-1 ring-transparent transition duration-500 hover:border-accent/40 hover:ring-accent/20">
+                <figure
+                  style={{ aspectRatio: `${p.w} / ${p.h}` }}
+                  className="group relative overflow-hidden rounded-md border border-line ring-1 ring-transparent transition duration-500 hover:border-accent/40 hover:ring-accent/20"
+                >
                   <Image
                     src={p.src}
                     alt={p.alt}

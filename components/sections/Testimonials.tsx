@@ -5,6 +5,7 @@ import Image from "next/image";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { TESTIMONIALS, TESTIMONIALS_HEADER } from "@/lib/content";
 import { Section, SectionHeader } from "@/components/ui/Section";
+import { ImageReveal } from "@/components/ui/ImageReveal";
 import { EASE, DUR } from "@/lib/constants";
 
 /** §05.5 Founder voices. One full-measure editorial pull-quote at a time; the
@@ -87,20 +88,23 @@ export function Testimonials() {
                     was tried and collapses the figure to a 2px sliver until the
                     file loads, which is a layout shift on every visit.
 
-                    One thing no layout can fix: `client-asrg-1.webp` is
-                    1000x1000 and the person at the right edge is ALREADY cut in
-                    the source file. That crop is baked in and needs a re-export
-                    from the original photo, not a CSS change. */}
+                    The frame is 4:3 because the source is: the old file was a
+                    1000x1000 crop with the third man cut in half at the right
+                    edge, and it has been replaced by the uncropped original
+                    (1600x1200). Matching the ratio means contain and cover
+                    agree and there is no letterbox either. */}
                 {t.photo && (
-                  <figure className="relative aspect-square w-full overflow-hidden rounded-md border border-line bg-elevated md:col-span-5">
-                    <Image
-                      src={t.photo}
-                      alt={`${t.name} with the SAMPeer Studio team`}
-                      fill
-                      sizes="(min-width: 768px) 40vw, 100vw"
-                      className="object-contain"
-                    />
-                  </figure>
+                  <ImageReveal className="md:col-span-5">
+                    <figure className="relative aspect-4/3 w-full overflow-hidden rounded-md border border-line bg-elevated">
+                      <Image
+                        src={t.photo}
+                        alt={`${t.name} with the SAMPeer Studio team`}
+                        fill
+                        sizes="(min-width: 768px) 40vw, 100vw"
+                        className="object-contain"
+                      />
+                    </figure>
+                  </ImageReveal>
                 )}
               </div>
             </motion.blockquote>
