@@ -28,7 +28,7 @@ export function Branding() {
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => track(EVENTS.ctaClickNav, { source: "branding" })}
-              className="group inline-flex items-center gap-1 font-sans text-sm font-medium text-ink"
+              className="group inline-flex items-center gap-1 py-1.5 font-sans text-sm font-medium text-ink"
             >
               <span className="border-b border-line pb-1 transition-colors duration-300 group-hover:border-accent">
                 {BRANDING.cta.label}

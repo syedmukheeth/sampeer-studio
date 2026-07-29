@@ -29,7 +29,7 @@ export function CaseStudy({ data }: { data: CaseStudyData }) {
         <Reveal>
           <Link
             href="/#work"
-            className="inline-flex items-center gap-1.5 font-sans text-sm text-muted transition-colors hover:text-ink"
+            className="-my-1.5 inline-flex items-center gap-1.5 py-1.5 font-sans text-sm text-muted transition-colors hover:text-ink"
           >
             <ArrowLeft size={15} weight="bold" />
             Work

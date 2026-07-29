@@ -191,7 +191,12 @@ export function Nav() {
           </Link>
 
           {/* destinations, desktop */}
-          <ul className="hidden items-center gap-0.5 md:flex">
+          {/* `lg`, not `md`. Six destinations plus the wordmark plus the CTA
+              need more than a 768px capsule: at that width the row overflowed
+              its own container by 25px and pushed the whole page into a
+              horizontal scroll. Tablets get the sheet, which is the honest
+              answer for this many links. */}
+          <ul className="hidden items-center gap-0.5 lg:flex">
             {items.map((item) => {
               const on = isActive(item.href);
               return (
@@ -244,7 +249,7 @@ export function Nav() {
               onClick={() => setOpen((v) => !v)}
               aria-label={open ? "Close menu" : "Open menu"}
               aria-expanded={open}
-              className="grid h-10 w-10 place-items-center gap-[5px] rounded-full border border-line text-ink md:hidden"
+              className="grid h-10 w-10 place-items-center gap-[5px] rounded-full border border-line text-ink lg:hidden"
             >
               <span
                 className={`block h-[1.5px] w-4 rounded-full bg-current transition-transform duration-300 ${
@@ -269,7 +274,7 @@ export function Nav() {
               animate={{ opacity: 1, y: 0 }}
               exit={reduce ? undefined : { opacity: 0, y: -8 }}
               transition={{ duration: reduce ? 0 : DUR.fast, ease: EASE.out }}
-              className="mt-2 overflow-hidden rounded-3xl border border-line/80 bg-canvas/95 p-2 shadow-[0_8px_32px_rgba(30,26,42,0.08)] backdrop-blur-xl md:hidden"
+              className="mt-2 overflow-hidden rounded-3xl border border-line/80 bg-canvas/95 p-2 shadow-[0_8px_32px_rgba(30,26,42,0.08)] backdrop-blur-xl lg:hidden"
             >
               <ul className="flex flex-col">
                 {items.map((item) => (

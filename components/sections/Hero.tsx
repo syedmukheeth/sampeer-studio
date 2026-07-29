@@ -128,7 +128,7 @@ export function Hero() {
           {/* secondary: quiet scroll affordance into the proof */}
           <a
             href={HERO.cta.href}
-            className="group inline-flex items-center gap-2 font-sans text-sm font-medium text-ink"
+            className="group inline-flex items-center gap-2 py-1.5 font-sans text-sm font-medium text-ink"
           >
             <span className="link-shine border-b border-line pb-1 transition-colors duration-300 group-hover:border-accent">
               {HERO.cta.label}
