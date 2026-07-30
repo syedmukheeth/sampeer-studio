@@ -10,7 +10,7 @@ export function Impact() {
   return (
     <Section id="impact">
         <Reveal from="left">
-          <SectionHeader title={A_IMPACT_HEADER.title} />
+          <SectionHeader title={A_IMPACT_HEADER.title} rule />
         </Reveal>
 
         <div className="mt-14 grid gap-px overflow-hidden rounded-md border border-line bg-line sm:grid-cols-2 lg:grid-cols-4">

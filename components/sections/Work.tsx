@@ -34,6 +34,7 @@ export function Work() {
         <SectionHeader
           eyebrow={WORK_HEADER.eyebrow}
           title={WORK_HEADER.title}
+          rule
         />
       </Shell>
 
@@ -52,11 +53,16 @@ export function Work() {
 
 function StackCard({ project: w, index }: { project: LiveProject; index: number }) {
   return (
-    <div className="group relative overflow-hidden rounded-lg border border-line bg-elevated shadow-[0_10px_36px_rgba(30,26,42,0.07)] transition-colors duration-500 hover:border-accent/40 hover:bg-elevated-2">
+    <div className="card-lift group relative overflow-hidden rounded-lg border border-line bg-elevated shadow-[0_10px_36px_rgba(30,26,42,0.07)] transition-colors duration-500 hover:border-accent/40 hover:bg-elevated-2">
       <div className="grid gap-0 md:grid-cols-12">
         {/* exhibit, poster at rest, live site on hover */}
         <div className="relative aspect-16/10 overflow-hidden md:col-span-8 md:border-r md:border-line">
-          <LiveSiteFrame url={w.url} title={`${w.client}, live site`} poster={w.poster} />
+          {/* the poster pushes in slightly under the pointer. Transform only,
+              on a layer that is already composited, so it costs nothing during
+              the stack's own scroll */}
+          <div className="media-zoom h-full w-full">
+            <LiveSiteFrame url={w.url} title={`${w.client}, live site`} poster={w.poster} />
+          </div>
           {/* accent veil at rest, lifts on hover, plain tint, no blend mode:
               mix-blend on six poster-sized layers taxes the compositor every
               frame of the stack scroll */}

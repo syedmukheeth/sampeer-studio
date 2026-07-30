@@ -51,6 +51,7 @@ export function SectionHeader({
   className,
   align = "left",
   accent = false,
+  rule = false,
 }: {
   eyebrow?: string;
   title: React.ReactNode;
@@ -60,6 +61,11 @@ export function SectionHeader({
    *  marks the struck word up top. Rationed, a page of violet headings spends
    *  the accent and it stops meaning anything. */
   accent?: boolean;
+  /** Draw a hairline under the header. Opt-in, not default: most headers are
+   *  followed immediately by their own sub-paragraph, and a rule between a
+   *  title and its subtitle divides the two things that belong together.
+   *  Reserved for headers that open a grid or a stack. */
+  rule?: boolean;
 }) {
   return (
     <div
@@ -89,6 +95,20 @@ export function SectionHeader({
       >
         {title}
       </h2>
+      {/* The header's closing rule. It draws against the scrollbar rather than
+          on an entrance trigger (see `.rule-scrub`), so it is motion the reader
+          drives, it reverses when they scroll back, and it can never leave the
+          heading sitting above an invisible line. */}
+      {rule ? (
+        <span
+          aria-hidden
+          className={clsx(
+            "rule-scrub mt-7 block h-px w-full",
+            align === "center" && "rule-scrub--center",
+            accent ? "bg-accent/35" : "bg-line",
+          )}
+        />
+      ) : null}
     </div>
   );
 }

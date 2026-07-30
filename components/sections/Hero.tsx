@@ -1,5 +1,7 @@
 "use client";
 
+import { useRef } from "react";
+import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
 import { ArrowDown } from "@phosphor-icons/react/dist/ssr";
 import { HERO } from "@/lib/content";
 import { STAGGER } from "@/lib/constants";
@@ -15,29 +17,67 @@ import { EVENTS } from "@/lib/analytics";
  *  anchor, not a button, Nav "Start" owns conversion, and this link doubles
  *  as the scroll affordance and a skip straight to the proof. */
 export function Hero() {
+  const reduce = useReducedMotion();
+  const sectionRef = useRef<HTMLElement>(null);
+
   // the accent line starts after the lead line's words have cascaded
   const leadWords = HERO.lead.split(" ").length;
   const accentDelay = 0.5 + leadWords * STAGGER.tight;
 
+  /* Ambient depth on the way out. The backdrop drifts down and dims as the
+     hero leaves, so the type separates from its own texture instead of the
+     whole section sliding away as one flat plane.
+
+     Scrubbed, not timed: every frame is a scroll position the reader chose,
+     which is why this can be continuous motion without becoming something
+     they wait on. Amplitude is deliberately small, and reduced motion flattens
+     the ranges rather than branching the markup, so the tree is identical on
+     the server and on both kinds of client. */
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end start"],
+  });
+  const backdropY = useTransform(
+    scrollYProgress,
+    [0, 1],
+    reduce ? ["0%", "0%"] : ["0%", "14%"],
+  );
+  const backdropOpacity = useTransform(
+    scrollYProgress,
+    [0, 0.85],
+    reduce ? [1, 1] : [1, 0.3],
+  );
+
   return (
     <section
+      ref={sectionRef}
       id="hero"
       className="relative flex min-h-dvh flex-col items-center justify-center overflow-hidden px-6 text-center"
     >
-      {/* signature noise -> signal field */}
-      <NoiseField className="pointer-events-none absolute inset-0 h-full w-full" />
-      <ShapeGrid
-        // desktop only, same trade as the page-level grid in layout.tsx: a
-        // full-viewport canvas animating for the life of the session is a real
-        // frame budget on a phone, and it is texture behind the headline
-        className="pointer-events-none absolute inset-0 hidden h-full w-full opacity-45 [mask-image:radial-gradient(ellipse_at_center,black_0%,black_58%,transparent_86%)] md:block"
-        speed={0.18}
-        squareSize={72}
-        direction="diagonal"
-        borderColor="rgba(109, 40, 217, 0.12)"
-        hoverFillColor="rgba(109, 40, 217, 0.06)"
-        shape="square"
-      />
+      <motion.div
+        aria-hidden
+        style={{ y: backdropY, opacity: backdropOpacity }}
+        className="pointer-events-none absolute inset-0"
+      >
+        {/* signature noise -> signal field */}
+        <NoiseField className="pointer-events-none absolute inset-0 h-full w-full" />
+        <ShapeGrid
+          // desktop only, same trade as the page-level grid in layout.tsx: a
+          // full-viewport canvas animating for the life of the session is a real
+          // frame budget on a phone, and it is texture behind the headline
+          className="pointer-events-none absolute inset-0 hidden h-full w-full opacity-45 [mask-image:radial-gradient(ellipse_at_center,black_0%,black_58%,transparent_86%)] md:block"
+          speed={0.18}
+          squareSize={72}
+          direction="diagonal"
+          borderColor="rgba(109, 40, 217, 0.12)"
+          hoverFillColor="rgba(109, 40, 217, 0.06)"
+          shape="square"
+        />
+      </motion.div>
+
+      {/* The veils stay outside the drifting layer. They exist to fade the
+          texture into the paper at the section's own edges, so they have to
+          hold still against those edges while the texture moves under them. */}
       {/* seat the type: fade the noise field out to the paper canvas at the
           edges so the near-black headline sits on a calm, near-solid centre */}
       <div

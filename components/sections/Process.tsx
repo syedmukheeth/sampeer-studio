@@ -22,7 +22,7 @@ export function Process() {
   return (
     <Section id="process">
       <div className="mx-auto max-w-4xl">
-        <SectionHeader title={PROCESS_HEADER.title} />
+        <SectionHeader title={PROCESS_HEADER.title} rule />
 
         <div className="mt-16 grid gap-12 md:grid-cols-12 md:gap-16">
           <div className="md:col-span-5">

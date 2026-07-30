@@ -184,7 +184,11 @@ export function Nav() {
             onClick={() => setOpen(false)}
             className="btn-press flex shrink-0 items-center gap-2.5 rounded-full py-1.5 pl-2 pr-3"
           >
-            <Logo priority sizes="32px" className="h-7 w-auto md:h-8" />
+            {/* No `priority`. A 28px mark is not an LCP candidate, and the
+                preload it emitted named one srcset candidate while the layout
+                resolved to another, so the browser downloaded an image it
+                never used and warned about it on every load. */}
+            <Logo sizes="32px" className="h-7 w-auto md:h-8" />
             <span className="hidden font-display text-base font-semibold tracking-tight text-ink sm:block">
               {NAV.brand}
             </span>

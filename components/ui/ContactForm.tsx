@@ -78,9 +78,24 @@ export function ContactForm({
         initial={reduce ? false : { opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: reduce ? 0 : DUR.base, ease: EASE.out }}
-        className="mx-auto mt-10 max-w-md font-sans text-base text-ink"
+        className="mx-auto mt-10 flex max-w-md items-center justify-center gap-2.5 font-sans text-base text-ink"
         role="status"
       >
+        {/* The tick draws itself once. This is the one place on the page where
+            the animation IS the message: the stroke completing is what says
+            the send landed. Under reduced motion it is simply already drawn. */}
+        <svg
+          aria-hidden
+          viewBox="0 0 24 24"
+          className="h-5 w-5 shrink-0 text-accent"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <path className="check-draw" d="M4 12.5 L9.5 18 L20 6.5" />
+        </svg>
         Got it. You will hear back within a day.
       </motion.p>
     );
@@ -144,7 +159,15 @@ export function ContactForm({
           className="btn-press inline-flex h-12 w-full items-center justify-center gap-1.5 rounded-md bg-accent-solid px-6 font-sans text-sm font-medium text-accent-ink active:bg-accent-dim disabled:opacity-60"
         >
           {status === "sending" ? "Sending…" : buttonLabel}
-          <ArrowUpRight size={16} weight="bold" aria-hidden="true" />
+          {/* the trailing glyph reports the state rather than decorating it:
+              the arrow becomes a spinner for exactly as long as the request is
+              in flight, so a slow network is visible instead of just dimming
+              the control */}
+          {status === "sending" ? (
+            <span aria-hidden className="spinner h-3.5 w-3.5 shrink-0" />
+          ) : (
+            <ArrowUpRight size={16} weight="bold" aria-hidden="true" />
+          )}
         </button>
       </Magnetic>
 

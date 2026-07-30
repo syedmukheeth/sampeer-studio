@@ -31,7 +31,7 @@ export function Testimonials() {
 
   return (
     <Section id="testimonials">
-      <SectionHeader title={TESTIMONIALS_HEADER.title} />
+      <SectionHeader title={TESTIMONIALS_HEADER.title} rule />
 
       <div className="mt-14 md:mt-20">
         {/* neon open-quote, the one accent strike here */}

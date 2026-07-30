@@ -593,6 +593,82 @@ a:hover .link-shine,
   box-shadow: 0 14px 40px rgba(30, 26, 42, 0.1);
 }
 
+/* Media inside a card. The poster grows a little while the pointer is on the
+   card, which is the one hover cue that reads at a glance on a big image. The
+   parent needs `overflow-hidden` so the growth is a push-in, not a spill. */
+.media-zoom {
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.group:hover .media-zoom,
+.group:focus-within .media-zoom {
+  transform: scale(1.04);
+}
+
+/* Section rules that draw themselves against the scrollbar rather than against
+   a timer.
+
+   `animation-timeline: view()` ties the whole animation to the element's own
+   passage through the viewport: it advances when the reader scrolls, reverses
+   when they scroll back, and finishes when they have finished arriving. No
+   observer, no rAF, no JS at all, and no entrance trigger that can leave the
+   rule stuck at scaleX(0) if the callback never fires.
+
+   Everything is inside @supports, so a browser without scroll-driven
+   animations (Safari and Firefox at time of writing) simply gets the finished
+   rule, which is the correct static result rather than a missing one. */
+.rule-scrub {
+  transform-origin: left;
+}
+/* centred headers draw out from the middle, or the rule visibly disagrees with
+   the type it sits under */
+.rule-scrub--center {
+  transform-origin: center;
+}
+@supports (animation-timeline: view()) {
+  .rule-scrub {
+    animation: rule-scrub linear both;
+    animation-timeline: view();
+    /* start as it enters the bottom third, finish once it is comfortably up
+       the page, so it is never still drawing while being read */
+    animation-range: entry 15% cover 38%;
+  }
+}
+@keyframes rule-scrub {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* Submit spinner. Replaces the button label's trailing arrow while a send is
+   in flight, so the control reports its own state instead of only dimming. */
+.spinner {
+  border-radius: 9999px;
+  border: 2px solid currentColor;
+  border-top-color: transparent;
+  animation: spinner 0.7s linear infinite;
+}
+@keyframes spinner {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* The confirmation tick draws itself once, the single moment on the page where
+   an animation IS the message: the stroke completing is what says "sent". */
+.check-draw {
+  stroke-dasharray: 26;
+  stroke-dashoffset: 26;
+  animation: check-draw 0.45s cubic-bezier(0.16, 1, 0.3, 1) 0.06s forwards;
+}
+@keyframes check-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
 /* Reduced motion: collapse everything to instant/static. */
 @media (prefers-reduced-motion: reduce) {
   *,
@@ -609,8 +685,29 @@ a:hover .link-shine,
      hover leaves the element permanently displaced */
   .btn-press:hover,
   .btn-press:active,
-  .card-lift:hover {
+  .card-lift:hover,
+  .group:hover .media-zoom,
+  .group:focus-within .media-zoom {
     transform: none;
+  }
+
+  /* A scroll-driven animation is not governed by animation-duration, so the
+     blanket rule above does not stop it. Detach it from the timeline and hold
+     the finished state: a drawn rule, arrived at without the drawing. */
+  .rule-scrub {
+    animation: none;
+    transform: scaleX(1);
+  }
+
+  /* The tick is the confirmation itself, so it stays visible, it just does not
+     draw. Same for the spinner: it is a state report, and a static ring still
+     reads as one next to a disabled button. */
+  .check-draw {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+  .spinner {
+    animation: none;
   }
 }
 

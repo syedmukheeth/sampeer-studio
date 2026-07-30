@@ -33,7 +33,7 @@ export function Footer() {
               href={`mailto:${FOOTER.email}`}
               // the email is the primary conversion path off this page and was
               // a 180x20 target; padded to clear the 24px minimum
-              className="-my-1.5 py-1.5 font-sans text-sm text-ink transition-colors hover:text-accent-text"
+              className="link-wipe -my-1.5 py-1.5 font-sans text-sm text-ink transition-colors hover:text-accent-text"
             >
               {FOOTER.email}
             </a>

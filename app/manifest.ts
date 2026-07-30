@@ -9,6 +9,9 @@ export default function manifest(): MetadataRoute.Manifest {
     display: "standalone",
     background_color: "#f7f5f9",
     theme_color: "#f7f5f9",
-    icons: [{ src: "/icon", sizes: "512x512", type: "image/png" }],
+    // `/icon`, without the extension, 404s: the app/icon.png file convention
+    // serves the route at its real filename. A manifest icon that fails to
+    // download costs the install prompt its artwork.
+    icons: [{ src: "/icon.png", sizes: "512x512", type: "image/png" }],
   };
 }
