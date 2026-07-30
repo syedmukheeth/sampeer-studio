@@ -652,6 +652,8 @@ export type Testimonial = {
   role: string;
   /** optional proof image (public/*.webp), a real client, shown as a chip */
   photo?: string;
+  /** optional second proof shot, shown as a smaller inset over `photo` */
+  photoSecondary?: string;
 };
 
 export const TESTIMONIALS_HEADER = {
@@ -671,6 +673,8 @@ export const TESTIMONIALS: Testimonial[] = [
     // Its own file: the WORK gallery's /asrg-client*.webp are different
     // moments from the same visit and stay untouched.
     photo: "/client-asrg.webp",
+    // the 2-up handshake shot, same visit, inset over the group photo.
+    photoSecondary: "/asrg-client.webp",
   },
 ];
 

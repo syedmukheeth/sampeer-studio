@@ -95,15 +95,35 @@ export function Testimonials() {
                     agree and there is no letterbox either. */}
                 {t.photo && (
                   <ImageReveal className="md:col-span-5">
-                    <figure className="relative aspect-4/3 w-full overflow-hidden rounded-md border border-line bg-elevated">
-                      <Image
-                        src={t.photo}
-                        alt={`${t.name} with the SAMPeer Studio team`}
-                        fill
-                        sizes="(min-width: 768px) 40vw, 100vw"
-                        className="object-contain"
-                      />
-                    </figure>
+                    <div className="relative">
+                      <figure className="relative aspect-4/3 w-full overflow-hidden rounded-md border border-line bg-elevated">
+                        <Image
+                          src={t.photo}
+                          alt={`${t.name} with the SAMPeer Studio team`}
+                          fill
+                          sizes="(min-width: 768px) 40vw, 100vw"
+                          className="object-contain"
+                        />
+                      </figure>
+
+                      {/* second shot, same visit, inset over the group photo
+                          bottom-right so both proof frames read at once.
+                          Offset is 0 below md: a negative right-margin here
+                          pushed the frame past the viewport edge on mobile
+                          (375px screen, 386px scroll width) and caused
+                          sitewide horizontal scroll. */}
+                      {t.photoSecondary && (
+                        <figure className="absolute bottom-2 right-2 aspect-4/3 w-2/5 overflow-hidden rounded-md border-2 border-page bg-elevated shadow-lg md:-bottom-6 md:-right-6">
+                          <Image
+                            src={t.photoSecondary}
+                            alt={`${t.name} closing the deal with SAMPeer Studio`}
+                            fill
+                            sizes="(min-width: 768px) 16vw, 40vw"
+                            className="object-cover"
+                          />
+                        </figure>
+                      )}
+                    </div>
                   </ImageReveal>
                 )}
               </div>
