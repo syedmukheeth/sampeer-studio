@@ -5,7 +5,6 @@ import Image from "next/image";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { TESTIMONIALS, TESTIMONIALS_HEADER } from "@/lib/content";
 import { Section, SectionHeader } from "@/components/ui/Section";
-import { ImageReveal } from "@/components/ui/ImageReveal";
 import { EASE, DUR } from "@/lib/constants";
 
 /** §05.5 Founder voices. One full-measure editorial pull-quote at a time; the
@@ -28,6 +27,7 @@ export function Testimonials() {
   }, [reduce]);
 
   const t = TESTIMONIALS[active];
+  const single = TESTIMONIALS.length <= 1;
 
   return (
     <Section id="testimonials">
@@ -54,9 +54,9 @@ export function Testimonials() {
           <AnimatePresence mode="wait">
             <motion.blockquote
               key={t.id}
-              initial={reduce ? false : { opacity: 0, y: 18 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={reduce ? undefined : { opacity: 0, y: -18 }}
+              initial={single || reduce ? false : { opacity: 0, y: 18 }}
+              animate={single ? undefined : { opacity: 1, y: 0 }}
+              exit={single || reduce ? undefined : { opacity: 0, y: -18 }}
               transition={{ duration: DUR.base, ease: EASE.out }}
               className="not-italic"
             >
@@ -71,60 +71,40 @@ export function Testimonials() {
                   </footer>
                 </div>
 
-                {/* The photo owns its own column instead of sitting in the
-                    attribution line as a thumbnail.
-
-                    `object-contain`, not `object-cover`. Cover fills the frame
-                    and throws away whatever does not fit, which is what cut
-                    people out of this shot at every size it was tried. Contain
-                    fits the whole picture inside the frame instead: for this
-                    1000x1000 file in a square box the two are identical, but if
-                    a client photo of any other shape is added later it will be
-                    letterboxed rather than cropped. Losing a little background
-                    beats losing a person.
-
-                    The box keeps a fixed aspect so the space is reserved before
-                    the image decodes. Intrinsic sizing (`width={0} height={0}`)
-                    was tried and collapses the figure to a 2px sliver until the
-                    file loads, which is a layout shift on every visit.
-
-                    The frame is 4:3 because the source is: the old file was a
-                    1000x1000 crop with the third man cut in half at the right
-                    edge, and it has been replaced by the uncropped original
-                    (1600x1200). Matching the ratio means contain and cover
-                    agree and there is no letterbox either. */}
+                {/* ASRG proof photos stay static and eager so the Clients
+                    section is already composed when it scrolls into view. */}
                 {t.photo && (
-                  <ImageReveal className="md:col-span-5">
-                    <div className="relative">
-                      <figure className="relative aspect-4/3 w-full overflow-hidden rounded-md border border-line bg-elevated">
+                  <div className="md:col-span-5">
+                    <div className="grid gap-3 sm:grid-cols-[minmax(0,1fr)_minmax(112px,0.42fr)] md:grid-cols-1 lg:grid-cols-[minmax(0,1fr)_minmax(132px,0.42fr)]">
+                      <figure className="relative aspect-4/3 w-full overflow-hidden rounded-md border border-line bg-elevated shadow-sm">
                         <Image
                           src={t.photo}
                           alt={`${t.name} with the SAMPeer Studio team`}
                           fill
                           sizes="(min-width: 768px) 40vw, 100vw"
-                          className="object-contain"
+                          className="object-cover"
+                          loading="eager"
                         />
                       </figure>
 
-                      {/* second shot, same visit, inset over the group photo
-                          bottom-right so both proof frames read at once.
-                          Offset is 0 below md: a negative right-margin here
-                          pushed the frame past the viewport edge on mobile
-                          (375px screen, 386px scroll width) and caused
-                          sitewide horizontal scroll. */}
+                      {/* Second ASRG proof shot, same visit. It sits beside the
+                          three-person frame instead of animating in as an
+                          overlay, so both photos are visible the moment the
+                          Clients section is reached. */}
                       {t.photoSecondary && (
-                        <figure className="absolute bottom-2 right-2 aspect-4/3 w-2/5 overflow-hidden rounded-md border-2 border-page bg-elevated shadow-lg md:-bottom-6 md:-right-6">
+                        <figure className="relative aspect-4/5 w-full overflow-hidden rounded-md border border-line bg-elevated shadow-sm">
                           <Image
                             src={t.photoSecondary}
                             alt={`${t.name} closing the deal with SAMPeer Studio`}
                             fill
-                            sizes="(min-width: 768px) 16vw, 40vw"
+                            sizes="(min-width: 1024px) 14vw, (min-width: 640px) 24vw, 100vw"
                             className="object-cover"
+                            loading="eager"
                           />
                         </figure>
                       )}
                     </div>
-                  </ImageReveal>
+                  </div>
                 )}
               </div>
             </motion.blockquote>

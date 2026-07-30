@@ -1,9 +1,7 @@
 "use client";
 
-import { motion, useReducedMotion } from "motion/react";
 import { PROBLEM } from "@/lib/content";
 import { Section } from "@/components/ui/Section";
-import { EASE, DUR, VIEWPORT } from "@/lib/constants";
 
 const TYPE =
   "font-display text-2xl font-semibold leading-snug tracking-tight text-ink md:text-4xl";
@@ -18,11 +16,12 @@ const TYPE =
  *  argument in this section is the product; anything that delays it is working
  *  against the page.
  *
- *  What is left is one fade-and-rise per line. The emphasis word keeps the
- *  accent and gains weight, so it still lands as the sentence's one strike,
- *  and it is legible the entire time. */
-function Line({ text, order }: { text: string; order: number }) {
-  const reduce = useReducedMotion();
+ *  What is left is plain type. The lines no longer fade and rise on scroll
+ *  either, for the same reason the character stagger went: the argument should
+ *  be readable the instant the section is on screen. The emphasis word keeps
+ *  the accent and gains weight, so it still lands as the sentence's one
+ *  strike, and it is legible the entire time. */
+function Line({ text }: { text: string }) {
   const word = PROBLEM.emphasis;
   const at = text.indexOf(word);
 
@@ -38,15 +37,9 @@ function Line({ text, order }: { text: string; order: number }) {
     );
 
   return (
-    <motion.p
-      className={TYPE}
-      initial={reduce ? false : { opacity: 0, y: 16 }}
-      whileInView={reduce ? undefined : { opacity: 1, y: 0 }}
-      viewport={VIEWPORT}
-      transition={{ duration: DUR.base, delay: order * 0.08, ease: EASE.out }}
-    >
+    <p className={TYPE}>
       {content}
-    </motion.p>
+    </p>
   );
 }
 
@@ -55,7 +48,7 @@ export function Problem() {
     <Section id="problem">
       <div className="max-w-4xl space-y-6">
         {PROBLEM.lines.map((l, i) => (
-          <Line key={i} text={l} order={i} />
+          <Line key={i} text={l} />
         ))}
       </div>
     </Section>

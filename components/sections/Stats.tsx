@@ -7,9 +7,13 @@ import { Reveal } from "@/components/ui/Reveal";
 import { EASE, DUR, STAGGER } from "@/lib/constants";
 
 /** §05 Proof numbers. LinkedIn-led: the audience is the asset. No cards,
- *  hairline dividers, big display numerals. The band assembles as it enters:
- *  the top and bottom rules draw themselves in, the internal dividers fade up,
- *  and the numbers count, arrival instead of furniture. */
+ *  hairline dividers, big display numerals.
+ *
+ *  The numbers themselves are static, they no longer count up from zero: a
+ *  proof figure that reads "0" until the spring settles is the one thing on
+ *  this band that must never be wrong at a glance. Only the rules move, and
+ *  they are aria-hidden furniture, so nothing the reader needs is ever
+ *  withheld. */
 export function Stats() {
   const reduce = useReducedMotion();
 

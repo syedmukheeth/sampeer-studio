@@ -1,8 +1,6 @@
 "use client";
 
-import { motion, useReducedMotion } from "motion/react";
 import { A_HERO, A_HERO_FLOW } from "@/lib/content-automations";
-import { EASE, DUR } from "@/lib/constants";
 import { Flow } from "@/components/ui/Flow";
 import { ShapeGrid } from "@/components/ui/ShapeGrid";
 import { GraphPaper } from "@/components/ui/GraphPaper";
@@ -16,8 +14,6 @@ import { EVENTS } from "@/lib/analytics";
  *  a CSS gradient, not a particle system, the brand bans glow, and the
  *  ambient Flow is the only thing that needs to move. */
 export function Hero() {
-  const reduce = useReducedMotion();
-
   return (
     <section
       id="lab"
@@ -64,56 +60,24 @@ export function Hero() {
       />
 
       <div className="relative z-10 flex flex-col items-center">
-        {/* Reduced motion collapses the DURATION rather than skipping the
-            `initial` frame. `initial={reduce ? false : ...}` would render
-            different markup on a reduced client than the server produced -
-            the server has no matchMedia, and that's a hydration mismatch. */}
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: reduce ? 0 : DUR.base, ease: EASE.out }}
-          className="flex items-center gap-2.5 font-sans text-xs font-medium uppercase tracking-[0.18em] text-faint"
-        >
+        {/* The type is static. It used to fade and rise on a staggered delay,
+            which put half a second of empty page between load and the promise
+            the reader came for. The ambient Flow above still moves, so the
+            page is not inert; the words just don't make anyone wait. */}
+        <p className="flex items-center gap-2.5 font-sans text-xs font-medium uppercase tracking-[0.18em] text-faint">
           <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-accent" />
           {A_HERO.eyebrow}
-        </motion.p>
+        </p>
 
-        <motion.h1
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{
-            duration: reduce ? 0 : DUR.hero,
-            delay: reduce ? 0 : 0.1,
-            ease: EASE.out,
-          }}
-          className="mt-6 max-w-4xl font-display font-semibold leading-[1.05] tracking-tighter text-[clamp(2.25rem,7vw,5.5rem)]"
-        >
+        <h1 className="mt-6 max-w-4xl font-display font-semibold leading-[1.05] tracking-tighter text-[clamp(2.25rem,7vw,5.5rem)]">
           {A_HERO.lead} <span className="text-gradient-accent">{A_HERO.accent}</span>
-        </motion.h1>
+        </h1>
 
-        <motion.p
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{
-            duration: reduce ? 0 : DUR.base,
-            delay: reduce ? 0 : 0.35,
-            ease: EASE.out,
-          }}
-          className="mt-8 max-w-xl font-sans text-base leading-relaxed text-muted md:text-lg"
-        >
+        <p className="mt-8 max-w-xl font-sans text-base leading-relaxed text-muted md:text-lg">
           {A_HERO.sub}
-        </motion.p>
+        </p>
 
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{
-            duration: reduce ? 0 : DUR.base,
-            delay: reduce ? 0 : 0.5,
-            ease: EASE.out,
-          }}
-          className="mt-10"
-        >
+        <div className="mt-10">
           <TrackClick event={EVENTS.auditClickHero}>
             <Magnetic>
               <a
@@ -124,7 +88,7 @@ export function Hero() {
               </a>
             </Magnetic>
           </TrackClick>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

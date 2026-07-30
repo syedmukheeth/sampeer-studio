@@ -1,13 +1,17 @@
 "use client";
 
 import { motion, useReducedMotion } from "motion/react";
-import { EASE, DUR, STAGGER, VIEWPORT } from "@/lib/constants";
+import { EASE, DUR, STAGGER } from "@/lib/constants";
 
 /**
  * MASK TEXT, the site's signature type treatment. Words rise out of a
- * clipping mask, one after another: the verdict assembles itself. Lifted out
- * of the home Hero so the same voice can open the page (mount) and close it
- * at the CTA (inView) without two implementations drifting apart.
+ * clipping mask, one after another: the verdict assembles itself.
+ *
+ * It now only does that on mount, in the home Hero. `inView` renders the same
+ * text plainly: a headline further down the page that waits for the scroll to
+ * reach it means the reader arrives at a blank block and watches it fill,
+ * which reads as a page still loading rather than as a flourish. The mode is
+ * kept as the default so the call sites stay declarative about intent.
  *
  * Word spacing comes from margin on the mask wrapper, a trailing space
  * INSIDE an inline-block gets trimmed and the words jam together.
@@ -29,6 +33,10 @@ export function MaskText({
   delay?: number;
 }) {
   const reduce = useReducedMotion();
+
+  if (mode === "inView") {
+    return <span className={`block ${className ?? ""}`}>{text}</span>;
+  }
 
   const container = {
     hidden: {},
@@ -53,9 +61,7 @@ export function MaskText({
     <motion.span
       variants={container}
       initial="hidden"
-      {...(mode === "mount"
-        ? { animate: "show" }
-        : { whileInView: "show", viewport: VIEWPORT })}
+      animate="show"
       className={`block ${className ?? ""}`}
     >
       {parts.map((w, i) => (

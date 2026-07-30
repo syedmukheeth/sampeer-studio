@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useTransform, useReducedMotion, type MotionValue } from "motion/react";
+import { motion, useTransform, type MotionValue } from "motion/react";
 import {
   A_TRANSFORM,
   A_CHAOS_FLOW,
@@ -11,7 +11,6 @@ import { Shell } from "@/components/ui/Shell";
 import { Flow } from "@/components/ui/Flow";
 import { BuildSequence } from "@/components/automations/BuildSequence";
 import { Reveal } from "@/components/ui/Reveal";
-import { EASE, DUR } from "@/lib/constants";
 
 /** §A2 The transform, the signature moment of the page. One sticky canvas,
  *  one scroll timeline: the chaos graph assembles itself piece by piece
@@ -20,8 +19,6 @@ import { EASE, DUR } from "@/lib/constants";
  *  nothing moves after it stands. Both graphs share a 4-wide grid so the swap
  *  reads as the same business rewired, not two unrelated diagrams. */
 export function Transform() {
-  const reduce = useReducedMotion();
-
   return (
     <Section id="transform" shell={false} size="flush" className="py-28 md:pb-0 md:pt-40">
       <Shell>
@@ -49,12 +46,8 @@ export function Transform() {
             { copy: A_TRANSFORM.before, flow: A_CHAOS_FLOW, chaos: true },
             { copy: A_TRANSFORM.after, flow: A_ORDER_FLOW, chaos: false },
           ].map(({ copy, flow, chaos }) => (
-            <motion.div
+            <div
               key={copy.label}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: reduce ? 0 : DUR.base, ease: EASE.out }}
               className="rounded-md border border-line p-5"
             >
               <p
@@ -71,7 +64,7 @@ export function Transform() {
                 label={`${copy.label}, ${copy.caption}`}
               />
               <p className="mt-2 font-sans text-sm text-muted">{copy.caption}</p>
-            </motion.div>
+            </div>
           ))}
         </div>
       </Shell>

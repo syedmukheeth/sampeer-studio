@@ -237,7 +237,7 @@ export function Nav() {
               <Link
                 href={isHome ? (hashOf(NAV.cta.href) ?? NAV.cta.href) : NAV.cta.href}
                 onClick={() => setOpen(false)}
-                className="btn-press rounded-full bg-accent-solid px-5 py-2.5 font-sans text-sm font-medium text-accent-ink hover:bg-accent-dim"
+                className="btn-press rounded-full bg-accent-solid px-4 py-2.5 font-sans text-sm font-medium text-accent-ink hover:bg-accent-dim sm:px-5"
               >
                 {NAV.cta.label}
               </Link>

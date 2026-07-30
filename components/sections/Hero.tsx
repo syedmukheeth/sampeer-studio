@@ -1,10 +1,8 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { motion, useReducedMotion } from "motion/react";
 import { ArrowDown } from "@phosphor-icons/react/dist/ssr";
 import { HERO } from "@/lib/content";
-import { EASE, DUR, STAGGER } from "@/lib/constants";
+import { STAGGER } from "@/lib/constants";
 import { NoiseField } from "@/components/ui/NoiseField";
 import { ShapeGrid } from "@/components/ui/ShapeGrid";
 import { MaskText } from "@/components/ui/MaskText";
@@ -17,29 +15,6 @@ import { EVENTS } from "@/lib/analytics";
  *  anchor, not a button, Nav "Start" owns conversion, and this link doubles
  *  as the scroll affordance and a skip straight to the proof. */
 export function Hero() {
-  const reduce = useReducedMotion();
-  const headlineRef = useRef<HTMLHeadingElement>(null);
-  const [ready, setReady] = useState(false);
-
-  useEffect(() => {
-    if (window.location.hash) {
-      const frame = requestAnimationFrame(() => setReady(true));
-      return () => cancelAnimationFrame(frame);
-    }
-
-    if ("scrollRestoration" in window.history) {
-      window.history.scrollRestoration = "manual";
-    }
-
-    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
-    const timer = window.setTimeout(() => {
-      window.scrollTo({ top: 0, left: 0, behavior: "instant" });
-      requestAnimationFrame(() => setReady(true));
-    }, 50);
-
-    return () => window.clearTimeout(timer);
-  }, []);
-
   // the accent line starts after the lead line's words have cascaded
   const leadWords = HERO.lead.split(" ").length;
   const accentDelay = 0.5 + leadWords * STAGGER.tight;
@@ -83,8 +58,7 @@ export function Hero() {
             mask rise below is the site's own signature, it plays once, and it
             leaves the words at a single deliberate weight. */}
         <h1
-          ref={headlineRef}
-          className="max-w-6xl font-display font-bold leading-[1.02] tracking-[-0.035em] text-[clamp(2.75rem,6.8vw,6.55rem)]"
+          className="max-w-6xl font-display font-bold leading-[1.02] tracking-normal text-[clamp(2.15rem,6.8vw,6.55rem)]"
         >
           <MaskText text={HERO.lead} mode="mount" delay={0.5} className="text-ink" />
           <MaskText
@@ -98,21 +72,11 @@ export function Hero() {
         {/* the sub is the one line that has to be read, so it arrives plain.
             ShinyText swept a light band across it on a loop, which meant part
             of the sentence was always dimmed to below AA on the way past. */}
-        <motion.p
-          initial={reduce ? false : { opacity: 0, y: 16 }}
-          animate={reduce ? false : ready ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
-          transition={{ duration: DUR.base, delay: 1.0, ease: EASE.out }}
-          className="mt-8 max-w-xl font-sans text-base leading-relaxed text-muted md:text-lg"
-        >
+        <p className="mt-8 max-w-xl font-sans text-base leading-relaxed text-muted md:text-lg">
           {HERO.sub}
-        </motion.p>
+        </p>
 
-        <motion.div
-          initial={reduce ? false : { opacity: 0, y: 12 }}
-          animate={reduce ? false : ready ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
-          transition={{ duration: DUR.base, delay: 1.3, ease: EASE.out }}
-          className="mt-10 flex flex-col items-center gap-5 sm:flex-row sm:gap-7"
-        >
+        <div className="mt-10 flex flex-col items-center gap-5 sm:flex-row sm:gap-7">
           {/* primary: the one solid lead strike above the fold */}
           <TrackClick event={EVENTS.ctaClickHero}>
             <Magnetic>
@@ -140,7 +104,7 @@ export function Hero() {
               className="text-muted transition-[transform,color] duration-300 group-hover:translate-y-0.5 group-hover:text-accent"
             />
           </a>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

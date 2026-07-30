@@ -2,13 +2,11 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { motion, useReducedMotion } from "motion/react";
 import { WORK, WORK_HEADER, type LiveProject } from "@/lib/content";
 import { Shell } from "@/components/ui/Shell";
 import { Section, SectionHeader } from "@/components/ui/Section";
 import { LiveSiteFrame } from "@/components/ui/LiveSiteFrame";
 import { ScrollStack, ScrollStackItem } from "@/components/ui/ScrollStack";
-import { DUR, EASE, RISE } from "@/lib/constants";
 import { track, EVENTS } from "@/lib/analytics";
 
 /** §04 Real Work. Each project is a full-width exhibit that pins near the top
@@ -25,11 +23,11 @@ import { track, EVENTS } from "@/lib/analytics";
  *  The whole card is the link, poster at rest, live site on hover, and a click
  *  anywhere on it opens the real thing.
  *
- *  Ordering: the heading writes itself in, then the stack fades up. Reduced
- *  motion gets a plain stack of cards with no transforms at all. */
+ *  The heading and the stack are both present on arrival. The stack used to
+ *  fade up as a block first, which meant the section's own scroll-driven
+ *  motion could not start until a separate entrance animation had finished.
+ *  Reduced motion gets a plain stack of cards with no transforms at all. */
 export function Work() {
-  const reduce = useReducedMotion();
-
   return (
     <Section id="work" shell={false}>
       <Shell className="mb-14">
@@ -40,23 +38,13 @@ export function Work() {
       </Shell>
 
       <Shell>
-        <motion.div
-          initial={reduce ? false : { opacity: 0, y: RISE }}
-          whileInView={reduce ? undefined : { opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.05 }}
-          // Was 1.15s, timed to a heading that used to write itself in one
-          // character at a time. That heading is plain text now, so the delay
-          // was a second of empty section before the first project showed up.
-          transition={{ duration: reduce ? 0 : DUR.slow, delay: 0.1, ease: EASE.out }}
-        >
-          <ScrollStack scrollPerCard={400}>
-            {WORK.map((w, i) => (
-              <ScrollStackItem key={w.id}>
-                <StackCard project={w} index={i} />
-              </ScrollStackItem>
-            ))}
-          </ScrollStack>
-        </motion.div>
+        <ScrollStack scrollPerCard={400}>
+          {WORK.map((w, i) => (
+            <ScrollStackItem key={w.id}>
+              <StackCard project={w} index={i} />
+            </ScrollStackItem>
+          ))}
+        </ScrollStack>
       </Shell>
     </Section>
   );

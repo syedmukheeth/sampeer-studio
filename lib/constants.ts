@@ -30,9 +30,6 @@ export const Z = {
    shader, the ShapeGrid canvas, the satori OG card, the PWA manifest) hold
    their own literal and say so in a comment. */
 
-/** Standard reveal easing, matches the CSS cubic used across the page. */
-export const EASE_OUT = [0.16, 1, 0.3, 1] as const;
-
 /**
  * MOTION SYSTEM, one dialect for the whole page.
  * Every reveal, stagger, and transition pulls from here so the site moves
@@ -77,10 +74,10 @@ export const STAGGER = {
 /** Default in-view trigger, reveal a touch before fully on screen. */
 export const VIEWPORT = { once: true, amount: 0.25 } as const;
 
-/** The signature lift distance for fade-up reveals (px). One value, page-wide.
- *  Shortened with the durations: travel and time have to scale together, or a
- *  fast tween across a long distance reads as a jump rather than a rise. */
-export const RISE = 16;
+/* RISE, the page-wide lift distance for fade-up reveals, lived here. Nothing
+   fades up on scroll any more: content renders in its final position and the
+   remaining motion is either scroll-scrubbed (ScrollStack, Flow) or a hairline
+   drawing itself, neither of which travels a fixed distance. */
 
 /**
  * Scroll distance (px) allotted per node when a Flow diagram builds itself
