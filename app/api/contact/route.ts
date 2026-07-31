@@ -129,8 +129,11 @@ export async function POST(request: Request) {
 
   const email = typeof body.email === "string" ? body.email.trim() : "";
 
-  /* Optional, so an empty or junk value must never fail the send: a lead that
-     mistypes a number should still reach us with their email intact.
+  /* The form marks this required; the endpoint deliberately does not. A lead
+     that reaches here without a number has already got past the browser, and
+     dropping their email on the floor to enforce a field is a worse outcome
+     than a mail that reads "(not given)".
+
      Everything outside the digits-and-dialling-punctuation set is dropped
      rather than rejected, which also strips the CR/LF that would otherwise let
      this field inject its own lines into the mail body. */

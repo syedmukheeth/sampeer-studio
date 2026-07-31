@@ -776,10 +776,10 @@ export const CTA = {
   heading: "Tell me about your startup.",
   sub: "One message. No forms, no funnels. It comes straight to me.",
   placeholder: "you@startup.com",
-  /** Optional on purpose. Email is the guaranteed reply path; a number is the
-   *  faster one when a lead is worth a call, and making it mandatory is how a
-   *  one-field form turns into a form people abandon. */
-  phonePlaceholder: "Phone or WhatsApp (optional)",
+  /** Required. Email is the reply path, the number is the one that gets a
+   *  lead called the same day, and this studio would rather have a number for
+   *  every lead than a few more leads it can only email. */
+  phonePlaceholder: "Phone or WhatsApp",
   messagePlaceholder: "What are you building, and what's in the way?",
   button: "Start",
   /** where the form falls back if the send endpoint isn't configured */

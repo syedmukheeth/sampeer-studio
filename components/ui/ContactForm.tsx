@@ -145,19 +145,20 @@ export function ContactForm({
       </CurvedInput>
 
       <label htmlFor={`${idPrefix}-phone`} className="sr-only">
-        Your phone number (optional)
+        Your phone number
       </label>
-      {/* Optional, and labelled as optional in the placeholder. A required
-          number on a lead form is a bigger drop than the calls it wins; asking
-          for it is what turns a reply-by-email lead into one that can be rung
-          the same afternoon. `type="tel"` for the numeric keypad, not for
-          validation, browsers do not validate it, and any pattern strict
-          enough to be useful rejects half the world's real numbers. */}
+      {/* Required: a lead we can only email is a lead that waits on their
+          inbox. `type="tel"` is for the numeric keypad, not for validation,
+          browsers do not validate it and any pattern strict enough to be
+          useful rejects half the world's real numbers. `required` alone is the
+          honest constraint, it asks for a number without deciding what a
+          number is allowed to look like. */}
       <CurvedInput>
         <input
           id={`${idPrefix}-phone`}
           name="phone"
           type="tel"
+          required
           autoComplete="tel"
           inputMode="tel"
           spellCheck={false}
