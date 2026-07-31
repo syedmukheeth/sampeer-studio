@@ -19,6 +19,9 @@ const FROM = process.env.CONTACT_FROM ?? "SAMPeer Studio <onboarding@resend.dev>
 const MAX_BODY_BYTES = 16 * 1024;
 const MAX_EMAIL_LEN = 254; // RFC 5321 max path length
 const MAX_MESSAGE_LEN = 4000;
+/** Generous enough for "+91 98765 43210 (WhatsApp)", short enough that the
+ *  field cannot be used to smuggle a payload into a mail we open. */
+const MAX_PHONE_LEN = 40;
 
 /** Where a submission came from. Allow-listed rather than echoed: this value
  *  lands in the subject line of a mail we read, and an open text field there
@@ -105,7 +108,13 @@ export async function POST(request: Request) {
     return Response.json({ ok: false, error: "too_large" }, { status: 413 });
   }
 
-  let body: { email?: unknown; message?: unknown; company?: unknown; source?: unknown };
+  let body: {
+    email?: unknown;
+    phone?: unknown;
+    message?: unknown;
+    company?: unknown;
+    source?: unknown;
+  };
   try {
     body = JSON.parse(raw);
   } catch {
@@ -119,6 +128,17 @@ export async function POST(request: Request) {
   if (body.company) return Response.json({ ok: true });
 
   const email = typeof body.email === "string" ? body.email.trim() : "";
+
+  /* Optional, so an empty or junk value must never fail the send: a lead that
+     mistypes a number should still reach us with their email intact.
+     Everything outside the digits-and-dialling-punctuation set is dropped
+     rather than rejected, which also strips the CR/LF that would otherwise let
+     this field inject its own lines into the mail body. */
+  const phone =
+    typeof body.phone === "string"
+      ? body.phone.replace(/[^\d+()\-.\s]/g, "").trim().slice(0, MAX_PHONE_LEN)
+      : "";
+
   const message =
     typeof body.message === "string" ? body.message.trim().slice(0, MAX_MESSAGE_LEN) : "";
   const rawSource = typeof body.source === "string" ? body.source : "";
@@ -151,7 +171,9 @@ export async function POST(request: Request) {
         to: [TO],
         reply_to: email,
         subject: `New lead (${source}): ${email}`,
-        text: `From: ${email}\nSource: ${source}\n\n${message || "(no message)"}`,
+        text: `From: ${email}\nPhone: ${phone || "(not given)"}\nSource: ${source}\n\n${
+          message || "(no message)"
+        }`,
       }),
     });
   } catch {

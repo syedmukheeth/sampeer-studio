@@ -19,6 +19,7 @@ type Status = "idle" | "sending" | "sent" | "error";
 export function ContactForm({
   idPrefix,
   emailPlaceholder,
+  phonePlaceholder,
   messagePlaceholder,
   buttonLabel,
   submitEvent,
@@ -27,6 +28,7 @@ export function ContactForm({
 }: {
   idPrefix: string;
   emailPlaceholder: string;
+  phonePlaceholder: string;
   messagePlaceholder: string;
   buttonLabel: string;
   submitEvent: string;
@@ -42,6 +44,7 @@ export function ContactForm({
     const form = e.currentTarget;
     const data = new FormData(form);
     const email = String(data.get("email") ?? "");
+    const phone = String(data.get("phone") ?? "");
     const message = String(data.get("message") ?? "");
     const company = String(data.get("company") ?? "");
 
@@ -52,7 +55,7 @@ export function ContactForm({
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, message, company, source }),
+        body: JSON.stringify({ email, phone, message, company, source }),
       });
       if (res.ok) {
         setStatus("sent");
@@ -60,9 +63,13 @@ export function ContactForm({
       }
       if (res.status === 503) {
         // endpoint not wired yet, hand off to the visitor's mail app
+        // the number rides along on this path too, or a lead that arrives
+        // while the endpoint is unconfigured is the one lead we cannot call
         window.location.href = `mailto:${fallbackEmail}?subject=${encodeURIComponent(
           "New project",
-        )}&body=${encodeURIComponent(message)}`;
+        )}&body=${encodeURIComponent(
+          phone ? `${message}\n\nPhone: ${phone}` : message,
+        )}`;
         setStatus("idle");
         return;
       }
@@ -133,6 +140,28 @@ export function ContactForm({
           placeholder={emailPlaceholder}
           // text-base under md: iOS Safari zooms the whole page when a focused
           // input is under 16px, and the zoom does not come back out
+          className="h-14 w-full rounded-[1.75rem] bg-transparent px-7 font-sans text-base text-ink placeholder:text-muted touch-manipulation outline-none focus:outline-none focus-visible:outline-none md:text-sm"
+        />
+      </CurvedInput>
+
+      <label htmlFor={`${idPrefix}-phone`} className="sr-only">
+        Your phone number (optional)
+      </label>
+      {/* Optional, and labelled as optional in the placeholder. A required
+          number on a lead form is a bigger drop than the calls it wins; asking
+          for it is what turns a reply-by-email lead into one that can be rung
+          the same afternoon. `type="tel"` for the numeric keypad, not for
+          validation, browsers do not validate it, and any pattern strict
+          enough to be useful rejects half the world's real numbers. */}
+      <CurvedInput>
+        <input
+          id={`${idPrefix}-phone`}
+          name="phone"
+          type="tel"
+          autoComplete="tel"
+          inputMode="tel"
+          spellCheck={false}
+          placeholder={phonePlaceholder}
           className="h-14 w-full rounded-[1.75rem] bg-transparent px-7 font-sans text-base text-ink placeholder:text-muted touch-manipulation outline-none focus:outline-none focus-visible:outline-none md:text-sm"
         />
       </CurvedInput>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 /**
  * SIGNATURE, "noise -> signal".
@@ -14,6 +14,13 @@ import { useEffect, useRef } from "react";
  *  - IntersectionObserver pauses the RAF loop when the hero is offscreen
  *  - prefers-reduced-motion -> a single static, fully-resolved frame, no loop
  *  - WebGL unavailable / context lost -> renders nothing, hero still works
+ *
+ * The context is requested with `alpha: true` and never with `alpha: false`.
+ * An opaque WebGL canvas that never gets drawn is not blank, it is BLACK, and
+ * this one sits directly behind near-black headline type on a paper canvas.
+ * Every failure path here (no WebGL, failed compile, failed link, lost
+ * context, a drawing buffer cleared by a resize) has to degrade to
+ * transparent, or it degrades to an unreadable hero instead.
  */
 
 const VERT = `
@@ -110,16 +117,26 @@ function compile(gl: WebGLRenderingContext, type: number, src: string) {
 
 export function NoiseField({ className }: { className?: string }) {
   const ref = useRef<HTMLCanvasElement>(null);
+  /** Bumped when the GPU takes the context away. Every WebGL object built
+   *  below dies with the context, so the honest recovery is to re-run the whole
+   *  effect rather than try to patch a program that no longer exists. */
+  const [generation, setGeneration] = useState(0);
 
   useEffect(() => {
     const canvas = ref.current;
     if (!canvas) return;
 
     const gl =
-      (canvas.getContext("webgl", { antialias: false, alpha: false }) as
-        | WebGLRenderingContext
-        | null) ?? null;
+      (canvas.getContext("webgl", {
+        antialias: false,
+        // see the note at the top of this file: opaque means a canvas we never
+        // draw to paints black over the paper, behind near-black type
+        alpha: true,
+        premultipliedAlpha: true,
+      }) as WebGLRenderingContext | null) ?? null;
     if (!gl) return;
+
+    gl.clearColor(0, 0, 0, 0);
 
     const vs = compile(gl, gl.VERTEX_SHADER, VERT);
     const fs = compile(gl, gl.FRAGMENT_SHADER, FRAG);
@@ -153,17 +170,6 @@ export function NoiseField({ className }: { className?: string }) {
     const view = canvas;
     const ctx = gl;
     const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
-    function resize() {
-      const w = view.clientWidth;
-      const h = view.clientHeight;
-      view.width = Math.max(1, Math.floor(w * dpr));
-      view.height = Math.max(1, Math.floor(h * dpr));
-      ctx.viewport(0, 0, view.width, view.height);
-      ctx.uniform2f(uRes, view.width, view.height);
-      ctx.uniform1f(uAspect, view.width / view.height);
-    }
-    resize();
-    window.addEventListener("resize", resize);
 
     // Phones get the resolved frame and nothing else. A full-viewport 4-octave
     // fbm shader breathing forever is the single most expensive thing on the
@@ -173,6 +179,38 @@ export function NoiseField({ className }: { className?: string }) {
     const reduce =
       window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
       window.matchMedia("(max-width: 767px)").matches;
+
+    /** The settled frame, drawn on demand. */
+    function drawStatic() {
+      ctx.uniform1f(uTime, 0);
+      ctx.uniform1f(uResolve, 1);
+      ctx.drawArrays(ctx.TRIANGLES, 0, 3);
+    }
+
+    function resize() {
+      const w = view.clientWidth;
+      const h = view.clientHeight;
+      view.width = Math.max(1, Math.floor(w * dpr));
+      view.height = Math.max(1, Math.floor(h * dpr));
+      ctx.viewport(0, 0, view.width, view.height);
+      ctx.uniform2f(uRes, view.width, view.height);
+      ctx.uniform1f(uAspect, view.width / view.height);
+
+      /* Assigning canvas.width/height CLEARS the drawing buffer. The animated
+         path repaints on its next frame and never notices; the static path has
+         no next frame, so without this redraw the canvas stays cleared.
+
+         That is not a rare edge case on a phone: hiding or showing the address
+         bar resizes the viewport, and this is the branch phones take. It is
+         how the hero ended up as an empty field behind the headline. */
+      if (reduce) drawStatic();
+    }
+    resize();
+    window.addEventListener("resize", resize);
+    /* Android and iOS report the address-bar collapse through visualViewport
+       without always firing a window resize, so both are wired to the same
+       handler. Duplicate calls are harmless, a missed one is not. */
+    window.visualViewport?.addEventListener("resize", resize);
 
     // resolve 0 -> 1 over the intro; reduced-motion jumps straight to settled
     const start = performance.now();
@@ -200,9 +238,7 @@ export function NoiseField({ className }: { className?: string }) {
     }
 
     if (reduce) {
-      gl.uniform1f(uTime, 0);
-      gl.uniform1f(uResolve, 1);
-      gl.drawArrays(gl.TRIANGLES, 0, 3);
+      drawStatic();
     } else {
       raf = requestAnimationFrame(frame);
     }
@@ -219,23 +255,30 @@ export function NoiseField({ className }: { className?: string }) {
     );
     io.observe(canvas);
 
+    /* preventDefault is what makes the context restorable at all; without it
+       the browser never fires `webglcontextrestored`. A backgrounded tab on a
+       phone is the common way to lose one. */
     const onLost = (e: Event) => {
       e.preventDefault();
       cancelAnimationFrame(raf);
     };
+    const onRestored = () => setGeneration((g) => g + 1);
     canvas.addEventListener("webglcontextlost", onLost);
+    canvas.addEventListener("webglcontextrestored", onRestored);
 
     return () => {
       cancelAnimationFrame(raf);
       window.removeEventListener("resize", resize);
+      window.visualViewport?.removeEventListener("resize", resize);
       canvas.removeEventListener("webglcontextlost", onLost);
+      canvas.removeEventListener("webglcontextrestored", onRestored);
       io.disconnect();
       gl.deleteProgram(prog);
       gl.deleteShader(vs);
       gl.deleteShader(fs);
       gl.deleteBuffer(buf);
     };
-  }, []);
+  }, [generation]);
 
   return (
     <canvas

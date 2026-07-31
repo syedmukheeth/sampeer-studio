@@ -725,7 +725,7 @@ export const TEAM: TeamMember[] = [
   {
     id: "mukheeth",
     name: "Syed Abdul Mukheeth Peer",
-    role: "Co-founder & CEO",
+    role: "CEO",
     photo: "/founder.webp",
     photoPosition: "center 30%",
     line: "Owns the architecture and the story. He designs the systems, writes the backend, and decides what the whole engine has to do before anyone builds a screen. Every project starts and ends at his desk.",
@@ -734,7 +734,7 @@ export const TEAM: TeamMember[] = [
   {
     id: "faisal",
     name: "Shaik Faisal Ahmed",
-    role: "Co-founder & CTO",
+    role: "CTO",
     photo: "/faisal.webp",
     photoPosition: "center",
     line: "Builds and runs what that architecture calls for. Ships the front end, wires the automations, and keeps the whole thing standing in production.",
@@ -746,20 +746,20 @@ export const TEAM: TeamMember[] = [
  *  builds and why), not a restatement of the CEO's. */
 export const ABOUT_CTO = {
   name: "Shaik Faisal Ahmed",
-  role: "Co-founder & CTO, SAMPeer Studio",
+  role: "CTO, SAMPeer Studio",
   photo: "/faisal-portrait.webp",
   photoPosition: "center 15%",
   manifesto: [
-    "I take the architecture Mukheeth draws and make it real, then keep it running after everyone goes home.",
-    "Fast sites, wired into the systems that capture, qualify, and follow up without anyone remembering to.",
-    "Every automation we ship is one we run ourselves first. If it breaks, it breaks on us, not on a client.",
-    "Good engineering is invisible. You should only notice that things simply happen.",
+    "I turn the architecture into something that actually runs, and I keep it running long after launch day.",
+    "Fast sites, wired into the systems that capture, qualify, and follow up without anyone having to remember to.",
+    "Every automation we ship is one we run on ourselves first. If it breaks, it breaks on us, never on a client.",
+    "Good engineering is invisible. You should never notice the machine, only that the work is already done.",
   ],
 } as const;
 
 export const ABOUT = {
   name: "Syed Abdul Mukheeth Peer",
-  role: "Co-founder & CEO, SAMPeer Studio",
+  role: "CEO, SAMPeer Studio",
   photo: "/founder.webp",
   linkedin: "https://www.linkedin.com/in/syedmukheeth/",
   manifesto: [
@@ -776,6 +776,10 @@ export const CTA = {
   heading: "Tell me about your startup.",
   sub: "One message. No forms, no funnels. It comes straight to me.",
   placeholder: "you@startup.com",
+  /** Optional on purpose. Email is the guaranteed reply path; a number is the
+   *  faster one when a lead is worth a call, and making it mandatory is how a
+   *  one-field form turns into a form people abandon. */
+  phonePlaceholder: "Phone or WhatsApp (optional)",
   messagePlaceholder: "What are you building, and what's in the way?",
   button: "Start",
   /** where the form falls back if the send endpoint isn't configured */

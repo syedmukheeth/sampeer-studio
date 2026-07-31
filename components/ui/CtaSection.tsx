@@ -34,6 +34,7 @@ export function CtaSection({
     heading: string;
     sub: string;
     placeholder: string;
+    phonePlaceholder: string;
     messagePlaceholder: string;
     button: string;
     fallbackEmail: string;
@@ -64,6 +65,7 @@ export function CtaSection({
         <ContactForm
           idPrefix={idPrefix}
           emailPlaceholder={content.placeholder}
+          phonePlaceholder={content.phonePlaceholder}
           messagePlaceholder={content.messagePlaceholder}
           buttonLabel={content.button}
           submitEvent={submitEvent}
