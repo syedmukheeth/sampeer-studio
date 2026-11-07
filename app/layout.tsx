@@ -5,9 +5,6 @@ import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { LenisProvider } from "@/components/providers/LenisProvider";
 import { ScrollDepth } from "@/components/analytics/ScrollDepth";
-import { Spine } from "@/components/ui/Spine";
-import { Grain } from "@/components/ui/Grain";
-import { ShapeGrid } from "@/components/ui/ShapeGrid";
 import { SITE_URL } from "@/lib/constants";
 
 const inter = Inter({
@@ -42,9 +39,9 @@ const poppins = Poppins({
   display: "swap",
 });
 
-const TITLE = "SAMPeer Studio - Storytelling Websites, Growth Systems & AI Automation";
+const TITLE = "SAMPeer Studio - Website Design & Development, Kurnool";
 const DESCRIPTION =
-  "We help startups and ambitious businesses become impossible to ignore through premium storytelling websites, AI-powered growth systems, founder branding, and automation.";
+  "SAMPeer Studio designs and builds websites for businesses and public figures. Selected work: ASRG Construction, MAA Furniture, Suri Mansoor Ali Khan.";
 
 
 export const metadata: Metadata = {
@@ -110,25 +107,11 @@ export default function RootLayout({
         />
       </head>
       <body className="relative min-h-dvh bg-canvas text-ink antialiased">
-        <ShapeGrid
-          // desktop only: a full-viewport canvas animating for the life of the
-          // session is a real frame budget on a phone, and it is background
-          // texture, the least valuable thing competing with a touch scroll
-          className="pointer-events-none fixed inset-0 z-0 hidden h-dvh w-dvw opacity-25 [mask-image:linear-gradient(to_bottom,transparent_0%,black_12%,black_88%,transparent_100%)] md:block"
-          speed={0.12}
-          squareSize={76}
-          direction="diagonal"
-          borderColor="rgba(109, 40, 217, 0.09)"
-          hoverFillColor="rgba(109, 40, 217, 0.13)"
-          shape="square"
-        />
         {/* First stop in the tab order; hidden until focused. */}
         <a className="skip-link" href="#main">
           Skip to content
         </a>
         <LenisProvider>{children}</LenisProvider>
-        <Grain />
-        <Spine />
         <ScrollDepth />
         <Analytics />
         <SpeedInsights />

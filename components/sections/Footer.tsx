@@ -38,21 +38,15 @@ export function Footer() {
               {FOOTER.email}
             </a>
             <div className="flex gap-5">
-              {FOOTER.socials.map((s) => (
+              {FOOTER.links.map((s) => (
                 <a
                   key={s.label}
                   href={s.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="link-shine group -my-1.5 py-1.5 font-sans text-sm text-muted transition-colors hover:text-ink"
+                  {...(s.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                  className="-my-1.5 py-1.5 font-sans text-sm text-muted transition-colors hover:text-ink"
                 >
                   {s.label}
-                  <span
-                    aria-hidden
-                    className="ml-1 inline-block transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
-                  >
-                    ↗
-                  </span>
+                  {s.external && <span aria-hidden> ↗</span>}
                 </a>
               ))}
             </div>

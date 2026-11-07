@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, ArrowUpRight, Check } from "@phosphor-icons/react/dist/ssr";
@@ -16,10 +15,6 @@ import { track, EVENTS } from "@/lib/analytics";
  * client drops in without a new component. Reuses the site's primitives
  * (Section, Reveal, LiveSiteFrame) so a case study reads as the same brand,
  * not a bolt-on.
- *
- * Visual proof has two variants: `gallery` (real on-site photos, ASRG) or
- * `shots` (desktop + mobile captures of the live site, the concept builds).
- * Whichever the data carries is rendered; the object never carries both.
  */
 export function CaseStudy({ data }: { data: CaseStudyData }) {
   return (
@@ -176,55 +171,6 @@ export function CaseStudy({ data }: { data: CaseStudyData }) {
         </Section>
       )}
 
-      {/* -------------------------------------------------------- shots */}
-      {/* Live-site proof for the concept builds: the desktop still (the poster,
-          a real capture already in the repo) in a browser frame, with a LIVE
-          phone-frame render of the site overlapping its lower-right, one figure
-          reading as "the same build, both screens". No separate capture files:
-          desktop is data.poster, mobile is a scaled live iframe of data.liveUrl. */}
-      {data.shots && (
-        <Section>
-          <SectionHeader title={data.shots.title} />
-          <Reveal>
-            <div className="mx-auto mt-12 max-w-5xl">
-              <div className="relative pb-20 sm:pb-0 sm:pr-32 md:pr-44">
-                {/* desktop, the poster in a browser chrome frame */}
-                <figure className="group relative aspect-16/10 overflow-hidden rounded-md border border-line bg-elevated ring-1 ring-transparent transition duration-500 hover:border-accent/40 hover:ring-accent/20">
-                  <div className="absolute inset-x-0 top-0 z-10 flex h-7 items-center gap-1.5 border-b border-line bg-canvas/80 px-3 backdrop-blur-sm">
-                    <span aria-hidden className="h-2 w-2 rounded-full bg-line" />
-                    <span aria-hidden className="h-2 w-2 rounded-full bg-line" />
-                    <span aria-hidden className="h-2 w-2 rounded-full bg-line" />
-                    <span className="ml-2 truncate font-sans text-[10px] text-faint">
-                      {hostOf(data.liveUrl)}
-                    </span>
-                  </div>
-                  <Image
-                    src={data.poster}
-                    alt={`${data.client} live site, desktop view`}
-                    fill
-                    sizes="(max-width: 1024px) 100vw, 65vw"
-                    className="object-cover object-top pt-7 transition-transform duration-700 ease-out group-hover:scale-[1.02]"
-                  />
-                </figure>
-
-                {/* phone, a live, inert render of the site at mobile width */}
-                <figure className="absolute bottom-0 right-0 w-32 overflow-hidden rounded-[1.25rem] border border-line bg-elevated p-1 shadow-xl ring-1 ring-transparent transition duration-500 hover:border-accent/40 hover:ring-accent/20 sm:w-36 md:w-44">
-                  <div className="overflow-hidden rounded-[1rem]">
-                    <MobilePreview
-                      url={data.liveUrl}
-                      title={`${data.client}, mobile view`}
-                    />
-                  </div>
-                </figure>
-              </div>
-            </div>
-          </Reveal>
-          <Reveal delay={0.1}>
-            <p className="mx-auto mt-6 max-w-5xl font-sans text-sm text-muted">{data.shots.caption}</p>
-          </Reveal>
-        </Section>
-      )}
-
       {/* ------------------------------------------------------ outcome */}
       <Section>
         <div className="max-w-3xl border-t border-line pt-6">
@@ -241,77 +187,5 @@ export function CaseStudy({ data }: { data: CaseStudyData }) {
         </div>
       </Section>
     </main>
-  );
-}
-
-/** Bare host of a URL for the browser-chrome label (falls back to the raw URL). */
-function hostOf(url: string) {
-  try {
-    return new URL(url).host.replace(/^www\./, "");
-  } catch {
-    return url;
-  }
-}
-
-/** Virtual mobile viewport the embedded site renders at, then scales down to
- *  the phone frame's measured width. 390x844 ~ a modern phone. */
-const M_W = 390;
-const M_H = 844;
-
-/**
- * A live, inert render of a site at mobile width, scaled into a phone frame.
- * Same guarantees as LiveSiteFrame's embed, sandboxed, pointer-events none,
- * aria-hidden, but sized for a phone so the case study shows the responsive
- * build without needing a separate captured screenshot. Only one mounts per
- * case-study page, so the cost is a single frame.
- */
-function MobilePreview({ url, title }: { url: string; title: string }) {
-  const wrap = useRef<HTMLDivElement>(null);
-  const [scale, setScale] = useState(0);
-  const [loaded, setLoaded] = useState(false);
-
-  useEffect(() => {
-    const el = wrap.current;
-    if (!el) return;
-    const measure = () => setScale(el.clientWidth / M_W);
-    measure();
-    const ro = new ResizeObserver(measure);
-    ro.observe(el);
-    return () => ro.disconnect();
-  }, []);
-
-  return (
-    <div
-      ref={wrap}
-      className="relative w-full overflow-hidden bg-elevated"
-      style={{ aspectRatio: `${M_W} / ${M_H}` }}
-    >
-      {/* monogram plate until the frame paints in */}
-      <div
-        aria-hidden
-        className="absolute inset-0 flex items-center justify-center"
-        style={{ opacity: loaded ? 0 : 1, transition: "opacity 0.5s ease-out" }}
-      >
-        <span className="font-display text-3xl font-medium text-faint">
-          {title.charAt(0)}
-        </span>
-      </div>
-
-      {scale > 0 && (
-        <iframe
-          src={url}
-          title={title}
-          width={M_W}
-          height={M_H}
-          sandbox="allow-scripts allow-same-origin"
-          referrerPolicy="no-referrer"
-          tabIndex={-1}
-          aria-hidden
-          onLoad={() => setLoaded(true)}
-          className="pointer-events-none absolute left-0 top-0 origin-top-left border-0 transition-opacity duration-500 ease-out"
-          style={{ transform: `scale(${scale})`, opacity: loaded ? 1 : 0 }}
-        />
-      )}
-    </div>
   );
 }

@@ -7,217 +7,78 @@
  * next/image needs no remotePatterns and never fetches third-party bytes.
  */
 
-import { serpentine } from "@/lib/flow";
-import { A_CONSOLE_URL } from "@/lib/content-automations";
-
-
 /* ---------------------------------------------------------------- nav */
-/* Hrefs are root-relative, not bare hashes: the site is no longer one page,
-   and `#work` from /automations goes nowhere. Nav resolves these per route. */
+/* Root-relative hashes so the same links work from /work/* and /automations. */
 export const NAV = {
   brand: "SAMPeer Studio",
-  /** In page order, one entry per section the reader can actually land on, so
-   *  the wall is a map of the page rather than a shortlist of four. */
   links: [
-    { label: "Approach", href: "/#build" },
     { label: "Work", href: "/#work" },
-    { label: "Automations", href: "/automations" },
-    { label: "Clients", href: "/#testimonials" },
-    { label: "Process", href: "/#process" },
     { label: "About", href: "/#about" },
   ],
-  cta: { label: "Start", href: "/#contact" },
+  cta: { label: "Contact", href: "/#contact" },
 } as const;
 
 /* --------------------------------------------------------------- hero */
-/* §01 The Verdict, one statement plus a quiet anchor into the proof. */
 export const HERO = {
-  // headline split so the accent word can be styled in JSX
-  lead: "Most startups don't fail.",
-  accent: "They go unnoticed.",
-  // quiet follow line, kept under the 20-word cap
-  sub: "We build the growth layer that turns a good product into the obvious choice.",
-  /** Primary lead CTA, the one solid strike above the fold. A premium agency
-   *  site earns the click here, not only in the Nav. */
-  ctaPrimary: { label: "Book a free call", href: "#contact" },
-  /** Quiet secondary anchor: doubles as the scroll affordance and a skip
-   *  straight to the proof. */
+  eyebrow: "SAMPeer Studio · Kurnool, India",
+  title: "Websites that do the work justice.",
+  sub: "We design and build websites for businesses and public figures. Here is what we've shipped.",
+  ctaPrimary: { label: "Start a project", href: "#contact" },
   cta: { label: "See the work", href: "#work" },
 } as const;
 
-/* ------------------------------------------------------------ problem */
-/* §02 No heading. Brutal prose. Creates the itch. */
-export const PROBLEM = {
-  lines: [
-    "Your product is good. That was never the question.",
-    "But nobody has heard of it, nobody remembers it, and nobody has a reason to trust it yet.",
-    "So the users never arrive, the momentum never starts, and the best work of your life stays invisible.",
-  ],
-  // one word gets the indigo strike in JSX
-  emphasis: "invisible",
-} as const;
-
-/* -------------------------------------------------------------- build */
-/* §03 Three pillars as outcomes, not deliverables. Sticky-stack. Each panel's
- * visual is a bespoke PillarGraphic (wireframe / live Flow / post skeleton),
- * not stock photography, the work itself is the imagery. */
-export type Pillar = {
-  id: string;
-  index: string;
-  title: string;
-  outcome: string;
-  body: string;
-  /** which PillarGraphic variant renders in the panel's visual frame */
-  graphic: "story" | "growth" | "founder";
-};
-
-/** The stack had no header, three numbered panels opened cold, with nothing
- *  naming what they were a list of. */
-export const PILLARS_HEADER = {
-  eyebrow: "What we build",
-  title: "Three systems. One job: make you impossible to overlook.",
-  body: "Each one stands alone. Run together they compound. The site earns belief, the engine turns that belief into booked calls, and your name opens the next door before you knock on it.",
-} as const;
-
-export const PILLARS: Pillar[] = [
-  {
-    id: "story",
-    index: "01",
-    title: "Storytelling Website",
-    outcome: "Strangers start trusting you in ninety seconds.",
-    body: "Not a template. An experience that carries your vision, earns belief, and turns visitors into believers before they ever talk to you.",
-    graphic: "story",
-  },
-  {
-    id: "growth",
-    index: "02",
-    title: "Growth System",
-    outcome: "Leads arrive, qualify, and book themselves.",
-    body: "Capture, CRM, AI qualification, follow-up, and booking wired into one engine. Automation is a part of it. Revenue is the point.",
-    graphic: "growth",
-  },
-  {
-    id: "founder",
-    index: "03",
-    title: "Founder Brand",
-    outcome: "Your name opens doors before you do.",
-    body: "Founders are the new media companies. We build the presence and authority that pull opportunities toward you instead of chasing them.",
-    graphic: "founder",
-  },
-];
-
-/** The growth pillar's live machine, rendered by PillarGraphic via Flow. */
-export const PILLAR_GROWTH_FLOW = serpentine(
-  [
-    { label: "Lead", icon: "lead", kind: "trigger", meta: "just now", activeMeta: "capturing…", doneMeta: "captured" },
-    { label: "AI qualify", icon: "ai", kind: "ai", meta: "score -", activeMeta: "thinking…", doneMeta: "score 87" },
-    { label: "CRM", icon: "crm", kind: "metric", meta: "2,418 rows", activeMeta: "+1 row", doneMeta: "2,419 rows" },
-    { label: "Follow-up", icon: "email", kind: "action", meta: "queued", activeMeta: "sending…", doneMeta: "sent ✓" },
-    { label: "Booked", icon: "calendar", kind: "outcome", meta: "-", activeMeta: "confirming…", doneMeta: "Tue 10:00" },
-  ],
-  2,
-  { payload: "lead" },
-);
-
 /* --------------------------------------------------------------- work */
-/* §04 Real work, vertical sticky-stack. Each card shows a local poster at
- * rest and embeds the live site (scaled iframe) on hover, the project's own
- * hero animation is the showcase. Descriptions state what the site is; no
- * invented metrics. */
+/* Real, live client sites only. Descriptions state what the site is; no
+ * invented metrics. Posters are 1440x900 captures in public/work/. */
 export type LiveProject = {
   id: string;
   client: string;
-  industry: string;
+  category: string;
   description: string;
   url: string;
-  /** local still of the live site, shown at rest (public/work/*.webp) */
   poster: string;
-  /** internal case-study route; when set the card opens this instead of the
-   *  live site, and the live site moves inside the case study */
+  /** internal case-study route, shown as a second link when set */
   caseStudy?: string;
-  /** real on-site proof shown as a small photo stack on the card */
-  proof?: { photos: string[]; label: string };
-  /** a short client pull-quote shown on the card */
-  testimonial?: { quote: string; author: string };
 };
 
 export const WORK_HEADER = {
-  eyebrow: "Real work",
-  title: "Six live sites. Step inside any of them.",
+  title: "Selected work",
 } as const;
 
 export const WORK: LiveProject[] = [
   {
+    id: "suri",
+    client: "Suri Mansoor Ali Khan",
+    category: "Public figure · Kurnool",
+    description:
+      "A public record of a community leader's work, with every entry linked to the press that reported it.",
+    url: "https://suri-mansoor-ali-khan.vercel.app/",
+    poster: "/work/suri.webp",
+  },
+  {
     id: "asrg",
-    poster: "/work/asrg.webp",
     client: "ASRG Construction",
-    industry: "Construction & Civil, Kurnool",
-    description: "Full brand site for a 46-year civil contracting firm. Projects, process, and enquiry in one place.",
+    category: "Construction & civil · Kurnool",
+    description:
+      "Brand site, SEO and Google Business Profile for a 46-year civil contracting firm. Projects, process and enquiry in one place.",
     url: "https://www.asrgcontruction.com/",
+    poster: "/work/asrg.webp",
     caseStudy: "/work/asrg",
-    proof: {
-      photos: ["/asrg-client.webp", "/asrg-team.webp"],
-      label: "On-site with the client, Kurnool",
-    },
-    testimonial: {
-      quote: "Our online presence finally matches the work we do.",
-      author: "ASRG Construction",
-    },
   },
   {
-    id: "aurum",
-    poster: "/work/aurum.webp",
-    client: "Aurum Resorts",
-    industry: "Luxury Hospitality, Maldives",
-    description: "A private-island resort experience told in stillness. Villas, dining, and the sea.",
-    url: "https://luxury-hotel-sooty.vercel.app/",
-    caseStudy: "/work/aurum",
-  },
-  {
-    id: "liftx",
-    poster: "/work/liftx.webp",
-    client: "LIFT-X",
-    industry: "Fitness, Kurnool",
-    description: "A premium unisex gym site built on bold type and one decision: start.",
-    url: "https://lift-x-ten.vercel.app/",
-    caseStudy: "/work/liftx",
-  },
-  {
-    id: "vantara",
-    poster: "/work/vantara.webp",
-    client: "Vantara & Rao",
-    industry: "Corporate Law, Hyderabad",
-    description: "A corporate law firm positioned as a strategic partner, not a reactive counsel.",
-    url: "https://law-firm-eight-livid.vercel.app/",
-    caseStudy: "/work/vantara",
-  },
-  {
-    id: "novacare",
-    poster: "/work/novacare.webp",
-    client: "NovaCare Medical Center",
-    industry: "Healthcare, Hyderabad",
-    description: "A multi-specialty hospital site that makes fifty departments feel human.",
-    url: "https://healthcare-ten-orcin.vercel.app/",
-    caseStudy: "/work/novacare",
-  },
-  {
-    id: "uniquirk",
-    poster: "/work/uniquirk.webp",
-    client: "Uniquirk Solutions",
-    industry: "Personal Branding, B2B",
-    description: "LinkedIn authority engineering for CXOs, with a dark, sharp site to match the pitch.",
-    url: "https://uniquirk.vercel.app/",
-    caseStudy: "/work/uniquirk",
+    id: "maa",
+    client: "MAA Furniture",
+    category: "Furniture retail · Kurnool",
+    description:
+      "Online store and showroom site for a handcrafted furniture maker. Shop the range, design a custom piece, plan a visit.",
+    url: "https://www.maafurniture.shop/",
+    poster: "/work/maa.webp",
   },
 ];
 
 /* -------------------------------------------------------- case study */
-/* §04a Case studies, data-driven. One shape, two visual variants:
- *  - `gallery`, real on-site photos (ASRG only, a real client).
- *  - `shots`  , desktop + mobile captures of the live site (the five concept
- *    builds, which have no on-site photos).
- * The CaseStudy component renders whichever is present. Each object gets a
- * route at /work/<slug>; the matching WORK card links there. */
+/* Case studies, data-driven. Each object gets a route at /work/<slug>; the
+ * matching WORK card links there. */
 export type CaseStudyData = {
   slug: string;
   eyebrow: string;
@@ -239,13 +100,6 @@ export type CaseStudyData = {
     /** `w`/`h` are the file's real pixel dimensions; the grid gives each figure
      *  that exact ratio so `object-cover` has nothing to crop. */
     photos: { src: string; w: number; h: number; alt: string; caption: string }[];
-  };
-  /** live-site proof, desktop still (the poster) + a live phone-frame render.
-   *  Both are derived from existing fields (poster, liveUrl); this only carries
-   *  the section's copy, so there are no separate capture files to source. */
-  shots?: {
-    title: string;
-    caption: string;
   };
 };
 
@@ -300,414 +154,26 @@ export const CASE_ASRG: CaseStudyData = {
   visit: "Visit the live site",
 };
 
-/* --------------------------------------------- concept-build case studies */
-/* §04b The five concept builds. These are portfolio pieces, not paying
- * clients, so the copy is honest about that: no invented clients, metrics, or
- * testimonials. The challenge/solution read as design rationale, the problem
- * the *category* faces, and the decision the build makes about it. Visual proof
- * is the local poster plus the live embedded site. */
-
-export const CASE_AURUM: CaseStudyData = {
-  slug: "aurum",
-  eyebrow: "Concept build",
-  client: "Aurum Resorts",
-  tagline: "A private-island resort concept told in stillness, where the design does the selling by getting out of the way.",
-  liveUrl: "https://luxury-hotel-sooty.vercel.app/",
-  poster: "/work/aurum.webp",
-  meta: [
-    { label: "Industry", value: "Luxury Hospitality" },
-    { label: "Focus", value: "Brand & booking experience" },
-    { label: "Type", value: "Concept site" },
-  ],
-  challenge: {
-    title: "The challenge",
-    body: "Most resort sites shout: carousels, badges, ten offers above the fold. Luxury reads as restraint, and the louder a site is, the cheaper the room feels. The problem to solve was making a screen feel expensive.",
-  },
-  solution: {
-    title: "The approach",
-    body: "One image at a time, generous negative space, and type that never hurries. The villas, the dining, and the sea each get room to breathe, so the site sells the way a private island does, by slowing you down.",
-  },
-  servicesTitle: "What this build demonstrates",
-  services: [
-    "Editorial storytelling layout",
-    "Full-bleed cinematic imagery",
-    "Restraint-first typography",
-    "Responsive build",
-    "Motion & scroll pacing",
-    "Booking-intent flow",
-  ],
-  outcome: {
-    title: "Why it exists",
-    body: "A concept piece that proves a hospitality brand can feel five-star on the first scroll, the studio's case for stillness as a sales tool, not a compromise.",
-  },
-  shots: {
-    title: "The build, on screen",
-    caption: "The Aurum Resorts concept, live on desktop and mobile.",
-  },
-  visit: "Visit the live site",
-};
-
-export const CASE_LIFTX: CaseStudyData = {
-  slug: "liftx",
-  eyebrow: "Concept build",
-  client: "LIFT-X",
-  tagline: "A premium unisex gym concept built on bold type and a single decision: start.",
-  liveUrl: "https://lift-x-ten.vercel.app/",
-  poster: "/work/liftx.webp",
-  meta: [
-    { label: "Industry", value: "Fitness" },
-    { label: "Focus", value: "Conversion & sign-up intent" },
-    { label: "Type", value: "Concept site" },
-  ],
-  challenge: {
-    title: "The challenge",
-    body: "Gym sites bury the one action that matters, joining, under class timetables, pricing tiers, and stock photos of equipment. The visitor already knows they should train. They need a reason to act today.",
-  },
-  solution: {
-    title: "The approach",
-    body: "Oversized, confident type carries the whole site, and every section funnels toward one CTA. No hedging, no ten menu items, just momentum and a single decision made easy.",
-  },
-  servicesTitle: "What this build demonstrates",
-  services: [
-    "Bold display typography",
-    "Single-CTA conversion flow",
-    "High-energy motion",
-    "Responsive build",
-    "Performance optimization",
-    "Brand-led art direction",
-  ],
-  outcome: {
-    title: "Why it exists",
-    body: "A concept piece showing how far a fitness brand gets on type and focus alone, proof the studio can build energy without clutter.",
-  },
-  shots: {
-    title: "The build, on screen",
-    caption: "The LIFT-X concept, live on desktop and mobile.",
-  },
-  visit: "Visit the live site",
-};
-
-export const CASE_VANTARA: CaseStudyData = {
-  slug: "vantara",
-  eyebrow: "Concept build",
-  client: "Vantara & Rao",
-  tagline: "A corporate-law concept positioned as a strategic partner, not reactive counsel.",
-  liveUrl: "https://law-firm-eight-livid.vercel.app/",
-  poster: "/work/vantara.webp",
-  meta: [
-    { label: "Industry", value: "Corporate Law" },
-    { label: "Focus", value: "Authority & trust" },
-    { label: "Type", value: "Concept site" },
-  ],
-  challenge: {
-    title: "The challenge",
-    body: "Law-firm sites default to grey templates and stock gavels, which read as interchangeable. For corporate clients choosing counsel for a merger or a dispute, interchangeable is the last thing that wins the brief.",
-  },
-  solution: {
-    title: "The approach",
-    body: "A restrained, confident identity, serious typography, deliberate structure, and copy that speaks like a partner across the table. The design signals judgment before a single case is read.",
-  },
-  servicesTitle: "What this build demonstrates",
-  services: [
-    "Authority-led visual identity",
-    "Structured practice-area IA",
-    "Trust & credibility architecture",
-    "Responsive build",
-    "Accessible, legible typography",
-    "Enquiry-intent flow",
-  ],
-  outcome: {
-    title: "Why it exists",
-    body: "A concept piece proving a professional-services firm can look like the partner it claims to be, the studio's case for positioning over decoration.",
-  },
-  shots: {
-    title: "The build, on screen",
-    caption: "The Vantara & Rao concept, live on desktop and mobile.",
-  },
-  visit: "Visit the live site",
-};
-
-export const CASE_NOVACARE: CaseStudyData = {
-  slug: "novacare",
-  eyebrow: "Concept build",
-  client: "NovaCare Medical Center",
-  tagline: "A multi-specialty hospital concept designed to make fifty departments feel like one calm front door.",
-  liveUrl: "https://healthcare-ten-orcin.vercel.app/",
-  poster: "/work/novacare.webp",
-  meta: [
-    { label: "Industry", value: "Healthcare" },
-    { label: "Focus", value: "Reassurance & wayfinding" },
-    { label: "Type", value: "Concept site" },
-  ],
-  challenge: {
-    title: "The challenge",
-    body: "Hospital sites drown patients in departments and jargon at the exact moment they are anxious and scanning for one answer. The information is all there; the reassurance is missing.",
-  },
-  solution: {
-    title: "The approach",
-    body: "A warm, human hero and a quiet information hierarchy that leads with reassurance, then reveals depth on demand. Care comes first, the fifty specialties come second, findable, not overwhelming.",
-  },
-  servicesTitle: "What this build demonstrates",
-  services: [
-    "Human-first hero & tone",
-    "Calm information hierarchy",
-    "Department wayfinding",
-    "Responsive build",
-    "Accessible, legible typography",
-    "Appointment-intent flow",
-  ],
-  outcome: {
-    title: "Why it exists",
-    body: "A concept piece showing a large hospital can feel personal and calm online, the studio's case for designing around the patient's state of mind, not the org chart.",
-  },
-  shots: {
-    title: "The build, on screen",
-    caption: "The NovaCare concept, live on desktop and mobile.",
-  },
-  visit: "Visit the live site",
-};
-
-export const CASE_UNIQUIRK: CaseStudyData = {
-  slug: "uniquirk",
-  eyebrow: "Concept build",
-  client: "Uniquirk Solutions",
-  tagline: "A personal-branding concept for CXOs, a dark, sharp site that matches the pitch it sells.",
-  liveUrl: "https://uniquirk.vercel.app/",
-  poster: "/work/uniquirk.webp",
-  meta: [
-    { label: "Industry", value: "Personal Branding, B2B" },
-    { label: "Focus", value: "Positioning & credibility" },
-    { label: "Type", value: "Concept site" },
-  ],
-  challenge: {
-    title: "The challenge",
-    body: "A brand that sells authority engineering can't look generic, the site is the proof of the service. A soft, templated page quietly undercuts every promise made on it.",
-  },
-  solution: {
-    title: "The approach",
-    body: "A dark, high-contrast interface with sharp type and deliberate motion, built to feel like the premium positioning it's pitching. The medium is the argument.",
-  },
-  servicesTitle: "What this build demonstrates",
-  services: [
-    "Dark, high-contrast UI",
-    "Sharp, confident typography",
-    "Positioning-led copy structure",
-    "Responsive build",
-    "Motion & interaction detail",
-    "Lead-capture flow",
-  ],
-  outcome: {
-    title: "Why it exists",
-    body: "A concept piece where the site itself demonstrates the service, the studio's case for a brand that practices what it sells.",
-  },
-  shots: {
-    title: "The build, on screen",
-    caption: "The Uniquirk concept, live on desktop and mobile.",
-  },
-  visit: "Visit the live site",
-};
-
 /* --------------------------------------------- case study registry */
 /* slug -> data, so a single dynamic route or lookup can resolve any of them. */
 export const CASE_STUDIES: Record<string, CaseStudyData> = {
   asrg: CASE_ASRG,
-  aurum: CASE_AURUM,
-  liftx: CASE_LIFTX,
-  vantara: CASE_VANTARA,
-  novacare: CASE_NOVACARE,
-  uniquirk: CASE_UNIQUIRK,
 };
 
-/* -------------------------------------------------- automations teaser */
-/* §04b (home) THE AUTOMATION STAGE, the dark cinematic showcase.
- * The home page's centerpiece: a scroll-driven story where four signature
- * systems each build themselves under the scrollbar, fire, and land an
- * outcome, then hand off to the live console. Same Flow dialect as
- * /automations; the copy and the console URL stay single-sourced (the URL is
- * imported from content-automations so it can never drift). The `href` beats
- * deep-link into the real, running product, the console the owner asked to
- * surface, so a visitor can run the actual tool, not just watch a diagram.
- * Metas are generic-but-true system states; no invented client numbers. */
-export const HOME_AUTOMATION_STORY = {
-  eyebrow: "Growth Automation Lab",
-  title: "A site brings them in. A system keeps them.",
-  sub: "The work above is the front door. Behind it we wire the follow-up, qualification, invoicing, and reporting that used to depend on someone remembering. Scroll, watch four of them wire themselves.",
-  beats: [
-    {
-      id: "lead-capture",
-      name: "Lead capture",
-      outcome:
-        "A form fill becomes a booked call, captured, scored, and followed up while you sleep.",
-      href: `${A_CONSOLE_URL}/sales-os/lead-pipeline`,
-      cols: 3,
-      payload: "lead",
-      steps: [
-        { label: "Visitor", icon: "user", kind: "trigger", meta: "on your site", doneMeta: "captured" },
-        { label: "Form", icon: "note", kind: "action", meta: "fill", doneMeta: "submitted" },
-        { label: "AI qualify", icon: "ai", kind: "ai", meta: "score -", activeMeta: "thinking…", doneMeta: "score 87" },
-        { label: "CRM", icon: "crm", kind: "metric", meta: "2,418 rows", activeMeta: "+1 row", doneMeta: "2,419 rows" },
-        { label: "Auto follow-up", icon: "email", kind: "action", meta: "queued", activeMeta: "sending…", doneMeta: "sent ✓" },
-        { label: "Booked call", icon: "calendar", kind: "outcome", meta: "-", activeMeta: "confirming…", doneMeta: "Tue 10:00" },
-      ],
-    },
-    {
-      id: "invoice",
-      name: "Invoicing",
-      outcome:
-        "Order to paid to reconciled, no spreadsheet in the middle, no month-end scramble.",
-      href: `${A_CONSOLE_URL}/business-os/invoice-generator`,
-      cols: 3,
-      payload: "order",
-      steps: [
-        { label: "Order", icon: "cart", kind: "trigger", meta: "placed", doneMeta: "received" },
-        { label: "Invoice", icon: "receipt", kind: "action", meta: "drafting", activeMeta: "generating…", doneMeta: "issued" },
-        { label: "Payment", icon: "card", kind: "action", meta: "pending", activeMeta: "collecting…", doneMeta: "paid ✓" },
-        { label: "Reconcile", icon: "calculator", kind: "metric", meta: "open", activeMeta: "matching…", doneMeta: "matched" },
-        { label: "Books", icon: "chart", kind: "outcome", meta: "-", activeMeta: "posting…", doneMeta: "up to date" },
-      ],
-    },
-    {
-      id: "marketing",
-      name: "Cold outreach",
-      outcome:
-        "A cold list becomes warm conversations, personalized, sent, and booked without a rep touching it.",
-      href: `${A_CONSOLE_URL}/sales-os/cold-email`,
-      cols: 3,
-      payload: "lead",
-      steps: [
-        { label: "List", icon: "table", kind: "trigger", meta: "imported", doneMeta: "cleaned" },
-        { label: "AI writes", icon: "ai", kind: "ai", meta: "blank", activeMeta: "drafting…", doneMeta: "personalized" },
-        { label: "Send", icon: "email", kind: "action", meta: "queued", activeMeta: "sending…", doneMeta: "delivered" },
-        { label: "Reply", icon: "chat", kind: "app", meta: "waiting", activeMeta: "watching…", doneMeta: "replied" },
-        { label: "Meeting", icon: "calendar", kind: "outcome", meta: "-", activeMeta: "booking…", doneMeta: "booked" },
-      ],
-    },
-    {
-      id: "analytics",
-      name: "Reporting",
-      outcome:
-        "Six tabs and a guess become one live dashboard that shows the single number that matters.",
-      href: `${A_CONSOLE_URL}/growth-os/analytics`,
-      cols: 2,
-      payload: "event",
-      steps: [
-        { label: "Website", icon: "globe", kind: "trigger", meta: "traffic", doneMeta: "tracked" },
-        { label: "Events", icon: "pulse", kind: "app", meta: "streaming", activeMeta: "capturing…", doneMeta: "captured" },
-        { label: "Dashboard", icon: "chart", kind: "metric", meta: "live", activeMeta: "aggregating…", doneMeta: "updated" },
-        { label: "Insight", icon: "lightbulb", kind: "outcome", meta: "-", activeMeta: "computing…", doneMeta: "one number" },
-      ],
-    },
-  ],
-  /** the payoff, surface the live console (the owner's ask) then the full Lab */
-  cta: {
-    live: { label: "See all 16 systems running live", href: A_CONSOLE_URL },
-    lab: { label: "Step inside the Lab", href: "/automations" },
-  },
+/* ------------------------------------------------------ testimonial */
+/* One real, verified client voice. */
+export const TESTIMONIAL = {
+  quote:
+    "SAMPeer Studio gave us a premium storytelling website and handled our SEO and Google Business Profile professionally. Our online presence finally matches the work we do.",
+  name: "ASRG Construction",
+  role: "Construction & civil · Kurnool",
+  photo: "/client-asrg.webp",
 } as const;
-
-/* ----------------------------------------------------------- branding */
-/* §04c The third service, said out loud. The Build pillar names it; this
- * section sells it, claim first, mechanics second, then the Stats band right
- * below supplies the numbers. Real post screenshots slot in later (intake). */
-export const BRANDING = {
-  title: "Your name should open doors before you do.",
-  sub: "Founders are the new media companies. We turn yours into the reason leads arrive warm.",
-  moves: [
-    {
-      title: "Positioning",
-      body: "One sharp point of view, said the same way everywhere, until the niche repeats it back.",
-    },
-    {
-      title: "Content system",
-      body: "A weekly cadence of posts written from your work, not around it. You approve, we ship.",
-    },
-    {
-      title: "Distribution",
-      body: "Comments, DMs, and the follow-up loop that turns readers into booked calls.",
-    },
-  ],
-  cta: { label: "Watch it happen on LinkedIn", href: "https://www.linkedin.com/in/syedmukheeth/" },
-} as const;
-
-/* -------------------------------------------------------------- stats */
-/* Section 05: Proof numbers, count-up. LinkedIn-led social proof; the audience is the asset. */
-/** `value` count-ups; `text` renders verbatim (for honest non-numeric proof
- *  like a reach or a portfolio state). One or the other, never both. */
-export type Stat = { value?: number; suffix?: string; decimals?: number; text?: string; label: string };
-
-export const STATS: Stat[] = [
-  { value: 8.7, decimals: 1, suffix: "K+", label: "LinkedIn followers" },
-  { value: 350, suffix: "K+", label: "Monthly impressions" },
-  { text: "UK & India", label: "Clients worked with" },
-  { text: "Growing", label: "Premium client portfolio" },
-];
-
-
-/* ------------------------------------------------------ testimonials */
-/* Section 05.5: Founder voices. Editorial pull-quotes, not cards. */
-export type Testimonial = {
-  id: string;
-  quote: string;
-  name: string;
-  role: string;
-  /** optional proof image (public/*.webp), a real client, shown as a chip */
-  photo?: string;
-  /** optional second proof shot, shown as a smaller inset over `photo` */
-  photoSecondary?: string;
-};
-
-export const TESTIMONIALS_HEADER = {
-  title: "Clients, after.",
-} as const;
-
-/* One real, verified client voice beats three invented ones. Add more here as
- * clients give quotes, the component handles any length. */
-export const TESTIMONIALS: Testimonial[] = [
-  {
-    id: "asrg",
-    quote:
-      "SAMPeer Studio gave us a premium storytelling website and handled our SEO and Google Business Profile professionally. Our online presence finally matches the work we do.",
-    name: "ASRG Construction",
-    role: "Construction & Civil · Kurnool",
-    // the client's own on-site photo, supplied July 2026, at its full frame.
-    // Its own file: the WORK gallery's /asrg-client*.webp are different
-    // moments from the same visit and stay untouched.
-    photo: "/client-asrg.webp",
-    // the 2-up handshake shot, same visit, inset over the group photo.
-    photoSecondary: "/asrg-client.webp",
-  },
-];
-
-/* ------------------------------------------------------------ process */
-/* §06 Diagnose -> Build -> Grow. Verb-noun, no "Stage 1". */
-export type Step = { id: string; title: string; body: string };
-
-export const PROCESS_HEADER = {
-  title: "Diagnose. Build. Grow.",
-} as const;
-
-export const PROCESS: Step[] = [
-  { id: "diagnose", title: "Diagnose", body: "We find why you are being overlooked. The gap between what you do and what people perceive." },
-  { id: "build", title: "Build", body: "Website, growth system, and founder presence built as one connected engine, not three disconnected projects." },
-  { id: "grow", title: "Grow", body: "Attention turns into trust, trust into leads, leads into revenue. We tune what the data tells us." },
-];
 
 /* -------------------------------------------------------------- about */
-/* §07 Syed POV. Manifesto, not bio. */
-/** What the name actually stands for. It reads as one word, so the letters
- *  have to be spelled out or the meaning is lost on everyone but us. */
-export const BRAND_MEANING = {
-  title: "Where the name comes from",
-  letters: [
-    { letter: "S", word: "Storytelling", body: "The site that makes strangers believe you." },
-    { letter: "A", word: "Automations", body: "The engine that runs after they do." },
-    { letter: "M", word: "Marketing", body: "The reach that puts you in front of them." },
-  ],
-  /** the half that is not an acronym */
-  suffix: {
-    word: "Peer",
-    body: "Not a vendor you brief. A peer, the way a good friend or colleague is: in it with you, straight with you.",
-  },
+export const ABOUT = {
+  title: "Two people, every project.",
+  body: "SAMPeer Studio is a small studio in Kurnool. We plan, design, build and launch every site ourselves, and stay on after launch to keep it running.",
 } as const;
 
 export type TeamMember = {
@@ -716,7 +182,6 @@ export type TeamMember = {
   role: string;
   photo: string;
   photoPosition?: string;
-  /** what this person actually owns, in their own register */
   line: string;
   linkedin?: string;
 };
@@ -728,7 +193,7 @@ export const TEAM: TeamMember[] = [
     role: "CEO",
     photo: "/founder.webp",
     photoPosition: "center 30%",
-    line: "Owns the architecture and the story. He designs the systems, writes the backend, and decides what the whole engine has to do before anyone builds a screen. Every project starts and ends at his desk.",
+    line: "Plans and designs every site, and writes the backend behind it.",
     linkedin: "https://www.linkedin.com/in/syedmukheeth/",
   },
   {
@@ -737,51 +202,20 @@ export const TEAM: TeamMember[] = [
     role: "CTO",
     photo: "/faisal.webp",
     photoPosition: "center",
-    line: "Builds and runs what that architecture calls for. Ships the front end, wires the automations, and keeps the whole thing standing in production.",
+    line: "Builds the front end and keeps every site fast and running after launch.",
   },
 ];
 
-/** The CTO's half of the About section. Same shape as ABOUT so the two blocks
- *  render through one component, a manifesto in his own register (what he
- *  builds and why), not a restatement of the CEO's. */
-export const ABOUT_CTO = {
-  name: "Shaik Faisal Ahmed",
-  role: "CTO, SAMPeer Studio",
-  photo: "/faisal-portrait.webp",
-  photoPosition: "center 15%",
-  manifesto: [
-    "I turn the architecture into something that actually runs, and I keep it running long after launch day.",
-    "Fast sites, wired into the systems that capture, qualify, and follow up without anyone having to remember to.",
-    "Every automation we ship is one we run on ourselves first. If it breaks, it breaks on us, never on a client.",
-    "Good engineering is invisible. You should never notice the machine, only that the work is already done.",
-  ],
-} as const;
-
-export const ABOUT = {
-  name: "Syed Abdul Mukheeth Peer",
-  role: "CEO, SAMPeer Studio",
-  photo: "/founder.webp",
-  linkedin: "https://www.linkedin.com/in/syedmukheeth/",
-  manifesto: [
-    "I help startups and ambitious businesses get noticed, remembered, and chosen.",
-    "I design the system before anyone designs a screen. How the data moves, where the leads land, what the backend has to guarantee, and how it all holds when the traffic is real.",
-    "Strategy, system design, backend, SEO, and automation are one engine here, not five disconnected projects. I own that engine end to end.",
-    "Do it right, and a business stops asking for attention and starts earning it.",
-  ],
-} as const;
-
 /* ---------------------------------------------------------------- cta */
-/* §08 Dead simple. One input, one button. */
 export const CTA = {
-  heading: "Tell me about your startup.",
-  sub: "One message. No forms, no funnels. It comes straight to me.",
-  placeholder: "you@startup.com",
+  heading: "Have a project in mind?",
+  sub: "Tell us what you need. It comes straight to us.",
+  placeholder: "you@company.com",
   /** Required. Email is the reply path, the number is the one that gets a
-   *  lead called the same day, and this studio would rather have a number for
-   *  every lead than a few more leads it can only email. */
+   *  lead called the same day. */
   phonePlaceholder: "Phone or WhatsApp",
-  messagePlaceholder: "What are you building, and what's in the way?",
-  button: "Start",
+  messagePlaceholder: "What do you need built?",
+  button: "Send",
   /** where the form falls back if the send endpoint isn't configured */
   fallbackEmail: "sampeerstudio@gmail.com",
 } as const;
@@ -789,10 +223,11 @@ export const CTA = {
 /* ------------------------------------------------------------- footer */
 export const FOOTER = {
   brand: "SAMPeer Studio",
-  line: "The growth layer your startup is missing.",
+  line: "Websites that do the work justice.",
   email: "sampeerstudio@gmail.com",
-  socials: [
-    { label: "LinkedIn", href: "https://www.linkedin.com/in/syedmukheeth/" },
+  links: [
+    { label: "Automations", href: "/automations", external: false },
+    { label: "LinkedIn", href: "https://www.linkedin.com/in/syedmukheeth/", external: true },
   ],
   year: new Date().getFullYear(),
   rights: "All rights reserved.",
