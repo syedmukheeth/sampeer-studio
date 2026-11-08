@@ -720,7 +720,7 @@ export const CLIENTS: ClientWord[] = [
   },
   {
     slug: "asrg",
-    name: "S. Gilani",
+    name: "S. Jeelani",
     role: "Owner, ASRG Construction",
     place: "Kurnool",
     statement:
