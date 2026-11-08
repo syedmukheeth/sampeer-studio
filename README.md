@@ -1,6 +1,6 @@
 # SAMPeer, Storytelling & Growth Studio
 
-> The growth layer your startup is missing. Modern, high-conversion storytelling website built with Next.js 16, GSAP, Motion, and Tailwind CSS.
+> The growth layer your startup is missing. Modern, high-conversion storytelling website built with Next.js 16, Motion and Tailwind CSS.
 
 🌐 **Live Demo:** [https://sam-peer.vercel.app](https://sam-peer.vercel.app)
 
@@ -10,8 +10,8 @@
 
 - **Framework:** Next.js 16 (App Router) & React 19
 - **Styling:** Tailwind CSS v4 & Vanilla CSS Design System
-- **Animations:** GSAP (ScrollTrigger), Motion, Lenis Smooth Scroll
-- **Typography:** Self-hosted Clash Display + Inter
+- **Animations:** Motion, Lenis smooth scroll, CSS scroll-driven animations
+- **Typography:** Google Sans Flex + Google Sans Code (next/font)
 - **Deployment:** Vercel
 
 ---
@@ -51,7 +51,7 @@ npm run start
 - `lib/content.ts`, Centralized content structure for all copy, metrics, and project data.
 - `lib/constants.ts`, Core brand constants, layout metrics, and z-index scales.
 - `components/sections/*`, Page sections (Hero, About, Work, Automation Lab, Process, Build, Footer).
-- `components/ui/*`, Reusable interactive UI primitives (CardSwap, TextType, LineSidebar, TiltCard, Magnetic).
+- `components/ui/*`, Reusable interactive UI primitives (WorkDeck, Flow, ReelEmbed, TiltCard, Magnetic).
 - `app/api/contact/route.ts`, Resend-powered contact submission API with rate limiting and mailto fallback.
 
 - [ ] Real domain in `app/layout.tsx` (`metadataBase`), `app/robots.ts`, `app/sitemap.ts`.

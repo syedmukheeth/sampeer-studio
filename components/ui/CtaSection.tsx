@@ -38,6 +38,9 @@ export function CtaSection({
     messagePlaceholder: string;
     button: string;
     fallbackEmail: string;
+    /** optional lead-in for a plain mailto line under the form, for the
+     *  people who will never fill one in */
+    direct?: string;
   };
 }) {
   const reduce = useReducedMotion();
@@ -45,7 +48,7 @@ export function CtaSection({
   return (
     <Section id={id} size="lg">
       <div className="mx-auto max-w-2xl text-center">
-        <h2 className="font-display text-4xl font-semibold leading-tight tracking-tighter md:text-6xl">
+        <h2 className="font-display text-[clamp(2.25rem,5.4vw,4.5rem)] leading-[1.0] font-[680] tracking-[-0.035em] font-stretch-semi-expanded">
           <MaskText text={content.heading} />
         </h2>
         <p className="mt-5 font-sans text-base text-muted md:text-lg">
@@ -55,7 +58,8 @@ export function CtaSection({
         {/* threshold, a hairline the reader crosses to act */}
         <motion.span
           aria-hidden
-          initial={reduce ? false : { scaleX: 0 }}
+          data-reveal
+          initial={{ scaleX: 0 }}
           whileInView={{ scaleX: 1 }}
           viewport={VIEWPORT}
           transition={{ duration: reduce ? 0 : DUR.slow, delay: reduce ? 0 : 0.5, ease: EASE.inOut }}
@@ -72,6 +76,15 @@ export function CtaSection({
           source={source}
           fallbackEmail={content.fallbackEmail}
         />
+
+        {content.direct && (
+          <p className="mt-6 font-sans text-sm text-muted">
+            {content.direct}{" "}
+            <a href={`mailto:${content.fallbackEmail}`} className="link-wipe text-ink">
+              {content.fallbackEmail}
+            </a>
+          </p>
+        )}
       </div>
     </Section>
   );

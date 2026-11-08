@@ -25,8 +25,10 @@ export function Hero() {
         speed={0.18}
         squareSize={72}
         direction="diagonal"
-        borderColor="rgba(63, 97, 82, 0.16)"
-        hoverFillColor="rgba(63, 97, 82, 0.08)"
+        // The canvas cannot read CSS custom properties, so these are the
+        // sanctioned literal copies of --color-accent (#8425f1) at low alpha.
+        borderColor="rgba(132, 37, 241, 0.16)"
+        hoverFillColor="rgba(132, 37, 241, 0.1)"
         shape="square"
       />
       {/* mobile gets the static ruling: no per-frame canvas on a phone */}
@@ -52,7 +54,7 @@ export function Hero() {
       {/* seat the type over the graph paper */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(120%_80%_at_50%_45%,transparent_42%,rgba(246,242,234,0.9)_100%)]"
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(120%_80%_at_50%_45%,transparent_42%,var(--color-canvas)_100%)]"
       />
       <div
         aria-hidden
@@ -64,13 +66,10 @@ export function Hero() {
             which put half a second of empty page between load and the promise
             the reader came for. The ambient Flow above still moves, so the
             page is not inert; the words just don't make anyone wait. */}
-        <p className="flex items-center gap-2.5 font-sans text-xs font-medium uppercase tracking-[0.18em] text-faint">
-          <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-accent" />
-          {A_HERO.eyebrow}
-        </p>
+        <p className="font-mono text-xs font-medium tracking-[0.04em] text-faint">{A_HERO.eyebrow}</p>
 
-        <h1 className="mt-6 max-w-4xl font-display font-semibold leading-[1.05] tracking-tighter text-[clamp(2.25rem,7vw,5.5rem)]">
-          {A_HERO.lead} <span className="text-gradient-accent">{A_HERO.accent}</span>
+        <h1 className="mt-6 max-w-4xl font-display text-[clamp(2.25rem,7vw,5.5rem)] leading-[1.02] font-[680] tracking-[-0.035em] font-stretch-semi-expanded">
+          {A_HERO.lead} <span className="text-accent-text">{A_HERO.accent}</span>
         </h1>
 
         <p className="mt-8 max-w-xl font-sans text-base leading-relaxed text-muted md:text-lg">

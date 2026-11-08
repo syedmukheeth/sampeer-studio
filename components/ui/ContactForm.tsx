@@ -186,7 +186,7 @@ export function ContactForm({
         <button
           type="submit"
           disabled={status === "sending"}
-          className="btn-press inline-flex h-12 w-full items-center justify-center gap-1.5 rounded-md bg-accent-solid px-6 font-sans text-sm font-medium text-accent-ink active:bg-accent-dim disabled:opacity-60"
+          className="btn-press inline-flex h-14 w-full items-center justify-center gap-1.5 rounded-full bg-accent-solid px-6 font-sans text-sm font-medium text-accent-ink hover:bg-accent-dim active:bg-accent-dim disabled:cursor-not-allowed disabled:opacity-60"
         >
           {status === "sending" ? "Sending…" : buttonLabel}
           {/* the trailing glyph reports the state rather than decorating it:

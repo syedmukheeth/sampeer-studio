@@ -93,7 +93,7 @@ export function BeforeAfter() {
             <Reveal from="left" as="p" className="text-faint">
               {A_SLIDER.leftLabel}
             </Reveal>
-            <Reveal from="right" as="p" className="text-accent">
+            <Reveal from="right" as="p" className="text-accent-text">
               {A_SLIDER.rightLabel}
             </Reveal>
           </div>
@@ -162,7 +162,7 @@ export function BeforeAfter() {
             <div key={label} className="rounded-md border border-line p-5">
               <p
                 className={`mb-4 font-sans text-xs font-medium uppercase tracking-[0.18em] ${
-                  chaos ? "text-faint" : "text-accent"
+                  chaos ? "text-faint" : "text-accent-text"
                 }`}
               >
                 {label}

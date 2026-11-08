@@ -38,7 +38,7 @@ function Card({
               {item.name}
             </h3>
             {href && (
-              <span className="shrink-0 rounded-full border border-accent/30 bg-accent/10 px-2 py-0.5 font-sans text-[10px] font-medium uppercase tracking-wide text-accent">
+              <span className="shrink-0 rounded-full border border-accent/30 bg-accent/10 px-2 py-0.5 font-sans text-[10px] font-medium uppercase tracking-wide text-accent-text">
                 Live
               </span>
             )}
@@ -63,7 +63,7 @@ function Card({
               rel="noopener noreferrer"
               // py-1.5: was an 80x20 target, under the 24px minimum. Same fix
               // as the other "Try it live" links on the home page.
-              className="link-shine mt-5 inline-flex items-center gap-1 self-start py-1.5 font-sans text-sm font-medium text-accent transition-opacity hover:opacity-80 focus-visible:outline-none focus-visible:underline"
+              className="mt-5 inline-flex items-center gap-1 self-start py-1.5 font-sans text-sm font-medium text-accent-text transition-opacity hover:opacity-80 focus-visible:outline-none focus-visible:underline"
             >
               Try it live
               <span aria-hidden>→</span>
@@ -95,7 +95,7 @@ export function Catalog() {
             href={A_CATALOG_HEADER.cta.href}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-6 inline-flex items-center gap-2 rounded-full border border-accent/40 bg-accent/10 px-5 py-2.5 font-sans text-sm font-medium text-accent transition-colors hover:bg-accent/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+            className="mt-6 inline-flex items-center gap-2 rounded-full border border-accent/40 bg-accent/10 px-5 py-2.5 font-sans text-sm font-medium text-accent-text transition-colors hover:bg-accent/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-text"
           >
             {A_CATALOG_HEADER.cta.label}
             <span aria-hidden>→</span>

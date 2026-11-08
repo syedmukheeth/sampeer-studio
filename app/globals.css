@@ -1,139 +1,109 @@
+/* Hallmark · macrostructure: Portfolio Grid · genre: atmospheric · hero: H2 split diptych + live work deck
+ * nav: N5 floating pill · footer: Ft5 statement (studied: suri-mansoor-ali-khan.vercel.app, curtain + wordmark + credit row)
+ * theme: custom · vibe: "glossy violet ribbon, late-night studio" · paper oklch(0.14 0.03 290) · accent oklch(0.536 0.268 297) violet
+ * type: Google Sans Flex (display + body) + Google Sans Code (mono) · axes: dark / geometric-sans / cool
+ * pre-emit critique: P5 H4 E4 S5 R4 V5 · contrast: pass (40-41) · mobile: pass (34, 49, 50-57)
+ * slop: pass, except 35 (the footer's low marker stroke is the studied Suri credit, kept by request)
+ */
 @import "tailwindcss";
 
 /*
-  SAMPeer Studio, MINIMAL LIGHT theme.
+  SAMPeer Studio, DARK LOGO-LIT theme.
 
-  Off-white paper ground, near-black type, one violet accent. Structure is
-  carried by hairlines and whitespace rather than glow, elevation, or gradient.
+  Every colour below is sampled from the ribbon in public/logo.png, which runs
+  from #140042 in its deepest fold, through #8425f1 at its core, to #e994ff
+  where the light catches it. The ground is that deepest fold with most of the
+  chroma taken out, the type is the highlight with most of the chroma taken
+  out, and the one accent is the core violet at full strength. Nothing on the
+  page is a colour the logo does not already contain.
 
-  The accent is the brand mark's own hue. Sampled from the logo artwork, the
-  ribbon runs 263-272deg at 76-100% saturation, so the accent below sits at
-  263deg / 82% rather than being muted into something that no longer matches the
-  logo sitting next to it. The earlier sage build kept saturation low as its
-  discipline; this one keeps the brand's saturation and disciplines WHERE accent
-  is allowed to appear instead. One hue, no glow, and accent stays a strike
-  rather than a surface.
+  Dark-locked on purpose. The original logo lockup was drawn for a black
+  ground, and a studio is one of the few categories where dark IS the brand
+  rather than a preference. There is no light block and no toggle: a light
+  block nothing can switch to would be dead code that reads as a feature.
 
-  (This replaced a dark emerald build before it: emerald at ~85% saturation on
-  near-black plus an outer glow on every interactive surface read as lit rather
-  than composed. Paper plus no glow is what fixed that, not the hue.)
+  Accent discipline: one violet strike per viewport, never a glow. The accent
+  keeps the logo's full chroma (0.27). Muting it would make the violet next to
+  the logo look like a different brand; the restraint is in WHERE it appears.
 
-  Neutrals are cool-biased (a trace of the accent's hue) rather than pure grey,
-  so paper and violet belong to the same family instead of looking bolted
-  together. The old cream was yellow-biased, which is violet's near-complement,
-  and would have put maximum chroma tension under every accent on the page.
-
-  Accent discipline, unchanged in spirit:
-    --color-accent       violet, fills, the one strike, borders, LARGE display.
-    --color-accent-text  the darker violet that passes AA for small copy on
-                         paper. Flips lighter inside `.stage`.
-
-  `.stage` remains the single dark block on the page. That is deliberate, not
-  an accident of theming: the automation diagrams are the one place where a
-  cinematic cut earns its keep, and one intentional inversion is a composition
-  device where random alternation would be a bug.
+  Contrast, measured with brand-system/contrast.mjs (WCAG 2.1):
+    ink on canvas          17.2:1      ink on elevated-2     14.7:1
+    muted on canvas         8.6:1      muted on elevated      8.0:1
+    faint on canvas         5.9:1      faint on elevated      5.5:1
+    accent-text on canvas   7.4:1      accent-text on elev.   6.9:1
+    accent-ink on accent    5.6:1      accent-ink on dim      7.4:1
 */
 
 @theme {
-  --color-canvas: #f7f5f9; /* page background, cool daylight paper (never #fff) */
-  --color-elevated: #ffffff; /* raised surface, cards lift off the paper */
-  --color-elevated-2: #f2f0f5; /* second tier, hover/active/pressed card states */
-  --color-ink: #19181c; /* primary text, near-black (never #000), 16.3:1 */
-  --color-muted: #6b6873; /* secondary text, 5.0:1 on canvas, passes AA */
-  /* Was documented "decorative only, fails AA" but components use it for
-     eyebrow labels and section numbers, which are readable copy. Darkened to
-     clear AA at small sizes rather than leaving real text at 2.4:1. */
-  --color-faint: #706d78; /* 4.7:1 on canvas, 5.1:1 on elevated */
-  --color-line: #e5e2ea; /* hairline borders on paper */
-  --color-accent: #6d28d9; /* violet, fills / the one strike / large display */
-  --color-accent-2: #7c3aed; /* the far end of the accent sweep, one hue only */
-  --color-accent-text: #5b21b6; /* darker violet, 8.3:1 on canvas, AA for small copy */
-  --color-accent-solid: #6d28d9; /* violet button fill, paper rides on top at 6.6:1 */
-  --color-accent-dim: #4c1d95; /* pressed / secondary accent state */
-  /* 0.06 not 0.08: the old sage sat near 35% saturation, this violet is at 82%
-     and reads heavier at identical alpha. Equal alpha is not equal weight. */
-  --color-accent-soft: rgba(109, 40, 217, 0.06); /* tints, veils, active-pill fill, no ad-hoc accent/10 */
-  --color-accent-ink: #f7f5f9; /* paper text on the violet fill */
+  --color-canvas: oklch(0.14 0.03 290); /* #090715, the ribbon's deepest fold, desaturated */
+  --color-elevated: oklch(0.19 0.04 290); /* cards lift one step toward the violet */
+  --color-elevated-2: oklch(0.23 0.045 291); /* hover, pressed, second tier */
+  --color-ink: oklch(0.95 0.015 315); /* the ribbon's highlight, near-white, never #fff */
+  --color-muted: oklch(0.74 0.035 300); /* secondary copy */
+  --color-faint: oklch(0.64 0.03 300); /* meta and captions, still AA */
+  --color-line: oklch(0.29 0.04 292); /* hairlines */
+  --color-accent: oklch(0.536 0.268 297); /* #8425f1, the ribbon's core: fills, strokes, large display */
+  --color-accent-2: oklch(0.79 0.17 319); /* #e994ff, where the ribbon catches the light */
+  --color-accent-text: oklch(0.72 0.19 308); /* violet that still reads at body size on the dark ground */
+  --color-accent-solid: oklch(0.536 0.268 297); /* button fill */
+  --color-accent-dim: oklch(0.47 0.24 293); /* pressed fill */
+  --color-accent-soft: oklch(0.536 0.268 297 / 0.14); /* tints and active pills, never an ad-hoc accent/10 */
+  --color-accent-ink: oklch(0.98 0.01 315); /* text on the violet fill */
 
-  /* Kept as a token so nothing importing it breaks, but flattened to a single
-     hue at two depths. A two-colour sweep was the loudest thing on the page. */
-  --gradient-accent: linear-gradient(120deg, #6d28d9 0%, #7c3aed 100%);
+  /* The logo's own sweep. Used exactly once: the footer's top rule. */
+  --gradient-ribbon: linear-gradient(100deg, #540db5 0%, #8425f1 45%, #e994ff 100%);
 
-  --font-display: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  /* Google Sans Flex is the logo wordmark's own family. One variable file
+     carries display and body: headlines stretch along the width axis, body
+     copy sits at normal width. Google Sans Code is its monospace sibling. */
+  --font-display: var(--font-gsf), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-gsf), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-gsc), ui-monospace, SFMono-Regular, monospace;
 
-  /* The two display sizes that used to sit here were referenced by nothing:
-     both heroes hand-roll their own clamp. A token nobody reads is worse than
-     no token, because the next person edits it and nothing moves. The eyebrow
-     values below stay because they document the 0.18em every eyebrow uses. */
-  --text-eyebrow: 11px;
-  --text-eyebrow--line-height: 1.4;
-  --text-eyebrow--letter-spacing: 0.18em;
-
+  /* Shape lock: buttons, nav and chips are full pills (rounded-full), cards
+     are 16px (rounded-2xl), media and inputs 12px (rounded-xl). These three
+     small values only serve the /automations and case-study routes. */
   --radius-xs: 4px;
   --radius-sm: 6px;
-  --radius-md: 8px; /* page corner-radius ceiling, premium-tech, near-sharp */
+  --radius-md: 8px;
 
   --max-shell: 1400px;
 }
 
-/*
-  THE ONE DARK BLOCK. The page is paper, so `.stage` inverts to near-black ink
-  and becomes the single deliberate contrast cut: the automation diagrams read
-  best on a dark ground, and one intentional inversion is a composition device
-  where random alternation would just look broken.
-
-  Same hue family as the paper theme, one step lighter so it lifts off ink
-  rather than glowing. Because every component reads these semantic vars, the
-  whole subtree (Flow diagrams, text, borders) shifts with no per-component
-  work.
-*/
-.stage {
-  --color-canvas: #17161c;
-  --color-elevated: #1e1d25;
-  --color-elevated-2: #26242e;
-  --color-ink: #f0eff3;
-  --color-muted: #a09daa;
-  --color-faint: #948fa0; /* lifted to clear AA for the 9px diagram meta lines */
-  --color-line: #2f2d38;
-  --color-accent: #a78bfa; /* the violet lifted for a dark ground, 6.6:1 */
-  --color-accent-2: #c4b5fd;
-  --color-accent-text: #c4b5fd; /* 9.7:1 on the stage canvas */
-  --color-accent-solid: #a78bfa;
-  --color-accent-dim: #8b5cf6;
-  --color-accent-soft: rgba(167, 139, 250, 0.12);
-  --color-accent-ink: #17161c; /* dark ink on the light violet fill */
-
-  background: var(--color-canvas);
-  color: var(--color-ink);
-  color-scheme: dark;
+/* Values the token layer needs that are not Tailwind utilities. The motion
+   pair mirrors lib/constants.ts (EASE.out, DUR.kinetic) for the animations that
+   are pure CSS; keep the two in step. */
+:root {
+  --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-kinetic: 0.9s;
+  --shadow-tint: oklch(0.06 0.03 290 / 0.85); /* violet-black, never a neutral grey */
+  --highlighter: oklch(0.536 0.268 297 / 0.55); /* the footer credit's marker stroke */
+  --glint: oklch(0.98 0.01 315 / 0.32);
+  --footer-h: min(34rem, 82svh);
 }
 
-/* Was a gradient clipped to glyphs. Gradient display type is the loudest tell
-   in the book, and on a minimal paper ground it fought everything around it.
-   Now a flat accent fill, so the class keeps working wherever it is used
-   without any component needing to change. */
-.text-gradient-accent {
-  color: var(--color-accent-text);
+@media (max-width: 639px) {
+  :root {
+    --footer-h: min(36rem, 86svh);
+  }
 }
 
 html {
   background: var(--color-canvas);
   color: var(--color-ink);
-  color-scheme: light;
+  color-scheme: dark;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
-  scroll-padding-top: 5rem; /* clear the fixed 64px nav on anchor jumps */
+  scroll-padding-top: 6rem; /* clear the floating nav pill on anchor jumps */
+  /* clip, not hidden: hidden makes a scroll container and breaks sticky */
+  overflow-x: clip;
 }
 
 body {
   background: var(--color-canvas);
   color: var(--color-ink);
   font-family: var(--font-sans);
-}
-
-.variable-proximity {
-  font-family: var(--font-roboto-flex), var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
+  overflow-x: clip;
 }
 
 ::selection {
@@ -141,25 +111,20 @@ body {
   color: var(--color-accent-ink);
 }
 
-/* One focus grammar, page-wide. Keyboard users get the accent ring.
-
-   Inside `@layer base` on purpose. Unlayered CSS outranks every layered rule
-   regardless of specificity, so as a bare rule this outline beat any
-   `focus-visible:outline-none` utility and stamped a rectangle over the curved
-   contact fields the moment they were clicked. In `base` it still overrides
-   preflight and still covers every control that asks for nothing, while a
-   utility on a specific control can now opt out. */
+/* One focus grammar, page-wide. Inside `@layer base` so a utility on a
+   specific control can still opt out (unlayered CSS beats every layer). The
+   ring is the light violet: the core violet on the near-black ground sits
+   under the 3:1 a focus indicator needs. */
 @layer base {
   :focus-visible {
-    outline: 2px solid var(--color-accent);
-    outline-offset: 2px;
+    outline: 2px solid var(--color-accent-text);
+    outline-offset: 3px;
     border-radius: var(--radius-xs);
   }
 }
 
-/* Autofill paints its own opaque rectangle behind the control, which turns the
-   curved contact fields into plain boxes the moment the browser fills them. The
-   long transition is the standard way to keep that paint from ever landing. */
+/* Autofill paints its own opaque rectangle behind the control; the long
+   transition is the standard way to keep that paint from ever landing. */
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
@@ -168,21 +133,21 @@ textarea:-webkit-autofill {
   transition: background-color 9999s ease-in-out 0s;
 }
 
-/* Headings wrap on meaning rather than on the raw line box, so a display
-   headline never leaves one orphaned word on the last line. Body copy gets the
-   looser `pretty`, which only guards against orphans. */
+/* Headings wrap on meaning, body copy only guards against orphans. A long
+   word may break as a last resort rather than push a phone sideways. */
 h1,
 h2,
 h3 {
   text-wrap: balance;
+  overflow-wrap: anywhere;
+  min-width: 0;
 }
 p,
 li {
   text-wrap: pretty;
 }
 
-/* Kill the ~300ms tap delay mobile browsers hold in case a double-tap-to-zoom
-   is coming. Applied to controls only, so pinch-zoom on the page still works. */
+/* No tap delay and no grey tap flash on controls; pinch-zoom still works. */
 a,
 button,
 input,
@@ -192,36 +157,30 @@ summary,
 [role="tab"],
 [role="button"] {
   touch-action: manipulation;
-  /* mobile browsers flash a grey rectangle over the tapped control; on the
-     curved contact fields that rectangle is the one thing the shape avoids. */
   -webkit-tap-highlight-color: transparent;
 }
 
-/* Skip link: first thing in the tab order, visually hidden until focused. The
-   nav is a long list of anchors, so keyboard users otherwise tab through the
-   whole thing on every page. */
+/* Skip link: first in the tab order, hidden until focused (any focus, so
+   :focus rather than :focus-visible). */
 .skip-link {
   position: absolute;
   left: -9999px;
   top: 0;
   z-index: 100;
 }
-/* :focus, not :focus-visible. A skip link must reveal on ANY focus, including
-   programmatic; :focus-visible depends on the browser's keyboard heuristic. */
 .skip-link:focus {
   left: 1rem;
   top: 1rem;
   padding: 0.75rem 1.25rem;
   background: var(--color-accent-solid);
   color: var(--color-accent-ink);
-  border-radius: var(--radius-sm);
+  border-radius: 9999px;
   font-family: var(--font-sans);
   font-size: 0.875rem;
   font-weight: 600;
 }
 
-/* The Flow AI node's "thinking" dots. The reduced-motion block below
-   collapses this like every other animation, no separate kill needed. */
+/* The Flow AI node's "thinking" dots. */
 @keyframes flow-typing {
   0%,
   60%,
@@ -233,337 +192,64 @@ summary,
   }
 }
 
-/* GlitchText (react-bits), repaletted. The duplicated channels are pseudo
-   elements filled with the page ground so they hide the original beneath them;
-   on paper that ground is the canvas, not black. Inline, so it can sit inside a
-   sentence without breaking the line box. */
-.glitch {
-  position: relative;
-  display: inline-block;
+/* ------------------------------------------------------------ hero type */
+/*
+  The headline gets noticed by growing. Each line starts narrow on the width
+  axis and stretches to its resting 112.5%, one after another. It is visible
+  from the very first frame (no opacity gate, so it is still the LCP paint),
+  every line is nowrap so the line count can never change mid-animation, and
+  the h1 is layout-contained so the reflow stays inside it.
+*/
+.hero-line {
+  display: block;
   white-space: nowrap;
-  user-select: none;
+  font-stretch: 112.5%;
 }
 
-.glitch::after,
-.glitch::before {
-  content: attr(data-text);
-  position: absolute;
-  top: 0;
-  left: 0;
-  color: inherit;
-  background-color: var(--color-canvas);
-  overflow: hidden;
-  clip-path: inset(0 0 0 0);
-}
-
-.glitch:not(.enable-on-hover)::after {
-  left: 3px;
-  text-shadow: var(--after-shadow, -3px 0 var(--color-accent));
-  animation: animate-glitch var(--after-duration, 3s) infinite linear alternate-reverse;
-}
-.glitch:not(.enable-on-hover)::before {
-  left: -3px;
-  text-shadow: var(--before-shadow, 3px 0 var(--color-muted));
-  animation: animate-glitch var(--before-duration, 2s) infinite linear alternate-reverse;
-}
-
-.glitch.enable-on-hover::after,
-.glitch.enable-on-hover::before {
-  content: "";
-  opacity: 0;
-  animation: none;
-}
-
-.glitch.enable-on-hover:hover::after,
-.glitch.enable-on-hover:focus-visible::after {
-  content: attr(data-text);
-  opacity: 1;
-  left: 3px;
-  text-shadow: var(--after-shadow, -3px 0 var(--color-accent));
-  animation: animate-glitch var(--after-duration, 3s) infinite linear alternate-reverse;
-}
-.glitch.enable-on-hover:hover::before,
-.glitch.enable-on-hover:focus-visible::before {
-  content: attr(data-text);
-  opacity: 1;
-  left: -3px;
-  text-shadow: var(--before-shadow, 3px 0 var(--color-muted));
-  animation: animate-glitch var(--before-duration, 2s) infinite linear alternate-reverse;
-}
-
-@keyframes animate-glitch {
-  0% { clip-path: inset(20% 0 50% 0); }
-  10% { clip-path: inset(15% 0 55% 0); }
-  20% { clip-path: inset(30% 0 40% 0); }
-  30% { clip-path: inset(10% 0 60% 0); }
-  40% { clip-path: inset(25% 0 35% 0); }
-  50% { clip-path: inset(20% 0 50% 0); }
-  60% { clip-path: inset(15% 0 55% 0); }
-  70% { clip-path: inset(30% 0 40% 0); }
-  80% { clip-path: inset(20% 0 50% 0); }
-  90% { clip-path: inset(15% 0 55% 0); }
-  100% { clip-path: inset(30% 0 40% 0); }
-}
-
-/* LineSidebar (react-bits), repaletted to the site's tokens rather than the
-   colour props the original takes, the palette already lives in one place.
-   Pseudo-elements do the markers and ticks, so this genuinely needs a
-   stylesheet; the geometry that a component can own stays in the component.
-
-   --effect (0..1) is driven per item by a rAF lerp in JS, so every property
-   below reads the same continuously-animating value and stays in step. */
-.line-sidebar {
-  --marker-length: 56px;
-  --marker-gap: 0px;
-  --tick-scale: 0.5;
-  --max-shift: 22px;
-  --item-gap: 22px;
-  --font-size: 1.6rem;
-
-  position: relative;
-  display: flex;
-  justify-content: flex-start;
-}
-
-.line-sidebar--markers {
-  padding-left: calc(var(--marker-length) + var(--marker-gap));
-}
-
-.line-sidebar__list {
-  list-style: none;
-  margin: 0;
-  padding: 0.5rem 0;
-  display: flex;
-  flex-direction: column;
-  gap: var(--item-gap);
-}
-
-.line-sidebar__item {
-  position: relative;
-}
-
-/* widen the pointer target so items react a touch before the cursor arrives */
-.line-sidebar__item::before {
-  content: "";
-  position: absolute;
-  inset: -6px -48px;
-}
-
-.line-sidebar__label {
-  position: relative;
-  display: inline-flex;
-  align-items: baseline;
-  cursor: pointer;
-  text-align: left;
-  font-family: var(--font-display);
-  font-weight: 500;
-  letter-spacing: -0.02em;
-  font-size: var(--font-size);
-  line-height: 1.2;
-  color: color-mix(in srgb, var(--color-accent-text) calc(var(--effect, 0) * 100%), var(--color-ink));
-  transform: translateX(calc(var(--effect, 0) * var(--max-shift)));
-}
-
-.line-sidebar__index {
-  font-family: var(--font-sans);
-  margin-right: 0.6rem;
-  font-size: 0.5em;
-  font-variant-numeric: tabular-nums;
-  opacity: calc(0.45 + var(--effect, 0) * 0.55);
-}
-
-.line-sidebar__marker {
-  position: absolute;
-  top: 50%;
-  left: calc(-1 * var(--marker-length) - var(--marker-gap));
-  height: 1px;
-  width: var(--marker-length);
-  background-color: color-mix(in srgb, var(--color-accent) calc(var(--effect, 0) * 100%), var(--color-line));
-  transform-origin: left center;
-  transform: translateY(-50%) scaleX(calc(0.7 + var(--effect, 0) * 0.5));
-}
-
-/* short static tick centred in the gap between two items */
-.line-sidebar--markers .line-sidebar__item:not(:last-child)::after {
-  content: "";
-  position: absolute;
-  top: calc(100% + var(--item-gap) / 2);
-  left: calc(-1 * var(--marker-length) - var(--marker-gap));
-  height: 1px;
-  width: calc(var(--marker-length) * var(--tick-scale));
-  background-color: var(--color-line);
-  transform: translateY(-50%);
-}
-
-.line-sidebar--scale-tick .line-sidebar__item:not(:last-child)::after {
-  transform-origin: left center;
-  transform: translateY(-50%) scaleX(calc(0.7 + var(--effect, 0) * 0.6));
-}
-
-/* BorderBeam: a light that laps the card's outline.
-   The ring is a 1px border painted with a conic gradient whose angle is
-   animated; `mask` clips the fill so only the border shows. An @property
-   declaration makes the angle interpolate, a bare custom property is a string
-   to the animation engine and would jump rather than sweep. */
-@property --beam-angle {
-  syntax: "<angle>";
-  inherits: false;
-  initial-value: 0deg;
-}
-
-.border-beam {
-  border: 1px solid transparent;
-  background:
-    conic-gradient(
-        from var(--beam-angle),
-        transparent 0deg,
-        var(--color-accent) 12deg,
-        color-mix(in srgb, var(--color-accent) 40%, transparent) 26deg,
-        transparent 40deg
-      )
-      border-box;
-  /* Shorthands first, composites after: `-webkit-mask` resets the composite
-     mode, so declaring mask-composite before it left the two layers adding
-     together (the whole box filled) instead of cutting the centre out. */
-  -webkit-mask:
-    linear-gradient(#000 0 0) padding-box,
-    linear-gradient(#000 0 0);
-  mask:
-    linear-gradient(#000 0 0) padding-box,
-    linear-gradient(#000 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  animation: border-beam var(--beam-duration, 6s) linear infinite;
-  animation-delay: var(--beam-delay, 0s);
-}
-
-@keyframes border-beam {
+@keyframes hero-stretch {
+  from {
+    font-stretch: 62%;
+  }
   to {
-    --beam-angle: 360deg;
+    font-stretch: 112.5%;
   }
 }
 
-/* Shine on links that leave the page.
-   One CSS utility rather than the rAF-driven ShinyText component: these appear
-   a dozen-plus times across the page, and a JS animation frame loop per link
-   would be a real cost for a decorative sweep.
-
-   The band is the accent travelling through the label's own colour, so the
-   link keeps whatever token colour it was given and the text never drops
-   below its normal contrast, `color` stays set for currentColor to resolve
-   against, and only the fill is swapped for the gradient. */
-.link-shine {
-  background-image: linear-gradient(
-    100deg,
-    currentColor 0%,
-    currentColor 40%,
-    var(--color-accent) 50%,
-    currentColor 60%,
-    currentColor 100%
-  );
-  background-size: 250% auto;
-  background-position: 150% center;
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: link-shine 4.5s ease-in-out infinite;
-}
-
-/* idles for most of the cycle, then sweeps, a constant travelling highlight
-   on every link at once reads as a page full of loading skeletons */
-@keyframes link-shine {
-  0%,
-  55% {
-    background-position: 150% center;
-  }
-  100% {
-    background-position: -50% center;
+@media (prefers-reduced-motion: no-preference) {
+  .hero-line {
+    animation: hero-stretch var(--dur-kinetic) var(--ease-expo) both;
+    animation-delay: calc(var(--line, 0) * 0.09s + 0.05s);
   }
 }
 
-/* on hover the sweep gets out of the way and the label returns to solid ink,
-   so the thing you are about to click is the most legible thing on screen */
-.link-shine:hover,
-a:hover .link-shine,
-.group:hover .link-shine {
-  animation: none;
-  -webkit-text-fill-color: currentColor;
+/* -------------------------------------------------- automation scene */
+/* The pinned build is desktop-with-motion only; everything else gets the
+   static stack. A media query rather than a JS branch, so the server and the
+   client always agree on the markup. */
+.auto-pinned {
+  display: none;
 }
-
-/* The sheen that crosses the founder card. Idles off-frame for most of the
-   cycle, then sweeps, a continuous slide would read as a loading shimmer.
-   The reduced-motion block below stops it. */
-@keyframes card-sheen {
-  0%,
-  25% {
-    transform: translateX(0);
+@media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+  .auto-pinned {
+    display: block;
   }
-  100% {
-    transform: translateX(300%);
-  }
-}
-
-/* Hero poster marquee. Each track slides its own full width while its twin
-   follows, so the loop is seamless. Hover or focus anywhere in a row pauses it. */
-@keyframes marquee {
-  to {
-    transform: translateX(-100%);
-  }
-}
-
-.marquee-track {
-  animation: marquee 70s linear infinite;
-}
-
-.marquee-track--reverse {
-  animation-direction: reverse;
-}
-
-.marquee:hover .marquee-track,
-.marquee:focus-within .marquee-track {
-  animation-play-state: paused;
-}
-
-/* TextType's caret. CSS keyframes rather than the gsap tween react-bits uses -
-   a blinking cursor does not need a tween engine, and the reduced-motion block
-   below already flattens it. */
-.text-type__cursor {
-  display: inline-block;
-  margin-left: 0.08em;
-  font-weight: 300;
-  color: var(--color-accent);
-  animation: text-type-blink 1s steps(1, end) infinite;
-}
-
-@keyframes text-type-blink {
-  0%,
-  50% {
-    opacity: 1;
-  }
-  50.01%,
-  100% {
-    opacity: 0;
+  .auto-static {
+    display: none;
   }
 }
 
 /* ------------------------------------------------- interaction system */
 /*
-  Three shared behaviours, defined once here rather than re-typed as ad-hoc
-  utility strings per component. The site had hover colour changes and almost
-  nothing else, which is the single clearest tell between a template and
-  considered work: on a good site every interactive thing acknowledges the
-  pointer, and it acknowledges it the SAME way everywhere.
-
-  All three are transitions on transform/opacity/colour only, so they composite
-  on the GPU and cost nothing per frame, and all three collapse under the
-  reduced-motion block below.
+  Shared behaviours, defined once rather than re-typed per component. All are
+  transitions on transform, opacity or colour only, and all collapse under the
+  reduced-motion block at the end of the file.
 */
 
-/* Buttons and solid CTAs. The press is the important half: a control that does
-   not move under the finger reads as an image of a button. */
+/* Buttons. The press is the important half: a control that does not move
+   under the finger reads as a picture of a button. */
 .btn-press {
   transition:
-    transform 0.18s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.18s var(--ease-expo),
     background-color 0.2s ease,
     border-color 0.2s ease,
     color 0.2s ease;
@@ -572,12 +258,12 @@ a:hover .link-shine,
   transform: translateY(-1px);
 }
 .btn-press:active {
-  transform: translateY(0) scale(0.985);
+  transform: translateY(0) scale(0.97);
   transition-duration: 0.06s;
 }
 
-/* Body links. An underline that wipes in from the left, rather than the
-   browser's instant one. `scaleX` on a pseudo-element, so nothing reflows. */
+/* Body links: an underline that wipes in from the left and leaves to the
+   right. scaleX on a pseudo-element, so nothing reflows. */
 .link-wipe {
   position: relative;
 }
@@ -590,68 +276,60 @@ a:hover .link-shine,
   background: currentColor;
   transform: scaleX(0);
   transform-origin: left;
-  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.3s var(--ease-expo);
 }
 .link-wipe:hover::after,
 .link-wipe:focus-visible::after {
   transform: scaleX(1);
 }
-/* leaving reverses out to the right, so hover-off is not a snap */
 .link-wipe:not(:hover)::after {
   transform-origin: right;
 }
 
-/* Cards. One lift value page-wide; the shadow is the violet-black used by every
-   other elevated surface, not a neutral grey. */
+/* Cards: one lift value page-wide. On a dark ground a shadow alone barely
+   reads, so the border warms toward the violet as the card rises. */
 .card-lift {
   transition:
-    transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
-    box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.35s var(--ease-expo),
+    box-shadow 0.35s var(--ease-expo),
     border-color 0.35s ease;
 }
 .card-lift:hover {
   transform: translateY(-3px);
-  box-shadow: 0 14px 40px rgba(30, 26, 42, 0.1);
+  box-shadow: 0 22px 44px -22px var(--shadow-tint);
+  border-color: color-mix(in oklch, var(--color-accent) 45%, var(--color-line));
 }
 
-/* Media inside a card. The poster grows a little while the pointer is on the
-   card, which is the one hover cue that reads at a glance on a big image. The
-   parent needs `overflow-hidden` so the growth is a push-in, not a spill. */
+/* Media inside a card grows a little while the pointer is on the card. The
+   parent needs overflow-hidden so the growth is a push-in, not a spill. */
 .media-zoom {
-  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.7s var(--ease-expo);
 }
 .group:hover .media-zoom,
 .group:focus-within .media-zoom {
   transform: scale(1.04);
 }
 
-/* Section rules that draw themselves against the scrollbar rather than against
-   a timer.
-
-   `animation-timeline: view()` ties the whole animation to the element's own
-   passage through the viewport: it advances when the reader scrolls, reverses
-   when they scroll back, and finishes when they have finished arriving. No
-   observer, no rAF, no JS at all, and no entrance trigger that can leave the
-   rule stuck at scaleX(0) if the callback never fires.
-
-   Everything is inside @supports, so a browser without scroll-driven
-   animations (Safari and Firefox at time of writing) simply gets the finished
-   rule, which is the correct static result rather than a missing one. */
+/* Rules that draw themselves against the scrollbar, not a timer: they advance
+   as the reader scrolls and reverse when they scroll back. Browsers without
+   scroll-driven animations get the finished rule. */
 .rule-scrub {
   transform-origin: left;
 }
-/* centred headers draw out from the middle, or the rule visibly disagrees with
-   the type it sits under */
 .rule-scrub--center {
   transform-origin: center;
+}
+.rule-scrub--vertical {
+  transform-origin: top;
 }
 @supports (animation-timeline: view()) {
   .rule-scrub {
     animation: rule-scrub linear both;
     animation-timeline: view();
-    /* start as it enters the bottom third, finish once it is comfortably up
-       the page, so it is never still drawing while being read */
     animation-range: entry 15% cover 38%;
+  }
+  .rule-scrub--vertical {
+    animation-name: rule-scrub-y;
   }
 }
 @keyframes rule-scrub {
@@ -662,9 +340,16 @@ a:hover .link-shine,
     transform: scaleX(1);
   }
 }
+@keyframes rule-scrub-y {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
 
-/* Submit spinner. Replaces the button label's trailing arrow while a send is
-   in flight, so the control reports its own state instead of only dimming. */
+/* Submit spinner: replaces the button's arrow while a send is in flight. */
 .spinner {
   border-radius: 9999px;
   border: 2px solid currentColor;
@@ -677,12 +362,12 @@ a:hover .link-shine,
   }
 }
 
-/* The confirmation tick draws itself once, the single moment on the page where
-   an animation IS the message: the stroke completing is what says "sent". */
+/* The confirmation tick draws itself once: the stroke completing is what
+   says "sent". */
 .check-draw {
   stroke-dasharray: 26;
   stroke-dashoffset: 26;
-  animation: check-draw 0.45s cubic-bezier(0.16, 1, 0.3, 1) 0.06s forwards;
+  animation: check-draw 0.45s var(--ease-expo) 0.06s forwards;
 }
 @keyframes check-draw {
   to {
@@ -690,7 +375,198 @@ a:hover .link-shine,
   }
 }
 
-/* Reduced motion: collapse everything to instant/static. */
+/* --------------------------------------------------------------- footer */
+/*
+  The curtain. The footer is pinned to the bottom of the viewport inside a
+  track that starts one viewport above it, and the wrapper clips everything
+  outside its own box. As the page's last section scrolls away, the footer is
+  already sitting underneath, so the page lifts off it like a curtain. Plain
+  position: sticky, no scroll listener.
+
+  On short viewports (landscape phones) there is no room to pin a footer this
+  tall, so it falls back to an ordinary one.
+*/
+.footer-wrap {
+  position: relative;
+  height: var(--footer-h);
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+}
+.footer-track {
+  position: relative;
+  top: -100vh;
+  height: calc(100vh + var(--footer-h));
+}
+.footer-sticky {
+  position: sticky;
+  top: calc(100vh - var(--footer-h));
+  height: var(--footer-h);
+}
+@media (max-height: 40rem) {
+  .footer-wrap,
+  .footer-track,
+  .footer-sticky {
+    position: static;
+    top: auto;
+    height: auto;
+    clip-path: none;
+  }
+}
+
+/* The logo's sweep, the one place it appears. */
+.footer-rule {
+  height: 6px;
+  background: var(--gradient-ribbon);
+}
+
+/* The wordmark: the page signs its name. Sized so the two words span the
+   shell on one line from tablet up; on phones it wraps to two. */
+.footer-mark {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-stretch: 125%;
+  letter-spacing: -0.05em;
+  line-height: 0.9;
+  white-space: nowrap;
+  font-size: clamp(2.6rem, 9.6vw, 9.25rem);
+  padding-bottom: 0.08em;
+}
+@media (max-width: 639px) {
+  .footer-mark {
+    white-space: normal;
+    font-size: clamp(3rem, 16vw, 5rem);
+  }
+}
+
+/* The credit name gets a marker stroke that sweeps in once. Default is the
+   finished stroke, so reduced motion and no-JS both get it. */
+.credit-name {
+  background-image: linear-gradient(var(--highlighter), var(--highlighter));
+  background-repeat: no-repeat;
+  background-position: 0 88%;
+  background-size: 100% 0.32em;
+  padding-inline: 0.12em;
+}
+
+/* Credit buttons. A fill rises from the bottom on hover, the button lifts on
+   a violet-black shadow, the arrow nudges toward where it goes, and a press
+   gives. Once, as the row arrives, a glint crosses each button. */
+.credit-btn {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  min-height: 3.25rem;
+  padding-inline: 1rem;
+  border-radius: 9999px;
+  border: 1px solid var(--color-line);
+  background: var(--color-elevated);
+  color: var(--color-ink);
+  font-size: 0.95rem;
+  font-weight: 600;
+  white-space: nowrap;
+  box-shadow: 0 18px 28px -20px var(--shadow-tint);
+  transition:
+    translate 0.3s var(--ease-expo),
+    box-shadow 0.3s var(--ease-expo),
+    scale 0.2s var(--ease-expo),
+    border-color 0.3s ease,
+    color 0.3s ease;
+}
+@media (min-width: 768px) {
+  .credit-btn {
+    width: auto;
+    min-width: 11.5rem;
+    gap: 0.6rem;
+    padding-inline: 1.4rem;
+  }
+}
+/* two buttons side by side on the narrowest phones: the arrow goes, the icon
+   and the label stay */
+@media (max-width: 359px) {
+  .credit-btn__arrow {
+    display: none;
+  }
+}
+.credit-btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background: var(--color-accent-solid);
+  transform: translateY(101%);
+  transition: transform 0.55s var(--ease-expo);
+}
+.credit-btn--accent {
+  border-color: transparent;
+  background: var(--color-accent-solid);
+  color: var(--color-accent-ink);
+}
+.credit-btn--accent::before {
+  background: var(--color-ink);
+}
+.credit-btn:hover,
+.credit-btn:focus-visible {
+  translate: 0 -3px;
+  box-shadow: 0 24px 32px -18px var(--shadow-tint);
+  border-color: transparent;
+  color: var(--color-accent-ink);
+}
+.credit-btn--accent:hover,
+.credit-btn--accent:focus-visible {
+  color: var(--color-canvas);
+}
+.credit-btn:hover::before,
+.credit-btn:focus-visible::before {
+  transform: none;
+}
+.credit-btn:active {
+  scale: 0.97;
+}
+.credit-btn__arrow {
+  transition: translate 0.45s var(--ease-expo);
+}
+.credit-btn:hover .credit-btn__arrow,
+.credit-btn:focus-visible .credit-btn__arrow {
+  translate: 2px -2px;
+}
+.credit-btn::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: linear-gradient(105deg, transparent 32%, var(--glint) 50%, transparent 68%);
+  transform: translateX(-110%);
+}
+@keyframes credit-glint {
+  to {
+    transform: translateX(110%);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .credit-name {
+    background-size: 0% 0.32em;
+    transition: background-size 0.9s var(--ease-expo) 0.15s;
+  }
+  [data-credit].is-in .credit-name {
+    background-size: 100% 0.32em;
+  }
+  [data-credit].is-in .credit-btn::after {
+    animation: credit-glint 1.5s var(--ease-expo) 0.8s 1;
+  }
+  [data-credit].is-in li + li .credit-btn::after {
+    animation-delay: 1.05s;
+  }
+}
+
+/* -------------------------------------------------------- reduced motion */
+/* Collapse everything to instant and static. Reduced motion means no
+   movement, not no feedback: state still changes, it just does not travel. */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -701,9 +577,8 @@ a:hover .link-shine,
     scroll-behavior: auto !important;
   }
 
-  /* the interaction utilities are transitions, so the rule above already
-     flattens them, but the transforms themselves still need neutralising or a
-     hover leaves the element permanently displaced */
+  /* the transitions above are flattened, but the transforms themselves still
+     need neutralising or a hover leaves the element displaced */
   .btn-press:hover,
   .btn-press:active,
   .card-lift:hover,
@@ -711,18 +586,33 @@ a:hover .link-shine,
   .group:focus-within .media-zoom {
     transform: none;
   }
-
-  /* A scroll-driven animation is not governed by animation-duration, so the
-     blanket rule above does not stop it. Detach it from the timeline and hold
-     the finished state: a drawn rule, arrived at without the drawing. */
-  .rule-scrub {
-    animation: none;
-    transform: scaleX(1);
+  .credit-btn:hover,
+  .credit-btn:focus-visible,
+  .credit-btn:active {
+    translate: none;
+    scale: none;
   }
 
-  /* The tick is the confirmation itself, so it stays visible, it just does not
-     draw. Same for the spinner: it is a state report, and a static ring still
-     reads as one next to a disabled button. */
+  /* scroll-driven animations ignore animation-duration; detach them and hold
+     the finished state */
+  .rule-scrub {
+    animation: none;
+    transform: none;
+  }
+
+  /* Motion entrances render the same starting style on the server and the
+     client (branching on the preference breaks hydration), so the preference
+     is honoured here: the content is simply there, and the footer wordmark
+     sits at rest instead of rising with the scroll. */
+  [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .footer-mark {
+    transform: none !important;
+  }
+
+  /* state reports stay visible, they just do not move */
   .check-draw {
     animation: none;
     stroke-dashoffset: 0;
@@ -730,15 +620,4 @@ a:hover .link-shine,
   .spinner {
     animation: none;
   }
-
-  /* the blanket rule would snap the rows to their end frame; hold the start */
-  .marquee-track {
-    animation: none;
-  }
 }
-
-/* The `.nav-pill` rules that lived here belonged to the old full-screen nav
-   wall of scattered, rotated pills. The nav is a plain top bar now, so there is
-   nothing left to un-scatter and both the base rule and its `md` override are
-   gone. */
-

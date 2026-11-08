@@ -41,9 +41,10 @@ export function Section({
 }
 
 /**
- * The one eyebrow + heading pattern. Kills the three different eyebrow styles
- * that were scattered across sections. Violet tick = the "noticed" accent,
- * rationed to one per header.
+ * The one eyebrow + heading pattern. Eyebrows are rationed (at most one per
+ * three sections on a page), set in the mono, with no decorative dot: the
+ * label names the topic and nothing else. Headings stretch on the width axis
+ * like the hero, one notch quieter.
  */
 export function SectionHeader({
   eyebrow,
@@ -78,18 +79,16 @@ export function SectionHeader({
       {eyebrow ? (
         <p
           className={clsx(
-            "flex items-center gap-2.5 font-sans text-xs uppercase tracking-[0.18em]",
-            accent ? "font-semibold text-accent-text" : "font-medium text-faint",
-            align === "center" && "justify-center",
+            "mb-5 font-mono text-xs font-medium tracking-[0.04em]",
+            accent ? "text-accent-text" : "text-faint",
           )}
         >
-          <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-accent" />
           {eyebrow}
         </p>
       ) : null}
       <h2
         className={clsx(
-          "mt-5 font-display text-3xl font-semibold leading-[1.05] tracking-tight md:text-5xl",
+          "font-display text-[clamp(2rem,4.2vw,3.5rem)] font-[650] leading-[1.02] tracking-[-0.03em] font-stretch-semi-expanded",
           accent && "text-accent-text",
         )}
       >

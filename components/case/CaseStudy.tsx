@@ -38,13 +38,10 @@ export function CaseStudy({ data }: { data: CaseStudyData }) {
 
         <div className="mt-10 max-w-4xl">
           <Reveal>
-            <p className="flex items-center gap-2.5 font-sans text-xs font-medium uppercase tracking-[0.18em] text-faint">
-              <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-accent" />
-              {data.eyebrow}
-            </p>
+            <p className="font-mono text-xs font-medium tracking-[0.04em] text-accent-text">{data.eyebrow}</p>
           </Reveal>
           <Reveal delay={0.05}>
-            <h1 className="mt-5 font-display text-4xl font-semibold leading-[1.03] tracking-tight md:text-6xl">
+            <h1 className="mt-5 font-display text-4xl leading-[1.03] font-[680] tracking-[-0.035em] font-stretch-semi-expanded md:text-6xl">
               {data.client}
             </h1>
           </Reveal>

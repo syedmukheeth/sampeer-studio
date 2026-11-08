@@ -495,7 +495,7 @@ export function Flow({
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: DUR.fast, ease: EASE.out }}
             >
-              <Check size={10} weight="bold" className="text-accent" />
+              <Check size={10} weight="bold" className="text-accent-text" />
               {last.label}
               {last.doneMeta ? (
                 <span className="text-muted">· {last.doneMeta}</span>
@@ -642,7 +642,7 @@ function RichNode({
             "grid shrink-0 place-items-center rounded-sm border transition-colors duration-300",
             compact ? "h-6 w-6" : "h-7 w-7",
             active
-              ? "border-accent/40 bg-canvas/60 text-accent"
+              ? "border-accent/40 bg-canvas/60 text-accent-text"
               : chaos
                 ? "border-line/60 text-faint"
                 : "border-line bg-canvas/60 text-muted",
@@ -693,7 +693,7 @@ function RichNode({
         {!compact && (
           <span className="grid w-3 shrink-0 place-items-center">
             {done && !chaos ? (
-              <Check size={10} weight="bold" className="text-accent/70" />
+              <Check size={10} weight="bold" className="text-accent-text/70" />
             ) : (
               <span
                 className={clsx(
@@ -946,7 +946,7 @@ function BuildNode({
                 style={{ opacity: notDone }}
               />
               <motion.span className="absolute grid place-items-center" style={{ opacity: done }}>
-                <Check size={10} weight="bold" className="text-accent/70" />
+                <Check size={10} weight="bold" className="text-accent-text/70" />
               </motion.span>
             </span>
           )}

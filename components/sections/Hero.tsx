@@ -1,52 +1,70 @@
+import type { CSSProperties } from "react";
+import { clsx } from "clsx";
+import { ArrowDown } from "@phosphor-icons/react/dist/ssr";
 import { HERO } from "@/lib/content";
 import { Shell } from "@/components/ui/Shell";
-import { MaskText } from "@/components/ui/MaskText";
-import { PosterMarquee } from "@/components/ui/PosterMarquee";
+import { WorkDeck } from "@/components/ui/WorkDeck";
 import { TrackClick } from "@/components/analytics/TrackClick";
 import { EVENTS } from "@/lib/analytics";
 
+/* H2 split diptych: the claim on the left, the evidence on the right.
+
+   The headline is the brand's three beats, one per line, and each line
+   stretches along the width axis as it lands (`.hero-line` in globals.css):
+   getting noticed, literally. It is pure CSS and server-rendered, so the words
+   are on screen from the first paint and nothing waits on hydration. */
 export function Hero() {
+  const lines = [...HERO.lines, HERO.accent];
+
   return (
-    <section id="hero" className="overflow-hidden pt-32 md:pt-44">
-      <Shell>
-        <p className="flex items-center gap-2.5 font-sans text-xs font-medium uppercase tracking-[0.18em] text-faint">
-          <span aria-hidden className="relative flex h-2 w-2">
-            <span className="absolute inset-0 animate-ping rounded-full bg-accent/60 motion-reduce:hidden" />
-            <span className="relative h-2 w-2 rounded-full bg-accent" />
-          </span>
-          {HERO.eyebrow}
-        </p>
+    <section id="hero" className="relative flex min-h-[100dvh] items-center pt-24 pb-20 lg:pb-32">
+      <Shell className="grid items-center gap-12 lg:grid-cols-12 lg:gap-10">
+        <div className="lg:col-span-7">
+          <p className="font-mono text-xs font-medium tracking-[0.04em] text-faint">{HERO.eyebrow}</p>
 
-        <h1 className="mt-6 font-display text-[clamp(2.9rem,8.5vw,7rem)] font-semibold leading-[1.0] tracking-tight text-ink">
-          {HERO.lines.map((line, i) => (
-            <MaskText key={line} text={line} mode="mount" delay={0.1 + i * 0.12} />
-          ))}
-          <MaskText text={HERO.accent} mode="mount" delay={0.1 + HERO.lines.length * 0.12} className="text-accent-text" />
-        </h1>
+          {/* Sized so the longest line ("Remembered.", about 8.4em at full
+              stretch) always fits its column: full width below lg, the
+              seven-column half from lg up. Lines never wrap, so this is the
+              only thing standing between the headline and the deck. */}
+          <h1 className="mt-6 font-display text-[clamp(2rem,10vw,5rem)] leading-[0.98] font-[680] tracking-[-0.035em] text-ink [contain:layout] lg:text-[min(5.5rem,6.2vw)]">
+            {lines.map((line, i) => (
+              <span
+                key={line}
+                className={clsx("hero-line", i === lines.length - 1 && "text-accent-text")}
+                style={{ "--line": i } as CSSProperties}
+              >
+                {line}
+              </span>
+            ))}
+          </h1>
 
-        <p className="mt-8 max-w-xl font-sans text-base leading-relaxed text-muted md:text-lg">{HERO.sub}</p>
+          <p className="mt-7 max-w-[34rem] font-sans text-base leading-relaxed text-muted md:text-lg">
+            {HERO.sub}
+          </p>
 
-        <div className="mt-10 flex flex-wrap items-center gap-x-7 gap-y-4">
-          <TrackClick event={EVENTS.ctaClickHero}>
+          <div className="mt-9 flex flex-wrap items-center gap-x-7 gap-y-4">
+            <TrackClick event={EVENTS.ctaClickHero}>
+              <a
+                href={HERO.ctaPrimary.href}
+                className="btn-press inline-flex h-12 items-center rounded-full bg-accent-solid px-7 font-sans text-[15px] font-medium text-accent-ink hover:bg-accent-dim"
+              >
+                {HERO.ctaPrimary.label}
+              </a>
+            </TrackClick>
             <a
-              href={HERO.ctaPrimary.href}
-              className="btn-press inline-flex items-center rounded-md bg-accent-solid px-6 py-3 font-sans text-sm font-medium text-accent-ink transition-colors hover:bg-accent-dim"
+              href={HERO.cta.href}
+              className="link-wipe inline-flex items-center gap-2 py-1 font-sans text-[15px] font-medium text-ink"
             >
-              {HERO.ctaPrimary.label}
+              {HERO.cta.label}
+              <ArrowDown size={15} weight="bold" aria-hidden />
             </a>
-          </TrackClick>
-          <a
-            href={HERO.cta.href}
-            className="border-b border-ink/20 py-1 font-sans text-sm font-medium text-ink transition-colors hover:border-accent"
-          >
-            {HERO.cta.label} ↓
-          </a>
+          </div>
+        </div>
+
+        <div className="lg:col-span-5">
+          <WorkDeck />
         </div>
       </Shell>
-
-      <div className="mt-16 md:mt-24">
-        <PosterMarquee />
-      </div>
     </section>
   );
 }

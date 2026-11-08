@@ -16,8 +16,6 @@ export const SITE_URL = "https://sampeer-studio.vercel.app";
 export const Z = {
   base: 0,
   raised: 10,
-  spine: 30,
-  grain: 35,
   nav: 40,
   overlay: 50,
 } as const;
@@ -60,7 +58,26 @@ export const DUR = {
   base: 0.35,
   slow: 0.5,
   hero: 0.45,
+  /** the hero headline's width-axis stretch. Mirrored as --dur-kinetic in
+   *  app/globals.css, because that animation is pure CSS. */
+  kinetic: 0.9,
 } as const;
+
+/** Springs, for things that move like objects rather than fade like text:
+ *  the hero deck's cards, the active pills that slide between tabs. */
+export const SPRING = {
+  /** a card being dealt to the back of the deck: settles, no wobble */
+  deck: { type: "spring", stiffness: 170, damping: 26 },
+  /** a pill sliding under the active tab or nav link */
+  pill: { type: "spring", stiffness: 380, damping: 32 },
+} as const;
+
+/** How long the hero deck holds a project before dealing the next one. */
+export const DECK_MS = 4500;
+
+/** The one lift distance for fade-up entrances, in px. Short on purpose: felt,
+ *  never waited for. */
+export const RISE = 14;
 
 /** Reveal cadence, shared so staggers read as one rhythm everywhere. Tightened
  *  with DUR: a stagger longer than the item's own duration reads as a queue,
@@ -73,11 +90,6 @@ export const STAGGER = {
 
 /** Default in-view trigger, reveal a touch before fully on screen. */
 export const VIEWPORT = { once: true, amount: 0.25 } as const;
-
-/* RISE, the page-wide lift distance for fade-up reveals, lived here. Nothing
-   fades up on scroll any more: content renders in its final position and the
-   remaining motion is either scroll-scrubbed (ScrollStack, Flow) or a hairline
-   drawing itself, neither of which travels a fixed distance. */
 
 /**
  * Scroll distance (px) allotted per node when a Flow diagram builds itself

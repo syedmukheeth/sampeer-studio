@@ -11,6 +11,7 @@ import { Shell } from "@/components/ui/Shell";
 import { Flow } from "@/components/ui/Flow";
 import { BuildSequence } from "@/components/automations/BuildSequence";
 import { Reveal } from "@/components/ui/Reveal";
+import { ramp } from "@/lib/scroll";
 
 /** §A2 The transform, the signature moment of the page. One sticky canvas,
  *  one scroll timeline: the chaos graph assembles itself piece by piece
@@ -52,7 +53,7 @@ export function Transform() {
             >
               <p
                 className={`mb-4 font-sans text-xs font-medium uppercase tracking-[0.18em] ${
-                  chaos ? "text-faint" : "text-accent"
+                  chaos ? "text-faint" : "text-accent-text"
                 }`}
               >
                 {copy.label}
@@ -75,15 +76,19 @@ export function Transform() {
 /** The sticky stage. Splits the master timeline into the chaos build, the
  *  collapse beat, and the order build; captions ride the same windows. */
 function TransformCanvas({ progress }: { progress: MotionValue<number> }) {
+  // Function-form transforms throughout: with keyframe arrays, Motion hands
+  // these to a native scroll timeline that froze on its first frame here, so
+  // the captions never appeared and the chaos graph never fell away (see
+  // lib/scroll.ts).
   // chaos assembles across the first 42% of the region's scroll
-  const chaosBuild = useTransform(progress, [0.02, 0.42], [0, 1], { clamp: true });
+  const chaosBuild = useTransform(progress, (p) => ramp(p, [0.02, 0.42], [0, 1]));
   // then the whole broken machine falls away in one short beat
-  const chaosOut = useTransform(progress, [0.44, 0.52], [1, 0], { clamp: true });
+  const chaosOut = useTransform(progress, (p) => ramp(p, [0.44, 0.52], [1, 0]));
   // and the wired machine constructs on the same grid
-  const orderBuild = useTransform(progress, [0.52, 0.97], [0, 1], { clamp: true });
+  const orderBuild = useTransform(progress, (p) => ramp(p, [0.52, 0.97], [0, 1]));
 
-  const beforeCaption = useTransform(progress, [0.06, 0.12, 0.44, 0.5], [0, 1, 1, 0]);
-  const afterCaption = useTransform(progress, [0.54, 0.6], [0, 1]);
+  const beforeCaption = useTransform(progress, (p) => ramp(p, [0.06, 0.12, 0.44, 0.5], [0, 1, 1, 0]));
+  const afterCaption = useTransform(progress, (p) => ramp(p, [0.54, 0.6], [0, 1]));
 
   return (
     <Shell className="w-full">
@@ -121,7 +126,7 @@ function TransformCanvas({ progress }: { progress: MotionValue<number> }) {
           style={{ opacity: afterCaption }}
           className="max-w-xs text-right text-muted"
         >
-          <span className="mb-1 block text-xs font-medium uppercase tracking-[0.18em] text-accent">
+          <span className="mb-1 block text-xs font-medium uppercase tracking-[0.18em] text-accent-text">
             {A_TRANSFORM.after.label}
           </span>
           {A_TRANSFORM.after.caption}

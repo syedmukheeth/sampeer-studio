@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Poppins, Roboto_Flex, Space_Grotesk } from "next/font/google";
+import { Google_Sans_Code, Google_Sans_Flex } from "next/font/google";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
@@ -7,36 +7,29 @@ import { LenisProvider } from "@/components/providers/LenisProvider";
 import { ScrollDepth } from "@/components/analytics/ScrollDepth";
 import { SITE_URL } from "@/lib/constants";
 
-const inter = Inter({
-  variable: "--font-inter",
+// The logo's wordmark is set in the Product Sans family, which Google has since
+// released as Google Sans Flex under the OFL. One variable file carries both
+// display and body: headlines stretch along the width axis, body copy sits at
+// normal width. Only `wdth` is added beyond weight; the full axis set (opsz,
+// ROND, GRAD, slnt) would take the file from ~120 KB to ~560 KB.
+// `adjustFontFallback: false` on both: next/font has no metric overrides for
+// these two families yet, so it cannot size-match a fallback and says so on
+// every build. The headline lines are nowrap and the font is preloaded, so the
+// swap cannot change the hero's line count.
+const sans = Google_Sans_Flex({
+  variable: "--font-gsf",
   subsets: ["latin"],
+  axes: ["wdth"],
   display: "swap",
+  adjustFontFallback: false,
 });
 
-// Display face, Space Grotesk. Geometric, engineered, sharp at huge sizes;
-// weights 400-700 cover every font-display use (semibold headlines, bold hero).
-const spaceGrotesk = Space_Grotesk({
-  variable: "--font-space-grotesk",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  display: "swap",
-});
-
-const robotoFlex = Roboto_Flex({
-  variable: "--font-roboto-flex",
+// Its monospace sibling, for numbers, labels, filters and diagram meta.
+const mono = Google_Sans_Code({
+  variable: "--font-gsc",
   subsets: ["latin"],
   display: "swap",
-});
-
-// The logo lockup's wordmark only. The artwork is set in a geometric sans of
-// the Product Sans family, which is not licensed for the web; Poppins is the
-// closest freely available match for the circular bowls and the wide, even
-// letterfit. Nothing else on the page uses it.
-const poppins = Poppins({
-  variable: "--font-poppins",
-  subsets: ["latin"],
-  weight: ["400", "500"],
-  display: "swap",
+  adjustFontFallback: false,
 });
 
 const TITLE = "SAMPeer Studio by Syed Mukheeth - Websites, Automation & Founder Branding";
@@ -100,9 +93,12 @@ function safeJsonLd(data: unknown) {
   return JSON.stringify(data).replace(/</g, "\\u003c");
 }
 
+// Mirrors --color-canvas (oklch(0.14 0.03 290)). Metadata is emitted as HTML
+// attributes and cannot read a CSS custom property, so this literal is the one
+// sanctioned copy; change both together.
 export const viewport: Viewport = {
-  themeColor: "#f7f5f9",
-  colorScheme: "light",
+  themeColor: "#090715",
+  colorScheme: "dark",
 };
 
 export default function RootLayout({
@@ -111,7 +107,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${spaceGrotesk.variable} ${inter.variable} ${robotoFlex.variable} ${poppins.variable}`}
+      className={`${sans.variable} ${mono.variable}`}
     >
       <head>
         <script

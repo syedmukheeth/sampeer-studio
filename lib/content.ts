@@ -43,12 +43,13 @@ export const NAV = {
     { label: "Brand", href: "/#brand" },
     { label: "About", href: "/#about" },
   ],
-  cta: { label: "Contact", href: "/#contact" },
+  /* One label per intent, page-wide: the hero's primary CTA says the same. */
+  cta: { label: "Start a project", href: "/#contact" },
 } as const;
 
 /* --------------------------------------------------------------- hero */
 export const HERO = {
-  eyebrow: "Syed Mukheeth · SAMPeer Studio, Kurnool",
+  eyebrow: "Syed Mukheeth · SAMPeer Studio",
   lines: ["Get noticed.", "Remembered."],
   accent: "Chosen.",
   sub: "I design and build storytelling websites, automation systems and founder brands, end to end.",
@@ -67,40 +68,6 @@ export const STATS: Stat[] = [
   { value: 350, suffix: "K+", label: "Monthly impressions" },
   { text: "UK & India", label: "Clients worked with" },
 ];
-
-/* ----------------------------------------------------------- services */
-export const SERVICES_HEADER = {
-  eyebrow: "What I build",
-  title: "Your product is good. Nobody has heard of it yet.",
-  sub: "That was never a product problem. I fix it three ways, and each one works on its own.",
-} as const;
-
-export const SERVICES = [
-  {
-    id: "websites",
-    index: "01",
-    title: "Storytelling websites",
-    body: "A site that earns a stranger's trust in ninety seconds. Fast, clear on every screen, and built to rank.",
-    href: "#work",
-    cta: "See the sites",
-  },
-  {
-    id: "automation",
-    index: "02",
-    title: "Growth systems & automation",
-    body: "Leads captured, qualified and followed up while you sleep. Invoicing and reporting that run themselves.",
-    href: "#automation",
-    cta: "Watch one run",
-  },
-  {
-    id: "brand",
-    index: "03",
-    title: "Founder brand",
-    body: "Positioning, content and distribution that make your name open doors before you do.",
-    href: "#brand",
-    cta: "See how",
-  },
-] as const;
 
 /* --------------------------------------------------------------- work */
 /* Every project is live. Client work and the product are real; concept builds
@@ -543,7 +510,7 @@ export const CASE_STUDIES: Record<string, CaseStudyData> = {
 export const HOME_AUTOMATION_STORY = {
   eyebrow: "Growth systems",
   title: "A site brings them in. A system keeps them.",
-  sub: "Behind the site I wire the follow-up, qualification, invoicing and reporting that used to depend on someone remembering. Pick one and watch it run.",
+  sub: "Behind the site I wire the follow-up, qualification, invoicing and reporting that used to depend on someone remembering. Here are four of them, wired end to end.",
   beats: [
     {
       id: "lead-capture",
@@ -607,8 +574,10 @@ export const HOME_AUTOMATION_STORY = {
     },
   ],
   cta: {
+    line: "Sixteen of these are already running. Go open one.",
     live: { label: "See all 16 systems running live", href: A_CONSOLE_URL },
     lab: { label: "Step inside the Lab", href: "/automations" },
+    tryIt: "Try it live",
   },
 } as const;
 
@@ -652,6 +621,17 @@ export const REELS = [
   },
 ] as const;
 
+/* ------------------------------------------------- home case study */
+/* The one case study the home page goes deep on. Challenge and solution come
+ * from CASE_ASRG, the quote and photos from TESTIMONIAL; this only carries the
+ * block's own labels. */
+export const HOME_CASE = {
+  eyebrow: "Case study",
+  challengeLabel: "Where they were",
+  solutionLabel: "What I built",
+  link: { label: "Read the case study", href: "/work/asrg" },
+} as const;
+
 /* -------------------------------------------------------- testimonial */
 export const TESTIMONIAL = {
   quote:
@@ -694,14 +674,42 @@ export const ABOUT = {
   ],
 } as const;
 
-/** What the name stands for. It reads as one word, so the letters have to be
- *  spelled out or the meaning is lost. */
+/** What the name stands for, and what I sell: the three letters ARE the three
+ *  services, so the services list lives here instead of in a block of its own.
+ *  It reads as one word, so the letters have to be spelled out or the meaning
+ *  is lost. */
 export const BRAND_MEANING = {
-  title: "Where the name comes from",
+  label: "Where the name comes from",
+  title: "Your product is good. Nobody has heard of it yet.",
+  sub: "That was never a product problem. I fix it three ways, and each one works on its own.",
   letters: [
-    { letter: "S", word: "Storytelling", body: "The site that makes strangers believe you." },
-    { letter: "A", word: "Automations", body: "The engine that runs after they do." },
-    { letter: "M", word: "Marketing", body: "The reach that puts you in front of them." },
+    {
+      letter: "S",
+      word: "Storytelling",
+      body: "The site that makes strangers believe you.",
+      service: "Storytelling websites",
+      detail: "A site that earns a stranger's trust in ninety seconds. Fast, clear on every screen, and built to rank.",
+      href: "#work",
+      cta: "See the sites",
+    },
+    {
+      letter: "A",
+      word: "Automations",
+      body: "The engine that runs after they do.",
+      service: "Growth systems and automation",
+      detail: "Leads captured, qualified and followed up while you sleep. Invoicing and reporting that run themselves.",
+      href: "#automation",
+      cta: "Watch one run",
+    },
+    {
+      letter: "M",
+      word: "Marketing",
+      body: "The reach that puts you in front of them.",
+      service: "Founder brand",
+      detail: "Positioning, content and distribution that make your name open doors before you do.",
+      href: "#brand",
+      cta: "See how",
+    },
   ],
   suffix: {
     word: "Peer",
@@ -721,19 +729,29 @@ export const CTA = {
   button: "Send",
   /** where the form falls back if the send endpoint isn't configured */
   fallbackEmail: "sampeerstudio@gmail.com",
+  /** the way out for people who will never fill a form */
+  direct: "Or email me directly at",
 } as const;
 
 /* ------------------------------------------------------------- footer */
+/* The curtain footer, after the Suri Mansoor Ali Khan site: a top row, the
+ * wordmark rising into view, then the credit row. */
 export const FOOTER = {
   brand: "SAMPeer Studio",
+  /** the wordmark splits so the second word can take the accent */
+  mark: ["SAMPeer", "Studio"],
+  location: "Kurnool, Andhra Pradesh",
   line: "Let's make you impossible to overlook.",
   email: "sampeerstudio@gmail.com",
+  top: "Back to top",
+  credit: { kicker: "Designed and built by", name: "Syed Mukheeth" },
+  buttons: [
+    { id: "linkedin", label: SOCIALS.linkedin.label, href: SOCIALS.linkedin.href, accent: true },
+    { id: "instagram", label: SOCIALS.instagram.label, href: SOCIALS.instagram.href, accent: false },
+  ],
   links: [
     { label: "Automations", href: "/automations", external: false },
-    { label: SOCIALS.linkedin.label, href: SOCIALS.linkedin.href, external: true },
-    { label: SOCIALS.instagram.label, href: SOCIALS.instagram.href, external: true },
-    { label: SOCIALS.studioInstagram.label, href: SOCIALS.studioInstagram.href, external: true },
+    { label: SOCIALS.studioInstagram.handle, href: SOCIALS.studioInstagram.href, external: true },
   ],
   year: new Date().getFullYear(),
-  rights: "All rights reserved.",
 } as const;

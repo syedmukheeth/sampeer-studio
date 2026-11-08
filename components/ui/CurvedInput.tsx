@@ -47,7 +47,7 @@ export function CurvedInput({
           stroke="var(--color-line)"
           strokeWidth="1.5"
           vectorEffect="non-scaling-stroke"
-          className="transition-[stroke] duration-300 group-focus-within:stroke-[var(--color-accent)]"
+          className="transition-[stroke] duration-300 group-focus-within:stroke-[var(--color-accent-text)]"
         />
       </svg>
       {/* the control sits above the drawing and provides the box's height */}

@@ -1,18 +1,22 @@
 import { Nav } from "@/components/sections/Nav";
 import { Hero } from "@/components/sections/Hero";
 import { Stats } from "@/components/sections/Stats";
-import { Services } from "@/components/sections/Services";
 import { Work } from "@/components/sections/Work";
+import { CaseFeature } from "@/components/sections/CaseFeature";
+import { Process } from "@/components/sections/Process";
 import { AutomationShowcase } from "@/components/sections/AutomationShowcase";
 import { FounderBrand } from "@/components/sections/FounderBrand";
-import { Testimonials } from "@/components/sections/Testimonials";
-import { Process } from "@/components/sections/Process";
 import { About } from "@/components/sections/About";
 import { CtaSection } from "@/components/ui/CtaSection";
 import { CTA as CTA_CONTENT } from "@/lib/content";
 import { EVENTS } from "@/lib/analytics";
 import { Footer } from "@/components/sections/Footer";
 
+/* The argument, in order: the claim with its evidence, the proof strip, the
+   work, the one case study, then how (process), the two systems I sell beside
+   the sites (automation, founder brand), who does it, and the ask. Work before
+   process, process before services: a buyer who fears a template needs to see
+   the work first. */
 export default function Home() {
   return (
     <>
@@ -20,12 +24,11 @@ export default function Home() {
       <main id="main">
         <Hero />
         <Stats />
-        <Services />
         <Work />
+        <CaseFeature />
+        <Process />
         <AutomationShowcase />
         <FounderBrand />
-        <Testimonials />
-        <Process />
         <About />
         <CtaSection
           id="contact"

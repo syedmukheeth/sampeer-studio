@@ -6,79 +6,67 @@ import { LinkedInCard } from "@/components/ui/LinkedInCard";
 import { ReelEmbed } from "@/components/ui/ReelEmbed";
 import { STAGGER } from "@/lib/constants";
 
-const INSTAGRAMS = [SOCIALS.instagram, SOCIALS.studioInstagram];
+const INSTAGRAM = [SOCIALS.instagram, SOCIALS.studioInstagram];
 
+/* An asymmetric trio: the argument on the left, the proof on the right. The
+   proof is my own founder brand, built the way I build a client's: the
+   LinkedIn profile, the reel, the two Instagram accounts. The accounts are two
+   compact rows, not two tall cards with nothing in them. */
 export function FounderBrand() {
   return (
     <Section id="brand">
-      <div className="grid gap-14 md:grid-cols-12 md:gap-12 lg:gap-16">
-        <div className="md:col-span-7">
-          <SectionHeader eyebrow={BRANDING.eyebrow} title={BRANDING.title} />
-          <p className="mt-6 max-w-xl font-sans text-base leading-relaxed text-muted md:text-lg">{BRANDING.sub}</p>
+      <div className="grid gap-14 lg:grid-cols-12 lg:gap-12">
+        <div className="lg:col-span-5">
+          <SectionHeader title={BRANDING.title} />
+          <p className="mt-6 max-w-md font-sans text-base leading-relaxed text-muted md:text-lg">{BRANDING.sub}</p>
 
-          <ol className="mt-10 border-t border-line">
+          <ol className="mt-10 space-y-6">
             {BRANDING.moves.map((m, i) => (
-              <FadeIn
-                as="li"
-                key={m.title}
-                delay={i * STAGGER.base}
-                className="grid gap-2 border-b border-line py-6 sm:grid-cols-[3rem_1fr]"
-              >
-                <span className="font-sans text-sm font-medium tabular-nums text-accent-text">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                <div>
-                  <h3 className="font-display text-xl font-semibold tracking-tight text-ink">{m.title}</h3>
-                  <p className="mt-2 font-sans text-sm leading-relaxed text-muted md:text-base">{m.body}</p>
-                </div>
+              <FadeIn as="li" key={m.title} delay={i * STAGGER.base} className="border-t border-line pt-5">
+                <h3 className="font-display text-xl font-semibold tracking-[-0.01em] text-ink font-stretch-semi-expanded">
+                  {m.title}
+                </h3>
+                <p className="mt-2 max-w-md font-sans text-[15px] leading-relaxed text-muted">{m.body}</p>
               </FadeIn>
             ))}
           </ol>
+        </div>
 
-          <div className="mt-10 grid gap-4 sm:grid-cols-2">
+        <div className="grid gap-6 sm:grid-cols-2 lg:col-span-7 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)] lg:items-start">
+          <div className="flex flex-col gap-6">
             <FadeIn>
               <LinkedInCard />
             </FadeIn>
-            <FadeIn delay={STAGGER.base} className="flex flex-col gap-4">
-              {INSTAGRAMS.map((ig) => (
-                <a
-                  key={ig.href}
-                  href={ig.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group flex flex-1 items-center justify-between gap-4 rounded-lg border border-line bg-elevated p-5 transition-colors duration-300 hover:border-accent/40"
-                >
-                  <span className="flex items-center gap-3">
-                    <span
-                      aria-hidden
-                      className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-[linear-gradient(45deg,#f9ce34,#ee2a7b,#6228d7)] font-sans text-xs font-bold text-white"
+            <FadeIn delay={STAGGER.base}>
+              <ul className="divide-y divide-line overflow-hidden rounded-2xl border border-line">
+                {INSTAGRAM.map((s) => (
+                  <li key={s.href}>
+                    <a
+                      href={s.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group flex items-center justify-between gap-4 px-5 py-4 transition-colors hover:bg-elevated"
                     >
-                      IG
-                    </span>
-                    <span>
-                      <span className="block font-sans text-sm font-semibold text-ink">{ig.handle}</span>
-                      <span className="block font-sans text-xs text-muted">{ig.label}</span>
-                    </span>
-                  </span>
-                  <ArrowUpRight
-                    size={16}
-                    weight="bold"
-                    aria-hidden
-                    className="text-muted transition-[transform,color] duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-accent"
-                  />
-                </a>
-              ))}
+                      <span className="min-w-0">
+                        <span className="block font-mono text-xs text-faint">{s.label}</span>
+                        <span className="mt-0.5 block truncate font-sans text-base text-ink">{s.handle}</span>
+                      </span>
+                      <ArrowUpRight
+                        size={16}
+                        weight="bold"
+                        aria-hidden
+                        className="shrink-0 text-accent-text transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                      />
+                    </a>
+                  </li>
+                ))}
+              </ul>
             </FadeIn>
           </div>
-        </div>
 
-        <div className="md:col-span-5">
-          <div className="mx-auto max-w-[320px] md:sticky md:top-28">
-            <FadeIn>
-              <ReelEmbed reel={REELS[0]} />
-            </FadeIn>
-            <p className="mt-4 text-center font-sans text-xs text-muted">Latest reel · tap to play</p>
-          </div>
+          <FadeIn delay={STAGGER.loose} className="mx-auto w-full max-w-xs sm:max-w-none">
+            <ReelEmbed reel={REELS[0]} />
+          </FadeIn>
         </div>
       </div>
     </Section>

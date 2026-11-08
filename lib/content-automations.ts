@@ -387,10 +387,10 @@ export const A_IMPACT_HEADER = {
 /* Honest ranges over invented precision. `text` renders verbatim; `value`
  * count-ups. See CountUp, it takes either. */
 export const A_IMPACT = [
-  { id: "hours", text: "20–80", suffix: "/mo", label: "Hours saved", note: "Per workflow, typical" },
+  { id: "hours", text: "20-80", suffix: "/mo", label: "Hours saved", note: "Per workflow, typical" },
   { id: "response", text: "<5", suffix: " min", label: "Average first response", note: "Instead of hours" },
   { id: "tasks", value: 95, suffix: "%", label: "Follow-ups automated", note: "Nothing depends on memory" },
-  { id: "speed", text: "2–4×", label: "Faster lead response", note: "vs. manual chase" },
+  { id: "speed", text: "2-4×", label: "Faster lead response", note: "vs. manual chase" },
 ] as const;
 
 /* ---------------------------------------------------------------- §A7 cta */
