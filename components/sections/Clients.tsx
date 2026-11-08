@@ -76,7 +76,7 @@ export function Clients() {
                   alt={TESTIMONIAL.photoAlt}
                   fill
                   sizes="(min-width: 1024px) 34vw, 90vw"
-                  className="mono object-cover"
+                  className="object-cover"
                 />
               </div>
 

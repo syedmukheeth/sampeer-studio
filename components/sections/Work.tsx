@@ -9,22 +9,19 @@ import {
   motion,
   useMotionValue,
   useReducedMotion,
-  useScroll,
   useSpring,
-  useTransform,
 } from "motion/react";
 import { ArrowRight, ArrowUpRight } from "@phosphor-icons/react/dist/ssr";
 import { CHAPTERS, WORK, WORK_GROUPS, WORK_HEADER, type LiveProject, type ProjectKind } from "@/lib/content";
 import { Section } from "@/components/ui/Section";
 import { ChapterRule } from "@/components/ui/ChapterRule";
 import { track, EVENTS } from "@/lib/analytics";
-import { DUR, EASE, PARALLAX, REVEAL_INSET, RISE, SPRING } from "@/lib/constants";
-import { ramp } from "@/lib/scroll";
+import { DUR, EASE, REVEAL_INSET, RISE, SPRING } from "@/lib/constants";
 import { FINE_POINTER, useMediaQuery } from "@/lib/media";
 
 /* Selected work, in two registers. The real projects (client sites and the
    studio's own product) are full showcase rows: big, alternating sides, each
-   poster wiping open as it arrives and drifting inside its frame. The concept
+   poster wiping open as it arrives and shown whole inside a frame cut to its own 16:10. The concept
    builds are an index, a typographic list, with the poster following the
    cursor on desktop. The split is the honesty: paid work is never dressed the
    same as self-initiated work, and every concept row says so. */
@@ -70,12 +67,8 @@ function useStillRef() {
 
 function FeaturedRow({ project: w, index }: { project: LiveProject; index: number }) {
   const row = useRef<HTMLElement>(null);
-  const { reduce, still } = useStillRef();
-  const { scrollYProgress } = useScroll({ target: row, offset: ["start end", "end start"] });
+  const { reduce } = useStillRef();
   // function form, so Motion keeps it on the real scroll (see lib/scroll.ts)
-  // the frame is 16:9 and the 16:10 poster sits full width inside it, so the
-  // only slack is vertical (10% of the poster): the drift never crops a side
-  const y = useTransform(scrollYProgress, (p) => (still.current ? "0%" : `${ramp(p, [0, 1], [0, -PARALLAX])}%`));
   const flip = index % 2 === 1;
   const closed = `inset(${REVEAL_INSET}% ${REVEAL_INSET}% ${REVEAL_INSET}% ${REVEAL_INSET}% round 16px)`;
 
@@ -95,11 +88,13 @@ function FeaturedRow({ project: w, index }: { project: LiveProject; index: numbe
         viewport={{ once: true, margin: "0px 0px -12% 0px" }}
         transition={{ duration: reduce ? 0 : DUR.reveal, ease: EASE.out }}
         className={clsx(
-          "group relative block aspect-video overflow-hidden rounded-2xl border border-line bg-elevated lg:col-span-8",
+          "group relative block aspect-16/10 overflow-hidden rounded-2xl border border-line bg-elevated lg:col-span-8",
           flip && "lg:order-last",
         )}
       >
-        <motion.div data-parallax style={{ y }} className="absolute inset-x-0 top-0">
+        {/* the frame is the poster's own 16:10, so every site shows whole: its
+            header, its edges, nothing trimmed by a drift */}
+        <div className="absolute inset-0">
           <Image
             src={w.poster}
             alt=""
@@ -108,7 +103,7 @@ function FeaturedRow({ project: w, index }: { project: LiveProject; index: numbe
             sizes="(min-width: 1024px) 62vw, 100vw"
             className="media-zoom h-auto w-full origin-top"
           />
-        </motion.div>
+        </div>
       </motion.a>
 
       <motion.div

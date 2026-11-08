@@ -8,7 +8,7 @@ import { TrackClick } from "@/components/analytics/TrackClick";
 import { EVENTS } from "@/lib/analytics";
 
 /* The night diptych. The statement, one plain line of what the studio sells
-   and the two ways forward on one side; the founder film, black and white, in
+   and the two ways forward on one side; the founder film, in colour, in
    its own frame on the other. The whole panel is night on a paper page, and
    it folds into a card as the reader scrolls on (NightFold): day breaking.
 

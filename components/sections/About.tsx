@@ -57,7 +57,7 @@ function NightTile() {
       preload="none"
       poster={FOUNDER_MEDIA.film.poster}
       aria-label={FOUNDER_MEDIA.film.label}
-      className="mono absolute inset-0 h-full w-full object-cover"
+      className="absolute inset-0 h-full w-full object-cover"
     />
   );
 }
@@ -81,7 +81,7 @@ function Collage() {
           alt={FOUNDER_MEDIA.portrait.alt}
           fill
           sizes="(min-width: 1024px) 30vw, (min-width: 768px) 55vw, 100vw"
-          className="mono object-cover"
+          className="object-cover"
         />
       </motion.figure>
 
@@ -103,7 +103,7 @@ function Collage() {
           alt={FOUNDER_MEDIA.wide.alt}
           fill
           sizes="(min-width: 1024px) 26vw, (min-width: 768px) 50vw, 66vw"
-          className="mono object-cover"
+          className="object-cover"
         />
       </motion.figure>
     </div>

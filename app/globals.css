@@ -1,4 +1,4 @@
-/* Hallmark · macrostructure: Split Studio · genre: editorial · hero: night diptych (statement + B&W founder film)
+/* Hallmark · macrostructure: Split Studio · genre: editorial · hero: night diptych (statement + founder film in colour)
  * nav: N5 bar over the night hero, quiet paper pill after · footer: Ft5 statement, the last night
  * motif: day breaking (the night hero folds into a card on paper; ink hairlines open each chapter; night cards return)
  * theme: custom · vibe: "quiet luxury, monochrome, the work is the colour" · paper oklch(0.968 0.002 100) · ink oklch(0.17 0.004 270)
@@ -17,8 +17,7 @@
   rationed: the main call to action, the active marker, list bullets and
   small signals, never a large field and never a gradient. It sits opposite
   the violet logo on the wheel, so the logo stays the one violet thing and
-  the two never fight. Studio photography and the founder film are graded
-  black and white; the client work keeps its colour.
+  the two never fight. Photography and the founder film stay in full colour.
 
   Orange fills carry ink text (white on this orange fails AA); small orange
   text on paper uses the darker accent-text.
@@ -125,11 +124,6 @@ body {
   --shadow-tint: oklch(0 0 0 / 0.6);
   color-scheme: dark;
   color: var(--color-ink);
-}
-
-/* Studio photography is black and white; the client work keeps its colour. */
-.mono {
-  filter: grayscale(1) contrast(1.06);
 }
 
 /* Film grain, night panels only: one static tile, no blend mode. */
@@ -277,8 +271,8 @@ summary,
 
 /* ----------------------------------------------------------- the film */
 /*
-  The founder film sits in its own frame beside the statement, graded black
-  and white. A light scrim at the foot keeps the pause control readable. The
+  The founder film sits in its own frame beside the statement, in full
+  colour. A light scrim at the foot keeps the pause control readable. The
   poster is the first paint; the video fades up over it only once it is truly
   playing, so a slow network never shows a black rectangle.
 */

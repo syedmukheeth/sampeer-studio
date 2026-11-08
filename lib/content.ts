@@ -61,15 +61,15 @@ export const HERO = {
 } as const;
 
 /** The founder film. Cut from Syed's own footage: the city (Konda Reddy fort),
- *  the craft (his desk), the client (ASRG's owner seeing his new site), graded
- *  black and white and framed 4:5. One file serves every screen. Versioned
+ *  the craft (his desk), the client (ASRG's owner seeing his new site), in
+ *  full colour and framed 4:5. One file serves every screen. Versioned
  *  names so the files can be cached forever. */
 export const FILM = {
   label: "Founder film: a day of work in Kurnool",
   pause: "Pause the film",
   play: "Play the film",
-  src: "/film/hero.v2.mp4",
-  poster: "/film/hero.v2.webp",
+  src: "/film/hero.v3.mp4",
+  poster: "/film/hero.v3.webp",
   w: 720,
   h: 900,
 } as const;
@@ -159,7 +159,7 @@ export const WORK: LiveProject[] = [
     description:
       "Brand site, SEO and Google Business Profile for a 46-year civil contracting firm. Projects, process and enquiry in one place.",
     url: "https://www.asrgcontruction.com/",
-    poster: "/work/asrg.webp",
+    poster: "/work/asrg.v2.webp",
     caseStudy: "/work/asrg",
   },
   {
@@ -281,7 +281,7 @@ export const CASE_ASRG: CaseStudyData = {
   client: "ASRG Construction",
   tagline: "A 46-year civil contracting firm, finally as credible online as it is on site.",
   liveUrl: "https://www.asrgcontruction.com/",
-  poster: "/work/asrg.webp",
+  poster: "/work/asrg.v2.webp",
   meta: [
     { label: "Industry", value: "Construction & Civil" },
     { label: "Location", value: "Kurnool, India" },

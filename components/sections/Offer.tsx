@@ -175,7 +175,7 @@ export function Offer() {
                   alt={peer.photoAlt}
                   fill
                   sizes="(min-width: 1024px) 55vw, 100vw"
-                  className="mono object-cover"
+                  className="object-cover"
                 />
               </figure>
             </FadeIn>
