@@ -22,8 +22,8 @@
 
 ```bash
 # Clone the repository
-git clone https://github.com/06Faisal/SAMPeer.git
-cd SAMPeer
+git clone https://github.com/syedmukheeth/sampeer-studio.git
+cd sampeer-studio
 
 # Install dependencies
 npm install

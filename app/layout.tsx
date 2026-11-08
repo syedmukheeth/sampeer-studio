@@ -39,9 +39,9 @@ const poppins = Poppins({
   display: "swap",
 });
 
-const TITLE = "SAMPeer Studio - Website Design & Development, Kurnool";
+const TITLE = "SAMPeer Studio by Syed Mukheeth - Websites, Automation & Founder Branding";
 const DESCRIPTION =
-  "SAMPeer Studio designs and builds websites for businesses and public figures. Selected work: ASRG Construction, MAA Furniture, Suri Mansoor Ali Khan.";
+  "Syed Mukheeth designs and builds storytelling websites, growth automation systems and founder brands. Work for ASRG Construction, MAA Furniture, Suri Mansoor Ali Khan and more.";
 
 
 export const metadata: Metadata = {
@@ -73,7 +73,20 @@ const JSON_LD = {
   url: SITE_URL,
   logo: `${SITE_URL}/logo.png`,
   slogan: "Get noticed. Remembered. Chosen",
-  sameAs: ["https://www.linkedin.com/in/syedmukheeth/"],
+  founder: {
+    "@type": "Person",
+    name: "Syed Abdul Mukheeth Peer",
+    jobTitle: "Founder",
+    sameAs: [
+      "https://www.linkedin.com/in/syedmukheeth/",
+      "https://www.instagram.com/syedmukheeth.29/",
+      "https://www.syedmukheeth.is-a.dev/",
+    ],
+  },
+  sameAs: [
+    "https://www.linkedin.com/in/syedmukheeth/",
+    "https://www.instagram.com/sampeer.studio/",
+  ],
 };
 
 /**

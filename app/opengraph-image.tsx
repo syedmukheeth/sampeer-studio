@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og";
 
-export const alt = "SAMPeer Studio | The growth layer your startup is missing";
+export const alt = "SAMPeer Studio by Syed Mukheeth | Get noticed. Remembered. Chosen.";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -34,11 +34,11 @@ export default function OG() {
             letterSpacing: -3,
           }}
         >
-          <span>Most startups don&apos;t fail.</span>
-          <span style={{ color: "#5b21b6" }}>They go unnoticed.</span>
+          <span>Get noticed. Remembered.</span>
+          <span style={{ color: "#5b21b6" }}>Chosen.</span>
         </div>
         <div style={{ fontSize: 26, color: "#6b6873" }}>
-          The growth layer your startup is missing.
+          Websites · Automation · Founder brand, by Syed Mukheeth
         </div>
       </div>
     ),

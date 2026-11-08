@@ -503,6 +503,27 @@ a:hover .link-shine,
   }
 }
 
+/* Hero poster marquee. Each track slides its own full width while its twin
+   follows, so the loop is seamless. Hover or focus anywhere in a row pauses it. */
+@keyframes marquee {
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+.marquee-track {
+  animation: marquee 70s linear infinite;
+}
+
+.marquee-track--reverse {
+  animation-direction: reverse;
+}
+
+.marquee:hover .marquee-track,
+.marquee:focus-within .marquee-track {
+  animation-play-state: paused;
+}
+
 /* TextType's caret. CSS keyframes rather than the gsap tween react-bits uses -
    a blinking cursor does not need a tween engine, and the reduced-motion block
    below already flattens it. */
@@ -707,6 +728,11 @@ a:hover .link-shine,
     stroke-dashoffset: 0;
   }
   .spinner {
+    animation: none;
+  }
+
+  /* the blanket rule would snap the rows to their end frame; hold the start */
+  .marquee-track {
     animation: none;
   }
 }
