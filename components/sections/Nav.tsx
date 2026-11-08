@@ -11,11 +11,11 @@ import { EVENTS } from "@/lib/analytics";
 import { DUR, EASE, SPRING } from "@/lib/constants";
 import { Magnetic } from "@/components/ui/Magnetic";
 
-/* N5, the floating pill, with one change of state. Over the home page's film
-   it is a transparent full-width bar that lets the footage breathe; once the
-   hero is half gone it springs into the detached, frosted pill and stays that
-   way. Other routes start as the pill. A violet-tinted pill slides under
-   whichever section the reader is in.
+/* N5, the floating pill, with one change of state. Over the home page's night
+   hero it is a transparent full-width bar in white type (it wears the .night
+   scope); once the hero is half gone it springs into a quiet paper pill with
+   ink type and stays that way. Other routes start as the pill. A small orange
+   dot slides under whichever section the reader is in.
 
    `overHero` is a prop rather than a guess from the DOM so the server and the
    first client render agree on which shape to draw.
@@ -70,7 +70,7 @@ export function Nav({ overHero = false }: { overHero?: boolean }) {
   }, []);
 
   return (
-    <header className="fixed inset-x-0 top-3 z-40 px-3 md:top-4">
+    <header className={clsx("fixed inset-x-0 top-3 z-40 px-3 md:top-4", bar && "night")}>
       <motion.nav
         layout
         transition={morph}
@@ -80,7 +80,7 @@ export function Nav({ overHero = false }: { overHero?: boolean }) {
           "mx-auto flex items-center justify-between gap-3 border transition-[background-color,border-color,box-shadow,backdrop-filter] duration-500",
           bar
             ? "h-16 max-w-(--max-shell) border-transparent bg-transparent px-3 md:px-7"
-            : "h-14 max-w-[54rem] border-line bg-elevated/75 py-1.5 pr-1.5 pl-2.5 shadow-[0_18px_40px_-24px_var(--shadow-tint)] backdrop-blur-xl backdrop-saturate-150",
+            : "h-14 max-w-[54rem] border-line bg-canvas/85 py-1.5 pr-1.5 pl-2.5 shadow-[0_18px_40px_-24px_var(--shadow-tint)] backdrop-blur-xl",
         )}
       >
         <motion.div layout="position" transition={morph} className="flex shrink-0">
@@ -91,7 +91,7 @@ export function Nav({ overHero = false }: { overHero?: boolean }) {
             onClick={() => setOpen(false)}
           >
             <Logo sizes="24px" className="h-8 w-auto" />
-            <span className="font-display text-[15px] font-semibold tracking-[-0.01em] text-ink font-stretch-semi-expanded">
+            <span className="font-display text-[15px] font-semibold tracking-[-0.01em] text-ink">
               {NAV.brand}
             </span>
           </Link>
@@ -107,7 +107,7 @@ export function Nav({ overHero = false }: { overHero?: boolean }) {
                     aria-hidden
                     layoutId="nav-active"
                     transition={reduce ? { duration: 0 } : SPRING.pill}
-                    className="absolute inset-0 rounded-full bg-accent-soft"
+                    className="absolute bottom-0.5 left-1/2 h-1 w-1 -translate-x-1/2 rounded-full bg-accent"
                   />
                 )}
                 <a
@@ -168,7 +168,7 @@ export function Nav({ overHero = false }: { overHero?: boolean }) {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={reduce ? undefined : { opacity: 0, y: -8, scale: 0.98 }}
             transition={{ duration: reduce ? 0 : DUR.fast, ease: EASE.out }}
-            className="mx-auto mt-2 max-w-[54rem] origin-top rounded-3xl border border-line bg-elevated/95 p-2 backdrop-blur-xl md:hidden"
+            className="mx-auto mt-2 max-w-[54rem] origin-top rounded-3xl border border-line bg-canvas/95 p-2 backdrop-blur-xl md:hidden"
           >
             <ul className="flex flex-col">
               {NAV.links.map((l) => (
@@ -176,7 +176,7 @@ export function Nav({ overHero = false }: { overHero?: boolean }) {
                   <a
                     href={l.href}
                     onClick={() => setOpen(false)}
-                    className="block rounded-2xl px-4 py-3 font-display text-2xl font-semibold tracking-[-0.02em] text-ink font-stretch-semi-expanded hover:bg-elevated-2"
+                    className="block rounded-2xl px-4 py-3 font-display text-2xl font-semibold tracking-[-0.02em] text-ink hover:bg-elevated-2"
                   >
                     {l.label}
                   </a>

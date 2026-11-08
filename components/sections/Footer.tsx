@@ -12,7 +12,7 @@ import { Shell } from "@/components/ui/Shell";
 const ICON = { linkedin: LinkedinLogo, instagram: InstagramLogo } as const;
 
 /* Ft5, studied from the Suri Mansoor Ali Khan footer and rebuilt in this
-   site's own system.
+   site's own system. It is the page's last night panel.
 
    The curtain: the footer is already pinned to the bottom of the viewport
    inside a clipped wrapper (`.footer-wrap` / `.footer-track` /
@@ -44,13 +44,13 @@ export function Footer() {
   return (
     <div ref={wrap} className="footer-wrap">
       <div className="footer-track">
-        <footer className="footer-sticky flex flex-col bg-canvas">
+        <footer className="footer-sticky night flex flex-col bg-canvas">
           <div aria-hidden className="footer-rule" />
 
           <Shell className="flex flex-1 flex-col justify-between gap-6 pt-9 pb-7 md:gap-8 md:pt-14 md:pb-9">
             <div className="grid grid-cols-[1fr_auto] gap-x-6 gap-y-4 md:grid-cols-12 md:gap-x-8">
               <div className="md:col-span-4">
-                <p className="font-display text-xl font-semibold tracking-[-0.01em] text-ink font-stretch-semi-expanded">
+                <p className="font-display text-xl font-semibold tracking-[-0.03em] text-ink">
                   {FOOTER.brand}
                 </p>
                 <p className="mt-1 font-mono text-xs text-faint">{FOOTER.location}</p>
@@ -66,7 +66,7 @@ export function Footer() {
                 </button>
               </div>
               <div className="col-span-2 md:col-span-5">
-                <p className="max-w-[26ch] font-display text-lg leading-snug font-semibold tracking-[-0.01em] text-ink md:text-2xl">
+                <p className="max-w-[26ch] font-display text-lg leading-snug font-semibold tracking-[-0.03em] text-ink md:text-2xl">
                   {FOOTER.line}
                 </p>
                 <a
@@ -85,7 +85,7 @@ export function Footer() {
                 {/* always bound, so server and client markup agree; under
                     reduced motion globals.css pins it at rest */}
                 <motion.p style={{ y: rise }} className="footer-mark text-ink">
-                  {FOOTER.mark[0]} <span className="text-accent">{FOOTER.mark[1]}</span>
+                  {FOOTER.mark[0]} <span className="text-faint">{FOOTER.mark[1]}</span>
                 </motion.p>
               </div>
 
@@ -99,7 +99,7 @@ export function Footer() {
               >
                 <p className="flex flex-wrap items-baseline justify-center gap-x-3 gap-y-1">
                   <span className="font-mono text-xs text-faint">{FOOTER.credit.kicker}</span>
-                  <span className="credit-name font-display text-2xl font-semibold tracking-[-0.01em] text-ink font-stretch-semi-expanded md:text-3xl">
+                  <span className="credit-name font-display text-2xl font-semibold tracking-[-0.03em] text-ink md:text-3xl">
                     {FOOTER.credit.name}
                   </span>
                 </p>

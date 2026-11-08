@@ -26,9 +26,10 @@ export function Hero() {
         squareSize={72}
         direction="diagonal"
         // The canvas cannot read CSS custom properties, so these are the
-        // sanctioned literal copies of --color-accent (#8425f1) at low alpha.
-        borderColor="rgba(132, 37, 241, 0.16)"
-        hoverFillColor="rgba(132, 37, 241, 0.1)"
+        // sanctioned literal copies of --color-ink (#111214) and --color-accent
+        // (#ff5a1f) at low alpha.
+        borderColor="rgba(17, 18, 20, 0.1)"
+        hoverFillColor="rgba(255, 90, 31, 0.1)"
         shape="square"
       />
       {/* mobile gets the static ruling: no per-frame canvas on a phone */}
@@ -68,7 +69,7 @@ export function Hero() {
             page is not inert; the words just don't make anyone wait. */}
         <p className="font-mono text-xs font-medium tracking-[0.04em] text-faint">{A_HERO.eyebrow}</p>
 
-        <h1 className="mt-6 max-w-4xl font-display text-[clamp(2.25rem,7vw,5.5rem)] leading-[1.02] font-[680] tracking-[-0.035em] font-stretch-semi-expanded">
+        <h1 className="mt-6 max-w-4xl font-display text-[clamp(2.25rem,7vw,5.5rem)] leading-[1.02] font-[680] tracking-[-0.035em]">
           {A_HERO.lead} <span className="text-accent-text">{A_HERO.accent}</span>
         </h1>
 

@@ -6,6 +6,7 @@ import { MaskText } from "@/components/ui/MaskText";
 import { Section } from "@/components/ui/Section";
 import { ChapterRule } from "@/components/ui/ChapterRule";
 import { FadeIn } from "@/components/ui/FadeIn";
+import type { Chapter } from "@/lib/content";
 import { EASE, DUR, STAGGER, VIEWPORT } from "@/lib/constants";
 
 /** The closing ask, shared by the home CTA and the Automation Lab audit.
@@ -26,7 +27,7 @@ export function CtaSection({
   source,
   content,
   chapter,
-  next,
+  details,
 }: {
   /** the section anchor, `contact` on home, `audit` on the Lab */
   id: string;
@@ -46,38 +47,46 @@ export function CtaSection({
      *  people who will never fill one in */
     direct?: string;
   };
-  /** Home only: the chapter label on the ribbon rule that opens the section. */
-  chapter?: string;
-  /** Home only: "what happens next", set beside the form. With these the
-   *  section becomes the page's resolution, a split with the last light behind
-   *  the heading; without them (the Lab) it stays the centred ask below. */
-  next?: { label: string; steps: readonly { id: string; title: string; body: string }[] };
+  /** Home only: the chapter on the hairline that opens the section. */
+  chapter?: Chapter;
+  /** Home only: the direct ways to reach the studio, set beside the form.
+   *  With these the section becomes the page's resolution, a split; without
+   *  them (the Lab) it stays the centred ask below. */
+  details?: readonly { label: string; value: string; href?: string }[];
 }) {
   const reduce = useReducedMotion();
 
-  if (next) {
+  if (details) {
     return (
       <Section id={id} size="lg">
-        {chapter ? <ChapterRule label={chapter} /> : null}
+        {chapter ? <ChapterRule chapter={chapter} /> : null}
         <div className="mt-14 grid gap-14 lg:grid-cols-12 lg:gap-16">
           <div className="relative lg:col-span-5">
-            <span aria-hidden className="light-climax pointer-events-none absolute -inset-x-24 -inset-y-20 -z-10" />
-            <h2 className="font-display text-[clamp(2.5rem,6vw,5rem)] leading-[0.98] font-[680] tracking-[-0.04em] font-stretch-semi-expanded">
+            <h2 className="font-display text-[clamp(2.5rem,6vw,5rem)] leading-[0.98] font-[600] tracking-[-0.055em] text-ink">
               <MaskText text={content.heading} />
             </h2>
             <p className="mt-6 max-w-md font-sans text-base text-muted md:text-lg">{content.sub}</p>
 
-            <p className="mt-12 font-mono text-xs text-faint">{next.label}</p>
-            <ol className="mt-4 border-t border-line">
-              {next.steps.map((s, i) => (
-                <FadeIn as="li" key={s.id} delay={i * STAGGER.base} className="grid grid-cols-[6.5rem_1fr] gap-4 border-b border-line py-4">
-                  <span className="font-display text-lg font-semibold tracking-[-0.01em] text-ink font-stretch-semi-expanded">
-                    {s.title}
-                  </span>
-                  <span className="font-sans text-sm leading-relaxed text-muted">{s.body}</span>
+            <dl className="mt-12 border-t border-line">
+              {details.map((d, i) => (
+                <FadeIn key={d.label} delay={i * STAGGER.base} className="grid grid-cols-[7rem_minmax(0,1fr)] gap-4 border-b border-line py-4">
+                  <dt className="pt-0.5 font-mono text-xs text-faint">{d.label}</dt>
+                  <dd className="min-w-0 font-sans text-base text-ink">
+                    {d.href ? (
+                      <a
+                        href={d.href}
+                        {...(d.href.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                        className="link-wipe break-words"
+                      >
+                        {d.value}
+                      </a>
+                    ) : (
+                      d.value
+                    )}
+                  </dd>
                 </FadeIn>
               ))}
-            </ol>
+            </dl>
           </div>
 
           <div className="lg:col-span-7 lg:pt-2">
@@ -108,7 +117,7 @@ export function CtaSection({
   return (
     <Section id={id} size="lg">
       <div className="mx-auto max-w-2xl text-center">
-        <h2 className="font-display text-[clamp(2.25rem,5.4vw,4.5rem)] leading-[1.0] font-[680] tracking-[-0.035em] font-stretch-semi-expanded">
+        <h2 className="font-display text-[clamp(2.25rem,5.4vw,4.5rem)] leading-[1.0] font-[600] tracking-[-0.05em] text-ink">
           <MaskText text={content.heading} />
         </h2>
         <p className="mt-5 font-sans text-base text-muted md:text-lg">

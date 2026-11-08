@@ -1,67 +1,56 @@
-/* Hallmark · macrostructure: Marquee Hero · genre: atmospheric · hero: full-bleed founder film (triptych) + edge-to-edge statement
- * nav: N5 floating pill, morphing from a transparent bar over the film · footer: Ft5 statement (studied: suri-mansoor-ali-khan.vercel.app)
- * motif: the logo's ribbon, drawn as the rule that opens every chapter · palette arc: film dark, proof lifted, contact lit
- * theme: custom · vibe: "glossy violet ribbon, late-night studio" · paper oklch(0.14 0.03 290) · accent oklch(0.536 0.268 297) violet
- * type: Google Sans Flex (display + body) + Google Sans Code (mono) · axes: dark / geometric-sans / cool
- * pre-emit critique: P5 H5 E4 S5 R4 V5 · contrast: pass (40-41) · mobile: pass (34, 49, 50-57)
- * slop: pass, except 35 (the footer's low marker stroke is the studied Suri credit, kept by request)
+/* Hallmark · macrostructure: Split Studio · genre: editorial · hero: night diptych (statement + B&W founder film)
+ * nav: N5 bar over the night hero, quiet paper pill after · footer: Ft5 statement, the last night
+ * motif: day breaking (the night hero folds into a card on paper; ink hairlines open each chapter; night cards return)
+ * theme: custom · vibe: "quiet luxury, monochrome, the work is the colour" · paper oklch(0.968 0.002 100) · ink oklch(0.17 0.004 270)
+ * type: Google Sans Flex (display + body) + Google Sans Code (mono) · axes: light-with-night / geometric-sans / neutral
+ * pre-emit critique: P5 H5 E5 S5 R5 V5 · contrast: pass (40-41) · mobile: pass (34, 49, 50-57)
+ * slop: pass
  */
 @import "tailwindcss";
 
 /*
-  SAMPeer Studio, DARK LOGO-LIT theme.
+  SAMPeer Studio, DAY TO NIGHT.
 
-  Every colour below is sampled from the ribbon in public/logo.png, which runs
-  from #140042 in its deepest fold, through #8425f1 at its core, to #e994ff
-  where the light catches it. The ground is that deepest fold with most of the
-  chroma taken out, the type is the highlight with most of the chroma taken
-  out, and the one accent is the core violet at full strength. Nothing on the
-  page is a colour the logo does not already contain.
+  Ink and paper, with one signal orange. The page is paper with ink type; the
+  hero, the footer and a few proof cards are night panels (the .night scope
+  below re-declares the same tokens dark, so every utility follows). Orange is
+  rationed: the main call to action, the active marker, list bullets and
+  small signals, never a large field and never a gradient. It sits opposite
+  the violet logo on the wheel, so the logo stays the one violet thing and
+  the two never fight. Studio photography and the founder film are graded
+  black and white; the client work keeps its colour.
 
-  Dark-locked on purpose. The original logo lockup was drawn for a black
-  ground, and a studio is one of the few categories where dark IS the brand
-  rather than a preference. There is no light block and no toggle: a light
-  block nothing can switch to would be dead code that reads as a feature.
+  Orange fills carry ink text (white on this orange fails AA); small orange
+  text on paper uses the darker accent-text.
 
-  Accent discipline: one violet strike per viewport, never a glow. The accent
-  keeps the logo's full chroma (0.27). Muting it would make the violet next to
-  the logo look like a different brand; the restraint is in WHERE it appears.
-
-  Contrast, measured with brand-system/contrast.mjs (WCAG 2.1):
-    ink on canvas          17.2:1      ink on elevated-2     14.7:1
-    muted on canvas         8.6:1      muted on elevated      8.0:1
-    faint on canvas         5.9:1      faint on elevated      5.5:1
-    accent-text on canvas   7.4:1      accent-text on elev.   6.9:1
-    accent-ink on accent    5.6:1      accent-ink on dim      7.4:1
+  Contrast is measured with brand-system/contrast.mjs (WCAG 2.1); the pairs
+  are listed in the v5 log entry.
 */
 
 @theme {
-  --color-canvas: oklch(0.14 0.03 290); /* #090715, the ribbon's deepest fold, desaturated */
-  --color-elevated: oklch(0.19 0.04 290); /* cards lift one step toward the violet */
-  --color-elevated-2: oklch(0.23 0.045 291); /* hover, pressed, second tier */
-  --color-ink: oklch(0.95 0.015 315); /* the ribbon's highlight, near-white, never #fff */
-  --color-muted: oklch(0.74 0.035 300); /* secondary copy */
-  --color-faint: oklch(0.64 0.03 300); /* meta and captions, still AA */
-  --color-line: oklch(0.29 0.04 292); /* hairlines */
-  --color-accent: oklch(0.536 0.268 297); /* #8425f1, the ribbon's core: fills, strokes, large display */
-  --color-accent-2: oklch(0.79 0.17 319); /* #e994ff, where the ribbon catches the light */
-  --color-accent-text: oklch(0.72 0.19 308); /* violet that still reads at body size on the dark ground */
-  --color-accent-solid: oklch(0.536 0.268 297); /* button fill */
-  --color-accent-dim: oklch(0.47 0.24 293); /* pressed fill */
-  --color-accent-soft: oklch(0.536 0.268 297 / 0.14); /* tints and active pills, never an ad-hoc accent/10 */
-  --color-accent-ink: oklch(0.98 0.01 315); /* text on the violet fill */
+  --color-canvas: oklch(0.968 0.002 100); /* paper, a neutral off-white */
+  --color-elevated: oklch(0.995 0 0); /* cards lift to white */
+  --color-elevated-2: oklch(0.935 0.003 100); /* hover, pressed, second tier */
+  --color-ink: oklch(0.17 0.004 270); /* near-black, never #000 */
+  --color-muted: oklch(0.42 0.004 270); /* secondary copy */
+  --color-faint: oklch(0.48 0.004 270); /* meta and captions, still AA */
+  --color-line: oklch(0.875 0.003 100); /* hairlines */
+  --color-accent: oklch(0.68 0.21 38); /* #ff5a1f signal orange: fills, markers, large display */
+  --color-accent-2: oklch(0.42 0.004 270);
+  --color-accent-text: oklch(0.55 0.19 38); /* orange that still reads at body size on paper */
+  --color-accent-solid: oklch(0.68 0.21 38); /* button fill, carries ink text */
+  --color-accent-dim: oklch(0.62 0.2 37); /* pressed fill */
+  --color-accent-soft: oklch(0.68 0.21 38 / 0.1); /* tints and active pills */
+  --color-accent-ink: oklch(0.17 0.004 270); /* ink on the orange fill */
 
-  /* The logo's own sweep, and the site's one recurring transition: it draws in
-     as the rule that opens each chapter, and closes the page as the footer's
-     top rule. Nowhere else. */
-  --gradient-ribbon: linear-gradient(100deg, #540db5 0%, #8425f1 45%, #e994ff 100%);
+  /* kept as a name for the rules that used the logo sweep; now plain ink */
+  --gradient-ribbon: linear-gradient(currentColor, currentColor);
 
-  /* Google Sans Flex is the logo wordmark's own family. One variable file
-     carries display and body: headlines stretch along the width axis, body
-     copy sits at normal width. Google Sans Code is its monospace sibling. */
-  --font-display: var(--font-gsf), ui-sans-serif, system-ui, sans-serif;
-  --font-sans: var(--font-gsf), ui-sans-serif, system-ui, sans-serif;
-  --font-mono: var(--font-gsc), ui-monospace, SFMono-Regular, monospace;
+  /* Geist carries display and body; Geist Mono carries labels, numbers and
+     diagram meta. Display is set tight (negative tracking), never stretched. */
+  --font-display: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, monospace;
 
   /* Shape lock: buttons, nav and chips are full pills (rounded-full), cards
      are 16px (rounded-2xl), media and inputs 12px (rounded-xl). These three
@@ -79,9 +68,9 @@
 :root {
   --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
   --dur-kinetic: 0.9s;
-  --shadow-tint: oklch(0.06 0.03 290 / 0.85); /* violet-black, never a neutral grey */
-  --highlighter: oklch(0.536 0.268 297 / 0.55); /* the footer credit's marker stroke */
-  --glint: oklch(0.98 0.01 315 / 0.32);
+  --shadow-tint: oklch(0.17 0.004 270 / 0.16); /* ink shadow, soft on paper */
+  --highlighter: oklch(0.6 0 0 / 0.45); /* the footer credit's marker stroke */
+  --glint: oklch(1 0 0 / 0.28);
   --footer-h: min(34rem, 82svh);
   /* the intro curtain's whole life; mirrors INTRO_MS in lib/constants.ts */
   --intro-ms: 1100ms;
@@ -96,7 +85,7 @@
 html {
   background: var(--color-canvas);
   color: var(--color-ink);
-  color-scheme: dark;
+  color-scheme: light;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   scroll-padding-top: 6rem; /* clear the floating nav pill on anchor jumps */
@@ -112,14 +101,56 @@ body {
 }
 
 ::selection {
-  background: var(--color-accent);
-  color: var(--color-accent-ink);
+  background: var(--color-ink);
+  color: var(--color-canvas);
+}
+
+/* The night scope: the same tokens, dark. Hero, footer, intro and the proof
+   cards wear it; everything inside follows without a dark: variant. */
+.night {
+  --color-canvas: oklch(0.145 0.002 270);
+  --color-elevated: oklch(0.195 0.003 270);
+  --color-elevated-2: oklch(0.24 0.003 270);
+  --color-ink: oklch(0.965 0.002 100);
+  --color-muted: oklch(0.76 0.003 270);
+  --color-faint: oklch(0.66 0.003 270);
+  --color-line: oklch(0.3 0.003 270);
+  --color-accent: oklch(0.68 0.21 38);
+  --color-accent-2: oklch(0.76 0.003 270);
+  --color-accent-text: oklch(0.72 0.19 40); /* full orange reads as text at night */
+  --color-accent-solid: oklch(0.68 0.21 38);
+  --color-accent-dim: oklch(0.62 0.2 37);
+  --color-accent-soft: oklch(0.68 0.21 38 / 0.14);
+  --color-accent-ink: oklch(0.145 0.002 270);
+  --shadow-tint: oklch(0 0 0 / 0.6);
+  color-scheme: dark;
+  color: var(--color-ink);
+}
+
+/* Studio photography is black and white; the client work keeps its colour. */
+.mono {
+  filter: grayscale(1) contrast(1.06);
+}
+
+/* Film grain, night panels only: one static tile, no blend mode. */
+.grain {
+  position: relative;
+  isolation: isolate;
+}
+.grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background-image: url("/grain.png");
+  background-size: 160px 160px;
+  opacity: 0.05;
 }
 
 /* One focus grammar, page-wide. Inside `@layer base` so a utility on a
    specific control can still opt out (unlayered CSS beats every layer). The
-   ring is the light violet: the core violet on the near-black ground sits
-   under the 3:1 a focus indicator needs. */
+   ring is the strong ink, white inside a night panel. */
 @layer base {
   :focus-visible {
     outline: 2px solid var(--color-accent-text);
@@ -199,72 +230,64 @@ summary,
 
 /* ------------------------------------------------------------ hero type */
 /*
-  The headline gets noticed by growing. Each line starts narrow on the width
-  axis and stretches to its resting 112.5%, one after another. It is visible
-  from the very first frame (no opacity gate, so it is still the LCP paint),
-  every line is nowrap so the line count can never change mid-animation, and
-  the h1 is layout-contained so the reflow stays inside it.
+  The statement rises line by line out of its own mask, one after another.
+  Each line is nowrap, so the line count can never change mid-animation, and
+  the mask is the line's own box (overflow clip with a little descender room),
+  so nothing outside it moves.
 */
 .hero-line {
   display: block;
   white-space: nowrap;
-  font-stretch: 112.5%;
+  overflow: clip;
+  padding-bottom: 0.06em;
+  margin-bottom: -0.06em;
+}
+.hero-line__in {
+  display: block;
 }
 
-/* The marquee statement is sized against the hero's own box (the Shell is the
-   @container), so its longest line runs edge to edge of the shell at every
-   width and stops growing when the shell does. The svh cap keeps all three
-   lines and the corner notes inside the fold on short, wide screens. */
+/* Sized against the text column (an @container), so the longest line,
+   "Remembered.", fills the column at every width and stops growing when the
+   column does. The svh cap keeps the three lines, the offer line and the
+   buttons inside the fold on short, wide screens. */
 .hero-statement {
-  /* "Remembered." measures 7.21em at this weight, stretch and tracking, so
-     13.6cqi puts it at about 98% of the shell */
-  font-size: min(13.6cqi, 22svh);
+  font-size: min(14.2cqi, 15svh);
 }
 
-@keyframes hero-stretch {
+@keyframes hero-rise {
   from {
-    font-stretch: 62%;
+    transform: translateY(105%);
   }
   to {
-    font-stretch: 112.5%;
+    transform: none;
   }
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .hero-line {
-    animation: hero-stretch var(--dur-kinetic) var(--ease-expo) both;
-    animation-delay: calc(var(--line, 0) * 0.09s + 0.05s);
+  .hero-line__in {
+    animation: hero-rise var(--dur-kinetic) var(--ease-expo) both;
+    animation-delay: calc(var(--line, 0) * 0.08s + 0.05s);
   }
   /* On a first visit the curtain is still up for the first beat; the lines
-     wait and stretch as it lifts, so the reveal is seen, not spent. */
-  html:not([data-intro="seen"]) .hero-line {
-    animation-delay: calc(var(--line, 0) * 0.09s + var(--intro-ms) * 0.5);
+     wait and rise as it lifts, so the reveal is seen, not spent. */
+  html:not([data-intro="seen"]) .hero-line__in {
+    animation-delay: calc(var(--line, 0) * 0.08s + var(--intro-ms) * 0.55);
   }
 }
 
 /* ----------------------------------------------------------- the film */
 /*
-  The founder film sits under a scrim built from the canvas token, heaviest
-  where the type sits (the left and the bottom), so the statement and the
-  corner notes keep their contrast whatever frame is under them. The poster
-  is the first paint; the video fades up over it only once it is truly
+  The founder film sits in its own frame beside the statement, graded black
+  and white. A light scrim at the foot keeps the pause control readable. The
+  poster is the first paint; the video fades up over it only once it is truly
   playing, so a slow network never shows a black rectangle.
 */
 .film-scrim {
-  background:
-    linear-gradient(
-      180deg,
-      color-mix(in oklch, var(--color-canvas) 62%, transparent) 0%,
-      color-mix(in oklch, var(--color-canvas) 22%, transparent) 26%,
-      color-mix(in oklch, var(--color-canvas) 40%, transparent) 58%,
-      var(--color-canvas) 100%
-    ),
-    linear-gradient(
-      90deg,
-      color-mix(in oklch, var(--color-canvas) 78%, transparent) 0%,
-      color-mix(in oklch, var(--color-canvas) 30%, transparent) 58%,
-      color-mix(in oklch, var(--color-canvas) 12%, transparent) 100%
-    );
+  background: linear-gradient(
+    180deg,
+    transparent 55%,
+    color-mix(in oklch, var(--color-canvas) 55%, transparent) 100%
+  );
 }
 .film-video {
   opacity: 0;
@@ -276,8 +299,8 @@ summary,
 
 /* ------------------------------------------------------- intro curtain */
 /*
-  Once per session the page opens behind a curtain: the logo mark, the ribbon
-  drawing under it, then the whole panel lifts away. Pure CSS and inert
+  Once per session the page opens behind a curtain: the logo mark, an ink
+  line drawing under it, then the whole panel lifts away. Pure CSS and inert
   (pointer-events: none from the first frame), so nothing waits on it and
   nothing can be blocked by it. A one-line head script marks repeat visits
   `data-intro="seen"`, and reduced motion never sees it.
@@ -295,7 +318,7 @@ summary,
 .intro__line {
   display: block;
   width: 7rem;
-  height: 2px;
+  height: 1px;
   margin-top: 1.25rem;
   background: var(--gradient-ribbon);
   transform-origin: left;
@@ -319,23 +342,9 @@ html[data-intro="seen"] .intro {
   display: none;
 }
 
-/* ---------------------------------------------------------------- grain */
-/* A static film grain over the whole page: one 160px tile, no animation, no
-   blend mode, under the nav and every overlay. Texture, not decoration. */
-body::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: 30;
-  pointer-events: none;
-  background-image: url("/grain.png");
-  background-size: 160px 160px;
-  opacity: 0.045;
-}
-
 /* ------------------------------------------------------- chapter motif */
-/* The rule that opens every chapter: the chapter's name in the mono, then the
-   ribbon drawing out to the edge as the reader scrolls it in (`.rule-scrub`). */
+/* The rule that opens every chapter: its index and name in the mono, then an
+   ink hairline drawing out to the edge as the reader scrolls it in (`.rule-scrub`). */
 .chapter-rule {
   display: flex;
   align-items: center;
@@ -343,29 +352,8 @@ body::after {
 }
 .chapter-rule__line {
   flex: 1;
-  height: 2px;
-  border-radius: 9999px;
-  background: var(--gradient-ribbon);
-}
-
-/* ------------------------------------------------------- light pools */
-/* The palette arc's two lit moments: the reviews chapter catches a soft light
-   from its top edge, and the contact heading sits in the page's last light. */
-.light-top {
-  background:
-    radial-gradient(
-      70% 55% at 50% 0%,
-      color-mix(in oklch, var(--color-accent) 16%, transparent) 0%,
-      transparent 70%
-    ),
-    var(--color-elevated);
-}
-.light-climax {
-  background: radial-gradient(
-    50% 60% at 30% 35%,
-    color-mix(in oklch, var(--color-accent) 18%, transparent) 0%,
-    transparent 72%
-  );
+  height: 1px;
+  background: var(--color-ink);
 }
 
 /* ------------------------------------------------------- problem scrub */
@@ -461,8 +449,8 @@ body::after {
   transform-origin: right;
 }
 
-/* Cards: one lift value page-wide. On a dark ground a shadow alone barely
-   reads, so the border warms toward the violet as the card rises. */
+/* Cards: one lift value page-wide. The border darkens toward ink as
+   the card rises, so the lift reads on paper and at night. */
 .card-lift {
   transition:
     transform 0.35s var(--ease-expo),
@@ -472,7 +460,7 @@ body::after {
 .card-lift:hover {
   transform: translateY(-3px);
   box-shadow: 0 22px 44px -22px var(--shadow-tint);
-  border-color: color-mix(in oklch, var(--color-accent) 45%, var(--color-line));
+  border-color: color-mix(in oklch, var(--color-ink) 35%, var(--color-line));
 }
 
 /* Media inside a card grows a little while the pointer is on the card. The
@@ -587,33 +575,31 @@ body::after {
   }
 }
 
-/* The logo's sweep, the one place it appears. */
+/* The footer's top edge: one ink hairline where the paper ends. */
 .footer-rule {
-  height: 6px;
-  background: var(--gradient-ribbon);
+  height: 1px;
+  background: var(--color-line);
 }
 
 /* The wordmark: the page signs its name. Sized against its own box (the
    @container wrapper in Footer.tsx), not the viewport, so it can never
-   outgrow the shell: vw kept growing past the shell's 1400px cap and clipped
-   "Studio" on wide screens. The line's ink measures 9.23em at this width
-   and tracking, so 10.8cqi runs it edge to edge of the box on one line from
-   tablet up. On phones it wraps, and 18.25cqi sets "SAMPeer", the longer
-   line, at about 97%. */
+   outgrow the shell. In Geist at this weight and tracking the line's ink
+   measures 7.0em, so 14.1cqi runs it edge to edge of the box (about 98%) on
+   one line from tablet up. On phones it wraps, and 24.2cqi sets "SAMPeer",
+   the longer line, at about 97%. */
 .footer-mark {
   font-family: var(--font-display);
-  font-weight: 700;
-  font-stretch: 125%;
-  letter-spacing: -0.05em;
+  font-weight: 600;
+  letter-spacing: -0.06em;
   line-height: 0.9;
   white-space: nowrap;
-  font-size: 10.8cqi;
+  font-size: 14.1cqi;
   padding-bottom: 0.08em;
 }
 @media (max-width: 639px) {
   .footer-mark {
     white-space: normal;
-    font-size: min(18.25cqi, 5rem);
+    font-size: min(24.2cqi, 6rem);
   }
 }
 
@@ -628,7 +614,7 @@ body::after {
 }
 
 /* Credit buttons. A fill rises from the bottom on hover, the button lifts on
-   a violet-black shadow, the arrow nudges toward where it goes, and a press
+   a soft shadow, the arrow nudges toward where it goes, and a press
    gives. Once, as the row arrives, a glint crosses each button. */
 .credit-btn {
   position: relative;

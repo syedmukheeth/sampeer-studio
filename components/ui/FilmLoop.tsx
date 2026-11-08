@@ -2,7 +2,7 @@
 
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 import type { MutableRefObject } from "react";
-import { getImageProps } from "next/image";
+import Image from "next/image";
 import { clsx } from "clsx";
 import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
 import { Pause, Play } from "@phosphor-icons/react/dist/ssr";
@@ -10,14 +10,13 @@ import { FILM } from "@/lib/content";
 import { EVENTS, track } from "@/lib/analytics";
 import { ramp } from "@/lib/scroll";
 
-/* The founder film behind the hero.
+/* The founder film, framed beside the hero statement.
 
    Load order is the whole design:
-   1. The poster is the first paint (art-directed: the three-panel still from
-      768px, the tall still below), eager and high priority, so it is the LCP.
+   1. The poster is the first paint, preloaded, so it is a fast LCP.
    2. The <video> ships with no src. Only after the page's load event, and an
-      idle moment after that, does it get the one file this screen needs, so
-      the film never competes with the page for bandwidth.
+      idle moment after that, does it get its file, so the film never competes
+      with the page for bandwidth.
    3. It fades up over the poster only once it is actually playing.
    It pauses whenever it is off screen or the tab is hidden, and never
    autoplays under reduced motion or Save-Data; the toggle still plays it on
@@ -40,12 +39,6 @@ function useFilm() {
   return ctx;
 }
 
-const WIDE_QUERY = "(min-width: 768px)";
-
-function pickSrc() {
-  return window.matchMedia(WIDE_QUERY).matches ? FILM.wide.src : FILM.tall.src;
-}
-
 export function FilmProvider({ children }: { children: React.ReactNode }) {
   const video = useRef<HTMLVideoElement | null>(null);
   const userPaused = useRef(false);
@@ -57,7 +50,7 @@ export function FilmProvider({ children }: { children: React.ReactNode }) {
     if (v.paused) {
       userPaused.current = false;
       // the reduced-motion / Save-Data path never attached a source
-      if (!v.getAttribute("src")) v.src = pickSrc();
+      if (!v.getAttribute("src")) v.src = FILM.src;
       void v.play().catch(() => {});
       track(EVENTS.filmToggle, { to: "play" });
     } else {
@@ -78,18 +71,11 @@ export function FilmProvider({ children }: { children: React.ReactNode }) {
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;
 }
 
-/** The film layer: poster, video and scrim, filling its positioned parent. As
- *  the hero scrolls away the frame draws in from the edges and its corners
- *  round, so the film settles into the page instead of being cut off by it. */
-export function FilmMedia() {
+/** The film layer: poster, video and a light foot scrim, filling its
+ *  positioned parent. */
+export function FilmMedia({ sizes }: { sizes: string }) {
   const { register, userPaused, playing, setPlaying } = useFilm();
   const video = useRef<HTMLVideoElement | null>(null);
-  const wrap = useRef<HTMLDivElement>(null);
-  const reduce = useReducedMotion();
-  const still = useRef(false);
-  useEffect(() => {
-    still.current = Boolean(reduce);
-  }, [reduce]);
 
   // attach the source after load, then idle
   useEffect(() => {
@@ -104,7 +90,7 @@ export function FilmMedia() {
     let idleId = 0;
     const start = () => {
       if (cancelled || userPaused.current) return;
-      v.src = pickSrc();
+      v.src = FILM.src;
       void v.play().catch(() => {});
     };
     // Safari has no requestIdleCallback; a short timeout stands in for it
@@ -153,39 +139,17 @@ export function FilmMedia() {
     };
   }, [userPaused, setPlaying]);
 
-  const { scrollYProgress } = useScroll({ target: wrap, offset: ["start start", "end start"] });
-  // function form, so Motion keeps it on the real scroll (see lib/scroll.ts)
-  const scale = useTransform(scrollYProgress, (p) => (still.current ? 1 : ramp(p, [0, 1], [1, 0.9])));
-  const radius = useTransform(scrollYProgress, (p) => (still.current ? "0px" : `${ramp(p, [0, 0.5], [0, 28])}px`));
-
-  // Next 16 only serves the qualities listed in images.qualities (default 75)
-  const common = { alt: "", sizes: "100vw" } as const;
-  const {
-    props: { srcSet: wideSet },
-  } = getImageProps({ ...common, src: FILM.wide.poster, width: FILM.wide.w, height: FILM.wide.h });
-  const {
-    props: { srcSet: tallSet, ...img },
-  } = getImageProps({
-    ...common,
-    src: FILM.tall.poster,
-    width: FILM.tall.w,
-    height: FILM.tall.h,
-    loading: "eager",
-    fetchPriority: "high",
-  });
-
   return (
-    <motion.div
-      ref={wrap}
-      data-parallax
-      aria-hidden
-      style={{ scale, borderRadius: radius }}
-      className="absolute inset-0 -z-10 origin-top overflow-hidden bg-canvas"
-    >
-      <picture>
-        <source media={WIDE_QUERY} srcSet={wideSet} />
-        <img {...img} srcSet={tallSet} alt="" className="absolute inset-0 h-full w-full object-cover" />
-      </picture>
+    <div aria-hidden className="absolute inset-0 overflow-hidden bg-elevated">
+      <Image
+        src={FILM.poster}
+        alt=""
+        width={FILM.w}
+        height={FILM.h}
+        sizes={sizes}
+        preload
+        className="absolute inset-0 h-full w-full object-cover"
+      />
       <video
         ref={(el) => {
           video.current = el;
@@ -202,7 +166,7 @@ export function FilmMedia() {
         className="film-video absolute inset-0 h-full w-full object-cover"
       />
       <div className="film-scrim absolute inset-0" />
-    </motion.div>
+    </div>
   );
 }
 
@@ -215,7 +179,7 @@ export function FilmToggle({ className }: { className?: string }) {
       onClick={toggle}
       aria-label={playing ? FILM.pause : FILM.play}
       className={clsx(
-        "btn-press grid h-11 w-11 shrink-0 place-items-center rounded-full border border-ink/25 bg-canvas/35 text-ink backdrop-blur-md hover:border-accent-text",
+        "btn-press grid h-11 w-11 shrink-0 place-items-center rounded-full border border-ink/25 bg-canvas/40 text-ink backdrop-blur-md hover:border-ink/60",
         className,
       )}
     >
@@ -224,19 +188,22 @@ export function FilmToggle({ className }: { className?: string }) {
   );
 }
 
-/** The statement drifts up a little faster than the page as the hero leaves,
- *  so the type and the film part ways instead of scrolling as one slab. */
-export function FilmDrift({ children, className }: { children: React.ReactNode; className?: string }) {
+/** Day breaking: the night hero is a panel on paper. As it scrolls away it
+ *  draws in from the edges and its corners round, so the night settles into
+ *  the page as a card instead of being cut off by it. */
+export function NightFold({ children, className }: { children: React.ReactNode; className?: string }) {
+  const wrap = useRef<HTMLDivElement>(null);
   const reduce = useReducedMotion();
   const still = useRef(false);
   useEffect(() => {
     still.current = Boolean(reduce);
   }, [reduce]);
-  const { scrollY } = useScroll();
-  const y = useTransform(scrollY, (v) => (still.current ? 0 : -Math.min(v, 900) * 0.16));
-  const opacity = useTransform(scrollY, (v) => (still.current ? 1 : ramp(v, [0, 700], [1, 0.25])));
+  const { scrollYProgress } = useScroll({ target: wrap, offset: ["start start", "end start"] });
+  // function form, so Motion keeps it on the real scroll (see lib/scroll.ts)
+  const scale = useTransform(scrollYProgress, (p) => (still.current ? 1 : ramp(p, [0, 0.8], [1, 0.94])));
+  const radius = useTransform(scrollYProgress, (p) => (still.current ? "0px" : `${ramp(p, [0, 0.4], [0, 28])}px`));
   return (
-    <motion.div data-parallax style={{ y, opacity }} className={className}>
+    <motion.div ref={wrap} data-parallax style={{ scale, borderRadius: radius }} className={clsx("origin-top", className)}>
       {children}
     </motion.div>
   );

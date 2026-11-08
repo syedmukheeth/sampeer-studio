@@ -1,24 +1,24 @@
 import { Nav } from "@/components/sections/Nav";
 import { Hero } from "@/components/sections/Hero";
 import { Stats } from "@/components/sections/Stats";
+import { Offer } from "@/components/sections/Offer";
 import { Work } from "@/components/sections/Work";
-import { Reviews } from "@/components/sections/Reviews";
-import { CaseFeature } from "@/components/sections/CaseFeature";
-import { Problem } from "@/components/sections/Problem";
-import { Services } from "@/components/sections/Services";
+import { Clients } from "@/components/sections/Clients";
 import { AutomationShowcase } from "@/components/sections/AutomationShowcase";
+import { HowWeWork } from "@/components/sections/HowWeWork";
 import { About } from "@/components/sections/About";
 import { CtaSection } from "@/components/ui/CtaSection";
-import { CHAPTERS, CTA as CTA_CONTENT, PROCESS, PROCESS_HEADER } from "@/lib/content";
+import { CHAPTERS, CTA as CTA_CONTENT } from "@/lib/content";
 import { EVENTS } from "@/lib/analytics";
 import { Footer } from "@/components/sections/Footer";
 
-/* The argument, as chapters. The film and the statement; the proof strip;
-   the work (evidence before any claim, for a buyer who fears a template);
-   clients on camera and the one case study (the fear spikes right after the
-   work, so the proof sits there); then the problem said plainly, the three
-   pillars that answer it, one of them running live; the founder; and the ask,
-   with what happens after it. Each chapter opens on the ribbon rule. */
+/* The argument, as a run of diptychs (claim on one half, proof on the
+   other). The night hero with the film; the trust bar; what we sell, said
+   plainly enough to buy from; the work (evidence before any further claim,
+   for a buyer who fears a template); the clients in their own words and the
+   one case study; the systems running; how we work; the founder; and the
+   ask. Night opens the page, folds into a card, returns as proof cards and
+   the automation chapter, and closes it as the footer. */
 export default function Home() {
   return (
     <>
@@ -26,12 +26,11 @@ export default function Home() {
       <main id="main">
         <Hero />
         <Stats />
+        <Offer />
         <Work />
-        <Reviews />
-        <CaseFeature />
-        <Problem />
-        <Services />
+        <Clients />
         <AutomationShowcase />
+        <HowWeWork />
         <About />
         <CtaSection
           id="contact"
@@ -40,7 +39,7 @@ export default function Home() {
           source="home"
           content={CTA_CONTENT}
           chapter={CHAPTERS.contact}
-          next={{ label: PROCESS_HEADER.label, steps: PROCESS }}
+          details={CTA_CONTENT.details}
         />
       </main>
       <Footer />

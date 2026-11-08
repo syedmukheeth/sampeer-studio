@@ -57,7 +57,7 @@ function NightTile() {
       preload="none"
       poster={FOUNDER_MEDIA.film.poster}
       aria-label={FOUNDER_MEDIA.film.label}
-      className="absolute inset-0 h-full w-full object-cover"
+      className="mono absolute inset-0 h-full w-full object-cover"
     />
   );
 }
@@ -81,7 +81,7 @@ function Collage() {
           alt={FOUNDER_MEDIA.portrait.alt}
           fill
           sizes="(min-width: 1024px) 30vw, (min-width: 768px) 55vw, 100vw"
-          className="object-cover"
+          className="mono object-cover"
         />
       </motion.figure>
 
@@ -103,7 +103,7 @@ function Collage() {
           alt={FOUNDER_MEDIA.wide.alt}
           fill
           sizes="(min-width: 1024px) 26vw, (min-width: 768px) 50vw, 66vw"
-          className="object-cover"
+          className="mono object-cover"
         />
       </motion.figure>
     </div>
@@ -113,7 +113,7 @@ function Collage() {
 export function About() {
   return (
     <Section id="about">
-      <ChapterRule label={CHAPTERS.founder} />
+      <ChapterRule chapter={CHAPTERS.founder} />
 
       <div className="mt-14 grid items-center gap-14 lg:grid-cols-12 lg:gap-16">
         <div className="lg:col-span-7">
@@ -122,7 +122,7 @@ export function About() {
 
         <div className="lg:col-span-5">
           <FadeIn>
-            <h2 className="font-display text-[clamp(2.25rem,4.4vw,3.75rem)] leading-[1.02] font-[650] tracking-[-0.035em] text-ink font-stretch-semi-expanded">
+            <h2 className="font-display text-[clamp(2.25rem,4.4vw,3.75rem)] leading-[1.02] font-[600] tracking-[-0.05em] text-ink">
               {ABOUT.title}
             </h2>
           </FadeIn>
@@ -130,7 +130,7 @@ export function About() {
             {ABOUT.body.map((p, i) =>
               i === ABOUT.body.length - 1 ? (
                 <FadeIn key={i}>
-                  <p className="border-l-2 border-accent pl-5 font-display text-xl leading-snug font-semibold tracking-[-0.01em] text-ink md:text-2xl">
+                  <p className="border-l-2 border-accent pl-5 font-display text-xl leading-snug font-[560] tracking-[-0.03em] text-ink md:text-2xl">
                     {p}
                   </p>
                 </FadeIn>
@@ -155,7 +155,7 @@ export function About() {
                   href={s.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="btn-press inline-flex h-11 items-center gap-1.5 rounded-full border border-line bg-elevated px-4 font-sans text-sm text-ink hover:border-accent hover:text-accent-text"
+                  className="btn-press inline-flex h-11 items-center gap-1.5 rounded-full border border-line bg-elevated px-4 font-sans text-sm text-ink hover:border-ink"
                 >
                   {s.handle}
                   <ArrowUpRight size={13} weight="bold" aria-hidden />

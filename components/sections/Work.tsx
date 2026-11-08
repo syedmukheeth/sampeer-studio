@@ -73,7 +73,9 @@ function FeaturedRow({ project: w, index }: { project: LiveProject; index: numbe
   const { reduce, still } = useStillRef();
   const { scrollYProgress } = useScroll({ target: row, offset: ["start end", "end start"] });
   // function form, so Motion keeps it on the real scroll (see lib/scroll.ts)
-  const y = useTransform(scrollYProgress, (p) => (still.current ? "0%" : `${ramp(p, [0, 1], [-PARALLAX, PARALLAX])}%`));
+  // the frame is 16:9 and the 16:10 poster sits full width inside it, so the
+  // only slack is vertical (10% of the poster): the drift never crops a side
+  const y = useTransform(scrollYProgress, (p) => (still.current ? "0%" : `${ramp(p, [0, 1], [0, -PARALLAX])}%`));
   const flip = index % 2 === 1;
   const closed = `inset(${REVEAL_INSET}% ${REVEAL_INSET}% ${REVEAL_INSET}% ${REVEAL_INSET}% round 16px)`;
 
@@ -93,17 +95,18 @@ function FeaturedRow({ project: w, index }: { project: LiveProject; index: numbe
         viewport={{ once: true, margin: "0px 0px -12% 0px" }}
         transition={{ duration: reduce ? 0 : DUR.reveal, ease: EASE.out }}
         className={clsx(
-          "group relative block aspect-16/10 overflow-hidden rounded-2xl bg-elevated lg:col-span-8",
+          "group relative block aspect-video overflow-hidden rounded-2xl border border-line bg-elevated lg:col-span-8",
           flip && "lg:order-last",
         )}
       >
-        <motion.div data-parallax style={{ y }} className="absolute inset-x-0 -inset-y-[10%]">
+        <motion.div data-parallax style={{ y }} className="absolute inset-x-0 top-0">
           <Image
             src={w.poster}
             alt=""
-            fill
+            width={1440}
+            height={900}
             sizes="(min-width: 1024px) 62vw, 100vw"
-            className="media-zoom object-cover object-top"
+            className="media-zoom h-auto w-full origin-top"
           />
         </motion.div>
       </motion.a>
@@ -120,7 +123,7 @@ function FeaturedRow({ project: w, index }: { project: LiveProject; index: numbe
           <KindTag kind={w.kind} />
           <span className="font-mono text-xs text-faint">{w.category}</span>
         </div>
-        <h3 className="mt-4 font-display text-[clamp(2rem,3.4vw,3rem)] leading-[1] font-[650] tracking-[-0.03em] text-ink font-stretch-semi-expanded">
+        <h3 className="mt-4 font-display text-[clamp(2rem,3.4vw,3rem)] leading-[1] font-[600] tracking-[-0.045em] text-ink">
           {w.client}
         </h3>
         <p className="mt-4 max-w-[46ch] font-sans text-base leading-relaxed text-muted">{w.description}</p>
@@ -130,7 +133,7 @@ function FeaturedRow({ project: w, index }: { project: LiveProject; index: numbe
             target="_blank"
             rel="noopener noreferrer"
             onClick={visit(w)}
-            className="link-wipe inline-flex items-center gap-1 py-1 font-sans text-sm font-medium text-accent-text"
+            className="link-wipe inline-flex items-center gap-1 py-1 font-sans text-sm font-medium text-ink"
           >
             {w.kind === "product" ? `Try ${w.client}` : "Visit site"}
             <ArrowUpRight size={14} weight="bold" aria-hidden />
@@ -171,7 +174,7 @@ function ConceptIndex() {
   return (
     <div ref={list} onPointerMove={fine ? onMove : undefined} onPointerLeave={() => setHover(null)} className="relative mt-24 md:mt-32">
       <div className="flex flex-col gap-2 md:flex-row md:items-baseline md:justify-between">
-        <h3 className="font-display text-2xl font-[650] tracking-[-0.02em] text-ink font-stretch-semi-expanded md:text-3xl">
+        <h3 className="font-display text-2xl font-[600] tracking-[-0.035em] text-ink md:text-3xl">
           {WORK_GROUPS.find((g) => g.kind === "concept")?.title}
         </h3>
         <p className="max-w-md font-sans text-sm text-muted md:text-right">{CONCEPT_NOTE}</p>
@@ -192,7 +195,7 @@ function ConceptIndex() {
                 <Image src={w.poster} alt="" fill sizes="80px" className="object-cover object-top" />
               </span>
               <span className="min-w-0">
-                <span className="block font-display text-xl leading-tight font-[650] tracking-[-0.02em] text-ink transition-colors duration-300 font-stretch-semi-expanded group-hover:text-accent-text md:text-4xl">
+                <span className="block font-display text-xl leading-tight font-[600] tracking-[-0.035em] text-ink transition-colors duration-300 group-hover:text-accent-text md:text-4xl">
                   {w.client}
                 </span>
                 <span className="mt-1 block font-mono text-xs text-faint md:hidden">{w.category}</span>
@@ -252,9 +255,9 @@ function ConceptIndex() {
 export function Work() {
   return (
     <Section id="work">
-      <ChapterRule label={CHAPTERS.work} />
+      <ChapterRule chapter={CHAPTERS.work} />
       <div className="mt-10 flex flex-col gap-5 md:mt-12 lg:flex-row lg:items-end lg:justify-between">
-        <h2 className="max-w-3xl font-display text-[clamp(2.25rem,5vw,4.25rem)] leading-[1] font-[650] tracking-[-0.035em] text-ink font-stretch-semi-expanded">
+        <h2 className="max-w-3xl font-display text-[clamp(2.25rem,5vw,4.25rem)] leading-[1] font-[600] tracking-[-0.05em] text-ink">
           {WORK_HEADER.title}
         </h2>
         <p className="max-w-sm font-sans text-sm leading-relaxed text-muted lg:text-right">{SUMMARY}</p>

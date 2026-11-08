@@ -5,16 +5,16 @@ export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
 /* Satori renders this card outside the page and cannot read CSS custom
-   properties, so the theme is copied here as literals. They mirror the dark
-   tokens in app/globals.css: canvas, ink, muted, accent-text and the ribbon
-   sweep. Change both together. */
-const CANVAS = "#090715";
-const INK = "#f2ecf6";
-const MUTED = "#aea6be";
-const ACCENT_TEXT = "#c67eff";
-const RIBBON = "linear-gradient(100deg, #540db5 0%, #8425f1 45%, #e994ff 100%)";
+   properties, so the theme is copied here as literals. They mirror the night
+   tokens in app/globals.css (.night): canvas, ink, muted and the orange
+   accent. Change both together. */
+const CANVAS = "#0e0f11";
+const INK = "#f3f3f1";
+const MUTED = "#a9aaad";
+const ACCENT_TEXT = "#ff6a33";
+const RULE = "#2b2c2f";
 
-/** On-brand dark OG card. Default font: satori needs TTF/OTF, not woff2. */
+/** On-brand night OG card. Default font: satori needs TTF/OTF, not woff2. */
 export default function OG() {
   return new ImageResponse(
     (
@@ -29,8 +29,8 @@ export default function OG() {
           fontFamily: "sans-serif",
         }}
       >
-        {/* the logo's sweep, the same single use as the site's footer rule */}
-        <div style={{ height: 10, width: "100%", backgroundImage: RIBBON }} />
+        {/* the hairline that opens every chapter on the site */}
+        <div style={{ height: 1, width: "100%", background: RULE }} />
         <div
           style={{
             flex: 1,

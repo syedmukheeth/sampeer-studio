@@ -11,7 +11,7 @@
 - **Framework:** Next.js 16 (App Router) & React 19
 - **Styling:** Tailwind CSS v4 & Vanilla CSS Design System
 - **Animations:** Motion, Lenis smooth scroll, CSS scroll-driven animations
-- **Typography:** Google Sans Flex + Google Sans Code (next/font)
+- **Typography:** Geist + Geist Mono (next/font)
 - **Deployment:** Vercel
 
 ---
@@ -50,9 +50,9 @@ npm run start
 - `app/globals.css`, Global CSS variables, custom typography, design tokens.
 - `lib/content.ts`, Centralized content structure for all copy, metrics, and project data.
 - `lib/constants.ts`, Core brand constants, layout metrics, and z-index scales.
-- `components/sections/*`, Page chapters (Hero film, Work, Reviews, Case, Problem, Services, Automation, About, Footer).
+- `components/sections/*`, Page chapters (night Hero with the founder film, trust bar, Offer, Work, Clients with the ASRG case, Automation, How we work, About, Footer).
 - `components/ui/*`, Reusable interactive UI primitives (FilmLoop, ReviewTheatre, ChapterRule, CursorLabel, WorkDeck, Flow, ReelEmbed, Magnetic).
-- `public/film`, `public/reviews`, `public/founder`, Versioned media (`*.v1.*`, cached immutable). Bump the version in the file name when a cut changes.
+- `public/film`, `public/clients`, `public/founder`, Versioned media (`*.v1.*`, `*.v2.*`, cached immutable). Bump the version in the file name when a cut changes. Client loops are silent (no audio track).
 - `app/api/contact/route.ts`, Resend-powered contact submission API with rate limiting and mailto fallback.
 
 - [ ] Real domain in `app/layout.tsx` (`metadataBase`), `app/robots.ts`, `app/sitemap.ts`.

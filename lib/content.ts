@@ -40,8 +40,8 @@ export const NAV = {
   brand: "SAMPeer Studio",
   links: [
     { label: "Work", href: "/#work" },
-    { label: "Reviews", href: "/#reviews" },
     { label: "Services", href: "/#services" },
+    { label: "Clients", href: "/#clients" },
     { label: "About", href: "/#about" },
   ],
   /* One label per intent, page-wide: the hero's primary CTA says the same. */
@@ -49,38 +49,44 @@ export const NAV = {
 } as const;
 
 /* --------------------------------------------------------------- hero */
-/* Marquee hero: the statement over the founder film, nothing else in the fold.
- * The first call to action is the nav pill; the studio line and the place sit
- * in the corners as annotation, not as a subhead. */
+/* The night diptych: the statement and the plain offer on one side, the
+ * founder film on the other. The last line is the one orange strike. */
 export const HERO = {
   lines: ["Get noticed.", "Remembered."],
   accent: "Chosen.",
-  note: "SAMPeer Studio designs storytelling websites, automation systems and founder brands.",
+  offer: "Websites, automation and founder brands for companies in India and the UK.",
   place: "Kurnool → UK & India",
-  next: { label: "See the work", href: "#work" },
+  primary: { label: "Start a project", href: "#contact" },
+  secondary: { label: "See the work", href: "#work" },
 } as const;
 
 /** The founder film. Cut from Syed's own footage: the city (Konda Reddy fort),
- *  the craft (his desk), the client (ASRG's owner seeing his new site). The
- *  wide file is three vertical panels side by side, the tall one a single
- *  sequence for phones. Versioned names so the files can be cached forever. */
+ *  the craft (his desk), the client (ASRG's owner seeing his new site), graded
+ *  black and white and framed 4:5. One file serves every screen. Versioned
+ *  names so the files can be cached forever. */
 export const FILM = {
   label: "Founder film: a day of work in Kurnool",
   pause: "Pause the film",
   play: "Play the film",
-  wide: { src: "/film/hero-wide.v1.mp4", poster: "/film/hero-wide.v1.webp", w: 1620, h: 960 },
-  tall: { src: "/film/hero-tall.v1.mp4", poster: "/film/hero-tall.v1.webp", w: 720, h: 1280 },
+  src: "/film/hero.v2.mp4",
+  poster: "/film/hero.v2.webp",
+  w: 720,
+  h: 900,
 } as const;
 
-/** Chapter labels. Each one rides the ribbon rule that opens its chapter, the
- *  site's one recurring transition. */
+/** Chapter labels, numbered in page order. Each rides the ink hairline that
+ *  opens its chapter. */
 export const CHAPTERS = {
-  work: "Selected work",
-  reviews: "In their words",
-  services: "What we do",
-  founder: "Behind the studio",
-  contact: "Start a project",
+  services: { index: "01", label: "What we do" },
+  work: { index: "02", label: "Selected work" },
+  clients: { index: "03", label: "Clients" },
+  automation: { index: "04", label: "Systems, running" },
+  process: { index: "05", label: "How we work" },
+  founder: { index: "06", label: "Behind the studio" },
+  contact: { index: "07", label: "Start a project" },
 } as const;
+
+export type Chapter = { index: string; label: string };
 
 /* -------------------------------------------------------------- stats */
 /** `value` renders as a number; `text` renders verbatim for honest
@@ -94,14 +100,11 @@ export const STATS: Stat[] = [
   { text: "UK & India", label: "Clients worked with" },
 ];
 
-/** The typographic client line under the stats: real clients only, the ones
- *  with live work above. */
+/** The typographic client line beside the stats: real clients only, the ones
+ *  with live work below. */
 export const PROOF = {
   trustedBy: "Trusted by",
   clients: ["Suri Mansoor Ali Khan", "ASRG Construction", "MAA Furniture"],
-  /** `{n}` is replaced with the number of client reviews on camera */
-  onCamera: "{n} on camera",
-  watch: { label: "Watch the reviews", href: "#reviews" },
 } as const;
 
 /* --------------------------------------------------------------- work */
@@ -679,103 +682,60 @@ export const TESTIMONIAL = {
   photoSecondaryAlt: "Syed Mukheeth shaking hands with the ASRG Construction owner",
 } as const;
 
-/* ------------------------------------------------------------ reviews */
-/* Client reviews on camera. Every quote is verbatim from the client's own
- * words; `translated` marks a quote translated to English from what they said
- * (captions carry the translation, a second track the original). Videos are
- * cropped to the client and Syed only, and stripped of location metadata. */
-export type Review = {
+/* ------------------------------------------------------------ clients */
+/* What two clients told us on camera, condensed and translated from Urdu.
+ * Each statement keeps only what they actually said (checked against the
+ * transcripts); nothing is added. The loops are four silent seconds of each
+ * client, cropped to the client and Syed, with no audio track and no
+ * location metadata. */
+export type ClientWord = {
   slug: string;
   name: string;
-  business: string;
+  role: string;
   place: string;
-  quote: string;
-  /** the language spoken, when the quote is a translation */
-  translatedFrom?: string;
-  video: string;
+  statement: string;
+  loop: string;
   poster: string;
-  /** English captions (a translation when `translatedFrom` is set) */
-  captions: string;
-  /** captions in the language spoken, when it is not English */
-  original?: { src: string; lang: string; label: string };
-  /** the full transcript, shown under the player */
-  transcript: string;
-  /** seconds */
-  duration: number;
-  /** the frame's aspect, so the card and the theatre never letterbox wrongly */
-  w: number;
-  h: number;
-  /** links the review to a project in WORK */
-  workId?: string;
+  /** links the client to a project in WORK */
+  workId: string;
 };
 
-export const REVIEWS_HEADER = {
-  title: "Don't take our word for it.",
-  sub: "Clients on camera, in their own words. Captions are on; the transcript is under each one.",
-  watch: "Watch the review",
-  transcript: "Read the transcript",
-  translated: "Translated from",
-  close: "Close",
-  prev: "Previous review",
-  next: "Next review",
+export const CLIENTS_HEADER = {
+  title: "Clients, in their words.",
+  sub: "What they told us on camera, in Kurnool.",
+  note: "Condensed and translated from Urdu.",
 } as const;
 
-/* Both clips were recorded in Kurnool and are spoken in Urdu; the quotes and
- * captions are English translations, checked against the transcripts. Both
- * are cut to end (MAA) or skip (ASRG, 0:18.8 to 0:21.2) where the speaker
- * names people who are no longer part of the studio. */
-export const REVIEWS: Review[] = [
+export const CLIENTS: ClientWord[] = [
   {
     slug: "maa",
     name: "MAA Furniture",
-    business: "Furniture retail",
+    role: "Owners, furniture retail",
     place: "Kurnool",
-    quote: "Thanks to the website, our customers have increased. Business has improved a lot.",
-    translatedFrom: "Urdu",
-    video: "/reviews/maa.v1.mp4",
-    poster: "/reviews/maa.v1.webp",
-    captions: "/reviews/maa.v1.en.vtt",
-    transcript: [
-      "Hi, we are from MAA Furniture.",
-      "We have opened our second branch in Kurnool. We launched online promotion for this second branch with SAMPeer Studio.",
-      "They explained everything in detail and put photos of our furniture in our online store.",
-      "Thanks to the website, our customers have increased. Business has improved a lot.",
-      "They started our new business online, with online promotion too. And SAMPeer Studio made the video.",
-    ].join("\n\n"),
-    duration: 47.6,
-    w: 720,
-    h: 1280,
+    statement:
+      "Since the website went live, more customers come in and business has grown. SAMPeer took our second branch online, put our furniture in the store and made our video.",
+    loop: "/clients/maa.v1.mp4",
+    poster: "/clients/maa.v1.webp",
     workId: "maa",
   },
   {
     slug: "asrg",
     name: "S. Gilani",
-    business: "ASRG Construction",
+    role: "Owner, ASRG Construction",
     place: "Kurnool",
-    quote: "All the work we have done now shows up on Google. It is very good.",
-    translatedFrom: "Urdu",
-    video: "/reviews/asrg.v1.mp4",
-    poster: "/reviews/asrg.v1.webp",
-    captions: "/reviews/asrg.v1.en.vtt",
-    transcript: [
-      "Assalamu alaikum. My name is Sheikh Jilani. I work in construction.",
-      "I have built a great deal: apartments, hospitals, banks and more.",
-      "Recently we had our SEO set up here. They did the SEO properly, and now all the work we have done shows up on Google. It is very good.",
-      "It benefits everyone. You should use it too.",
-    ].join("\n\n"),
-    duration: 36.7,
-    w: 720,
-    h: 720,
+    statement:
+      "They set up our SEO properly. Now every project we have built shows up on Google. I tell everyone to use them.",
+    loop: "/clients/asrg.v1.mp4",
+    poster: "/clients/asrg.v1.webp",
     workId: "asrg",
   },
 ];
 
 /* ------------------------------------------------------------ process */
-/* Shown with the contact form as "what happens next": the moment a reader is
- * deciding whether to send is the moment the process needs to be visible. */
 export const PROCESS_HEADER = {
   label: "What happens next",
   title: "Diagnose. Build. Grow.",
+  sub: "Every engagement runs the same three steps, whichever service you start with.",
 } as const;
 
 export const PROCESS = [
@@ -826,45 +786,79 @@ export const PROBLEM = {
   turn: "That was never a product problem. We fix it three ways, and each one works on its own.",
 } as const;
 
-/** What the name stands for, and what the studio sells: the three letters ARE
- *  the three services, so the services chapter is built from them. It reads as
- *  one word, so the letters have to be spelled out or the meaning is lost. */
-export const BRAND_MEANING = {
-  label: "Where the name comes from",
-  letters: [
+/* -------------------------------------------------------------- offer */
+/* What the studio sells, said plainly enough to buy from. Built from the
+ * S, A and M of the name; every deliverable is something the studio already
+ * ships (see the work, the automation console and the founder brand). No
+ * prices and no invented timelines: both are agreed on the first call. */
+export const OFFER = {
+  labels: {
+    get: "What you get",
+    timeline: "Timeline",
+    need: "What we need from you",
+    start: "Start with this",
+  },
+  packages: [
     {
+      id: "websites",
       letter: "S",
-      word: "Storytelling",
-      body: "The site that makes strangers believe you.",
-      service: "Storytelling websites",
-      detail: "A site that earns a stranger's trust in ninety seconds. Fast, clear on every screen, and built to rank.",
-      href: "#work",
-      cta: "See the sites",
+      name: "Storytelling website",
+      outcome: "A site that earns a stranger's trust in ninety seconds.",
+      deliverables: [
+        "Positioning and the story the whole site tells",
+        "Design and build, fast and clear on every screen",
+        "Copy written with you, not handed to you",
+        "SEO and Google Business Profile, set up properly",
+        "Launch, domain and analytics wired in",
+      ],
+      timeline: "Agreed on the first call and written down before we start.",
+      need: ["Your logo and photos of your work", "One call about who your customers are"],
+      proof: { label: "See the sites", href: "#work" },
+      prefill: "I'd like a storytelling website.",
     },
     {
+      id: "automation",
       letter: "A",
-      word: "Automations",
-      body: "The engine that runs after they do.",
-      service: "Growth systems and automation",
-      detail: "Leads captured, qualified and followed up while you sleep. Invoicing and reporting that run themselves.",
-      href: "#automation",
-      cta: "Watch one run",
+      name: "Growth systems and automation",
+      outcome: "Leads followed up while you sleep. Admin that runs itself.",
+      deliverables: [
+        "Lead capture that qualifies and follows up on its own",
+        "Invoicing and payments without the spreadsheet",
+        "Cold outreach, personalised and booked",
+        "One live dashboard with the number that matters",
+      ],
+      timeline: "Scoped per system on the first call.",
+      need: ["A walk through how work moves today", "Access to the tools you already use"],
+      proof: { label: "Watch one run", href: "#automation" },
+      prefill: "I'd like a growth system or automation.",
     },
     {
+      id: "brand",
       letter: "M",
-      word: "Marketing",
-      body: "The reach that puts you in front of them.",
-      service: "Founder brand",
-      detail: "Positioning, content and distribution that make your name open doors before you do.",
-      href: SOCIALS.linkedin.href,
-      cta: "Follow the build on LinkedIn",
+      name: "Founder brand",
+      outcome: "Your name opens doors before you do.",
+      deliverables: [
+        "Positioning: one sharp point of view, said everywhere",
+        "A weekly content system of posts and reels from your work",
+        "You approve, we ship",
+        "Distribution: comments, DMs and the follow-up loop",
+      ],
+      timeline: "A monthly rhythm, set together on the first call.",
+      need: ["Your opinions and your stories", "A little time on camera"],
+      proof: { label: "Follow the build on LinkedIn", href: SOCIALS.linkedin.href },
+      prefill: "I'd like help building my founder brand.",
     },
   ],
-  suffix: {
+  peer: {
     word: "Peer",
-    body: "Not a vendor you brief. A peer: in it with you, straight with you.",
+    title: "We stay after launch.",
+    body: "Not a vendor you brief. A peer: in it with you, straight with you, and still answering after the site is live.",
+    photo: "/asrg-client.webp",
+    photoAlt: "Syed Mukheeth shaking hands with the ASRG Construction owner",
   },
 } as const;
+
+export type OfferPackage = (typeof OFFER.packages)[number];
 
 /* ---------------------------------------------------------------- cta */
 /* The resolution of the hero's three beats: noticed, remembered, chosen. */
@@ -881,6 +875,13 @@ export const CTA = {
   fallbackEmail: "sampeerstudio@gmail.com",
   /** the way out for people who will never fill a form */
   direct: "Or email the studio at",
+  /** beside the form on home: the direct ways in */
+  details: [
+    { label: "Email", value: "sampeerstudio@gmail.com", href: "mailto:sampeerstudio@gmail.com" },
+    { label: "Instagram", value: "@sampeer.studio", href: "https://www.instagram.com/sampeer.studio/" },
+    { label: "Studio", value: "Kurnool, Andhra Pradesh" },
+    { label: "Clients in", value: "India and the UK" },
+  ],
 } as const;
 
 /* ------------------------------------------------------------- footer */
@@ -888,7 +889,7 @@ export const CTA = {
  * wordmark rising into view, then the credit row. */
 export const FOOTER = {
   brand: "SAMPeer Studio",
-  /** the wordmark splits so the second word can take the accent */
+  /** the wordmark splits so the second word can sit a tone down */
   mark: ["SAMPeer", "Studio"],
   location: "Kurnool, Andhra Pradesh",
   line: "Let's make you impossible to overlook.",

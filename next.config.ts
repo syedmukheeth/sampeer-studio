@@ -74,7 +74,7 @@ const nextConfig: NextConfig = {
     return [
       { source: "/:path*", headers: securityHeaders },
       { source: "/film/:file*", headers: immutable },
-      { source: "/reviews/:file*", headers: immutable },
+      { source: "/clients/:file*", headers: immutable },
       { source: "/founder/:file*", headers: immutable },
     ];
   },

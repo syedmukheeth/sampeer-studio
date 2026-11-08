@@ -41,7 +41,7 @@ export function CaseStudy({ data }: { data: CaseStudyData }) {
             <p className="font-mono text-xs font-medium tracking-[0.04em] text-accent-text">{data.eyebrow}</p>
           </Reveal>
           <Reveal delay={0.05}>
-            <h1 className="mt-5 font-display text-4xl leading-[1.03] font-[680] tracking-[-0.035em] font-stretch-semi-expanded md:text-6xl">
+            <h1 className="mt-5 font-display text-4xl leading-[1.03] font-[680] tracking-[-0.035em] md:text-6xl">
               {data.client}
             </h1>
           </Reveal>

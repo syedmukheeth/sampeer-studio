@@ -134,7 +134,7 @@ export function WorkDeck() {
               transition={{ duration: reduce ? 0 : DUR.fast, ease: EASE.out }}
             >
               <p className="font-mono text-xs text-faint">{KIND[current.kind]}</p>
-              <p className="mt-1 truncate font-display text-lg font-semibold tracking-[-0.01em] text-ink font-stretch-semi-expanded">
+              <p className="mt-1 truncate font-display text-lg font-semibold tracking-[-0.01em] text-ink">
                 {current.client}
               </p>
             </motion.div>

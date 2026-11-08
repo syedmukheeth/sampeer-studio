@@ -1,71 +1,61 @@
 import { clsx } from "clsx";
-import { ArrowDown } from "@phosphor-icons/react/dist/ssr";
-import { PROOF, REVIEWS, STATS } from "@/lib/content";
+import { PROOF, STATS } from "@/lib/content";
 import { CountUp } from "@/components/ui/CountUp";
 import { FadeIn } from "@/components/ui/FadeIn";
 import { Shell } from "@/components/ui/Shell";
 import { STAGGER } from "@/lib/constants";
 
-/* The proof strip, the hard change of ground under the marquee: the fear
-   spikes right after a promise, so the evidence sits there. Real numbers, then
-   the real clients by name (no logo wall of borrowed marks), then how many of
-   them say so on camera. */
+/* The trust bar, the first thing on paper once the night folds away: the fear
+   spikes right after a promise, so the evidence sits there. One half names the
+   real clients (no logo wall of borrowed marks), the other carries the real
+   numbers. */
 export function Stats() {
-  const onCamera = REVIEWS.length;
-
   return (
-    <section id="proof" aria-label="At a glance" className="border-y border-line bg-canvas">
-      <div className="mx-auto grid max-w-(--max-shell) grid-cols-2 md:grid-cols-4">
-        {STATS.map((s, i) => (
-          <FadeIn
-            key={s.label}
-            delay={i * STAGGER.base}
-            className={clsx(
-              "px-6 py-9 md:px-10 md:py-12",
-              i % 2 === 1 && "border-l border-line",
-              i >= 2 && "border-t border-line md:border-t-0",
-              i === 2 && "md:border-l",
-            )}
-          >
-            <CountUp
-              value={s.value}
-              text={s.text}
-              suffix={s.suffix}
-              decimals={s.decimals}
-              className={clsx(
-                "block font-display font-[650] tracking-[-0.03em] text-ink tabular-nums font-stretch-semi-expanded",
-                s.text ? "text-2xl sm:text-3xl md:text-4xl" : "text-4xl sm:text-5xl md:text-6xl",
-              )}
-            />
-            <div className="mt-3 font-mono text-xs text-faint">{s.label}</div>
-          </FadeIn>
-        ))}
-      </div>
-
-      <div className="border-t border-line">
-        <Shell className="flex flex-col gap-4 py-6 md:flex-row md:items-center md:justify-between md:gap-8">
-          <p className="flex flex-wrap items-baseline gap-x-5 gap-y-2">
-            <span className="font-mono text-xs text-faint">{PROOF.trustedBy}</span>
+    <section id="proof" aria-label="At a glance" className="bg-canvas">
+      <Shell className="grid gap-12 pt-20 pb-6 md:pt-28 md:pb-10 lg:grid-cols-12 lg:gap-12">
+        <FadeIn className="lg:col-span-5">
+          <p className="font-mono text-xs tracking-[0.06em] text-faint uppercase">{PROOF.trustedBy}</p>
+          <ul className="mt-6 border-t border-line">
             {PROOF.clients.map((c) => (
-              <span
+              <li
                 key={c}
-                className="font-display text-lg font-semibold tracking-[-0.015em] text-ink font-stretch-semi-expanded md:text-xl"
+                className="flex items-center gap-3 border-b border-line py-4 font-display text-2xl font-[560] tracking-[-0.03em] text-ink md:text-3xl"
               >
+                <span aria-hidden className="h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
                 {c}
-              </span>
+              </li>
             ))}
-          </p>
-          {onCamera > 0 ? (
-            <a
-              href={PROOF.watch.href}
-              className="link-wipe inline-flex shrink-0 items-center gap-2 self-start py-1 font-sans text-sm font-medium text-accent-text md:self-auto"
+          </ul>
+        </FadeIn>
+
+        <dl className="grid grid-cols-2 self-end lg:col-span-7">
+          {STATS.map((s, i) => (
+            <FadeIn
+              key={s.label}
+              delay={i * STAGGER.base}
+              className={clsx(
+                "flex flex-col-reverse justify-end border-line py-7 md:py-9",
+                i % 2 === 1 ? "border-l pl-6 md:pl-10" : "pr-6 md:pr-10",
+                i >= 2 && "border-t",
+              )}
             >
-              {PROOF.onCamera.replace("{n}", String(onCamera))} · {PROOF.watch.label}
-              <ArrowDown size={14} weight="bold" aria-hidden />
-            </a>
-          ) : null}
-        </Shell>
-      </div>
+              <dt className="mt-3 font-mono text-xs text-faint">{s.label}</dt>
+              <dd>
+                <CountUp
+                  value={s.value}
+                  text={s.text}
+                  suffix={s.suffix}
+                  decimals={s.decimals}
+                  className={clsx(
+                    "block font-display font-[600] tracking-[-0.045em] text-ink tabular-nums",
+                    s.text ? "text-3xl sm:text-4xl md:text-5xl" : "text-5xl sm:text-6xl md:text-7xl",
+                  )}
+                />
+              </dd>
+            </FadeIn>
+          ))}
+        </dl>
+      </Shell>
     </section>
   );
 }

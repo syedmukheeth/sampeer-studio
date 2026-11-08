@@ -58,8 +58,8 @@ export function SectionHeader({
   title: React.ReactNode;
   className?: string;
   align?: "left" | "center";
-  /** Put the section's label and title in the violet, the same colour that
-   *  marks the struck word up top. Rationed, a page of violet headings spends
+  /** Put the section's label and title in the accent orange, the same colour that
+   *  marks the struck word up top. Rationed, a page of orange headings spends
    *  the accent and it stops meaning anything. */
   accent?: boolean;
   /** Draw a hairline under the header. Opt-in, not default: most headers are
@@ -88,7 +88,7 @@ export function SectionHeader({
       ) : null}
       <h2
         className={clsx(
-          "font-display text-[clamp(2rem,4.2vw,3.5rem)] font-[650] leading-[1.02] tracking-[-0.03em] font-stretch-semi-expanded",
+          "font-display text-[clamp(2rem,4.2vw,3.5rem)] font-[600] leading-[1.02] tracking-[-0.045em] text-ink",
           accent && "text-accent-text",
         )}
       >

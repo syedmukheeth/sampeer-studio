@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Google_Sans_Code, Google_Sans_Flex } from "next/font/google";
+import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
@@ -9,29 +9,19 @@ import { CursorLabel } from "@/components/ui/CursorLabel";
 import { INTRO_SCRIPT, Intro } from "@/components/ui/Intro";
 import { SITE_URL } from "@/lib/constants";
 
-// The logo's wordmark is set in the Product Sans family, which Google has since
-// released as Google Sans Flex under the OFL. One variable file carries both
-// display and body: headlines stretch along the width axis, body copy sits at
-// normal width. Only `wdth` is added beyond weight; the full axis set (opsz,
-// ROND, GRAD, slnt) would take the file from ~120 KB to ~560 KB.
-// `adjustFontFallback: false` on both: next/font has no metric overrides for
-// these two families yet, so it cannot size-match a fallback and says so on
-// every build. The headline lines are nowrap and the font is preloaded, so the
-// swap cannot change the hero's line count.
-const sans = Google_Sans_Flex({
-  variable: "--font-gsf",
+// Geist for display and body, Geist Mono for labels, numbers and diagram meta.
+// One variable file each; next/font self-hosts them and size-matches a
+// fallback, so the swap cannot shift the layout.
+const sans = Geist({
+  variable: "--font-geist",
   subsets: ["latin"],
-  axes: ["wdth"],
   display: "swap",
-  adjustFontFallback: false,
 });
 
-// Its monospace sibling, for numbers, labels, filters and diagram meta.
-const mono = Google_Sans_Code({
-  variable: "--font-gsc",
+const mono = Geist_Mono({
+  variable: "--font-geist-mono",
   subsets: ["latin"],
   display: "swap",
-  adjustFontFallback: false,
 });
 
 const TITLE = "SAMPeer Studio by Syed Mukheeth - Websites, Automation & Founder Branding";
@@ -95,12 +85,13 @@ function safeJsonLd(data: unknown) {
   return JSON.stringify(data).replace(/</g, "\\u003c");
 }
 
-// Mirrors --color-canvas (oklch(0.14 0.03 290)). Metadata is emitted as HTML
+// Mirrors the night canvas (.night --color-canvas, oklch(0.145 0.002 270)): the
+// browser chrome sits against the night hero. Metadata is emitted as HTML
 // attributes and cannot read a CSS custom property, so this literal is the one
 // sanctioned copy; change both together.
 export const viewport: Viewport = {
-  themeColor: "#090715",
-  colorScheme: "dark",
+  themeColor: "#0e0f11",
+  colorScheme: "light",
 };
 
 export default function RootLayout({

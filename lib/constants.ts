@@ -41,7 +41,7 @@ export const EASE = {
   out: [0.16, 1, 0.3, 1] as const,
   /** smooth symmetric, for pinned scrub / camera-like moves */
   inOut: [0.65, 0, 0.35, 1] as const,
-  /** soft overshoot, for accents that "pop" once (the violet strike) */
+  /** soft overshoot, for accents that "pop" once (the orange strike) */
   pop: [0.34, 1.4, 0.64, 1] as const,
 } as const;
 
@@ -60,7 +60,7 @@ export const DUR = {
   base: 0.35,
   slow: 0.5,
   hero: 0.45,
-  /** the hero headline's width-axis stretch. Mirrored as --dur-kinetic in
+  /** the hero headline's line rise. Mirrored as --dur-kinetic in
    *  app/globals.css, because that animation is pure CSS. */
   kinetic: 0.9,
   /** the founder film fading up over its poster once it is actually playing */
