@@ -418,8 +418,13 @@ summary,
   background: var(--gradient-ribbon);
 }
 
-/* The wordmark: the page signs its name. Sized so the two words span the
-   shell on one line from tablet up; on phones it wraps to two. */
+/* The wordmark: the page signs its name. Sized against its own box (the
+   @container wrapper in Footer.tsx), not the viewport, so it can never
+   outgrow the shell: vw kept growing past the shell's 1400px cap and clipped
+   "Studio" on wide screens. The line's ink measures 9.23em at this width
+   and tracking, so 10.8cqi runs it edge to edge of the box on one line from
+   tablet up. On phones it wraps, and 18.25cqi sets "SAMPeer", the longer
+   line, at about 97%. */
 .footer-mark {
   font-family: var(--font-display);
   font-weight: 700;
@@ -427,13 +432,13 @@ summary,
   letter-spacing: -0.05em;
   line-height: 0.9;
   white-space: nowrap;
-  font-size: clamp(2.6rem, 9.6vw, 9.25rem);
+  font-size: 10.8cqi;
   padding-bottom: 0.08em;
 }
 @media (max-width: 639px) {
   .footer-mark {
     white-space: normal;
-    font-size: clamp(3rem, 16vw, 5rem);
+    font-size: min(18.25cqi, 5rem);
   }
 }
 

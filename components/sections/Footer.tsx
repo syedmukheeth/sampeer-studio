@@ -81,7 +81,7 @@ export function Footer() {
             <div>
               {/* the page signs its name; the words are in the row above for
                   anyone not reading pixels */}
-              <div aria-hidden className="overflow-hidden">
+              <div aria-hidden className="@container overflow-hidden">
                 {/* always bound, so server and client markup agree; under
                     reduced motion globals.css pins it at rest */}
                 <motion.p style={{ y: rise }} className="footer-mark text-ink">
