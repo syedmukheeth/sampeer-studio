@@ -2,33 +2,36 @@ import { Nav } from "@/components/sections/Nav";
 import { Hero } from "@/components/sections/Hero";
 import { Stats } from "@/components/sections/Stats";
 import { Work } from "@/components/sections/Work";
+import { Reviews } from "@/components/sections/Reviews";
 import { CaseFeature } from "@/components/sections/CaseFeature";
-import { Process } from "@/components/sections/Process";
+import { Problem } from "@/components/sections/Problem";
+import { Services } from "@/components/sections/Services";
 import { AutomationShowcase } from "@/components/sections/AutomationShowcase";
-import { FounderBrand } from "@/components/sections/FounderBrand";
 import { About } from "@/components/sections/About";
 import { CtaSection } from "@/components/ui/CtaSection";
-import { CTA as CTA_CONTENT } from "@/lib/content";
+import { CHAPTERS, CTA as CTA_CONTENT, PROCESS, PROCESS_HEADER } from "@/lib/content";
 import { EVENTS } from "@/lib/analytics";
 import { Footer } from "@/components/sections/Footer";
 
-/* The argument, in order: the claim with its evidence, the proof strip, the
-   work, the one case study, then how (process), the two systems I sell beside
-   the sites (automation, founder brand), who does it, and the ask. Work before
-   process, process before services: a buyer who fears a template needs to see
-   the work first. */
+/* The argument, as chapters. The film and the statement; the proof strip;
+   the work (evidence before any claim, for a buyer who fears a template);
+   clients on camera and the one case study (the fear spikes right after the
+   work, so the proof sits there); then the problem said plainly, the three
+   pillars that answer it, one of them running live; the founder; and the ask,
+   with what happens after it. Each chapter opens on the ribbon rule. */
 export default function Home() {
   return (
     <>
-      <Nav />
+      <Nav overHero />
       <main id="main">
         <Hero />
         <Stats />
         <Work />
+        <Reviews />
         <CaseFeature />
-        <Process />
+        <Problem />
+        <Services />
         <AutomationShowcase />
-        <FounderBrand />
         <About />
         <CtaSection
           id="contact"
@@ -36,6 +39,8 @@ export default function Home() {
           submitEvent={EVENTS.ctaSubmit}
           source="home"
           content={CTA_CONTENT}
+          chapter={CHAPTERS.contact}
+          next={{ label: PROCESS_HEADER.label, steps: PROCESS }}
         />
       </main>
       <Footer />

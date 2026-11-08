@@ -17,6 +17,8 @@ export const Z = {
   base: 0,
   raised: 10,
   nav: 40,
+  /** the cursor label rides above the nav but under every overlay */
+  cursor: 45,
   overlay: 50,
 } as const;
 
@@ -61,6 +63,10 @@ export const DUR = {
   /** the hero headline's width-axis stretch. Mirrored as --dur-kinetic in
    *  app/globals.css, because that animation is pure CSS. */
   kinetic: 0.9,
+  /** the founder film fading up over its poster once it is actually playing */
+  film: 0.8,
+  /** the clip-path wipe that reveals a work poster as it scrolls in */
+  reveal: 1.1,
 } as const;
 
 /** Springs, for things that move like objects rather than fade like text:
@@ -70,7 +76,24 @@ export const SPRING = {
   deck: { type: "spring", stiffness: 170, damping: 26 },
   /** a pill sliding under the active tab or nav link */
   pill: { type: "spring", stiffness: 380, damping: 32 },
+  /** the nav growing from the full-width bar into the floating pill */
+  nav: { type: "spring", stiffness: 260, damping: 34 },
+  /** a review card opening into the theatre: a heavy object, no overshoot */
+  theatre: { type: "spring", stiffness: 210, damping: 30 },
+  /** the cursor label and the work preview trailing the pointer */
+  cursor: { stiffness: 420, damping: 38, mass: 0.6 },
 } as const;
+
+/** How far a parallax layer drifts across its scroll range, in % of its own
+ *  height. Small: depth, not motion sickness. */
+export const PARALLAX = 7;
+
+/** Where a work poster's clip-path reveal starts: inset on all sides, in %. */
+export const REVEAL_INSET = 14;
+
+/** The intro curtain's whole life, in ms. Mirrored as --intro-ms in
+ *  app/globals.css (the curtain is pure CSS); keep the two in step. */
+export const INTRO_MS = 1100;
 
 /** How long the hero deck holds a project before dealing the next one. */
 export const DECK_MS = 4500;

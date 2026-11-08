@@ -5,6 +5,8 @@ import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { LenisProvider } from "@/components/providers/LenisProvider";
 import { ScrollDepth } from "@/components/analytics/ScrollDepth";
+import { CursorLabel } from "@/components/ui/CursorLabel";
+import { INTRO_SCRIPT, Intro } from "@/components/ui/Intro";
 import { SITE_URL } from "@/lib/constants";
 
 // The logo's wordmark is set in the Product Sans family, which Google has since
@@ -105,11 +107,15 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
+    // suppressHydrationWarning: the intro script below sets data-intro on <html>
+    // before React hydrates; that attribute is the only expected difference
     <html
       lang="en"
       className={`${sans.variable} ${mono.variable}`}
+      suppressHydrationWarning
     >
       <head>
+        <script dangerouslySetInnerHTML={{ __html: INTRO_SCRIPT }} />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: safeJsonLd(JSON_LD) }}
@@ -120,7 +126,9 @@ export default function RootLayout({
         <a className="skip-link" href="#main">
           Skip to content
         </a>
+        <Intro />
         <LenisProvider>{children}</LenisProvider>
+        <CursorLabel />
         <ScrollDepth />
         <Analytics />
         <SpeedInsights />

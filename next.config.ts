@@ -67,7 +67,16 @@ const nextConfig: NextConfig = {
   },
 
   async headers() {
-    return [{ source: "/:path*", headers: securityHeaders }];
+    // The film, review and founder media carry a version in their file names
+    // (hero-wide.v1.mp4); a changed file gets a new name, so these can be
+    // cached for a year without ever serving a stale cut.
+    const immutable = [{ key: "Cache-Control", value: "public, max-age=31536000, immutable" }];
+    return [
+      { source: "/:path*", headers: securityHeaders },
+      { source: "/film/:file*", headers: immutable },
+      { source: "/reviews/:file*", headers: immutable },
+      { source: "/founder/:file*", headers: immutable },
+    ];
   },
 };
 

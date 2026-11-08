@@ -10,6 +10,8 @@ export const EVENTS = {
   auditClickHero: "audit_click_hero",
   auditSubmit: "audit_submit",
   industrySelect: "industry_select",
+  reviewOpen: "review_open",
+  filmToggle: "film_toggle",
 } as const;
 
 export { track };

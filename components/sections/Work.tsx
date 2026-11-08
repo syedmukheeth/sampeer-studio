@@ -1,69 +1,52 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { clsx } from "clsx";
-import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import {
+  AnimatePresence,
+  motion,
+  useMotionValue,
+  useReducedMotion,
+  useScroll,
+  useSpring,
+  useTransform,
+} from "motion/react";
 import { ArrowRight, ArrowUpRight } from "@phosphor-icons/react/dist/ssr";
-import { WORK, WORK_GROUPS, WORK_HEADER, type LiveProject, type ProjectKind } from "@/lib/content";
-import { Section, SectionHeader } from "@/components/ui/Section";
+import { CHAPTERS, WORK, WORK_GROUPS, WORK_HEADER, type LiveProject, type ProjectKind } from "@/lib/content";
+import { Section } from "@/components/ui/Section";
+import { ChapterRule } from "@/components/ui/ChapterRule";
 import { track, EVENTS } from "@/lib/analytics";
-import { DUR, EASE, RISE, SPRING } from "@/lib/constants";
+import { DUR, EASE, PARALLAX, REVEAL_INSET, RISE, SPRING } from "@/lib/constants";
+import { ramp } from "@/lib/scroll";
+import { FINE_POINTER, useMediaQuery } from "@/lib/media";
 
-/* Portfolio grid. Every project is live; the filter is there because the
-   three kinds are different claims (paid client work, my own product, concept
-   builds for fictional brands) and a buyer should be able to look at just the
-   one they care about. Concept builds carry their tag on every card, filtered
-   or not. */
+/* Selected work, in two registers. The real projects (client sites and the
+   studio's own product) are full showcase rows: big, alternating sides, each
+   poster wiping open as it arrives and drifting inside its frame. The concept
+   builds are an index, a typographic list, with the poster following the
+   cursor on desktop. The split is the honesty: paid work is never dressed the
+   same as self-initiated work, and every concept row says so. */
 
-type Filter = "all" | ProjectKind;
+const FEATURED = WORK.filter((w) => w.kind !== "concept");
+const CONCEPTS = WORK.filter((w) => w.kind === "concept");
+const CONCEPT_NOTE = WORK_GROUPS.find((g) => g.kind === "concept")?.note ?? "";
 
-const FILTERS: { id: Filter; label: string }[] = [
-  { id: "all", label: "All" },
-  ...WORK_GROUPS.map((g) => ({ id: g.kind as Filter, label: g.title })),
-];
-
-const TAG: Record<ProjectKind, string> = { client: "Client", product: "Product", concept: "Concept" };
+const TAG: Record<ProjectKind, string> = { client: "Client", product: "Studio product", concept: "Concept build" };
 
 const count = (kind: ProjectKind) => WORK.filter((w) => w.kind === kind).length;
-const SUMMARY = `${count("client")} client sites, ${count("product")} product of my own, ${count(
+const SUMMARY = `${count("client")} client sites, ${count("product")} product of the studio's own, ${count(
   "concept",
 )} concept builds for fictional brands. All of them live.`;
 
-/* Column spans on the 12-column desktop grid. The rhythm is asymmetric on
-   purpose (7+5, 5+7, 4+4+4, 6+6) and every row is full: no empty cells, no
-   row of identical cards. Filtered views get their own full rows. */
-const SPAN: Record<Filter, Record<string, string>> = {
-  all: {
-    suri: "lg:col-span-7",
-    asrg: "lg:col-span-5",
-    maa: "lg:col-span-5",
-    "business-sos": "lg:col-span-7",
-    aurum: "lg:col-span-4",
-    liftx: "lg:col-span-4",
-    vantara: "lg:col-span-4",
-    novacare: "lg:col-span-6",
-    uniquirk: "lg:col-span-6",
-  },
-  client: { suri: "lg:col-span-12", asrg: "lg:col-span-6", maa: "lg:col-span-6" },
-  product: { "business-sos": "lg:col-span-12" },
-  concept: {
-    aurum: "lg:col-span-4",
-    liftx: "lg:col-span-4",
-    vantara: "lg:col-span-4",
-    novacare: "lg:col-span-6",
-    uniquirk: "lg:col-span-6",
-  },
-};
-
-const visit = (w: LiveProject) => () => track(EVENTS.workVisitSite, { client: w.client });
+const visit = (w: LiveProject) => () => track(EVENTS.workVisitSite, { client: w.client, from: "work" });
 
 function KindTag({ kind }: { kind: ProjectKind }) {
   return (
     <span
       className={clsx(
-        "rounded-full px-2 py-0.5 font-mono text-[11px] font-medium",
+        "rounded-full px-2.5 py-0.5 font-mono text-[11px] font-medium whitespace-nowrap",
         kind === "concept" ? "border border-line text-muted" : "bg-accent-soft text-accent-text",
       )}
     >
@@ -72,63 +55,76 @@ function KindTag({ kind }: { kind: ProjectKind }) {
   );
 }
 
-function ProjectCard({ project: w, span, wide }: { project: LiveProject; span: string; wide: boolean }) {
+/** Reads the reduced-motion preference into a ref, for scroll transforms: the
+ *  value bound to `style` must be the same on the server and the first client
+ *  render, so the preference changes what the transform returns, not whether
+ *  it is bound. */
+function useStillRef() {
   const reduce = useReducedMotion();
-  // the poster opens the live site, except for concept builds, whose case
-  // study is the better first stop
-  const posterHref = w.kind === "concept" && w.caseStudy ? w.caseStudy : w.url;
-  const external = posterHref === w.url;
+  const still = useRef(false);
+  useEffect(() => {
+    still.current = Boolean(reduce);
+  }, [reduce]);
+  return { reduce, still };
+}
+
+function FeaturedRow({ project: w, index }: { project: LiveProject; index: number }) {
+  const row = useRef<HTMLElement>(null);
+  const { reduce, still } = useStillRef();
+  const { scrollYProgress } = useScroll({ target: row, offset: ["start end", "end start"] });
+  // function form, so Motion keeps it on the real scroll (see lib/scroll.ts)
+  const y = useTransform(scrollYProgress, (p) => (still.current ? "0%" : `${ramp(p, [0, 1], [-PARALLAX, PARALLAX])}%`));
+  const flip = index % 2 === 1;
+  const closed = `inset(${REVEAL_INSET}% ${REVEAL_INSET}% ${REVEAL_INSET}% ${REVEAL_INSET}% round 16px)`;
 
   return (
-    <motion.article
-      id={`work-${w.id}`}
-      layout="position"
-      initial={{ opacity: 0, scale: 0.97 }}
-      animate={{ opacity: 1, scale: 1 }}
-      exit={reduce ? undefined : { opacity: 0, scale: 0.97 }}
-      transition={{ duration: reduce ? 0 : DUR.base, ease: EASE.out }}
-      className={clsx("min-w-0", span)}
-    >
-      {/* same initial on server and client; reduced motion is data-reveal's
-          job in globals.css (see FadeIn) */}
-      <motion.div
-        data-reveal
-        initial={{ opacity: 0, y: RISE }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "0px 0px -8% 0px" }}
-        transition={{ duration: reduce ? 0 : DUR.slow, ease: EASE.out }}
+    <article ref={row} id={`work-${w.id}`} className="grid items-center gap-7 lg:grid-cols-12 lg:gap-12">
+      <motion.a
+        href={w.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        onClick={visit(w)}
+        tabIndex={-1}
+        aria-hidden
+        data-cursor="Open"
+        data-reveal-clip
+        initial={{ clipPath: closed }}
+        whileInView={{ clipPath: "inset(0% 0% 0% 0% round 16px)" }}
+        viewport={{ once: true, margin: "0px 0px -12% 0px" }}
+        transition={{ duration: reduce ? 0 : DUR.reveal, ease: EASE.out }}
+        className={clsx(
+          "group relative block aspect-16/10 overflow-hidden rounded-2xl bg-elevated lg:col-span-8",
+          flip && "lg:order-last",
+        )}
       >
-        <a
-          href={posterHref}
-          {...(external ? { target: "_blank", rel: "noopener noreferrer", onClick: visit(w) } : {})}
-          tabIndex={-1}
-          aria-hidden
-          className="group relative block aspect-16/10 overflow-hidden rounded-2xl border border-line bg-elevated transition-colors duration-500 hover:border-accent/60"
-        >
+        <motion.div data-parallax style={{ y }} className="absolute inset-x-0 -inset-y-[10%]">
           <Image
             src={w.poster}
             alt=""
             fill
-            sizes={wide ? "(min-width: 1024px) 60vw, 100vw" : "(min-width: 1024px) 34vw, (min-width: 768px) 50vw, 100vw"}
+            sizes="(min-width: 1024px) 62vw, 100vw"
             className="media-zoom object-cover object-top"
           />
-        </a>
+        </motion.div>
+      </motion.a>
 
-        <div className="mt-5 flex flex-wrap items-center gap-x-2.5 gap-y-1">
+      <motion.div
+        data-reveal
+        initial={{ opacity: 0, y: RISE }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "0px 0px -10% 0px" }}
+        transition={{ duration: reduce ? 0 : DUR.slow, ease: EASE.out }}
+        className="min-w-0 lg:col-span-4"
+      >
+        <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1.5">
           <KindTag kind={w.kind} />
           <span className="font-mono text-xs text-faint">{w.category}</span>
         </div>
-        <h3
-          className={clsx(
-            "mt-2 font-display font-[650] tracking-[-0.02em] text-ink font-stretch-semi-expanded",
-            wide ? "text-2xl md:text-3xl" : "text-xl md:text-2xl",
-          )}
-        >
+        <h3 className="mt-4 font-display text-[clamp(2rem,3.4vw,3rem)] leading-[1] font-[650] tracking-[-0.03em] text-ink font-stretch-semi-expanded">
           {w.client}
         </h3>
-        <p className="mt-2 max-w-[60ch] font-sans text-[15px] leading-relaxed text-muted">{w.description}</p>
-
-        <div className="mt-4 flex flex-wrap gap-x-6 gap-y-2">
+        <p className="mt-4 max-w-[46ch] font-sans text-base leading-relaxed text-muted">{w.description}</p>
+        <div className="mt-6 flex flex-wrap gap-x-6 gap-y-2">
           <a
             href={w.url}
             target="_blank"
@@ -138,6 +134,7 @@ function ProjectCard({ project: w, span, wide }: { project: LiveProject; span: s
           >
             {w.kind === "product" ? `Try ${w.client}` : "Visit site"}
             <ArrowUpRight size={14} weight="bold" aria-hidden />
+            <span className="sr-only"> (opens in a new tab)</span>
           </a>
           {w.caseStudy && (
             <Link
@@ -149,75 +146,127 @@ function ProjectCard({ project: w, span, wide }: { project: LiveProject; span: s
           )}
         </div>
       </motion.div>
-    </motion.article>
+    </article>
+  );
+}
+
+function ConceptIndex() {
+  const list = useRef<HTMLDivElement>(null);
+  const reduce = useReducedMotion();
+  const [hover, setHover] = useState<LiveProject | null>(null);
+  // the floating preview is for a mouse; touch gets a thumbnail in each row
+  const fine = useMediaQuery(FINE_POINTER);
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  const sx = useSpring(x, SPRING.cursor);
+  const sy = useSpring(y, SPRING.cursor);
+
+  const onMove = (e: React.PointerEvent) => {
+    const r = list.current?.getBoundingClientRect();
+    if (!r) return;
+    x.set(e.clientX - r.left);
+    y.set(e.clientY - r.top);
+  };
+
+  return (
+    <div ref={list} onPointerMove={fine ? onMove : undefined} onPointerLeave={() => setHover(null)} className="relative mt-24 md:mt-32">
+      <div className="flex flex-col gap-2 md:flex-row md:items-baseline md:justify-between">
+        <h3 className="font-display text-2xl font-[650] tracking-[-0.02em] text-ink font-stretch-semi-expanded md:text-3xl">
+          {WORK_GROUPS.find((g) => g.kind === "concept")?.title}
+        </h3>
+        <p className="max-w-md font-sans text-sm text-muted md:text-right">{CONCEPT_NOTE}</p>
+      </div>
+
+      <ul className="mt-8 border-t border-line">
+        {CONCEPTS.map((w) => (
+          <li key={w.id} className="border-b border-line">
+            <Link
+              href={w.caseStudy ?? w.url}
+              data-cursor="View"
+              onPointerEnter={() => setHover(w)}
+              onFocus={() => setHover(w)}
+              onBlur={() => setHover(null)}
+              className="group grid grid-cols-[5rem_minmax(0,1fr)_auto] items-center gap-4 py-5 md:grid-cols-[minmax(0,1fr)_auto_auto] md:gap-8 md:py-7"
+            >
+              <span className="relative block aspect-16/10 overflow-hidden rounded-lg bg-elevated md:hidden">
+                <Image src={w.poster} alt="" fill sizes="80px" className="object-cover object-top" />
+              </span>
+              <span className="min-w-0">
+                <span className="block font-display text-xl leading-tight font-[650] tracking-[-0.02em] text-ink transition-colors duration-300 font-stretch-semi-expanded group-hover:text-accent-text md:text-4xl">
+                  {w.client}
+                </span>
+                <span className="mt-1 block font-mono text-xs text-faint md:hidden">{w.category}</span>
+              </span>
+              <span className="hidden font-mono text-xs text-faint md:block">{w.category}</span>
+              <span className="flex items-center gap-3">
+                <span className="hidden sm:block">
+                  <KindTag kind={w.kind} />
+                </span>
+                <ArrowRight
+                  size={18}
+                  weight="bold"
+                  aria-hidden
+                  className="text-muted transition-transform duration-300 group-hover:translate-x-1 group-hover:text-accent-text"
+                />
+              </span>
+            </Link>
+          </li>
+        ))}
+      </ul>
+
+      {fine && !reduce ? (
+        <AnimatePresence>
+          {hover ? (
+            <motion.div
+              key="preview"
+              aria-hidden
+              style={{ x: sx, y: sy }}
+              initial={{ opacity: 0, scale: 0.92 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.92 }}
+              transition={{ duration: DUR.base, ease: EASE.out }}
+              className="pointer-events-none absolute top-0 left-0 z-20 hidden w-[22rem] -translate-x-1/2 -translate-y-[60%] lg:block"
+            >
+              <div className="relative aspect-16/10 overflow-hidden rounded-2xl border border-line bg-elevated shadow-[0_30px_60px_-28px_var(--shadow-tint)]">
+                <AnimatePresence initial={false}>
+                  <motion.div
+                    key={hover.id}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: DUR.fast }}
+                    className="absolute inset-0"
+                  >
+                    <Image src={hover.poster} alt="" fill sizes="352px" className="object-cover object-top" />
+                  </motion.div>
+                </AnimatePresence>
+              </div>
+            </motion.div>
+          ) : null}
+        </AnimatePresence>
+      ) : null}
+    </div>
   );
 }
 
 export function Work() {
-  const reduce = useReducedMotion();
-  const [filter, setFilter] = useState<Filter>("all");
-
-  const items = filter === "all" ? WORK : WORK.filter((w) => w.kind === filter);
-  const note = filter === "all" ? SUMMARY : WORK_GROUPS.find((g) => g.kind === filter)?.note;
-
   return (
     <Section id="work">
-      <SectionHeader title={WORK_HEADER.title} />
-
-      <div className="mt-10 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-        <div role="group" aria-label="Filter projects" className="flex flex-wrap gap-2">
-          {FILTERS.map((f) => {
-            const on = filter === f.id;
-            const n = f.id === "all" ? WORK.length : count(f.id);
-            return (
-              <button
-                key={f.id}
-                type="button"
-                aria-pressed={on}
-                onClick={() => setFilter(f.id)}
-                className={clsx(
-                  "btn-press relative inline-flex h-11 items-center gap-2 rounded-full border px-4 font-sans text-sm transition-colors",
-                  on ? "border-accent/60 text-ink" : "border-line text-muted hover:text-ink",
-                )}
-              >
-                {on && (
-                  <motion.span
-                    aria-hidden
-                    layoutId="work-filter"
-                    transition={reduce ? { duration: 0 } : SPRING.pill}
-                    className="absolute inset-0 rounded-full bg-accent-soft"
-                  />
-                )}
-                <span className="relative">{f.label}</span>
-                <span className="relative font-mono text-xs text-faint tabular-nums">{n}</span>
-              </button>
-            );
-          })}
-        </div>
-        <p className="max-w-md font-sans text-sm text-muted md:text-right">{note}</p>
+      <ChapterRule label={CHAPTERS.work} />
+      <div className="mt-10 flex flex-col gap-5 md:mt-12 lg:flex-row lg:items-end lg:justify-between">
+        <h2 className="max-w-3xl font-display text-[clamp(2.25rem,5vw,4.25rem)] leading-[1] font-[650] tracking-[-0.035em] text-ink font-stretch-semi-expanded">
+          {WORK_HEADER.title}
+        </h2>
+        <p className="max-w-sm font-sans text-sm leading-relaxed text-muted lg:text-right">{SUMMARY}</p>
       </div>
 
-      <motion.div
-        layout="position"
-        className="mt-12 grid grid-cols-1 gap-x-6 gap-y-14 md:grid-cols-2 md:gap-y-16 lg:grid-cols-12"
-      >
-        <AnimatePresence mode="popLayout" initial={false}>
-          {items.map((w, i) => {
-            const span = SPAN[filter][w.id] ?? "lg:col-span-6";
-            // an odd one out at the end of the two-column tablet grid takes the
-            // whole row rather than leaving a hole beside it
-            const lastOdd = items.length % 2 === 1 && i === items.length - 1;
-            return (
-              <ProjectCard
-                key={w.id}
-                project={w}
-                span={clsx(span, lastOdd && "md:col-span-2")}
-                wide={/col-span-(7|12)/.test(span)}
-              />
-            );
-          })}
-        </AnimatePresence>
-      </motion.div>
+      <div className="mt-16 flex flex-col gap-20 md:mt-20 md:gap-28">
+        {FEATURED.map((w, i) => (
+          <FeaturedRow key={w.id} project={w} index={i} />
+        ))}
+      </div>
+
+      <ConceptIndex />
     </Section>
   );
 }

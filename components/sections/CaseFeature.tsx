@@ -1,19 +1,22 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, ArrowUpRight } from "@phosphor-icons/react/dist/ssr";
-import { CASE_ASRG, HOME_CASE, TESTIMONIAL } from "@/lib/content";
+import { ArrowRight, ArrowUp, ArrowUpRight } from "@phosphor-icons/react/dist/ssr";
+import { CASE_ASRG, HOME_CASE, REVIEWS, REVIEWS_HEADER, TESTIMONIAL } from "@/lib/content";
 import { Section } from "@/components/ui/Section";
 import { FadeIn } from "@/components/ui/FadeIn";
 import { STAGGER } from "@/lib/constants";
 
 /* The one case study the home page goes deep on, with the client's own words
-   folded in. Where they were, what I built, what they said. No invented
-   numbers: ASRG has not shared any, so the outcome is the owner's quote. */
+   folded in. Where they were, what we built, what they said. No invented
+   numbers: ASRG has not shared any, so the outcome is the owner's quote, and
+   his review on camera sits just above. */
+const onCamera = REVIEWS.some((r) => r.workId === "asrg");
+
 export function CaseFeature() {
   return (
     <Section id="case">
       <div className="grid gap-12 lg:grid-cols-12 lg:gap-14">
-        {/* the photos: the owner and me at his office, the handshake inset */}
+        {/* the photos: the owner and Syed at his office, the handshake inset */}
         <FadeIn className="relative mx-auto w-full max-w-md pr-10 pb-12 lg:col-span-5 lg:max-w-none">
           <div className="relative aspect-[1072/1200] overflow-hidden rounded-2xl border border-line bg-elevated">
             <Image
@@ -71,6 +74,14 @@ export function CaseFeature() {
             >
               Visit site <ArrowUpRight size={15} weight="bold" aria-hidden />
             </a>
+            {onCamera ? (
+              <a
+                href="#reviews"
+                className="link-wipe inline-flex items-center gap-1.5 py-1 font-sans text-[15px] font-medium text-ink"
+              >
+                {REVIEWS_HEADER.watch} <ArrowUp size={15} weight="bold" aria-hidden />
+              </a>
+            ) : null}
           </div>
         </div>
       </div>

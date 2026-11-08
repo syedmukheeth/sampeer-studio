@@ -4,7 +4,9 @@ import { motion, useReducedMotion } from "motion/react";
 import { ContactForm } from "@/components/ui/ContactForm";
 import { MaskText } from "@/components/ui/MaskText";
 import { Section } from "@/components/ui/Section";
-import { EASE, DUR, VIEWPORT } from "@/lib/constants";
+import { ChapterRule } from "@/components/ui/ChapterRule";
+import { FadeIn } from "@/components/ui/FadeIn";
+import { EASE, DUR, STAGGER, VIEWPORT } from "@/lib/constants";
 
 /** The closing ask, shared by the home CTA and the Automation Lab audit.
  *
@@ -23,6 +25,8 @@ export function CtaSection({
   submitEvent,
   source,
   content,
+  chapter,
+  next,
 }: {
   /** the section anchor, `contact` on home, `audit` on the Lab */
   id: string;
@@ -42,8 +46,64 @@ export function CtaSection({
      *  people who will never fill one in */
     direct?: string;
   };
+  /** Home only: the chapter label on the ribbon rule that opens the section. */
+  chapter?: string;
+  /** Home only: "what happens next", set beside the form. With these the
+   *  section becomes the page's resolution, a split with the last light behind
+   *  the heading; without them (the Lab) it stays the centred ask below. */
+  next?: { label: string; steps: readonly { id: string; title: string; body: string }[] };
 }) {
   const reduce = useReducedMotion();
+
+  if (next) {
+    return (
+      <Section id={id} size="lg">
+        {chapter ? <ChapterRule label={chapter} /> : null}
+        <div className="mt-14 grid gap-14 lg:grid-cols-12 lg:gap-16">
+          <div className="relative lg:col-span-5">
+            <span aria-hidden className="light-climax pointer-events-none absolute -inset-x-24 -inset-y-20 -z-10" />
+            <h2 className="font-display text-[clamp(2.5rem,6vw,5rem)] leading-[0.98] font-[680] tracking-[-0.04em] font-stretch-semi-expanded">
+              <MaskText text={content.heading} />
+            </h2>
+            <p className="mt-6 max-w-md font-sans text-base text-muted md:text-lg">{content.sub}</p>
+
+            <p className="mt-12 font-mono text-xs text-faint">{next.label}</p>
+            <ol className="mt-4 border-t border-line">
+              {next.steps.map((s, i) => (
+                <FadeIn as="li" key={s.id} delay={i * STAGGER.base} className="grid grid-cols-[6.5rem_1fr] gap-4 border-b border-line py-4">
+                  <span className="font-display text-lg font-semibold tracking-[-0.01em] text-ink font-stretch-semi-expanded">
+                    {s.title}
+                  </span>
+                  <span className="font-sans text-sm leading-relaxed text-muted">{s.body}</span>
+                </FadeIn>
+              ))}
+            </ol>
+          </div>
+
+          <div className="lg:col-span-7 lg:pt-2">
+            <ContactForm
+              idPrefix={idPrefix}
+              emailPlaceholder={content.placeholder}
+              phonePlaceholder={content.phonePlaceholder}
+              messagePlaceholder={content.messagePlaceholder}
+              buttonLabel={content.button}
+              submitEvent={submitEvent}
+              source={source}
+              fallbackEmail={content.fallbackEmail}
+            />
+            {content.direct && (
+              <p className="mt-6 font-sans text-sm text-muted">
+                {content.direct}{" "}
+                <a href={`mailto:${content.fallbackEmail}`} className="link-wipe text-ink">
+                  {content.fallbackEmail}
+                </a>
+              </p>
+            )}
+          </div>
+        </div>
+      </Section>
+    );
+  }
 
   return (
     <Section id={id} size="lg">

@@ -88,7 +88,7 @@ export const A_ORDER_FLOW = serpentine(
 export const A_CATALOG_HEADER = {
   eyebrow: "The stack",
   title: "Ten systems that quietly run a business.",
-  sub: "Hover any card to watch it run. The tagged ones are live in my console, open and run the real tool yourself.",
+  sub: "Hover any card to watch it run. The tagged ones are live in our console, open and run the real tool yourself.",
   cta: { label: "See all 16 running live", href: A_CONSOLE_URL },
 } as const;
 
@@ -397,7 +397,7 @@ export const A_IMPACT = [
 
 export const A_CTA = {
   heading: "Let's find the three systems you actually need.",
-  sub: "A free 30-minute audit. I map your current workflow, mark what's automatable, and tell you what it's worth. No deck.",
+  sub: "A free 30-minute audit. We map your current workflow, mark what's automatable, and tell you what it's worth. No deck.",
   placeholder: "you@company.com",
   phonePlaceholder: "Phone or WhatsApp",
   messagePlaceholder: "What does your lead flow look like today?",

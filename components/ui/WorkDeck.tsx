@@ -9,9 +9,10 @@ import { WORK, type LiveProject, type ProjectKind } from "@/lib/content";
 import { DECK_MS, DUR, EASE, SPRING } from "@/lib/constants";
 import { track, EVENTS } from "@/lib/analytics";
 
-/* The hero's evidence: the real, live work, dealt like a deck of cards so the
-   claim beside it is proven before anyone scrolls. Client work and the product
-   only; the concept builds wait for the Work section, where they are labelled.
+/* The storytelling pillar's evidence: the real, live work, dealt like a deck
+   of cards so the claim beside it is proven in place. Client work and the
+   product only; the concept builds live in the Work index, where they are
+   labelled.
 
    Every card is always mounted; a card's depth in the deck (0 = front) drives
    its offset, scale and opacity, so dealing is just a change of `front` and the
@@ -24,7 +25,7 @@ import { track, EVENTS } from "@/lib/analytics";
 const DECK = WORK.filter((p) => p.kind !== "concept");
 const KIND: Record<ProjectKind, string> = {
   client: "Client work",
-  product: "My product",
+  product: "Studio product",
   concept: "Concept build",
 };
 /** how many cards show; the rest wait, invisible, at the back */
@@ -35,7 +36,7 @@ const STEP_SCALE = 0.055;
 /** how much darker each card behind the front one gets */
 const SHADE = 0.3;
 
-const visit = (p: LiveProject) => () => track(EVENTS.workVisitSite, { client: p.client, from: "hero" });
+const visit = (p: LiveProject) => () => track(EVENTS.workVisitSite, { client: p.client, from: "services" });
 
 export function WorkDeck() {
   const reduce = useReducedMotion();
@@ -105,8 +106,6 @@ export function WorkDeck() {
                   alt=""
                   fill
                   sizes="(min-width: 1024px) 40vw, 92vw"
-                  loading={i === 0 ? "eager" : "lazy"}
-                  fetchPriority={i === 0 ? "high" : undefined}
                   className="media-zoom object-cover object-top"
                 />
                 {/* the deeper the card, the further it sinks into the ground */}

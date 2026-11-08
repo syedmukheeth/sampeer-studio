@@ -9,17 +9,38 @@ import { Logo } from "@/components/ui/Logo";
 import { TrackClick } from "@/components/analytics/TrackClick";
 import { EVENTS } from "@/lib/analytics";
 import { DUR, EASE, SPRING } from "@/lib/constants";
+import { Magnetic } from "@/components/ui/Magnetic";
 
-/* N5, the floating pill. Detached from the page edges, frosted, and the one
-   persistent piece of chrome. A violet-tinted pill slides under whichever
-   section the reader is in.
+/* N5, the floating pill, with one change of state. Over the home page's film
+   it is a transparent full-width bar that lets the footage breathe; once the
+   hero is half gone it springs into the detached, frosted pill and stays that
+   way. Other routes start as the pill. A violet-tinted pill slides under
+   whichever section the reader is in.
+
+   `overHero` is a prop rather than a guess from the DOM so the server and the
+   first client render agree on which shape to draw.
 
    Plain <a> for the hash links: from "/" they scroll in place, from any other
    route they load home at that section. */
-export function Nav() {
+export function Nav({ overHero = false }: { overHero?: boolean }) {
   const reduce = useReducedMotion();
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState<string | null>(null);
+  const [docked, setDocked] = useState(overHero);
+
+  useEffect(() => {
+    if (!overHero) return;
+    const hero = document.getElementById("hero");
+    if (!hero) return;
+    const io = new IntersectionObserver(([e]) => setDocked(e.intersectionRatio > 0.5), {
+      threshold: [0, 0.5, 1],
+    });
+    io.observe(hero);
+    return () => io.disconnect();
+  }, [overHero]);
+
+  const bar = docked && !open;
+  const morph = reduce ? { duration: 0 } : SPRING.nav;
 
   useEffect(() => {
     if (!open) return;
@@ -50,23 +71,33 @@ export function Nav() {
 
   return (
     <header className="fixed inset-x-0 top-3 z-40 px-3 md:top-4">
-      <nav
+      <motion.nav
+        layout
+        transition={morph}
         aria-label="Main"
-        className="mx-auto flex h-14 max-w-[54rem] items-center justify-between gap-3 rounded-full border border-line bg-elevated/75 py-1.5 pr-1.5 pl-2.5 shadow-[0_18px_40px_-24px_var(--shadow-tint)] backdrop-blur-xl backdrop-saturate-150"
+        style={{ borderRadius: bar ? 0 : 9999 }}
+        className={clsx(
+          "mx-auto flex items-center justify-between gap-3 border transition-[background-color,border-color,box-shadow,backdrop-filter] duration-500",
+          bar
+            ? "h-16 max-w-(--max-shell) border-transparent bg-transparent px-3 md:px-7"
+            : "h-14 max-w-[54rem] border-line bg-elevated/75 py-1.5 pr-1.5 pl-2.5 shadow-[0_18px_40px_-24px_var(--shadow-tint)] backdrop-blur-xl backdrop-saturate-150",
+        )}
       >
-        <Link
-          href="/"
-          aria-label={`${NAV.brand}, home`}
-          className="flex shrink-0 items-center gap-2 rounded-full pr-2"
-          onClick={() => setOpen(false)}
-        >
-          <Logo sizes="24px" className="h-8 w-auto" />
-          <span className="font-display text-[15px] font-semibold tracking-[-0.01em] text-ink font-stretch-semi-expanded">
-            {NAV.brand}
-          </span>
-        </Link>
+        <motion.div layout="position" transition={morph} className="flex shrink-0">
+          <Link
+            href="/"
+            aria-label={`${NAV.brand}, home`}
+            className="flex shrink-0 items-center gap-2 rounded-full pr-2"
+            onClick={() => setOpen(false)}
+          >
+            <Logo sizes="24px" className="h-8 w-auto" />
+            <span className="font-display text-[15px] font-semibold tracking-[-0.01em] text-ink font-stretch-semi-expanded">
+              {NAV.brand}
+            </span>
+          </Link>
+        </motion.div>
 
-        <ul className="hidden items-center md:flex">
+        <motion.ul layout="position" transition={morph} className="hidden items-center md:flex">
           {NAV.links.map((l) => {
             const isActive = active === l.href.split("#")[1];
             return (
@@ -92,16 +123,18 @@ export function Nav() {
               </li>
             );
           })}
-        </ul>
+        </motion.ul>
 
-        <div className="flex items-center gap-1.5">
+        <motion.div layout="position" transition={morph} className="flex items-center gap-1.5">
           <TrackClick event={EVENTS.ctaClickNav} className="hidden sm:block">
-            <a
-              href={NAV.cta.href}
-              className="btn-press inline-flex h-11 items-center rounded-full bg-accent-solid px-5 font-sans text-sm font-medium text-accent-ink hover:bg-accent-dim"
-            >
-              {NAV.cta.label}
-            </a>
+            <Magnetic strength={0.25}>
+              <a
+                href={NAV.cta.href}
+                className="btn-press inline-flex h-11 items-center rounded-full bg-accent-solid px-5 font-sans text-sm font-medium text-accent-ink hover:bg-accent-dim"
+              >
+                {NAV.cta.label}
+              </a>
+            </Magnetic>
           </TrackClick>
           <button
             type="button"
@@ -124,8 +157,8 @@ export function Nav() {
               )}
             />
           </button>
-        </div>
-      </nav>
+        </motion.div>
+      </motion.nav>
 
       <AnimatePresence>
         {open && (

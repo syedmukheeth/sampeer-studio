@@ -1,8 +1,9 @@
-/* Hallmark · macrostructure: Portfolio Grid · genre: atmospheric · hero: H2 split diptych + live work deck
- * nav: N5 floating pill · footer: Ft5 statement (studied: suri-mansoor-ali-khan.vercel.app, curtain + wordmark + credit row)
+/* Hallmark · macrostructure: Marquee Hero · genre: atmospheric · hero: full-bleed founder film (triptych) + edge-to-edge statement
+ * nav: N5 floating pill, morphing from a transparent bar over the film · footer: Ft5 statement (studied: suri-mansoor-ali-khan.vercel.app)
+ * motif: the logo's ribbon, drawn as the rule that opens every chapter · palette arc: film dark, proof lifted, contact lit
  * theme: custom · vibe: "glossy violet ribbon, late-night studio" · paper oklch(0.14 0.03 290) · accent oklch(0.536 0.268 297) violet
  * type: Google Sans Flex (display + body) + Google Sans Code (mono) · axes: dark / geometric-sans / cool
- * pre-emit critique: P5 H4 E4 S5 R4 V5 · contrast: pass (40-41) · mobile: pass (34, 49, 50-57)
+ * pre-emit critique: P5 H5 E4 S5 R4 V5 · contrast: pass (40-41) · mobile: pass (34, 49, 50-57)
  * slop: pass, except 35 (the footer's low marker stroke is the studied Suri credit, kept by request)
  */
 @import "tailwindcss";
@@ -50,7 +51,9 @@
   --color-accent-soft: oklch(0.536 0.268 297 / 0.14); /* tints and active pills, never an ad-hoc accent/10 */
   --color-accent-ink: oklch(0.98 0.01 315); /* text on the violet fill */
 
-  /* The logo's own sweep. Used exactly once: the footer's top rule. */
+  /* The logo's own sweep, and the site's one recurring transition: it draws in
+     as the rule that opens each chapter, and closes the page as the footer's
+     top rule. Nowhere else. */
   --gradient-ribbon: linear-gradient(100deg, #540db5 0%, #8425f1 45%, #e994ff 100%);
 
   /* Google Sans Flex is the logo wordmark's own family. One variable file
@@ -80,6 +83,8 @@
   --highlighter: oklch(0.536 0.268 297 / 0.55); /* the footer credit's marker stroke */
   --glint: oklch(0.98 0.01 315 / 0.32);
   --footer-h: min(34rem, 82svh);
+  /* the intro curtain's whole life; mirrors INTRO_MS in lib/constants.ts */
+  --intro-ms: 1100ms;
 }
 
 @media (max-width: 639px) {
@@ -206,6 +211,16 @@ summary,
   font-stretch: 112.5%;
 }
 
+/* The marquee statement is sized against the hero's own box (the Shell is the
+   @container), so its longest line runs edge to edge of the shell at every
+   width and stops growing when the shell does. The svh cap keeps all three
+   lines and the corner notes inside the fold on short, wide screens. */
+.hero-statement {
+  /* "Remembered." measures 7.21em at this weight, stretch and tracking, so
+     13.6cqi puts it at about 98% of the shell */
+  font-size: min(13.6cqi, 22svh);
+}
+
 @keyframes hero-stretch {
   from {
     font-stretch: 62%;
@@ -219,6 +234,166 @@ summary,
   .hero-line {
     animation: hero-stretch var(--dur-kinetic) var(--ease-expo) both;
     animation-delay: calc(var(--line, 0) * 0.09s + 0.05s);
+  }
+  /* On a first visit the curtain is still up for the first beat; the lines
+     wait and stretch as it lifts, so the reveal is seen, not spent. */
+  html:not([data-intro="seen"]) .hero-line {
+    animation-delay: calc(var(--line, 0) * 0.09s + var(--intro-ms) * 0.5);
+  }
+}
+
+/* ----------------------------------------------------------- the film */
+/*
+  The founder film sits under a scrim built from the canvas token, heaviest
+  where the type sits (the left and the bottom), so the statement and the
+  corner notes keep their contrast whatever frame is under them. The poster
+  is the first paint; the video fades up over it only once it is truly
+  playing, so a slow network never shows a black rectangle.
+*/
+.film-scrim {
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in oklch, var(--color-canvas) 62%, transparent) 0%,
+      color-mix(in oklch, var(--color-canvas) 22%, transparent) 26%,
+      color-mix(in oklch, var(--color-canvas) 40%, transparent) 58%,
+      var(--color-canvas) 100%
+    ),
+    linear-gradient(
+      90deg,
+      color-mix(in oklch, var(--color-canvas) 78%, transparent) 0%,
+      color-mix(in oklch, var(--color-canvas) 30%, transparent) 58%,
+      color-mix(in oklch, var(--color-canvas) 12%, transparent) 100%
+    );
+}
+.film-video {
+  opacity: 0;
+  transition: opacity 0.8s var(--ease-expo);
+}
+.film-video[data-playing="true"] {
+  opacity: 1;
+}
+
+/* ------------------------------------------------------- intro curtain */
+/*
+  Once per session the page opens behind a curtain: the logo mark, the ribbon
+  drawing under it, then the whole panel lifts away. Pure CSS and inert
+  (pointer-events: none from the first frame), so nothing waits on it and
+  nothing can be blocked by it. A one-line head script marks repeat visits
+  `data-intro="seen"`, and reduced motion never sees it.
+*/
+.intro {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  display: grid;
+  place-items: center;
+  background: var(--color-canvas);
+  pointer-events: none;
+  animation: intro-lift calc(var(--intro-ms) * 0.64) var(--ease-expo) calc(var(--intro-ms) * 0.36) forwards;
+}
+.intro__line {
+  display: block;
+  width: 7rem;
+  height: 2px;
+  margin-top: 1.25rem;
+  background: var(--gradient-ribbon);
+  transform-origin: left;
+  animation: intro-draw calc(var(--intro-ms) * 0.4) var(--ease-expo) 0.05s both;
+}
+@keyframes intro-lift {
+  to {
+    transform: translateY(-100%);
+    visibility: hidden;
+  }
+}
+@keyframes intro-draw {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+html[data-intro="seen"] .intro {
+  display: none;
+}
+
+/* ---------------------------------------------------------------- grain */
+/* A static film grain over the whole page: one 160px tile, no animation, no
+   blend mode, under the nav and every overlay. Texture, not decoration. */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  pointer-events: none;
+  background-image: url("/grain.png");
+  background-size: 160px 160px;
+  opacity: 0.045;
+}
+
+/* ------------------------------------------------------- chapter motif */
+/* The rule that opens every chapter: the chapter's name in the mono, then the
+   ribbon drawing out to the edge as the reader scrolls it in (`.rule-scrub`). */
+.chapter-rule {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.chapter-rule__line {
+  flex: 1;
+  height: 2px;
+  border-radius: 9999px;
+  background: var(--gradient-ribbon);
+}
+
+/* ------------------------------------------------------- light pools */
+/* The palette arc's two lit moments: the reviews chapter catches a soft light
+   from its top edge, and the contact heading sits in the page's last light. */
+.light-top {
+  background:
+    radial-gradient(
+      70% 55% at 50% 0%,
+      color-mix(in oklch, var(--color-accent) 16%, transparent) 0%,
+      transparent 70%
+    ),
+    var(--color-elevated);
+}
+.light-climax {
+  background: radial-gradient(
+    50% 60% at 30% 35%,
+    color-mix(in oklch, var(--color-accent) 18%, transparent) 0%,
+    transparent 72%
+  );
+}
+
+/* ------------------------------------------------------- problem scrub */
+/*
+  The problem statement lights up word by word as it crosses the viewport,
+  driven by the scrollbar itself (a named view timeline on the paragraph), so
+  it reverses when the reader scrolls back. Browsers without scroll-driven
+  animations, and reduced motion, get the statement fully lit.
+*/
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .scrub-text {
+      view-timeline-name: --scrub;
+      view-timeline-axis: block;
+    }
+    .scrub-word {
+      animation: scrub-word linear both;
+      animation-timeline: --scrub;
+      animation-range: cover var(--from) cover var(--to);
+    }
+  }
+}
+@keyframes scrub-word {
+  from {
+    opacity: 0.16;
+  }
+  to {
+    opacity: 1;
   }
 }
 
@@ -613,8 +788,20 @@ summary,
     opacity: 1 !important;
     transform: none !important;
   }
+  [data-reveal-clip] {
+    clip-path: none !important;
+  }
+  [data-parallax] {
+    transform: none !important;
+  }
   .footer-mark {
     transform: none !important;
+  }
+
+  /* no curtain; the film never autoplays (FilmLoop), the poster carries the
+     hero and the play control is still there for anyone who wants it */
+  .intro {
+    display: none;
   }
 
   /* state reports stay visible, they just do not move */
