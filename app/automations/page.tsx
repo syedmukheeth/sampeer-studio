@@ -3,6 +3,7 @@ import { Nav } from "@/components/sections/Nav";
 import { Footer } from "@/components/sections/Footer";
 import { Hero } from "@/components/automations/Hero";
 import { Transform } from "@/components/automations/Transform";
+import { AutomationShowcase } from "@/components/sections/AutomationShowcase";
 import { Catalog } from "@/components/automations/Catalog";
 import { BeforeAfter } from "@/components/automations/BeforeAfter";
 import { Industries } from "@/components/automations/Industries";
@@ -45,6 +46,9 @@ export default function AutomationsPage() {
       <main id="main">
         <Hero />
         <Transform />
+        {/* the four systems building under the scroll, moved here from home:
+            home keeps one preview, the Lab keeps the whole scene */}
+        <AutomationShowcase labLink={false} />
         <Catalog />
         <BeforeAfter />
         <Industries />

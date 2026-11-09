@@ -1,145 +1,65 @@
-"use client";
-
-import { useEffect, useRef } from "react";
 import Image from "next/image";
 import { ArrowUpRight } from "@phosphor-icons/react/dist/ssr";
-import { motion, useReducedMotion, useScroll, useTransform, type MotionValue } from "motion/react";
-import { ABOUT, CHAPTERS, FOUNDER, FOUNDER_MEDIA, SOCIALS } from "@/lib/content";
+import { ABOUT, FILM, FOUNDER, SOCIALS } from "@/lib/content";
 import { Section } from "@/components/ui/Section";
-import { ChapterRule } from "@/components/ui/ChapterRule";
 import { FadeIn } from "@/components/ui/FadeIn";
-import { ramp } from "@/lib/scroll";
-import { PARALLAX } from "@/lib/constants";
+import { FilmMedia, FilmProvider, FilmToggle } from "@/components/ui/FilmLoop";
 
-/* Behind the studio: the one chapter in Syed's own voice. An editorial collage
-   of his photographs and one short film tile, each layer drifting at its own
-   rate so the pieces separate in depth as the page moves, beside the words.
-   Faces, not stock; the film tile is the only place his eyes are on camera
-   without sunglasses, which is why it is there. */
-
-function useDrift(progress: MotionValue<number>, amount: number) {
-  const reduce = useReducedMotion();
-  const still = useRef(false);
-  useEffect(() => {
-    still.current = Boolean(reduce);
-  }, [reduce]);
-  // function form, so Motion keeps it on the real scroll (see lib/scroll.ts)
-  return useTransform(progress, (p) => (still.current ? "0%" : `${ramp(p, [0, 1], [amount, -amount])}%`));
-}
-
-function NightTile() {
-  const v = useRef<HTMLVideoElement>(null);
-
-  // plays only while on screen, never under reduced motion
-  useEffect(() => {
-    const el = v.current;
-    if (!el || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    el.muted = true;
-    const io = new IntersectionObserver(
-      ([e]) => {
-        if (e.isIntersecting) {
-          if (!el.getAttribute("src")) el.src = FOUNDER_MEDIA.film.src;
-          void el.play().catch(() => {});
-        } else el.pause();
-      },
-      { threshold: 0.25 },
-    );
-    io.observe(el);
-    return () => io.disconnect();
-  }, []);
-
-  return (
-    <video
-      ref={v}
-      muted
-      loop
-      playsInline
-      preload="none"
-      poster={FOUNDER_MEDIA.film.poster}
-      aria-label={FOUNDER_MEDIA.film.label}
-      className="absolute inset-0 h-full w-full object-cover"
-    />
-  );
-}
-
-function Collage() {
-  const box = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({ target: box, offset: ["start end", "end start"] });
-  const slow = useDrift(scrollYProgress, PARALLAX * 0.5);
-  const mid = useDrift(scrollYProgress, PARALLAX);
-  const fast = useDrift(scrollYProgress, PARALLAX * 1.6);
-
-  return (
-    <div ref={box} className="relative grid grid-cols-6 gap-3 md:block md:h-[clamp(36rem,56vw,48rem)]">
-      <motion.figure
-        data-parallax
-        style={{ y: slow }}
-        className="relative col-span-6 aspect-3/4 overflow-hidden rounded-2xl bg-elevated md:absolute md:top-0 md:left-0 md:w-[60%]"
-      >
-        <Image
-          src={FOUNDER_MEDIA.portrait.src}
-          alt={FOUNDER_MEDIA.portrait.alt}
-          fill
-          sizes="(min-width: 1024px) 30vw, (min-width: 768px) 55vw, 100vw"
-          className="object-cover"
-        />
-      </motion.figure>
-
-      <motion.div
-        data-parallax
-        style={{ y: fast }}
-        className="relative col-span-2 aspect-9/16 overflow-hidden rounded-2xl bg-elevated md:absolute md:top-[6%] md:right-[4%] md:w-[26%]"
-      >
-        <NightTile />
-      </motion.div>
-
-      <motion.figure
-        data-parallax
-        style={{ y: mid }}
-        className="relative col-span-4 aspect-4/3 self-end overflow-hidden rounded-2xl bg-elevated md:absolute md:right-0 md:bottom-0 md:z-10 md:w-[54%] md:border-[6px] md:border-canvas"
-      >
-        <Image
-          src={FOUNDER_MEDIA.wide.src}
-          alt={FOUNDER_MEDIA.wide.alt}
-          fill
-          sizes="(min-width: 1024px) 26vw, (min-width: 768px) 50vw, 66vw"
-          className="object-cover"
-        />
-      </motion.figure>
-    </div>
-  );
-}
-
+/* Behind the studio: the one chapter in Syed's own voice. A portrait that
+   looks at the reader, with the founder film inset at its corner (a client
+   seeing his new site, then the city, the desk and the build), beside the
+   words, the founder's own reach and the ways to find him. No parallax. */
 export function About() {
+  // the last line is the pull line; the rest are the paragraphs
+  const paragraphs = ABOUT.body.slice(0, -1);
+  const pull = ABOUT.body.at(-1);
+
   return (
     <Section id="about">
-      <ChapterRule chapter={CHAPTERS.founder} />
+      <div className="grid items-center gap-12 lg:grid-cols-12 lg:gap-16">
+        <figure className="min-w-0 lg:col-span-5">
+          <div className="relative mx-auto w-full max-w-md lg:max-w-none">
+            <div className="relative aspect-4/5 overflow-hidden rounded-2xl border border-line bg-elevated">
+              <Image
+                src={FOUNDER.portrait.src}
+                alt={FOUNDER.portrait.alt}
+                fill
+                sizes="(min-width: 1024px) 36vw, 92vw"
+                className="object-cover"
+              />
+            </div>
+            {/* the film, inset at the corner: the founder first, the work beside him */}
+            <FilmProvider>
+              <div className="night absolute right-3 bottom-3 aspect-4/5 w-[38%] overflow-hidden rounded-xl border-[3px] border-canvas bg-canvas shadow-[0_24px_48px_-24px_var(--shadow-tint)] lg:-right-8 lg:-bottom-8 lg:w-[42%] lg:rounded-2xl lg:border-[6px]">
+                <FilmMedia sizes="(min-width: 1024px) 16vw, 38vw" />
+                <FilmToggle className="absolute right-2 bottom-2 z-[2]" />
+              </div>
+            </FilmProvider>
+          </div>
+          <figcaption className="mx-auto mt-4 max-w-md font-mono text-xs leading-relaxed text-faint lg:mt-12 lg:max-w-none">
+            {FOUNDER.portrait.caption} {FILM.label}
+          </figcaption>
+        </figure>
 
-      <div className="mt-14 grid items-center gap-14 lg:grid-cols-12 lg:gap-16">
-        <div className="lg:col-span-7">
-          <Collage />
-        </div>
-
-        <div className="lg:col-span-5">
+        <div className="min-w-0 lg:col-span-6 lg:col-start-7">
           <FadeIn>
             <h2 className="font-display text-[clamp(2.25rem,4.4vw,3.75rem)] leading-[1.02] font-[600] tracking-[-0.05em] text-ink">
               {ABOUT.title}
             </h2>
           </FadeIn>
           <div className="mt-8 space-y-5">
-            {ABOUT.body.map((p, i) =>
-              i === ABOUT.body.length - 1 ? (
-                <FadeIn key={i}>
-                  <p className="border-l-2 border-accent pl-5 font-display text-xl leading-snug font-[560] tracking-[-0.03em] text-ink md:text-2xl">
-                    {p}
-                  </p>
-                </FadeIn>
-              ) : (
-                <FadeIn key={i}>
-                  <p className="max-w-[56ch] font-sans text-base leading-relaxed text-muted md:text-lg">{p}</p>
-                </FadeIn>
-              ),
-            )}
+            {paragraphs.map((p) => (
+              <FadeIn key={p}>
+                <p className="max-w-[56ch] font-sans text-base leading-relaxed text-muted md:text-lg">{p}</p>
+              </FadeIn>
+            ))}
+            {pull ? (
+              <FadeIn>
+                <p className="border-l-2 border-accent pl-5 font-display text-xl leading-snug font-[560] tracking-[-0.03em] text-ink md:text-2xl">
+                  {pull}
+                </p>
+              </FadeIn>
+            ) : null}
           </div>
 
           <p className="mt-8 font-sans text-sm text-muted">
@@ -148,7 +68,16 @@ export function About() {
             {FOUNDER.role}
           </p>
 
-          <ul className="mt-6 flex flex-wrap gap-2">
+          <dl className="mt-6 grid max-w-sm grid-cols-2 gap-6 border-t border-line pt-6">
+            {ABOUT.proof.map((p) => (
+              <div key={p.label} className="flex flex-col-reverse">
+                <dt className="mt-1 font-mono text-xs text-faint">{p.label}</dt>
+                <dd className="font-display text-3xl font-[600] tracking-[-0.04em] text-ink tabular-nums">{p.value}</dd>
+              </div>
+            ))}
+          </dl>
+
+          <ul className="mt-8 flex flex-wrap gap-2">
             {Object.values(SOCIALS).map((s) => (
               <li key={s.href}>
                 <a

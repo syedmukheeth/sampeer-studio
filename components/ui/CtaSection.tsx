@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { motion, useReducedMotion } from "motion/react";
 import { ContactForm } from "@/components/ui/ContactForm";
 import { MaskText } from "@/components/ui/MaskText";
@@ -28,6 +29,7 @@ export function CtaSection({
   content,
   chapter,
   details,
+  founder,
 }: {
   /** the section anchor, `contact` on home, `audit` on the Lab */
   id: string;
@@ -53,6 +55,8 @@ export function CtaSection({
    *  With these the section becomes the page's resolution, a split; without
    *  them (the Lab) it stays the centred ask below. */
   details?: readonly { label: string; value: string; href?: string }[];
+  /** Home only: the face the message goes to, beside "straight to the founder". */
+  founder?: { avatar: string; alt: string; name: string; role: string };
 }) {
   const reduce = useReducedMotion();
 
@@ -66,6 +70,23 @@ export function CtaSection({
               <MaskText text={content.heading} />
             </h2>
             <p className="mt-6 max-w-md font-sans text-base text-muted md:text-lg">{content.sub}</p>
+
+            {founder ? (
+              <div className="mt-6 flex items-center gap-3.5">
+                <Image
+                  src={founder.avatar}
+                  alt={founder.alt}
+                  width={56}
+                  height={56}
+                  sizes="56px"
+                  className="h-14 w-14 shrink-0 rounded-full border border-line object-cover"
+                />
+                <p className="font-sans text-sm leading-snug">
+                  <span className="block font-medium text-ink">{founder.name}</span>
+                  <span className="block text-muted">{founder.role}</span>
+                </p>
+              </div>
+            ) : null}
 
             <dl className="mt-12 border-t border-line">
               {details.map((d, i) => (

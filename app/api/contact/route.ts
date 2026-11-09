@@ -189,3 +189,16 @@ export async function POST(request: Request) {
   }
   return Response.json({ ok: true });
 }
+
+/**
+ * Owner's health check: is lead delivery configured in this deployment?
+ * Answers one boolean and nothing else. It reads no input, sends nothing and
+ * never echoes a key, so it is safe to leave public. `no-store` so a check
+ * after adding the keys and redeploying is never answered from a cache.
+ */
+export function GET() {
+  return Response.json(
+    { configured: Boolean(process.env.RESEND_API_KEY) },
+    { headers: { "Cache-Control": "no-store" } },
+  );
+}

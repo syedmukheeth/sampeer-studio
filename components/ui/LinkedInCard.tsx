@@ -20,11 +20,11 @@ export function LinkedInCard() {
       <div className="flex items-center gap-4">
         <span className="relative h-14 w-14 shrink-0 overflow-hidden rounded-full border border-line">
           <Image
-            src={FOUNDER.photo}
+            src={FOUNDER.avatar}
             alt=""
             fill
             sizes="56px"
-            className="origin-[46%_41%] scale-[2.4] object-cover object-[46%_41%]"
+            className="object-cover"
           />
         </span>
         <div className="min-w-0">

@@ -91,7 +91,8 @@ export function Nav({ overHero = false }: { overHero?: boolean }) {
             onClick={() => setOpen(false)}
           >
             <Logo sizes="24px" className="h-8 w-auto" />
-            <span className="font-display text-[15px] font-semibold tracking-[-0.01em] text-ink">
+            {/* the narrowest phones keep the mark and the CTA; the name comes back at 380px */}
+            <span className="font-display text-[15px] font-semibold tracking-[-0.01em] text-ink max-[379px]:sr-only">
               {NAV.brand}
             </span>
           </Link>
@@ -126,11 +127,12 @@ export function Nav({ overHero = false }: { overHero?: boolean }) {
         </motion.ul>
 
         <motion.div layout="position" transition={morph} className="flex items-center gap-1.5">
-          <TrackClick event={EVENTS.ctaClickNav} className="hidden sm:block">
+          {/* always on screen, phones included: a ready buyer never has to open the menu to act */}
+          <TrackClick event={EVENTS.ctaClickNav} className="block">
             <Magnetic strength={0.25}>
               <a
                 href={NAV.cta.href}
-                className="btn-press inline-flex h-11 items-center rounded-full bg-accent-solid px-5 font-sans text-sm font-medium text-accent-ink hover:bg-accent-dim"
+                className="btn-press inline-flex h-11 items-center rounded-full bg-accent-solid px-4 font-sans text-[13px] font-medium whitespace-nowrap text-accent-ink hover:bg-accent-dim sm:px-5 sm:text-sm"
               >
                 {NAV.cta.label}
               </a>

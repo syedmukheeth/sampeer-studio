@@ -41,16 +41,17 @@ export const NAV = {
   links: [
     { label: "Work", href: "/#work" },
     { label: "Services", href: "/#services" },
-    { label: "Clients", href: "/#clients" },
     { label: "About", href: "/#about" },
+    { label: "FAQ", href: "/#faq" },
   ],
   /* One label per intent, page-wide: the hero's primary CTA says the same. */
   cta: { label: "Start a project", href: "/#contact" },
 } as const;
 
 /* --------------------------------------------------------------- hero */
-/* The night diptych: the statement and the plain offer on one side, the
- * founder film on the other. The last line is the one orange strike. */
+/* The night hero: the statement, the plain offer and the real client names on
+ * one side; Syed himself, photographed in Kurnool, on the other. The last line
+ * is the one orange strike. */
 export const HERO = {
   lines: ["Get noticed.", "Remembered."],
   accent: "Chosen.",
@@ -58,54 +59,46 @@ export const HERO = {
   place: "Kurnool → UK & India",
   primary: { label: "Start a project", href: "#contact" },
   secondary: { label: "See the work", href: "#work" },
+  /** real clients only, the ones with live work below */
+  trust: {
+    label: "Trusted by",
+    names: ["ASRG Construction", "MAA Furniture", "Suri Mansoor Ali Khan"],
+  },
+  /** Syed's own photograph, re-encoded with its location metadata stripped.
+   *  `w`/`h` are the file's real pixels; the frame is the same 4:5. */
+  photo: {
+    src: "/founder/arch.v1.webp",
+    w: 1600,
+    h: 2000,
+    alt: "Syed Mukheeth, founder of SAMPeer Studio, in a white shirt under a stone arch in Kurnool",
+    caption: "Syed Mukheeth, founder",
+    place: "Kurnool",
+  },
 } as const;
 
-/** The founder film. Cut from Syed's own footage: the city (Konda Reddy fort),
- *  the craft (his desk), the client (ASRG's owner seeing his new site), in
- *  full colour and framed 4:5. One file serves every screen. Versioned
- *  names so the files can be cached forever. */
+/** The founder film, in the founder chapter. Cut from Syed's own footage:
+ *  ASRG's owner seeing his new site, then the city (Konda Reddy fort), the
+ *  desk and the build. It opens on the client's reaction, the one beat with
+ *  both faces in it. Silent, 4:5, versioned so it can be cached forever. */
 export const FILM = {
-  label: "Founder film: a day of work in Kurnool",
+  label: "The film: ASRG's owner seeing his new site, then a day of work.",
   pause: "Pause the film",
   play: "Play the film",
-  src: "/film/hero.v3.mp4",
-  poster: "/film/hero.v3.webp",
+  src: "/founder/film.v1.mp4",
+  poster: "/founder/film.v1.webp",
   w: 720,
   h: 900,
 } as const;
 
-/** Chapter labels, numbered in page order. Each rides the ink hairline that
- *  opens its chapter. */
+/** Chapter labels. Each rides the ink hairline that opens its chapter; only
+ *  the two biggest chapters on home carry one. */
 export const CHAPTERS = {
-  services: { index: "01", label: "What we do" },
-  work: { index: "02", label: "Selected work" },
-  clients: { index: "03", label: "Clients" },
-  automation: { index: "04", label: "Systems, running" },
-  process: { index: "05", label: "How we work" },
-  founder: { index: "06", label: "Behind the studio" },
-  contact: { index: "07", label: "Start a project" },
+  services: { label: "What we do" },
+  work: { label: "Selected work" },
+  automation: { label: "Systems, running" },
 } as const;
 
-export type Chapter = { index: string; label: string };
-
-/* -------------------------------------------------------------- stats */
-/** `value` renders as a number; `text` renders verbatim for honest
- *  non-numeric proof. One or the other, never both. */
-export type Stat = { value?: number; suffix?: string; decimals?: number; text?: string; label: string };
-
-export const STATS: Stat[] = [
-  { value: 9, label: "Live sites shipped" },
-  { value: 8.7, decimals: 1, suffix: "K+", label: "LinkedIn followers" },
-  { value: 350, suffix: "K+", label: "Monthly impressions" },
-  { text: "UK & India", label: "Clients worked with" },
-];
-
-/** The typographic client line beside the stats: real clients only, the ones
- *  with live work below. */
-export const PROOF = {
-  trustedBy: "Trusted by",
-  clients: ["Suri Mansoor Ali Khan", "ASRG Construction", "MAA Furniture"],
-} as const;
+export type Chapter = { label: string };
 
 /* --------------------------------------------------------------- work */
 /* Every project is live. Client work and the product are real; concept builds
@@ -127,7 +120,7 @@ export type LiveProject = {
 
 export const WORK_HEADER = {
   eyebrow: "Selected work",
-  title: "Nine live sites. Open any of them.",
+  title: "Work that's live today.",
 } as const;
 
 export const WORK_GROUPS: { kind: ProjectKind; title: string; note: string }[] = [
@@ -140,17 +133,9 @@ export const WORK_GROUPS: { kind: ProjectKind; title: string; note: string }[] =
   },
 ];
 
+/* Client work leads with the deepest proof: ASRG (a case study and the
+ * owner's own words), then MAA (the owners' words), then Suri. */
 export const WORK: LiveProject[] = [
-  {
-    id: "suri",
-    kind: "client",
-    client: "Suri Mansoor Ali Khan",
-    category: "Public figure · Kurnool",
-    description:
-      "A public record of a community leader's work, with every entry linked to the press that reported it.",
-    url: "https://suri-mansoor-ali-khan.vercel.app/",
-    poster: "/work/suri.webp",
-  },
   {
     id: "asrg",
     kind: "client",
@@ -171,6 +156,16 @@ export const WORK: LiveProject[] = [
       "Online store and showroom site for a handcrafted furniture maker. Shop the range, design a custom piece, plan a visit.",
     url: "https://www.maafurniture.shop/",
     poster: "/work/maa.webp",
+  },
+  {
+    id: "suri",
+    kind: "client",
+    client: "Suri Mansoor Ali Khan",
+    category: "Public figure · Kurnool",
+    description:
+      "A public record of a community leader's work, with every entry linked to the press that reported it.",
+    url: "https://suri-mansoor-ali-khan.vercel.app/",
+    poster: "/work/suri.webp",
   },
   {
     id: "business-sos",
@@ -659,35 +654,13 @@ export const REELS = [
   },
 ] as const;
 
-/* ------------------------------------------------- home case study */
-/* The one case study the home page goes deep on. Challenge and solution come
- * from CASE_ASRG, the quote and photos from TESTIMONIAL; this only carries the
- * block's own labels. */
-export const HOME_CASE = {
-  eyebrow: "Case study",
-  challengeLabel: "Where they were",
-  solutionLabel: "What we built",
-  link: { label: "Read the case study", href: "/work/asrg" },
-} as const;
-
-/* -------------------------------------------------------- testimonial */
-export const TESTIMONIAL = {
-  quote:
-    "SAMPeer Studio gave us a premium storytelling website and handled our SEO and Google Business Profile professionally. Our online presence finally matches the work we do.",
-  name: "ASRG Construction",
-  role: "Construction & civil · Kurnool",
-  photo: "/client-asrg.webp",
-  photoAlt: "Syed Mukheeth with the ASRG Construction owner at his office in Kurnool",
-  photoSecondary: "/asrg-client.webp",
-  photoSecondaryAlt: "Syed Mukheeth shaking hands with the ASRG Construction owner",
-} as const;
-
 /* ------------------------------------------------------------ clients */
 /* What two clients told us on camera, condensed and translated from Urdu.
  * Each statement keeps only what they actually said (checked against the
  * transcripts); nothing is added. The loops are four silent seconds of each
  * client, cropped to the client and Syed, with no audio track and no
- * location metadata. */
+ * location metadata. They sit beside the work they talk about (WORK, by
+ * `workId`) and in the ASRG case study. */
 export type ClientWord = {
   slug: string;
   name: string;
@@ -700,10 +673,10 @@ export type ClientWord = {
   workId: string;
 };
 
-export const CLIENTS_HEADER = {
-  title: "Clients, in their words.",
-  sub: "What they told us on camera, in Kurnool.",
-  note: "Condensed and translated from Urdu.",
+/** The label every client statement carries, wherever it appears. */
+export const CLIENT_WORDS = {
+  label: "In their words",
+  note: "Said on camera in Kurnool. Condensed and translated from Urdu.",
 } as const;
 
 export const CLIENTS: ClientWord[] = [
@@ -733,41 +706,35 @@ export const CLIENTS: ClientWord[] = [
 
 /* ------------------------------------------------------------ process */
 export const PROCESS_HEADER = {
-  label: "What happens next",
-  title: "Diagnose. Build. Grow.",
-  sub: "Every engagement runs the same three steps, whichever service you start with.",
+  title: "Diagnose. Build. Grow. Stay.",
+  sub: "The same four steps, whichever service you start with.",
+  /** the one promise under the steps, from the founder chapter */
+  promise: "You talk to the founder from the first call to launch day.",
 } as const;
 
 export const PROCESS = [
   { id: "diagnose", title: "Diagnose", body: "We find why you're being overlooked: the gap between what you do and what people see." },
   { id: "build", title: "Build", body: "Website, growth system and founder presence, built as one connected engine, not three projects." },
   { id: "grow", title: "Grow", body: "Attention turns into trust, trust into leads, leads into revenue. We tune whatever the data says." },
+  { id: "stay", title: "Stay", body: "Not a vendor you brief. A peer: in it with you, straight with you, and still answering after the site is live." },
 ] as const;
 
 /* -------------------------------------------------------------- about */
 export const FOUNDER = {
   name: "Syed Abdul Mukheeth Peer",
   role: "Founder, SAMPeer Studio",
-  photo: "/founder.webp",
-  photoPosition: "center 30%",
-} as const;
-
-/** The founder chapter's photographs and film tile. Picked from Syed's own
- *  shoot; every file was re-encoded with its location metadata stripped. */
-export const FOUNDER_MEDIA = {
+  /** a square face crop for the contact section, looking at the reader */
+  avatar: "/founder/avatar.v1.webp",
+  avatarAlt: "Syed Mukheeth",
+  /** the founder chapter's portrait: looking at the reader, cropped to Syed
+   *  alone from a photo at a client's office, location metadata stripped */
   portrait: {
-    src: "/founder/portrait.v1.webp",
-    w: 1350,
-    h: 1800,
-    alt: "Syed Mukheeth in a white shirt against a flowering hedge",
+    src: "/founder/portrait.v2.webp",
+    w: 1200,
+    h: 1500,
+    alt: "Syed Mukheeth, founder of SAMPeer Studio, in a denim jacket at a client's office in Kurnool",
+    caption: "At ASRG Construction's office, Kurnool.",
   },
-  wide: {
-    src: "/founder/headphones.v1.webp",
-    w: 1800,
-    h: 1350,
-    alt: "Syed Mukheeth outdoors, headphones around his neck, looking up at the sky",
-  },
-  film: { src: "/founder/night.v1.mp4", poster: "/founder/night.v1.webp", label: "Syed Mukheeth at night" },
 } as const;
 
 /** The one section in Syed's own voice. */
@@ -778,12 +745,11 @@ export const ABOUT = {
     "I lead every project personally: the strategy, the story, the build and the systems behind it. You talk to me from the first call to launch day.",
     "Do it right, and a business stops asking for attention and starts earning it.",
   ],
-} as const;
-
-/** The problem chapter: the reader's situation, said plainly, then the turn. */
-export const PROBLEM = {
-  statement: "Your product is good. Nobody has heard of it yet.",
-  turn: "That was never a product problem. We fix it three ways, and each one works on its own.",
+  /** the founder's own reach, his numbers rather than the studio's */
+  proof: [
+    { value: "8.7K+", label: "LinkedIn followers" },
+    { value: "350K+", label: "Monthly impressions" },
+  ],
 } as const;
 
 /* -------------------------------------------------------------- offer */
@@ -792,16 +758,23 @@ export const PROBLEM = {
  * ships (see the work, the automation console and the founder brand). No
  * prices and no invented timelines: both are agreed on the first call. */
 export const OFFER = {
+  /** the reader's situation, said plainly, then the turn */
+  title: "What we do.",
+  sub: "Your product is good. Nobody has heard of it yet. We fix that three ways, and each one works on its own.",
   labels: {
     get: "What you get",
     timeline: "Timeline",
     need: "What we need from you",
     start: "Start with this",
+    tabs: "Services",
   },
   packages: [
     {
       id: "websites",
       letter: "S",
+      /** the tab, in full and in the short form phones get */
+      tab: "Website",
+      tabShort: "Website",
       name: "Storytelling website",
       outcome: "A site that earns a stranger's trust in ninety seconds.",
       deliverables: [
@@ -819,6 +792,8 @@ export const OFFER = {
     {
       id: "automation",
       letter: "A",
+      tab: "Growth systems",
+      tabShort: "Systems",
       name: "Growth systems and automation",
       outcome: "Leads followed up while you sleep. Admin that runs itself.",
       deliverables: [
@@ -829,12 +804,14 @@ export const OFFER = {
       ],
       timeline: "Scoped per system on the first call.",
       need: ["A walk through how work moves today", "Access to the tools you already use"],
-      proof: { label: "Watch one run", href: "#automation" },
+      proof: { label: "Step inside the Automation Lab", href: "/automations" },
       prefill: "I'd like a growth system or automation.",
     },
     {
       id: "brand",
       letter: "M",
+      tab: "Founder brand",
+      tabShort: "Brand",
       name: "Founder brand",
       outcome: "Your name opens doors before you do.",
       deliverables: [
@@ -849,16 +826,45 @@ export const OFFER = {
       prefill: "I'd like help building my founder brand.",
     },
   ],
-  peer: {
-    word: "Peer",
-    title: "We stay after launch.",
-    body: "Not a vendor you brief. A peer: in it with you, straight with you, and still answering after the site is live.",
-    photo: "/asrg-client.webp",
-    photoAlt: "Syed Mukheeth shaking hands with the ASRG Construction owner",
-  },
 } as const;
 
 export type OfferPackage = (typeof OFFER.packages)[number];
+
+/* ---------------------------------------------------------------- faq */
+/* The questions a buyer asks before the first call. Every answer restates
+ * something the site already commits to (the packages, the founder chapter,
+ * the contact details); nothing here is a new promise. Also emitted as
+ * FAQPage structured data. */
+export const FAQ = {
+  title: "Questions, answered.",
+  sub: "Anything else goes in the form below, and the founder answers it personally.",
+  items: [
+    {
+      q: "Who will I actually work with?",
+      a: "With Syed, the founder. Syed leads every project personally: the strategy, the story, the build and the systems behind it. You talk to the founder from the first call to launch day.",
+    },
+    {
+      q: "How much does it cost?",
+      a: "It depends on what you need, so the scope and the price are agreed on the first call and written down before any work starts.",
+    },
+    {
+      q: "How long does it take?",
+      a: "That is agreed on the first call too and written down with the scope. Growth systems are scoped one system at a time; founder brand work runs on a monthly rhythm you set with us.",
+    },
+    {
+      q: "What do you need from me?",
+      a: "For a website: your logo, photos of your work and one call about who your customers are. For a growth system: a walk through how work moves today and access to the tools you already use.",
+    },
+    {
+      q: "Do you work with businesses outside Kurnool?",
+      a: "Yes. The studio is in Kurnool, Andhra Pradesh, and works with clients across India and in the UK.",
+    },
+    {
+      q: "What happens after launch?",
+      a: "We stay. Not a vendor you brief, a peer: still answering after the site is live, and tuning whatever the data says.",
+    },
+  ],
+} as const;
 
 /* ---------------------------------------------------------------- cta */
 /* The resolution of the hero's three beats: noticed, remembered, chosen. */

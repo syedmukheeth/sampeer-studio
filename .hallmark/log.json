@@ -38,5 +38,19 @@
     "type": "Geist + Geist Mono",
     "contrast": "ink/paper 17.4, muted/paper 7.7, faint/paper 6.0, accent-text/paper 4.8, ink/orange 6.1, night ink 17.9, night faint 6.4",
     "brief": "SAMPeer Studio v5: premium firm feel, no purple, clear packages, text-only client words"
+  },
+  {
+    "date": "2026-11-09",
+    "scope": "app",
+    "macrostructure": "Photographic",
+    "theme": "custom (v5 tokens kept)",
+    "theme_axes": "light-with-night / geometric-sans / neutral",
+    "vibe": "quiet luxury, ink and paper, one signal orange; real photographs carry each fold",
+    "enrichment": "founder photo hero (arch, Kurnool); live-site posters as photo folds; eye-contact founder portrait with the film inset",
+    "nav": "N10 scroll-morph (bar over night hero, paper pill after), CTA visible on phones",
+    "footer": "Ft5 Statement (kept, measured at 1536)",
+    "motif": "photographs with small captions under them; ChapterRule only on Work and Services, no numbers",
+    "type": "Geist + Geist Mono",
+    "brief": "SAMPeer Studio v6: simpler, natural, trust-first; face on the first screen, client words beside their work, services as tabs, FAQ; 42% shorter"
   }
 ]

@@ -29,7 +29,8 @@ const N = beats.length;
 
    The whole chapter is a night panel: the systems run in the dark, like the
    console they link to. */
-export function AutomationShowcase() {
+/** `labLink`: off on /automations itself, where "Step inside the Lab" would point at the page the reader is on. */
+export function AutomationShowcase({ labLink = true }: { labLink?: boolean }) {
   const graphs = useMemo(() => beats.map((b) => serpentine(b.steps, b.cols, { payload: b.payload })), []);
   // two columns and compact cards for the narrow static stack
   const compact = useMemo(() => beats.map((b) => serpentine(b.steps, 2, { payload: b.payload })), []);
@@ -80,13 +81,15 @@ export function AutomationShowcase() {
               {cta.live.label}
               <ArrowUpRight size={16} weight="bold" aria-hidden />
             </a>
-            <Link
-              href={cta.lab.href}
-              className="link-wipe inline-flex items-center gap-2 py-1 font-sans text-sm font-medium text-ink"
-            >
-              {cta.lab.label}
-              <ArrowRight size={16} weight="bold" aria-hidden />
-            </Link>
+            {labLink ? (
+              <Link
+                href={cta.lab.href}
+                className="link-wipe inline-flex items-center gap-2 py-1 font-sans text-sm font-medium text-ink"
+              >
+                {cta.lab.label}
+                <ArrowRight size={16} weight="bold" aria-hidden />
+              </Link>
+            ) : null}
           </div>
         </div>
       </Shell>

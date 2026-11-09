@@ -10,13 +10,13 @@ import { FILM } from "@/lib/content";
 import { EVENTS, track } from "@/lib/analytics";
 import { ramp } from "@/lib/scroll";
 
-/* The founder film, framed beside the hero statement.
+/* The founder film, framed in the founder chapter.
 
    Load order is the whole design:
-   1. The poster is the first paint, preloaded, so it is a fast LCP.
-   2. The <video> ships with no src. Only after the page's load event, and an
-      idle moment after that, does it get its file, so the film never competes
-      with the page for bandwidth.
+   1. The poster is a plain lazy image; nothing about the film loads with the
+      page.
+   2. The <video> ships with no src. It gets its file only when the frame
+      comes into view, so a reader who never scrolls that far never pays for it.
    3. It fades up over the poster only once it is actually playing.
    It pauses whenever it is off screen or the tab is hidden, and never
    autoplays under reduced motion or Save-Data; the toggle still plays it on
@@ -77,43 +77,17 @@ export function FilmMedia({ sizes }: { sizes: string }) {
   const { register, userPaused, playing, setPlaying } = useFilm();
   const video = useRef<HTMLVideoElement | null>(null);
 
-  // attach the source after load, then idle
+  // attach the source the first time the frame is on screen; after that, play
+  // on screen and pause off it or in a background tab, unless the reader paused
   useEffect(() => {
     const v = video.current;
     if (!v) return;
     v.muted = true;
     const conn = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection;
     const auto = !window.matchMedia("(prefers-reduced-motion: reduce)").matches && conn?.saveData !== true;
-    if (!auto) return;
-
-    let cancelled = false;
-    let idleId = 0;
-    const start = () => {
-      if (cancelled || userPaused.current) return;
-      v.src = FILM.src;
-      void v.play().catch(() => {});
-    };
-    // Safari has no requestIdleCallback; a short timeout stands in for it
-    const idle = typeof window.requestIdleCallback === "function";
-    const later = () => {
-      idleId = idle ? window.requestIdleCallback(start, { timeout: 1500 }) : window.setTimeout(start, 300);
-    };
-    if (document.readyState === "complete") later();
-    else window.addEventListener("load", later, { once: true });
-    return () => {
-      cancelled = true;
-      window.removeEventListener("load", later);
-      if (idle) window.cancelIdleCallback(idleId);
-      else window.clearTimeout(idleId);
-    };
-  }, [userPaused]);
-
-  // pause off screen and in background tabs; resume unless the reader paused
-  useEffect(() => {
-    const v = video.current;
-    if (!v) return;
-    let inView = true;
+    let inView = false;
     const sync = () => {
+      if (inView && auto && !userPaused.current && !v.getAttribute("src")) v.src = FILM.src;
       if (!v.getAttribute("src")) return;
       if (inView && !document.hidden && !userPaused.current) void v.play().catch(() => {});
       else v.pause();
@@ -123,7 +97,7 @@ export function FilmMedia({ sizes }: { sizes: string }) {
         inView = entry.isIntersecting;
         sync();
       },
-      { threshold: 0.05 },
+      { threshold: 0.25 },
     );
     io.observe(v);
     document.addEventListener("visibilitychange", sync);
@@ -147,7 +121,6 @@ export function FilmMedia({ sizes }: { sizes: string }) {
         width={FILM.w}
         height={FILM.h}
         sizes={sizes}
-        preload
         className="absolute inset-0 h-full w-full object-cover"
       />
       <video

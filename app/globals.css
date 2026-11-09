@@ -337,8 +337,8 @@ html[data-intro="seen"] .intro {
 }
 
 /* ------------------------------------------------------- chapter motif */
-/* The rule that opens every chapter: its index and name in the mono, then an
-   ink hairline drawing out to the edge as the reader scrolls it in (`.rule-scrub`). */
+/* The rule that opens the biggest chapters: the name in the mono, then an ink
+   hairline drawing out to the edge as the reader scrolls it in (`.rule-scrub`). */
 .chapter-rule {
   display: flex;
   align-items: center;
@@ -350,33 +350,10 @@ html[data-intro="seen"] .intro {
   background: var(--color-ink);
 }
 
-/* ------------------------------------------------------- problem scrub */
-/*
-  The problem statement lights up word by word as it crosses the viewport,
-  driven by the scrollbar itself (a named view timeline on the paragraph), so
-  it reverses when the reader scrolls back. Browsers without scroll-driven
-  animations, and reduced motion, get the statement fully lit.
-*/
-@supports (animation-timeline: view()) {
-  @media (prefers-reduced-motion: no-preference) {
-    .scrub-text {
-      view-timeline-name: --scrub;
-      view-timeline-axis: block;
-    }
-    .scrub-word {
-      animation: scrub-word linear both;
-      animation-timeline: --scrub;
-      animation-range: cover var(--from) cover var(--to);
-    }
-  }
-}
-@keyframes scrub-word {
-  from {
-    opacity: 0.16;
-  }
-  to {
-    opacity: 1;
-  }
+/* ------------------------------------------------------------------ faq */
+/* Native disclosure; the plus icon stands in for the browser's marker. */
+.faq summary::-webkit-details-marker {
+  display: none;
 }
 
 /* -------------------------------------------------- automation scene */
@@ -476,17 +453,11 @@ html[data-intro="seen"] .intro {
 .rule-scrub--center {
   transform-origin: center;
 }
-.rule-scrub--vertical {
-  transform-origin: top;
-}
 @supports (animation-timeline: view()) {
   .rule-scrub {
     animation: rule-scrub linear both;
     animation-timeline: view();
     animation-range: entry 15% cover 38%;
-  }
-  .rule-scrub--vertical {
-    animation-name: rule-scrub-y;
   }
 }
 @keyframes rule-scrub {
@@ -495,14 +466,6 @@ html[data-intro="seen"] .intro {
   }
   to {
     transform: scaleX(1);
-  }
-}
-@keyframes rule-scrub-y {
-  from {
-    transform: scaleY(0);
-  }
-  to {
-    transform: scaleY(1);
   }
 }
 
@@ -778,8 +741,8 @@ html[data-intro="seen"] .intro {
     transform: none !important;
   }
 
-  /* no curtain; the film never autoplays (FilmLoop), the poster carries the
-     hero and the play control is still there for anyone who wants it */
+  /* no curtain; the founder film never autoplays (FilmLoop), its poster
+     stands in and the play control is still there for anyone who wants it */
   .intro {
     display: none;
   }

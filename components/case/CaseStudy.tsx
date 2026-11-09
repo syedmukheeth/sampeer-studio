@@ -4,11 +4,12 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, ArrowUpRight, Check } from "@phosphor-icons/react/dist/ssr";
-import type { CaseStudyData } from "@/lib/content";
+import { CLIENT_WORDS, CLIENTS, type CaseStudyData } from "@/lib/content";
 import { Section, SectionHeader } from "@/components/ui/Section";
 import { Shell } from "@/components/ui/Shell";
 import { Reveal } from "@/components/ui/Reveal";
 import { LiveSiteFrame } from "@/components/ui/LiveSiteFrame";
+import { ClientLoop } from "@/components/ui/ClientLoop";
 import { track, EVENTS } from "@/lib/analytics";
 
 /**
@@ -237,7 +238,45 @@ export function CaseStudy({ data }: { data: CaseStudyData }) {
           </Reveal>
         </div>
       </Section>
+
+      <ClientSays slug={data.slug} />
     </main>
+  );
+}
+
+/** The client's own words about this project, when they gave them on camera:
+ *  a few silent seconds of them beside the condensed, translated statement,
+ *  labelled as such. Concept builds have no client, so nothing renders. */
+function ClientSays({ slug }: { slug: string }) {
+  const words = CLIENTS.find((c) => c.workId === slug);
+  if (!words) return null;
+  return (
+    <Section>
+      <Reveal>
+        <figure className="grid items-center gap-8 border-t border-line pt-10 md:grid-cols-[minmax(0,14rem)_minmax(0,1fr)] md:gap-12">
+          <div className="relative mx-auto aspect-4/5 w-full max-w-[14rem] overflow-hidden rounded-2xl border border-line bg-elevated-2">
+            <ClientLoop src={words.loop} poster={words.poster} sizes="224px" />
+          </div>
+          <div className="min-w-0">
+            <p className="font-mono text-xs tracking-[0.06em] text-faint uppercase">{CLIENT_WORDS.label}</p>
+            <blockquote className="mt-4">
+              <p className="font-display text-2xl leading-snug font-[500] tracking-[-0.025em] text-ink md:text-4xl">
+                <span aria-hidden className="text-accent-text">&ldquo;</span>
+                {words.statement}
+                <span aria-hidden className="text-accent-text">&rdquo;</span>
+              </p>
+            </blockquote>
+            <figcaption className="mt-6 flex flex-wrap items-baseline gap-x-3 gap-y-1">
+              <span className="font-sans text-base font-semibold text-ink">{words.name}</span>
+              <span className="font-mono text-xs text-faint">
+                {words.role} · {words.place}
+              </span>
+            </figcaption>
+            <p className="mt-2 font-mono text-[11px] text-faint">{CLIENT_WORDS.note}</p>
+          </div>
+        </figure>
+      </Reveal>
+    </Section>
   );
 }
 
