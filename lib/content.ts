@@ -48,22 +48,33 @@ export const NAV = {
   cta: { label: "Start a project", href: "/#contact" },
 } as const;
 
+/** A heading with one word under the marigold highlighter (see Marked.tsx). */
+export type MarkedText = { before: string; mark: string; after: string };
+
 /* --------------------------------------------------------------- hero */
-/* The night hero: the statement, the plain offer and the real client names on
- * one side; Syed himself, photographed in Kurnool, on the other. The last line
- * is the one orange strike. */
+/* The cold open. The whole site is one idea: a customer searches, and a
+ * business is either found or it is not. The hero types what real customers
+ * of our real clients type; each search names who they find, and the answers
+ * chapter below shows that client, in the same order. No ranking claims: the
+ * searches are what customers look for, the answers are who we built for. */
+export type HeroSearch = { query: string; finds: string; href: string };
+
 export const HERO = {
-  lines: ["Get noticed.", "Remembered."],
-  accent: "Chosen.",
-  offer: "Websites, automation and founder brands for companies in India and the UK.",
-  place: "Kurnool → UK & India",
-  primary: { label: "Start a project", href: "#contact" },
-  secondary: { label: "See the work", href: "#work" },
-  /** real clients only, the ones with live work below */
-  trust: {
-    label: "Trusted by",
-    names: ["ASRG Construction", "MAA Furniture", "Suri Mansoor Ali Khan"],
-  },
+  kicker: "Right now, someone near you is typing",
+  searches: [
+    { query: "construction company in kurnool", finds: "ASRG Construction", href: "#work-asrg" },
+    { query: "furniture shop in kurnool", finds: "MAA Furniture", href: "#work-maa" },
+    { query: "suri mansoor ali khan", finds: "Suri Mansoor Ali Khan", href: "#work-suri" },
+  ] satisfies HeroSearch[],
+  findsLabel: "They find",
+  /** the turn: the visitor's own business is the next search */
+  line: ["When they search,", "they should find", "you."],
+  offer:
+    "We build the website, the systems and the founder name that make sure they do. For businesses in India and the UK.",
+  primary: { label: "Be the answer", href: "#contact" },
+  secondary: { label: "See who they found", href: "#work" },
+  /** the person behind the studio, on the first screen */
+  founderNote: "Syed answers every enquiry himself.",
   /** Syed's own photograph, re-encoded with its location metadata stripped.
    *  `w`/`h` are the file's real pixels; the frame is the same 4:5. */
   photo: {
@@ -116,11 +127,19 @@ export type LiveProject = {
   poster: string;
   /** internal case-study route, shown as a second link when set */
   caseStudy?: string;
+  /** client work only: what this client's customers type, set as the search
+   *  that opens their answer on home (no ranking claim, just the question) */
+  query?: string;
+  /** client work only: one plain line, what we built, under the name */
+  built?: string;
 };
 
 export const WORK_HEADER = {
   eyebrow: "Selected work",
-  title: "Work that's live today.",
+  /** the marked word carries the highlighter */
+  title: { before: "They searched. They ", mark: "found", after: " these." },
+  sub: "Real businesses and people, each one live today, in their own words where they gave them.",
+  queryLabel: "Searched",
 } as const;
 
 export const WORK_GROUPS: { kind: ProjectKind; title: string; note: string }[] = [
@@ -146,6 +165,8 @@ export const WORK: LiveProject[] = [
     url: "https://www.asrgcontruction.com/",
     poster: "/work/asrg.v2.webp",
     caseStudy: "/work/asrg",
+    query: "construction company in kurnool",
+    built: "Brand site, SEO and Google Business Profile for a firm building since 1980.",
   },
   {
     id: "maa",
@@ -156,6 +177,8 @@ export const WORK: LiveProject[] = [
       "Online store and showroom site for a handcrafted furniture maker. Shop the range, design a custom piece, plan a visit.",
     url: "https://www.maafurniture.shop/",
     poster: "/work/maa.webp",
+    query: "furniture shop in kurnool",
+    built: "Online store and showroom site. Shop the range, design a custom piece, plan a visit.",
   },
   {
     id: "suri",
@@ -166,6 +189,8 @@ export const WORK: LiveProject[] = [
       "A public record of a community leader's work, with every entry linked to the press that reported it.",
     url: "https://suri-mansoor-ali-khan.vercel.app/",
     poster: "/work/suri.webp",
+    query: "suri mansoor ali khan",
+    built: "A public record of a community leader's work, every entry linked to the press that reported it.",
   },
   {
     id: "business-sos",
@@ -671,6 +696,9 @@ export type ClientWord = {
   poster: string;
   /** links the client to a project in WORK */
   workId: string;
+  /** on home, show the founder film in this client's frame instead of the
+   *  loop: the film opens on this client seeing his new site */
+  film?: boolean;
 };
 
 /** The label every client statement carries, wherever it appears. */
@@ -701,12 +729,14 @@ export const CLIENTS: ClientWord[] = [
     loop: "/clients/asrg.v1.mp4",
     poster: "/clients/asrg.v1.webp",
     workId: "asrg",
+    film: true,
   },
 ];
 
 /* ------------------------------------------------------------ process */
 export const PROCESS_HEADER = {
-  title: "Diagnose. Build. Grow. Stay.",
+  title: { before: "From the first call to long ", mark: "after launch", after: "." },
+  lead: "How it goes",
   sub: "The same four steps, whichever service you start with.",
   /** the one promise under the steps, from the founder chapter */
   promise: "You talk to the founder from the first call to launch day.",
@@ -739,7 +769,7 @@ export const FOUNDER = {
 
 /** The one section in Syed's own voice. */
 export const ABOUT = {
-  title: "The founder behind SAMPeer.",
+  title: { before: "The person who ", mark: "answers", after: "." },
   body: [
     "I'm Syed Mukheeth. I started SAMPeer Studio in Kurnool to make good businesses impossible to overlook.",
     "I lead every project personally: the strategy, the story, the build and the systems behind it. You talk to me from the first call to launch day.",
@@ -759,8 +789,8 @@ export const ABOUT = {
  * prices and no invented timelines: both are agreed on the first call. */
 export const OFFER = {
   /** the reader's situation, said plainly, then the turn */
-  title: "What we do.",
-  sub: "Your product is good. Nobody has heard of it yet. We fix that three ways, and each one works on its own.",
+  title: { before: "Being found takes ", mark: "three", after: " things." },
+  sub: "A customer meets your business three times before they pay: when they search, when they ask, and when they check who is behind it. We build for each moment, and each one works on its own.",
   labels: {
     get: "What you get",
     timeline: "Timeline",
@@ -772,6 +802,8 @@ export const OFFER = {
     {
       id: "websites",
       letter: "S",
+      /** the customer's moment this package answers, in their terms */
+      moment: "They search. They land on your site.",
       /** the tab, in full and in the short form phones get */
       tab: "Website",
       tabShort: "Website",
@@ -779,10 +811,9 @@ export const OFFER = {
       outcome: "A site that earns a stranger's trust in ninety seconds.",
       deliverables: [
         "Positioning and the story the whole site tells",
-        "Design and build, fast and clear on every screen",
+        "Design and build, fast and clear on every screen, launched with domain and analytics",
         "Copy written with you, not handed to you",
         "SEO and Google Business Profile, set up properly",
-        "Launch, domain and analytics wired in",
       ],
       timeline: "Agreed on the first call and written down before we start.",
       need: ["Your logo and photos of your work", "One call about who your customers are"],
@@ -792,6 +823,7 @@ export const OFFER = {
     {
       id: "automation",
       letter: "A",
+      moment: "They message at 11 pm. Someone answers.",
       tab: "Growth systems",
       tabShort: "Systems",
       name: "Growth systems and automation",
@@ -810,6 +842,7 @@ export const OFFER = {
     {
       id: "brand",
       letter: "M",
+      moment: "They check who is behind it. They find you.",
       tab: "Founder brand",
       tabShort: "Brand",
       name: "Founder brand",
@@ -836,8 +869,8 @@ export type OfferPackage = (typeof OFFER.packages)[number];
  * the contact details); nothing here is a new promise. Also emitted as
  * FAQPage structured data. */
 export const FAQ = {
-  title: "Questions, answered.",
-  sub: "Anything else goes in the form below, and the founder answers it personally.",
+  title: { before: "Asked before the ", mark: "first call", after: "." },
+  sub: "The searches people make about us before they write. Anything else goes in the form below, and the founder answers it personally.",
   items: [
     {
       q: "Who will I actually work with?",
@@ -869,8 +902,8 @@ export const FAQ = {
 /* ---------------------------------------------------------------- cta */
 /* The resolution of the hero's three beats: noticed, remembered, chosen. */
 export const CTA = {
-  heading: "Ready to be chosen?",
-  sub: "Tell us what you need. It goes straight to the founder.",
+  heading: "Someone is searching for you right now.",
+  sub: "Let's make sure they find you. Tell us what you need; it goes straight to the founder.",
   placeholder: "you@company.com",
   /** Required. Email is the reply path, the number is the one that gets a
    *  lead called the same day. */
@@ -898,7 +931,7 @@ export const FOOTER = {
   /** the wordmark splits so the second word can sit a tone down */
   mark: ["SAMPeer", "Studio"],
   location: "Kurnool, Andhra Pradesh",
-  line: "Let's make you impossible to overlook.",
+  line: "Be the answer they find.",
   email: "sampeerstudio@gmail.com",
   top: "Back to top",
   credit: { kicker: "Designed and built by", name: "Syed Mukheeth" },

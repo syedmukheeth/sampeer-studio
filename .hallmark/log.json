@@ -52,5 +52,20 @@
     "motif": "photographs with small captions under them; ChapterRule only on Work and Services, no numbers",
     "type": "Geist + Geist Mono",
     "brief": "SAMPeer Studio v6: simpler, natural, trust-first; face on the first screen, client words beside their work, services as tabs, FAQ; 42% shorter"
+  },
+  {
+    "date": "2026-11-21",
+    "scope": "app",
+    "macrostructure": "Conversational (search -> answer), bespoke",
+    "theme": "custom",
+    "theme_axes": "light-with-night / roman-serif / warm",
+    "vibe": "warm cream, bottle-green ink, a marigold highlighter; a customer's search is the story",
+    "enrichment": "the hero search types itself (SearchLine); live-site posters in 16:10; founder film moved into ASRG's answer beside the owner's words; MAA loop in a fixed 4:5 frame; portrait alone",
+    "nav": "N10 scroll-morph (green night bar over the hero, cream pill after), flat single-colour logo mask",
+    "footer": "Ft5 Statement, wordmark in Newsreader 400",
+    "motif": "search caret after every query + marigold highlighter under one word per chapter",
+    "type": "Newsreader (display, roman) + Geist + Geist Mono (meta only)",
+    "contrast": "ink/paper 13.8, muted 7.5, faint 5.3, amber text 5.6, cream/green button 13.8, night ink 13.1, marigold text at night 8.8, green on marigold 8.2",
+    "brief": "SAMPeer Studio v7: Syed rated v6 0/10; story = someone searches, finds a real client; services = the 3 moments a customer meets a business; FAQ = searches; close = someone is searching for you right now"
   }
 ]

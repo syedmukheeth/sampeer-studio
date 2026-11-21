@@ -1,32 +1,26 @@
-"use client";
-
-import { useRef, useState } from "react";
-import { clsx } from "clsx";
-import { motion, useReducedMotion } from "motion/react";
 import { ArrowDown, ArrowRight, ArrowUpRight } from "@phosphor-icons/react/dist/ssr";
-import { CHAPTERS, HOME_AUTOMATION_STORY, OFFER, REELS } from "@/lib/content";
+import { HOME_AUTOMATION_STORY, OFFER, REELS } from "@/lib/content";
 import type { OfferPackage } from "@/lib/content";
 import { serpentine } from "@/lib/flow";
 import { Shell } from "@/components/ui/Shell";
-import { ChapterRule } from "@/components/ui/ChapterRule";
+import { Marked } from "@/components/ui/Marked";
+import { FadeIn } from "@/components/ui/FadeIn";
 import { PackageChip } from "@/components/ui/PackageChip";
 import { WorkDeck } from "@/components/ui/WorkDeck";
 import { Flow } from "@/components/ui/Flow";
 import { LinkedInCard } from "@/components/ui/LinkedInCard";
 import { ReelEmbed } from "@/components/ui/ReelEmbed";
-import { SPRING } from "@/lib/constants";
 
-/* What we do, as three tabs. The reader's situation in one plain line, then
-   the three things the studio sells, one at a time: what you get, how long,
-   what we need from you, and the proof on a night card beside it. Each pillar
-   keeps its own graphic: the story is the card deck of live sites, the
-   automation is a Flow diagram (the home page's whole preview of the
-   Automation Lab), the founder brand is the LinkedIn card and a reel.
+/* What being found takes, told from the customer's side. A customer meets a
+   business three times before they pay: they search, they ask, they check who
+   is behind it. Each moment is one stop on a single hairline running down the
+   chapter, and each stop names the moment in the serif, then what we build
+   for it, then its proof on a green night card. Each pillar keeps its own
+   graphic: the story is the deck of live sites, the automation a Flow diagram
+   (the home page's preview of the Automation Lab), the founder brand the
+   LinkedIn card and a reel.
 
-   Every panel is in the markup from the first byte (only `hidden` switches),
-   so the server and the client agree and search engines read all three. The
-   tabs follow the WAI-ARIA pattern: arrows, Home and End move between them,
-   and moving focus never scrolls the page. */
+   No tabs: all three are on the page, in order, readable top to bottom. */
 
 const LEAD = HOME_AUTOMATION_STORY.beats[0];
 const LEAD_FLOW = serpentine(LEAD.steps, 2, { payload: LEAD.payload });
@@ -90,54 +84,37 @@ function ProofLink({ pkg }: { pkg: OfferPackage }) {
   );
 }
 
-function Panel({ pkg, active }: { pkg: OfferPackage; active: boolean }) {
+/* One moment on the line: the dot sits on the hairline at the moment's first
+   line, so the eye runs straight down from one moment to the next. */
+function Stop({ pkg, last }: { pkg: OfferPackage; last: boolean }) {
   return (
-    <div
-      role="tabpanel"
-      id={`service-${pkg.id}`}
-      aria-labelledby={`service-tab-${pkg.id}`}
-      hidden={!active}
-      tabIndex={0}
-      className="mt-10 grid gap-10 rounded-3xl outline-none focus-visible:ring-2 focus-visible:ring-ink/40 md:mt-12 lg:grid-cols-12 lg:gap-12"
-    >
-      <div className="min-w-0 lg:col-span-5">
-        <h3 className="font-display text-[clamp(1.9rem,3.2vw,2.75rem)] leading-[1.02] font-[600] tracking-[-0.045em] text-ink">
-          {pkg.name}
-        </h3>
-        <p className="mt-4 max-w-[34ch] font-sans text-lg leading-relaxed text-muted">{pkg.outcome}</p>
+    <li id={`service-${pkg.id}`} className="relative grid scroll-mt-28 gap-10 pl-8 md:pl-12 lg:grid-cols-12 lg:gap-14">
+      {/* the line and its stop */}
+      <span aria-hidden className={`absolute top-3 left-[5px] w-px bg-line ${last ? "h-0" : "-bottom-24 md:-bottom-32"}`} />
+      <span aria-hidden className="absolute top-[0.55rem] left-0 h-[11px] w-[11px] rounded-full border-2 border-canvas bg-accent ring-1 ring-ink/25" />
 
-        <h4 className="mt-8 font-mono text-xs tracking-[0.06em] text-faint uppercase">{OFFER.labels.get}</h4>
-        <ul className="mt-4 space-y-3">
+      <FadeIn className="min-w-0 lg:sticky lg:top-28 lg:col-span-5 lg:self-start">
+        <h3 className="font-serif text-[clamp(1.75rem,3.2vw,2.6rem)] leading-[1.08] font-normal text-ink">{pkg.moment}</h3>
+        <p className="mt-6 font-sans text-sm font-medium text-accent-text">{pkg.name}</p>
+        <p className="mt-2 max-w-[36ch] font-sans text-lg leading-relaxed text-ink">{pkg.outcome}</p>
+
+        <ul className="mt-6 space-y-2.5 border-t border-line pt-6">
           {pkg.deliverables.map((d) => (
-            <li key={d} className="flex gap-3 font-sans text-[15px] leading-relaxed text-ink">
-              <span aria-hidden className="mt-[0.6em] h-1.5 w-1.5 shrink-0 bg-accent" />
+            <li key={d} className="flex gap-3 font-sans text-[15px] leading-relaxed text-muted">
+              <span aria-hidden className="mt-[0.65em] h-1 w-3 shrink-0 rounded-full bg-accent" />
               {d}
             </li>
           ))}
         </ul>
-
-        <dl className="mt-8 grid gap-6 border-t border-line pt-6 sm:grid-cols-2">
-          <div>
-            <dt className="font-mono text-xs tracking-[0.06em] text-faint uppercase">{OFFER.labels.timeline}</dt>
-            <dd className="mt-2 font-sans text-sm leading-relaxed text-muted">{pkg.timeline}</dd>
-          </div>
-          <div>
-            <dt className="font-mono text-xs tracking-[0.06em] text-faint uppercase">{OFFER.labels.need}</dt>
-            <dd className="mt-2">
-              <ul className="space-y-1 font-sans text-sm leading-relaxed text-muted">
-                {pkg.need.map((n) => (
-                  <li key={n}>{n}</li>
-                ))}
-              </ul>
-            </dd>
-          </div>
-        </dl>
+        <p className="mt-5 font-sans text-sm leading-relaxed text-faint">
+          {OFFER.labels.need}: {pkg.need.join(" · ")}
+        </p>
 
         <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3">
           <PackageChip id={pkg.id} label={OFFER.labels.start} prefill={pkg.prefill} />
           <ProofLink pkg={pkg} />
         </div>
-      </div>
+      </FadeIn>
 
       <div className="min-w-0 lg:col-span-7">
         <div className="night grain flex h-full min-h-[22rem] items-center rounded-3xl bg-canvas p-5 sm:p-8 md:p-10">
@@ -146,89 +123,28 @@ function Panel({ pkg, active }: { pkg: OfferPackage; active: boolean }) {
           </div>
         </div>
       </div>
-    </div>
+    </li>
   );
 }
 
 export function Offer() {
-  const reduce = useReducedMotion();
-  const [active, setActive] = useState(0);
-  const tabs = useRef<(HTMLButtonElement | null)[]>([]);
-  const n = OFFER.packages.length;
-
-  const onKey = (e: React.KeyboardEvent, i: number) => {
-    const next =
-      e.key === "ArrowRight" ? (i + 1) % n
-      : e.key === "ArrowLeft" ? (i - 1 + n) % n
-      : e.key === "Home" ? 0
-      : e.key === "End" ? n - 1
-      : -1;
-    if (next < 0) return;
-    e.preventDefault();
-    setActive(next);
-    tabs.current[next]?.focus({ preventScroll: true });
-  };
-
   return (
-    <section id="services" className="relative bg-canvas py-20 md:py-28">
+    <section id="services" className="relative bg-canvas py-24 md:py-36">
       <Shell>
-        <ChapterRule chapter={CHAPTERS.services} />
-
-        <div className="mt-10 grid gap-5 md:mt-12 lg:grid-cols-12 lg:items-end lg:gap-12">
-          <h2 className="font-display text-[clamp(2.25rem,5vw,4.25rem)] leading-[1] font-[600] tracking-[-0.05em] text-ink lg:col-span-6">
-            {OFFER.title}
+        <div className="grid gap-6 lg:grid-cols-12 lg:items-end lg:gap-12">
+          <h2 className="font-serif text-[clamp(2.25rem,5vw,4.25rem)] leading-[1.02] font-normal text-ink lg:col-span-6">
+            <Marked text={OFFER.title} />
           </h2>
-          <p className="max-w-[46ch] font-sans text-lg leading-relaxed text-muted lg:col-span-6 lg:justify-self-end">
+          <p className="max-w-[48ch] font-sans text-lg leading-relaxed text-muted lg:col-span-6 lg:justify-self-end">
             {OFFER.sub}
           </p>
         </div>
 
-        <div
-          role="tablist"
-          aria-label={OFFER.labels.tabs}
-          className="mt-12 grid w-full grid-cols-3 gap-1 rounded-full border border-line bg-elevated p-1 sm:inline-flex sm:w-auto md:mt-14"
-        >
-          {OFFER.packages.map((pkg, i) => {
-            const on = i === active;
-            return (
-              <button
-                key={pkg.id}
-                ref={(el) => {
-                  tabs.current[i] = el;
-                }}
-                type="button"
-                role="tab"
-                id={`service-tab-${pkg.id}`}
-                aria-selected={on}
-                aria-controls={`service-${pkg.id}`}
-                tabIndex={on ? 0 : -1}
-                onClick={() => setActive(i)}
-                onKeyDown={(e) => onKey(e, i)}
-                className={clsx(
-                  "relative h-11 rounded-full px-3 font-sans text-sm font-medium whitespace-nowrap transition-colors sm:px-5",
-                  on ? "text-canvas" : "text-muted hover:text-ink",
-                )}
-              >
-                {on ? (
-                  <motion.span
-                    aria-hidden
-                    layoutId="service-tab"
-                    transition={reduce ? { duration: 0 } : SPRING.pill}
-                    className="absolute inset-0 rounded-full bg-ink"
-                  />
-                ) : null}
-                <span className="relative">
-                  <span className="sm:hidden">{pkg.tabShort}</span>
-                  <span className="hidden sm:inline">{pkg.tab}</span>
-                </span>
-              </button>
-            );
-          })}
-        </div>
-
-        {OFFER.packages.map((pkg, i) => (
-          <Panel key={pkg.id} pkg={pkg} active={i === active} />
-        ))}
+        <ol className="mt-16 flex flex-col gap-24 md:mt-24 md:gap-32">
+          {OFFER.packages.map((pkg, i) => (
+            <Stop key={pkg.id} pkg={pkg} last={i === OFFER.packages.length - 1} />
+          ))}
+        </ol>
       </Shell>
     </section>
   );

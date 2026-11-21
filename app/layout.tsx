@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Newsreader } from "next/font/google";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
@@ -9,9 +9,18 @@ import { CursorLabel } from "@/components/ui/CursorLabel";
 import { INTRO_SCRIPT, Intro } from "@/components/ui/Intro";
 import { SITE_URL } from "@/lib/constants";
 
-// Geist for display and body, Geist Mono for labels, numbers and diagram meta.
-// One variable file each; next/font self-hosts them and size-matches a
-// fallback, so the swap cannot shift the layout.
+// Newsreader (roman only, optical size on) tells the story: headlines, the
+// searches, quotes and questions. Geist carries body and UI, Geist Mono the
+// smallest meta. One variable file each; next/font self-hosts them and
+// size-matches a fallback, so the swap cannot shift the layout.
+const serif = Newsreader({
+  variable: "--font-newsreader",
+  subsets: ["latin"],
+  style: "normal",
+  axes: ["opsz"],
+  display: "swap",
+});
+
 const sans = Geist({
   variable: "--font-geist",
   subsets: ["latin"],
@@ -57,7 +66,7 @@ const JSON_LD = {
   description: DESCRIPTION,
   url: SITE_URL,
   logo: `${SITE_URL}/logo.png`,
-  slogan: "Get noticed. Remembered. Chosen",
+  slogan: "When they search, they should find you",
   founder: {
     "@type": "Person",
     name: "Syed Abdul Mukheeth Peer",
@@ -86,12 +95,12 @@ function safeJsonLd(data: unknown) {
   return JSON.stringify(data).replace(/</g, "\\u003c");
 }
 
-// Mirrors the night canvas (.night --color-canvas, oklch(0.145 0.002 270)): the
+// Mirrors the night canvas (.night --color-canvas, oklch(0.27 0.055 162)): the
 // browser chrome sits against the night hero. Metadata is emitted as HTML
 // attributes and cannot read a CSS custom property, so this literal is the one
 // sanctioned copy; change both together.
 export const viewport: Viewport = {
-  themeColor: "#0e0f11",
+  themeColor: "#042f1e",
   colorScheme: "light",
 };
 
@@ -103,7 +112,7 @@ export default function RootLayout({
     // before React hydrates; that attribute is the only expected difference
     <html
       lang="en"
-      className={`${sans.variable} ${mono.variable}`}
+      className={`${serif.variable} ${sans.variable} ${mono.variable}`}
       suppressHydrationWarning
     >
       <head>

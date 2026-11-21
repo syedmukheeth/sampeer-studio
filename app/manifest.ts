@@ -10,8 +10,8 @@ export default function manifest(): MetadataRoute.Manifest {
     // Mirror the night canvas (.night --color-canvas, the hero the app opens
     // on). A manifest is static JSON and cannot read CSS custom properties,
     // so these are the sanctioned literal copies.
-    background_color: "#0e0f11",
-    theme_color: "#0e0f11",
+    background_color: "#042f1e",
+    theme_color: "#042f1e",
     // `/icon`, without the extension, 404s: the app/icon.png file convention
     // serves the route at its real filename. A manifest icon that fails to
     // download costs the install prompt its artwork.

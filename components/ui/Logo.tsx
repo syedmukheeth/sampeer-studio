@@ -1,22 +1,30 @@
-import Image from "next/image";
-import mark from "../../public/logo-mark.png";
+/** The S-ribbon mark on its own, for the nav and the intro curtain.
+ *
+ *  The source PNG is a glossy violet ribbon with a real alpha channel. The
+ *  site no longer has a violet anywhere, so the mark is drawn flat in the
+ *  current text colour: the PNG is used only as a mask, which keeps its exact
+ *  silhouette and lets it follow the ink (bottle green on paper, cream at
+ *  night). The file itself is untouched.
+ *
+ *  Size with a height utility; the width follows the mark's own ratio. */
+const RATIO = 281 / 480; // the PNG's real pixels, width / height
 
-/** The S-ribbon mark on its own, for the nav pill and anywhere the lockup
- *  would collapse to mush at small sizes.
- *
- *  The mark ships with a real alpha channel, so it drops onto paper and night
- *  alike with no framed rectangle and no blend mode. (mix-blend-multiply, the
- *  usual trick for white-boxed raster logos, would sink the violet into the
- *  night panels; it is not needed.) Never re-typeset; size with a width or height
- *  utility plus the paired `-auto` and let the intrinsic ratio hold.
- *
- *  Eager, because the only caller is the nav, which is above every fold. */
-export function Logo({
-  className = "",
-  sizes,
-}: {
-  className?: string;
-  sizes?: string;
-}) {
-  return <Image src={mark} alt="" aria-hidden loading="eager" sizes={sizes} className={className} />;
+export function Logo({ className = "" }: { className?: string; sizes?: string }) {
+  return (
+    <span
+      aria-hidden
+      className={`inline-block bg-current ${className}`}
+      style={{
+        aspectRatio: RATIO,
+        WebkitMaskImage: "url(/logo-mark.png)",
+        maskImage: "url(/logo-mark.png)",
+        WebkitMaskSize: "contain",
+        maskSize: "contain",
+        WebkitMaskRepeat: "no-repeat",
+        maskRepeat: "no-repeat",
+        WebkitMaskPosition: "center",
+        maskPosition: "center",
+      }}
+    />
+  );
 }

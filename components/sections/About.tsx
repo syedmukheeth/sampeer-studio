@@ -1,14 +1,14 @@
 import Image from "next/image";
 import { ArrowUpRight } from "@phosphor-icons/react/dist/ssr";
-import { ABOUT, FILM, FOUNDER, SOCIALS } from "@/lib/content";
+import { ABOUT, FOUNDER, SOCIALS } from "@/lib/content";
 import { Section } from "@/components/ui/Section";
 import { FadeIn } from "@/components/ui/FadeIn";
-import { FilmMedia, FilmProvider, FilmToggle } from "@/components/ui/FilmLoop";
+import { Marked } from "@/components/ui/Marked";
 
-/* Behind the studio: the one chapter in Syed's own voice. A portrait that
-   looks at the reader, with the founder film inset at its corner (a client
-   seeing his new site, then the city, the desk and the build), beside the
-   words, the founder's own reach and the ways to find him. No parallax. */
+/* The person who answers: the one chapter in Syed's own voice. A portrait
+   that looks at the reader, alone in its 4:5 frame with nothing laid over it
+   (the film now sits with ASRG, the client it is about), beside the words,
+   his own reach and every place to find him. No parallax. */
 export function About() {
   // the last line is the pull line; the rest are the paragraphs
   const paragraphs = ABOUT.body.slice(0, -1);
@@ -16,46 +16,37 @@ export function About() {
 
   return (
     <Section id="about">
-      <div className="grid items-center gap-12 lg:grid-cols-12 lg:gap-16">
+      <div className="grid items-center gap-12 lg:grid-cols-12 lg:gap-20">
         <figure className="min-w-0 lg:col-span-5">
-          <div className="relative mx-auto w-full max-w-md lg:max-w-none">
-            <div className="relative aspect-4/5 overflow-hidden rounded-2xl border border-line bg-elevated">
-              <Image
-                src={FOUNDER.portrait.src}
-                alt={FOUNDER.portrait.alt}
-                fill
-                sizes="(min-width: 1024px) 36vw, 92vw"
-                className="object-cover"
-              />
-            </div>
-            {/* the film, inset at the corner: the founder first, the work beside him */}
-            <FilmProvider>
-              <div className="night absolute right-3 bottom-3 aspect-4/5 w-[38%] overflow-hidden rounded-xl border-[3px] border-canvas bg-canvas shadow-[0_24px_48px_-24px_var(--shadow-tint)] lg:-right-8 lg:-bottom-8 lg:w-[42%] lg:rounded-2xl lg:border-[6px]">
-                <FilmMedia sizes="(min-width: 1024px) 16vw, 38vw" />
-                <FilmToggle className="absolute right-2 bottom-2 z-[2]" />
-              </div>
-            </FilmProvider>
+          <div className="relative mx-auto aspect-4/5 w-full max-w-md overflow-hidden rounded-2xl border border-line bg-elevated-2 shadow-[0_30px_60px_-40px_var(--shadow-tint)] lg:max-w-none">
+            <Image
+              src={FOUNDER.portrait.src}
+              alt={FOUNDER.portrait.alt}
+              fill
+              sizes="(min-width: 1024px) 36vw, 92vw"
+              className="object-cover object-[50%_30%]"
+            />
           </div>
-          <figcaption className="mx-auto mt-4 max-w-md font-mono text-xs leading-relaxed text-faint lg:mt-12 lg:max-w-none">
-            {FOUNDER.portrait.caption} {FILM.label}
+          <figcaption className="mx-auto mt-3 max-w-md font-sans text-sm text-faint lg:max-w-none">
+            {FOUNDER.portrait.caption}
           </figcaption>
         </figure>
 
-        <div className="min-w-0 lg:col-span-6 lg:col-start-7">
+        <div className="min-w-0 lg:col-span-7">
           <FadeIn>
-            <h2 className="font-display text-[clamp(2.25rem,4.4vw,3.75rem)] leading-[1.02] font-[600] tracking-[-0.05em] text-ink">
-              {ABOUT.title}
+            <h2 className="font-serif text-[clamp(2.25rem,4.6vw,3.9rem)] leading-[1.04] font-normal text-ink">
+              <Marked text={ABOUT.title} />
             </h2>
           </FadeIn>
           <div className="mt-8 space-y-5">
             {paragraphs.map((p) => (
               <FadeIn key={p}>
-                <p className="max-w-[56ch] font-sans text-base leading-relaxed text-muted md:text-lg">{p}</p>
+                <p className="max-w-[54ch] font-sans text-base leading-relaxed text-muted md:text-lg">{p}</p>
               </FadeIn>
             ))}
             {pull ? (
               <FadeIn>
-                <p className="border-l-2 border-accent pl-5 font-display text-xl leading-snug font-[560] tracking-[-0.03em] text-ink md:text-2xl">
+                <p className="max-w-[30ch] pt-3 font-serif text-2xl leading-snug font-normal text-ink md:text-3xl">
                   {pull}
                 </p>
               </FadeIn>
@@ -68,11 +59,11 @@ export function About() {
             {FOUNDER.role}
           </p>
 
-          <dl className="mt-6 grid max-w-sm grid-cols-2 gap-6 border-t border-line pt-6">
+          <dl className="mt-8 grid max-w-sm grid-cols-2 gap-6 border-t border-line pt-6">
             {ABOUT.proof.map((p) => (
               <div key={p.label} className="flex flex-col-reverse">
-                <dt className="mt-1 font-mono text-xs text-faint">{p.label}</dt>
-                <dd className="font-display text-3xl font-[600] tracking-[-0.04em] text-ink tabular-nums">{p.value}</dd>
+                <dt className="mt-1 font-sans text-sm text-faint">{p.label}</dt>
+                <dd className="font-serif text-4xl font-normal text-ink tabular-nums">{p.value}</dd>
               </div>
             ))}
           </dl>
@@ -86,6 +77,7 @@ export function About() {
                   rel="noopener noreferrer"
                   className="btn-press inline-flex h-11 items-center gap-1.5 rounded-full border border-line bg-elevated px-4 font-sans text-sm text-ink hover:border-ink"
                 >
+                  <span className="text-faint">{s.label}</span>
                   {s.handle}
                   <ArrowUpRight size={13} weight="bold" aria-hidden />
                   <span className="sr-only"> (opens in a new tab)</span>

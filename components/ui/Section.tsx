@@ -9,7 +9,7 @@ import { Shell } from "@/components/ui/Shell";
  */
 const SIZE = {
   /** standard storytelling block */
-  base: "py-20 md:py-28",
+  base: "py-24 md:py-36",
   /** climactic block (the CTA), extra air, feels like an arrival */
   lg: "py-28 md:py-40",
   /** section owns its own spacing (pinned/full-bleed/horizontal) */

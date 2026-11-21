@@ -50,10 +50,10 @@ export function Footer() {
           <Shell className="flex flex-1 flex-col justify-between gap-6 pt-9 pb-7 md:gap-8 md:pt-14 md:pb-9">
             <div className="grid grid-cols-[1fr_auto] gap-x-6 gap-y-4 md:grid-cols-12 md:gap-x-8">
               <div className="md:col-span-4">
-                <p className="font-display text-xl font-semibold tracking-[-0.03em] text-ink">
+                <p className="font-serif text-2xl font-normal text-ink">
                   {FOOTER.brand}
                 </p>
-                <p className="mt-1 font-mono text-xs text-faint">{FOOTER.location}</p>
+                <p className="mt-1 font-sans text-sm text-faint">{FOOTER.location}</p>
               </div>
               <div className="justify-self-end md:order-last md:col-span-3">
                 <button
@@ -66,7 +66,7 @@ export function Footer() {
                 </button>
               </div>
               <div className="col-span-2 md:col-span-5">
-                <p className="max-w-[26ch] font-display text-lg leading-snug font-semibold tracking-[-0.03em] text-ink md:text-2xl">
+                <p className="max-w-[26ch] font-serif text-xl leading-snug font-normal text-ink md:text-3xl">
                   {FOOTER.line}
                 </p>
                 <a
@@ -98,8 +98,8 @@ export function Footer() {
                 )}
               >
                 <p className="flex flex-wrap items-baseline justify-center gap-x-3 gap-y-1">
-                  <span className="font-mono text-xs text-faint">{FOOTER.credit.kicker}</span>
-                  <span className="credit-name font-display text-2xl font-semibold tracking-[-0.03em] text-ink md:text-3xl">
+                  <span className="font-sans text-sm text-faint">{FOOTER.credit.kicker}</span>
+                  <span className="credit-name font-serif text-2xl font-normal text-ink md:text-3xl">
                     {FOOTER.credit.name}
                   </span>
                 </p>
@@ -125,7 +125,7 @@ export function Footer() {
                 </ul>
               </div>
 
-              <div className="mt-5 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 font-mono text-xs text-faint lg:justify-between">
+              <div className="mt-5 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 font-sans text-[13px] text-faint lg:justify-between">
                 <span>
                   © {FOOTER.year} {FOOTER.brand}
                 </span>

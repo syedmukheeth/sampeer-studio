@@ -64,10 +64,15 @@ export function CtaSection({
     return (
       <Section id={id} size="lg">
         {chapter ? <ChapterRule chapter={chapter} /> : null}
-        <div className="mt-14 grid gap-14 lg:grid-cols-12 lg:gap-16">
-          <div className="relative lg:col-span-5">
-            <h2 className="font-display text-[clamp(2.5rem,6vw,5rem)] leading-[0.98] font-[600] tracking-[-0.055em] text-ink">
-              <MaskText text={content.heading} />
+        {/* three blocks: the ask, the form, the direct details. On a phone
+            they stack in that order, so the form is right under the ask; on
+            a wide screen the form takes the right column beside both. */}
+        <div className="mt-14 grid gap-12 lg:grid-cols-12 lg:gap-x-16 lg:gap-y-12">
+          <div className="relative lg:col-span-5 lg:col-start-1 lg:row-start-1">
+            <h2 className="font-serif text-[clamp(2.5rem,5.4vw,4.75rem)] leading-[1.02] font-normal text-ink">
+              {content.heading}
+              {/* the search motif, one last time: the reader is the next search */}
+              <span aria-hidden className="search-caret" data-blink="true" />
             </h2>
             <p className="mt-6 max-w-md font-sans text-base text-muted md:text-lg">{content.sub}</p>
 
@@ -87,30 +92,9 @@ export function CtaSection({
                 </p>
               </div>
             ) : null}
-
-            <dl className="mt-12 border-t border-line">
-              {details.map((d, i) => (
-                <FadeIn key={d.label} delay={i * STAGGER.base} className="grid grid-cols-[7rem_minmax(0,1fr)] gap-4 border-b border-line py-4">
-                  <dt className="pt-0.5 font-mono text-xs text-faint">{d.label}</dt>
-                  <dd className="min-w-0 font-sans text-base text-ink">
-                    {d.href ? (
-                      <a
-                        href={d.href}
-                        {...(d.href.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-                        className="link-wipe break-words"
-                      >
-                        {d.value}
-                      </a>
-                    ) : (
-                      d.value
-                    )}
-                  </dd>
-                </FadeIn>
-              ))}
-            </dl>
           </div>
 
-          <div className="lg:col-span-7 lg:pt-2">
+          <div className="lg:col-span-7 lg:col-start-6 lg:row-span-2 lg:row-start-1 lg:pt-2">
             <ContactForm
               idPrefix={idPrefix}
               emailPlaceholder={content.placeholder}
@@ -130,6 +114,29 @@ export function CtaSection({
               </p>
             )}
           </div>
+
+          <div className="lg:col-span-5 lg:col-start-1 lg:row-start-2">
+            <dl className="border-t border-line">
+              {details.map((d, i) => (
+                <FadeIn key={d.label} delay={i * STAGGER.base} className="grid grid-cols-[7rem_minmax(0,1fr)] gap-4 border-b border-line py-4">
+                  <dt className="pt-0.5 font-sans text-sm text-faint">{d.label}</dt>
+                  <dd className="min-w-0 font-sans text-base text-ink">
+                    {d.href ? (
+                      <a
+                        href={d.href}
+                        {...(d.href.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                        className="link-wipe break-words"
+                      >
+                        {d.value}
+                      </a>
+                    ) : (
+                      d.value
+                    )}
+                  </dd>
+                </FadeIn>
+              ))}
+            </dl>
+          </div>
         </div>
       </Section>
     );
@@ -138,7 +145,7 @@ export function CtaSection({
   return (
     <Section id={id} size="lg">
       <div className="mx-auto max-w-2xl text-center">
-        <h2 className="font-display text-[clamp(2.25rem,5.4vw,4.5rem)] leading-[1.0] font-[600] tracking-[-0.05em] text-ink">
+        <h2 className="font-serif text-[clamp(2.25rem,5.4vw,4.5rem)] leading-[1.02] font-normal text-ink">
           <MaskText text={content.heading} />
         </h2>
         <p className="mt-5 font-sans text-base text-muted md:text-lg">

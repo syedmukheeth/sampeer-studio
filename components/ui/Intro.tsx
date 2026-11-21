@@ -1,7 +1,7 @@
 import { Logo } from "@/components/ui/Logo";
 
-/* The once-per-session curtain, a night panel: the mark (the page's one
-   violet), an ink line drawing under it, then
+/* The once-per-session curtain, a night panel: the mark (flat, in
+   cream), an ink line drawing under it, then
    the panel lifts away (all of it `.intro` in globals.css). Server-rendered and
    inert from the first frame, so it never blocks a click or holds back the
    first paint underneath. The head script in the root layout marks repeat
