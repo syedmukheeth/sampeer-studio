@@ -1,46 +1,38 @@
 import Image from "next/image";
-import { ArrowDown, ArrowUpRight, MagnifyingGlass } from "@phosphor-icons/react/dist/ssr";
-import { FOUNDER, HERO } from "@/lib/content";
+import { ArrowDown, ArrowUpRight } from "@phosphor-icons/react/dist/ssr";
+import { HERO } from "@/lib/content";
 import { Shell } from "@/components/ui/Shell";
 import { NightFold } from "@/components/ui/FilmLoop";
-import { SearchLine } from "@/components/ui/SearchLine";
+import { ReelWall } from "@/components/ui/ReelWall";
 import { TrackClick } from "@/components/analytics/TrackClick";
 import { EVENTS } from "@/lib/analytics";
 
-/* The cold open, on a green night panel. A customer's search types itself in
-   the serif (SearchLine), and under it, who they find. Then the turn: the next
-   search is for the reader's own business. The promise, the plain offer, the
-   two ways forward, and the person behind it: on a phone a small face beside
-   the note that he answers himself, on a wide screen his photograph in Kurnool
-   beside the search.
+/* The cold open, on a night panel. Three things on the first screen, in the
+   order a visitor needs them: what we build (the three services, lit in the
+   accent), the founder's face, and the real clients who are happy with the
+   work, as silent reels that link to their projects.
 
-   Everything but the typing is server-rendered, and the typing's first frame
-   is the first search whole, so the first paint is complete before any script
-   runs. The panel folds into a card as the reader scrolls on (NightFold). */
+   On a wide screen the headline and the reels share the left column and the
+   founder's portrait stands on the right; on a phone they stack: headline,
+   portrait, then the reels as a swipe row. The panel folds into a card as the
+   reader scrolls on (NightFold). */
 export function Hero() {
-  const [l1, l2, l3] = HERO.line;
+  const [a, b, c] = HERO.services;
+  const lit = "text-accent-text";
 
   return (
     <section id="hero" className="relative">
       <NightFold className="night grain overflow-hidden bg-canvas">
-        <Shell className="relative z-[2] grid min-h-svh content-center gap-10 pt-28 pb-12 lg:grid-cols-12 lg:items-center lg:gap-14 lg:pt-24">
-          <div className="min-w-0 lg:col-span-8">
-            <p className="flex items-center gap-2 font-sans text-sm text-muted md:text-base">
-              <MagnifyingGlass size={16} weight="bold" aria-hidden className="text-accent" />
-              {HERO.kicker}
-            </p>
-            <div className="mt-5 md:mt-6">
-              <SearchLine searches={HERO.searches} findsLabel={HERO.findsLabel} />
-            </div>
-
-            <h1 className="mt-12 font-serif text-[clamp(2.1rem,4.6vw,3.9rem)] leading-[1.04] font-normal text-ink md:mt-14">
-              {l1} {l2} <mark className="mark">{l3}</mark>
+        <Shell className="relative z-[2] grid min-h-svh content-center gap-x-14 gap-y-10 pt-28 pb-12 lg:grid-cols-12 lg:gap-y-8 lg:pt-24 lg:pb-10">
+          <div className="min-w-0 lg:col-span-7 lg:row-start-1">
+            <p className="font-sans text-sm text-muted md:text-base">{HERO.kicker}</p>
+            <h1 className="mt-4 font-serif text-[clamp(2.4rem,4.6vw,3.8rem)] leading-[1.03] font-normal text-ink">
+              {HERO.lead} <span className={lit}>{a}</span>, <span className={lit}>{b}</span> and{" "}
+              <span className={lit}>{c}</span>.
             </h1>
-            <p className="mt-5 max-w-[46ch] font-sans text-base leading-relaxed text-muted md:text-lg">
-              {HERO.offer}
-            </p>
+            <p className="mt-4 max-w-[52ch] font-sans text-base leading-relaxed text-muted md:text-lg">{HERO.sub}</p>
 
-            <div className="mt-8 flex flex-wrap items-center gap-3">
+            <div className="mt-6 flex flex-wrap items-center gap-3">
               <TrackClick event={EVENTS.ctaClickHero}>
                 <a
                   href={HERO.primary.href}
@@ -58,37 +50,28 @@ export function Hero() {
                 <ArrowDown size={16} weight="bold" aria-hidden />
               </a>
             </div>
-
-            {/* the person behind it; on wide screens the photograph says it */}
-            <p className="mt-8 flex items-center gap-3 font-sans text-sm text-muted lg:hidden">
-              <Image
-                src={FOUNDER.avatar}
-                alt=""
-                width={80}
-                height={80}
-                sizes="40px"
-                className="h-10 w-10 shrink-0 rounded-full border border-line object-cover"
-              />
-              {HERO.founderNote}
-            </p>
           </div>
 
-          <figure className="hidden min-w-0 lg:col-span-4 lg:block">
-            <div className="relative aspect-4/5 w-full overflow-hidden rounded-2xl border border-line bg-elevated">
+          <figure className="min-w-0 lg:col-span-5 lg:col-start-8 lg:row-span-2 lg:row-start-1 lg:self-center">
+            <div className="relative mx-auto aspect-4/5 w-full max-w-sm overflow-hidden rounded-2xl border border-line bg-elevated lg:max-w-none">
               <Image
-                src={HERO.photo.src}
-                alt={HERO.photo.alt}
+                src={HERO.founder.src}
+                alt={HERO.founder.alt}
                 fill
                 preload
-                sizes="(min-width: 1024px) 30vw, 1px"
-                className="object-cover object-[50%_35%]"
+                sizes="(min-width: 1024px) 34vw, (min-width: 640px) 24rem, 92vw"
+                className="object-cover object-top"
               />
+              <figcaption className="absolute inset-x-0 bottom-0 bg-linear-to-t from-black/75 via-black/35 to-transparent px-5 pt-16 pb-5 font-sans">
+                <span className="block text-base font-medium text-white">{HERO.founder.name}</span>
+                <span className="mt-0.5 block text-sm text-white/80">{HERO.founder.note}</span>
+              </figcaption>
             </div>
-            <figcaption className="mt-3 flex items-baseline justify-between gap-4 font-sans text-sm text-muted">
-              <span>{HERO.founderNote}</span>
-              <span className="text-faint">{HERO.photo.place}</span>
-            </figcaption>
           </figure>
+
+          <div className="min-w-0 lg:col-span-7 lg:row-start-2">
+            <ReelWall reels={HERO.reels} label={HERO.reelsLabel} pause={HERO.pause} play={HERO.play} />
+          </div>
         </Shell>
       </NightFold>
     </section>

@@ -9,8 +9,8 @@ import { CursorLabel } from "@/components/ui/CursorLabel";
 import { INTRO_SCRIPT, Intro } from "@/components/ui/Intro";
 import { SITE_URL } from "@/lib/constants";
 
-// Newsreader (roman only, optical size on) tells the story: headlines, the
-// searches, quotes and questions. Geist carries body and UI, Geist Mono the
+// Newsreader (roman only, optical size on) tells the story: headlines, quotes
+// and questions. Geist carries body and UI, Geist Mono the
 // smallest meta. One variable file each; next/font self-hosts them and
 // size-matches a fallback, so the swap cannot shift the layout.
 const serif = Newsreader({
@@ -66,12 +66,12 @@ const JSON_LD = {
   description: DESCRIPTION,
   url: SITE_URL,
   logo: `${SITE_URL}/logo.png`,
-  slogan: "When they search, they should find you",
+  slogan: "Websites, automation and founder brands that grow your business",
   founder: {
     "@type": "Person",
     name: "Syed Abdul Mukheeth Peer",
     jobTitle: "Founder",
-    image: `${SITE_URL}/founder/arch.v1.webp`,
+    image: `${SITE_URL}/founder/kurta.v1.webp`,
     sameAs: [
       "https://www.linkedin.com/in/syedmukheeth/",
       "https://www.instagram.com/syedmukheeth.29/",
@@ -95,12 +95,12 @@ function safeJsonLd(data: unknown) {
   return JSON.stringify(data).replace(/</g, "\\u003c");
 }
 
-// Mirrors the night canvas (.night --color-canvas, oklch(0.27 0.055 162)): the
+// Mirrors the night canvas (.night --color-canvas, oklch(0.16 0.004 75)): the
 // browser chrome sits against the night hero. Metadata is emitted as HTML
 // attributes and cannot read a CSS custom property, so this literal is the one
 // sanctioned copy; change both together.
 export const viewport: Viewport = {
-  themeColor: "#042f1e",
+  themeColor: "#0e0d0b",
   colorScheme: "light",
 };
 

@@ -11,7 +11,7 @@ import {
   useReducedMotion,
   useSpring,
 } from "motion/react";
-import { ArrowRight, ArrowUpRight, MagnifyingGlass } from "@phosphor-icons/react/dist/ssr";
+import { ArrowRight, ArrowUpRight } from "@phosphor-icons/react/dist/ssr";
 import {
   CLIENT_WORDS,
   CLIENTS,
@@ -30,11 +30,10 @@ import { track, EVENTS } from "@/lib/analytics";
 import { DUR, EASE, RISE, SPRING } from "@/lib/constants";
 import { FINE_POINTER, useMediaQuery } from "@/lib/media";
 
-/* The answers. The hero typed what customers search; this chapter shows who
-   they find, in the same order. Each client opens on the search itself, set
-   in the serif with its caret, then the live site whole inside its own 16:10,
-   then what we built and the client's own words beside a few silent seconds
-   of them (for ASRG, the film of the owner seeing his new site).
+/* The work. The hero's happy clients, in the same order: each client opens
+   on the live site whole inside its own 16:10, then what we built and the
+   client's own words beside a few silent seconds of them (for ASRG, the film
+   of the owner seeing his new site).
 
    One register down, the studio's own product as a diptych, and the concept
    builds as a typographic index with the poster following the cursor. The
@@ -200,26 +199,13 @@ function Caption({
   );
 }
 
-/* A client as an answer: the search their customers make, then the live
-   site, then a caption band, the facts on the left and the client's own words
-   (or, without them, what we built) on the right. The poster is height-capped
-   so a whole site fits the screen on a short laptop. */
+/* A client: the live site, then a caption band, the facts on the left and the
+   client's own words (or, without them, what we built) on the right. The
+   poster is height-capped so a whole site fits the screen on a short laptop. */
 function ClientRow({ project: w }: { project: LiveProject }) {
   const words = CLIENTS.find((c) => c.workId === w.id);
   return (
     <article id={`work-${w.id}`} className="mx-auto w-full scroll-mt-28 lg:max-w-[min(100%,calc((100svh-9rem)*1.6))]">
-      {w.query ? (
-        <div className="mb-7 md:mb-9">
-          <p className="flex items-center gap-2 font-sans text-sm text-faint">
-            <MagnifyingGlass size={14} weight="bold" aria-hidden className="text-accent-text" />
-            {WORK_HEADER.queryLabel}
-          </p>
-          <p className="mt-2 border-b border-line pb-3 font-serif text-[clamp(1.6rem,3.4vw,2.75rem)] leading-[1.1] font-normal text-ink">
-            {w.query}
-            <span aria-hidden className="search-caret" />
-          </p>
-        </div>
-      ) : null}
       <Poster project={w} sizes="(min-width: 1024px) 80vw, 100vw" />
       <div className="mt-7 grid gap-8 md:mt-8 lg:grid-cols-12 lg:gap-12">
         <Caption project={w} className="lg:col-span-5">

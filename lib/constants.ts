@@ -119,17 +119,3 @@ export const VIEWPORT = { once: true, amount: 0.25 } as const;
  * under the scrollbar. N nodes => sticky region of roughly N * FLOW_STEP.
  */
 export const FLOW_STEP = 140;
-
-/**
- * The hero search's typing rhythm, in ms. `first` waits for the intro
- * curtain and one read of the opening search; `hold` is long enough to read a
- * search and who it finds; `type` + up to `jitter` is a person typing.
- */
-export const SEARCH = {
-  first: 2600,
-  hold: 2600,
-  erase: 26,
-  gap: 260,
-  type: 55,
-  jitter: 55,
-} as const;

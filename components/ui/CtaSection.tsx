@@ -71,8 +71,6 @@ export function CtaSection({
           <div className="relative lg:col-span-5 lg:col-start-1 lg:row-start-1">
             <h2 className="font-serif text-[clamp(2.5rem,5.4vw,4.75rem)] leading-[1.02] font-normal text-ink">
               {content.heading}
-              {/* the search motif, one last time: the reader is the next search */}
-              <span aria-hidden className="search-caret" data-blink="true" />
             </h2>
             <p className="mt-6 max-w-md font-sans text-base text-muted md:text-lg">{content.sub}</p>
 

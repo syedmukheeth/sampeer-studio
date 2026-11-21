@@ -48,42 +48,78 @@ export const NAV = {
   cta: { label: "Start a project", href: "/#contact" },
 } as const;
 
-/** A heading with one word under the marigold highlighter (see Marked.tsx). */
+/** A heading with one word under the gold highlighter (see Marked.tsx). */
 export type MarkedText = { before: string; mark: string; after: string };
 
 /* --------------------------------------------------------------- hero */
-/* The cold open. The whole site is one idea: a customer searches, and a
- * business is either found or it is not. The hero types what real customers
- * of our real clients type; each search names who they find, and the answers
- * chapter below shows that client, in the same order. No ranking claims: the
- * searches are what customers look for, the answers are who we built for. */
-export type HeroSearch = { query: string; finds: string; href: string };
+/* The cold open: what we build, the founder's face and the clients who are
+ * happy with the work, all on the first screen. The three services are named
+ * in the headline and lit in the accent, so a visitor knows what we do before
+ * they scroll. The reels are a few silent seconds of each real client (no
+ * audio track, no location metadata), cropped to the client and Syed; each
+ * links to that client's work below. */
+export type HeroReel = {
+  id: string;
+  name: string;
+  what: string;
+  loop: string;
+  poster: string;
+  href: string;
+};
 
 export const HERO = {
-  kicker: "Right now, someone near you is typing",
-  searches: [
-    { query: "construction company in kurnool", finds: "ASRG Construction", href: "#work-asrg" },
-    { query: "furniture shop in kurnool", finds: "MAA Furniture", href: "#work-maa" },
-    { query: "suri mansoor ali khan", finds: "Suri Mansoor Ali Khan", href: "#work-suri" },
-  ] satisfies HeroSearch[],
-  findsLabel: "They find",
-  /** the turn: the visitor's own business is the next search */
-  line: ["When they search,", "they should find", "you."],
-  offer:
-    "We build the website, the systems and the founder name that make sure they do. For businesses in India and the UK.",
-  primary: { label: "Be the answer", href: "#contact" },
-  secondary: { label: "See who they found", href: "#work" },
-  /** the person behind the studio, on the first screen */
-  founderNote: "Syed answers every enquiry himself.",
-  /** Syed's own photograph, re-encoded with its location metadata stripped.
-   *  `w`/`h` are the file's real pixels; the frame is the same 4:5. */
-  photo: {
-    src: "/founder/arch.v1.webp",
-    w: 1600,
-    h: 2000,
-    alt: "Syed Mukheeth, founder of SAMPeer Studio, in a white shirt under a stone arch in Kurnool",
-    caption: "Syed Mukheeth, founder",
-    place: "Kurnool",
+  kicker: "Founder-led studio in Kurnool, for India and the UK",
+  lead: "We build",
+  services: ["websites", "automation", "founder brands"],
+  sub: "That grow your business: customers find you, reach you and trust you. You talk to the founder from the first call to launch day.",
+  primary: { label: "Start a project", href: "#contact" },
+  secondary: { label: "See our work", href: "#work" },
+  reelsLabel: "Happy clients",
+  pause: "Pause the client clips",
+  play: "Play the client clips",
+  reels: [
+    {
+      id: "asrg-film",
+      name: "ASRG Construction",
+      what: "The owner, seeing his new site",
+      loop: "/clients/asrg-film.v1.mp4",
+      poster: "/clients/asrg-film.v1.webp",
+      href: "#work-asrg",
+    },
+    {
+      id: "maa",
+      name: "MAA Furniture",
+      what: "Online store and showroom site",
+      loop: "/clients/maa.v1.mp4",
+      poster: "/clients/maa.v1.webp",
+      href: "#work-maa",
+    },
+    {
+      id: "suri",
+      name: "Suri Mansoor Ali Khan",
+      what: "Founder brand and personal site",
+      loop: "/clients/suri.v1.mp4",
+      poster: "/clients/suri.v1.webp",
+      href: "#work-suri",
+    },
+    {
+      id: "asrg",
+      name: "S. Jeelani, ASRG",
+      what: "Brand site, SEO, Google profile",
+      loop: "/clients/asrg.v1.mp4",
+      poster: "/clients/asrg.v1.webp",
+      href: "#work-asrg",
+    },
+  ] satisfies HeroReel[],
+  /** Syed's own photograph, cropped to 4:5, metadata stripped. `w`/`h` are
+   *  the file's real pixels. */
+  founder: {
+    src: "/founder/kurta.v1.webp",
+    w: 800,
+    h: 1000,
+    alt: "Syed Mukheeth, founder of SAMPeer Studio, in a maroon kurta",
+    name: "Syed Mukheeth",
+    note: "Founder. Answers every enquiry himself.",
   },
 } as const;
 
@@ -127,9 +163,6 @@ export type LiveProject = {
   poster: string;
   /** internal case-study route, shown as a second link when set */
   caseStudy?: string;
-  /** client work only: what this client's customers type, set as the search
-   *  that opens their answer on home (no ranking claim, just the question) */
-  query?: string;
   /** client work only: one plain line, what we built, under the name */
   built?: string;
 };
@@ -137,9 +170,8 @@ export type LiveProject = {
 export const WORK_HEADER = {
   eyebrow: "Selected work",
   /** the marked word carries the highlighter */
-  title: { before: "They searched. They ", mark: "found", after: " these." },
-  sub: "Real businesses and people, each one live today, in their own words where they gave them.",
-  queryLabel: "Searched",
+  title: { before: "Real clients, ", mark: "live", after: " today." },
+  sub: "Every site below is live. Where the owners spoke on camera, their words sit beside the work.",
 } as const;
 
 export const WORK_GROUPS: { kind: ProjectKind; title: string; note: string }[] = [
@@ -165,7 +197,6 @@ export const WORK: LiveProject[] = [
     url: "https://www.asrgcontruction.com/",
     poster: "/work/asrg.v2.webp",
     caseStudy: "/work/asrg",
-    query: "construction company in kurnool",
     built: "Brand site, SEO and Google Business Profile for a firm building since 1980.",
   },
   {
@@ -177,7 +208,6 @@ export const WORK: LiveProject[] = [
       "Online store and showroom site for a handcrafted furniture maker. Shop the range, design a custom piece, plan a visit.",
     url: "https://www.maafurniture.shop/",
     poster: "/work/maa.webp",
-    query: "furniture shop in kurnool",
     built: "Online store and showroom site. Shop the range, design a custom piece, plan a visit.",
   },
   {
@@ -189,7 +219,6 @@ export const WORK: LiveProject[] = [
       "A public record of a community leader's work, with every entry linked to the press that reported it.",
     url: "https://suri-mansoor-ali-khan.vercel.app/",
     poster: "/work/suri.webp",
-    query: "suri mansoor ali khan",
     built: "A public record of a community leader's work, every entry linked to the press that reported it.",
   },
   {
@@ -788,9 +817,9 @@ export const ABOUT = {
  * ships (see the work, the automation console and the founder brand). No
  * prices and no invented timelines: both are agreed on the first call. */
 export const OFFER = {
-  /** the reader's situation, said plainly, then the turn */
-  title: { before: "Being found takes ", mark: "three", after: " things." },
-  sub: "A customer meets your business three times before they pay: when they search, when they ask, and when they check who is behind it. We build for each moment, and each one works on its own.",
+  /** the three services, said plainly */
+  title: { before: "Three things that ", mark: "grow", after: " a business." },
+  sub: "A website that wins customers, systems that answer them, and a founder name they trust. Each one works on its own; together they compound.",
   labels: {
     get: "What you get",
     timeline: "Timeline",
@@ -802,8 +831,8 @@ export const OFFER = {
     {
       id: "websites",
       letter: "S",
-      /** the customer's moment this package answers, in their terms */
-      moment: "They search. They land on your site.",
+      /** the service's headline, in the customer's terms */
+      moment: "A website that wins customers.",
       /** the tab, in full and in the short form phones get */
       tab: "Website",
       tabShort: "Website",
@@ -823,7 +852,7 @@ export const OFFER = {
     {
       id: "automation",
       letter: "A",
-      moment: "They message at 11 pm. Someone answers.",
+      moment: "Systems that answer at 11 pm.",
       tab: "Growth systems",
       tabShort: "Systems",
       name: "Growth systems and automation",
@@ -842,7 +871,7 @@ export const OFFER = {
     {
       id: "brand",
       letter: "M",
-      moment: "They check who is behind it. They find you.",
+      moment: "A founder name people trust.",
       tab: "Founder brand",
       tabShort: "Brand",
       name: "Founder brand",
@@ -870,7 +899,7 @@ export type OfferPackage = (typeof OFFER.packages)[number];
  * FAQPage structured data. */
 export const FAQ = {
   title: { before: "Asked before the ", mark: "first call", after: "." },
-  sub: "The searches people make about us before they write. Anything else goes in the form below, and the founder answers it personally.",
+  sub: "What people ask before they write. Anything else goes in the form below, and the founder answers it personally.",
   items: [
     {
       q: "Who will I actually work with?",
@@ -900,10 +929,10 @@ export const FAQ = {
 } as const;
 
 /* ---------------------------------------------------------------- cta */
-/* The resolution of the hero's three beats: noticed, remembered, chosen. */
+/* The ask: the three services once more, and the founder who reads it. */
 export const CTA = {
-  heading: "Someone is searching for you right now.",
-  sub: "Let's make sure they find you. Tell us what you need; it goes straight to the founder.",
+  heading: "Let's grow your business.",
+  sub: "Tell us what you need: a website, automation or a founder brand. It goes straight to the founder.",
   placeholder: "you@company.com",
   /** Required. Email is the reply path, the number is the one that gets a
    *  lead called the same day. */
@@ -931,7 +960,7 @@ export const FOOTER = {
   /** the wordmark splits so the second word can sit a tone down */
   mark: ["SAMPeer", "Studio"],
   location: "Kurnool, Andhra Pradesh",
-  line: "Be the answer they find.",
+  line: "Websites, automation and founder brands.",
   email: "sampeerstudio@gmail.com",
   top: "Back to top",
   credit: { kicker: "Designed and built by", name: "Syed Mukheeth" },

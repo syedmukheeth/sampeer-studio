@@ -1,11 +1,10 @@
-import { MagnifyingGlass, Plus } from "@phosphor-icons/react/dist/ssr";
+import { Plus } from "@phosphor-icons/react/dist/ssr";
 import { FAQ } from "@/lib/content";
 import { Shell } from "@/components/ui/Shell";
 import { Marked } from "@/components/ui/Marked";
 
-/* The questions a buyer asks before the first call, set the way they would
-   type them (a small search glass, the question in the serif), answered in
-   the studio's own words. Native <details>, so it opens with Enter, Space or a tap and
+/* The questions a buyer asks before the first call, each in the serif,
+   answered in the studio's own words. Native <details>, so it opens with Enter, Space or a tap and
    needs no script; the answers are in the markup either way. The same
    questions go out as FAQPage structured data.
 
@@ -39,10 +38,7 @@ export function Faq() {
             {FAQ.items.map((item) => (
               <details key={item.q} className="faq group border-b border-line">
                 <summary className="flex cursor-pointer list-none items-center justify-between gap-6 py-5 font-serif text-xl leading-snug font-normal text-ink md:py-6 md:text-2xl">
-                  <span className="flex items-baseline gap-3">
-                    <MagnifyingGlass size={16} weight="bold" aria-hidden className="shrink-0 translate-y-0.5 text-accent-text" />
-                    {item.q}
-                  </span>
+                  <span>{item.q}</span>
                   <Plus
                     size={18}
                     weight="bold"
@@ -50,7 +46,7 @@ export function Faq() {
                     className="shrink-0 text-muted transition-transform duration-300 group-open:rotate-45 group-open:text-ink"
                   />
                 </summary>
-                <p className="max-w-[62ch] pb-7 pl-7 font-sans text-base leading-relaxed text-muted">{item.a}</p>
+                <p className="max-w-[62ch] pb-7 font-sans text-base leading-relaxed text-muted">{item.a}</p>
               </details>
             ))}
           </div>

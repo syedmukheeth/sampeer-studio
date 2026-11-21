@@ -26,10 +26,10 @@ export function Hero() {
         squareSize={72}
         direction="diagonal"
         // The canvas cannot read CSS custom properties, so these are the
-        // sanctioned literal copies of --color-ink (oklch 0.26 0.05 160 =
-        // rgb 8 43 27) and --color-accent (marigold, rgb 255 179 48) at low alpha.
-        borderColor="rgba(8, 43, 27, 0.1)"
-        hoverFillColor="rgba(255, 179, 48, 0.16)"
+        // sanctioned literal copies of --color-ink (oklch 0.2 0.006 75 =
+        // rgb 24 22 19) and --color-accent (gold, rgb 233 180 82) at low alpha.
+        borderColor="rgba(24, 22, 19, 0.1)"
+        hoverFillColor="rgba(233, 180, 82, 0.16)"
         shape="square"
       />
       {/* mobile gets the static ruling: no per-frame canvas on a phone */}

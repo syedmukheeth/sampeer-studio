@@ -67,5 +67,20 @@
     "type": "Newsreader (display, roman) + Geist + Geist Mono (meta only)",
     "contrast": "ink/paper 13.8, muted 7.5, faint 5.3, amber text 5.6, cream/green button 13.8, night ink 13.1, marigold text at night 8.8, green on marigold 8.2",
     "brief": "SAMPeer Studio v7: Syed rated v6 0/10; story = someone searches, finds a real client; services = the 3 moments a customer meets a business; FAQ = searches; close = someone is searching for you right now"
+  },
+  {
+    "date": "2026-11-21",
+    "scope": "app",
+    "macrostructure": "Founder + proof, bespoke",
+    "theme": "custom",
+    "theme_axes": "light-with-night / roman-serif / warm",
+    "vibe": "onyx, ivory and gold; the three services lit in gold",
+    "enrichment": "hero: founder portrait (kurta.v1, 4:5) + a row of four silent happy-client reels (ASRG film moment, MAA, Suri, ASRG) that link to the work; one pause toggle; search story removed site-wide",
+    "nav": "N10 scroll-morph (onyx bar over the hero, ivory pill after), flat single-colour logo mask",
+    "footer": "Ft5 Statement, wordmark in Newsreader 400",
+    "motif": "gold on onyx; gold highlighter under one word per chapter",
+    "type": "Newsreader (display, roman) + Geist + Geist Mono (meta only)",
+    "contrast": "ink/paper 16.6, muted 7.5, faint 5.4, gold text on paper 5.2, ivory/ink button 16.6, night ink 17.3, night muted 10.4, gold text at night 11.0, onyx on gold 10.3",
+    "brief": "SAMPeer Studio v8: Syed called the green the worst and the search hero poor (he does not sell SEO); hero now names the three services, shows his best photo and all happy-client reels; onyx & gold picked from 4 rendered options"
   }
 ]

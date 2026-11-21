@@ -1,52 +1,52 @@
-/* Hallmark · macrostructure: Conversational (search → answer), bespoke · genre: editorial
- * hero: a customer's search typed in the serif on a green night panel · nav: N10 scroll-morph · footer: Ft5 statement
- * motif: the search caret after every query + a marigold highlighter under one word per chapter
- * theme: custom · vibe: "warm cream, bottle-green ink, a marigold highlighter" · paper oklch(0.965 0.018 85) · ink oklch(0.26 0.05 160) · mark oklch(0.82 0.16 75)
+/* Hallmark · macrostructure: Founder + proof, bespoke · genre: editorial
+ * hero: the three services lit in gold, the founder's portrait and a row of happy-client reels on an onyx night panel · nav: N10 scroll-morph · footer: Ft5 statement
+ * motif: gold on onyx; a gold highlighter under one word per chapter
+ * theme: custom · vibe: "onyx, ivory and gold" · paper oklch(0.97 0.008 85) · ink oklch(0.2 0.006 75) · night oklch(0.16 0.004 75) · gold oklch(0.8 0.13 80)
  * type: Newsreader (display, roman only) + Geist (body) + Geist Mono (meta) · axes: light-with-night / roman-serif / warm
- * contrast (brand-system/contrast.mjs): ink/paper 13.8 · muted 7.5 · faint 5.3 · amber text 5.6 · cream/green btn 13.8 · night ink 13.1 · marigold/night 8.8
+ * contrast (brand-system/contrast.mjs): ink/paper 16.6 · muted 7.5 · faint 5.4 · gold text 5.2 · ivory/ink btn 16.6 · night ink 17.3 · night muted 10.4 · gold/night 11.0 · onyx/gold btn 10.3
  */
 @import "tailwindcss";
 
 /*
-  SAMPeer Studio, SEARCH AND FIND.
+  SAMPeer Studio, ONYX AND GOLD.
 
-  Warm cream paper with bottle-green ink, and one marigold. The page is paper;
-  the hero, the footer and the proof cards are green night panels (the .night
-  scope below re-declares the same tokens, so every utility follows).
+  Ivory paper with near-black ink, and one gold. The page is paper; the hero,
+  the footer and the proof cards are onyx night panels (the .night scope below
+  re-declares the same tokens, so every utility follows).
 
-  Marigold is a highlighter, not a paint: the caret after a search, the
-  stroke under the one word that matters, the dots and markers. On paper it is
-  too light for text or for a button's edge (1.6:1), so on paper the main
-  button is filled ink green with cream type, and small amber text uses the
-  darker accent-text (5.6:1). At night the button turns marigold with green
-  type (8.2:1). Photography and film stay in full colour.
+  Gold lights what matters: the three services in the hero, the stroke under
+  the one word of each chapter title, the dots and markers. On paper it is too
+  light for text or for a button's edge (1.7:1), so on paper the main button
+  is filled ink with ivory type, and small gold text uses the darker
+  accent-text (5.2:1). At night the button turns gold with onyx type (10.3:1).
+  Photography and film stay in full colour.
 
   Contrast is measured with brand-system/contrast.mjs (WCAG 2.1); the pairs
-  are listed in the v7 log entry.
+  are listed in the stamp above and in the v8 log entry.
 */
 
 @theme {
-  --color-canvas: oklch(0.965 0.018 85); /* warm cream paper */
-  --color-elevated: oklch(0.985 0.01 85); /* cards lift a shade lighter */
-  --color-elevated-2: oklch(0.93 0.022 85); /* hover, pressed, media wells */
-  --color-ink: oklch(0.26 0.05 160); /* bottle green, never black */
-  --color-muted: oklch(0.42 0.035 160); /* secondary copy, 7.5:1 */
-  --color-faint: oklch(0.5 0.03 155); /* meta and captions, 5.3:1 */
-  --color-line: oklch(0.86 0.022 95); /* hairlines */
-  --color-accent: oklch(0.82 0.16 75); /* marigold: highlighter, caret, markers */
-  --color-accent-2: oklch(0.42 0.035 160);
-  --color-accent-text: oklch(0.5 0.12 65); /* amber that reads at body size on paper */
-  --color-accent-solid: oklch(0.26 0.05 160); /* paper button: ink green fill */
-  --color-accent-dim: oklch(0.2 0.045 160); /* pressed */
-  --color-accent-soft: oklch(0.82 0.16 75 / 0.22); /* tints and chips */
-  --color-accent-ink: oklch(0.965 0.018 85); /* cream type on the green fill */
+  --color-canvas: oklch(0.97 0.008 85); /* ivory paper */
+  --color-elevated: oklch(0.99 0.004 85); /* cards lift a shade lighter */
+  --color-elevated-2: oklch(0.93 0.01 85); /* hover, pressed, media wells */
+  --color-ink: oklch(0.2 0.006 75); /* warm near-black */
+  --color-muted: oklch(0.43 0.005 75); /* secondary copy, 7.5:1 */
+  --color-faint: oklch(0.5 0.004 75); /* meta and captions, 5.4:1 */
+  --color-line: oklch(0.87 0.01 85); /* hairlines */
+  --color-accent: oklch(0.8 0.13 80); /* gold: highlighter, markers, fills */
+  --color-accent-2: oklch(0.43 0.005 75);
+  --color-accent-text: oklch(0.52 0.1 70); /* deep gold that reads at body size on paper */
+  --color-accent-solid: oklch(0.2 0.006 75); /* paper button: ink fill */
+  --color-accent-dim: oklch(0.12 0.005 75); /* pressed */
+  --color-accent-soft: oklch(0.8 0.13 80 / 0.2); /* tints and chips */
+  --color-accent-ink: oklch(0.97 0.008 85); /* ivory type on the ink fill */
 
   /* kept as a name for the rules that used the logo sweep; now plain ink */
   --gradient-ribbon: linear-gradient(currentColor, currentColor);
 
-  /* Newsreader carries every line the story is told in: headlines, the
-     searches, quotes, questions and the wordmark, always roman. Geist carries
-     body and UI; Geist Mono only the smallest meta. */
+  /* Newsreader carries every line the story is told in: headlines, quotes,
+     questions and the wordmark, always roman. Geist carries body and UI;
+     Geist Mono only the smallest meta. */
   --font-display: var(--font-newsreader), ui-serif, Georgia, serif;
   --font-serif: var(--font-newsreader), ui-serif, Georgia, serif;
   --font-sans: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
@@ -68,8 +68,8 @@
 :root {
   --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
   --dur-kinetic: 0.9s;
-  --shadow-tint: oklch(0.26 0.05 160 / 0.16); /* green shadow, soft on paper */
-  --highlighter: oklch(0.82 0.16 75 / 0.75); /* the marigold marker stroke */
+  --shadow-tint: oklch(0.2 0.006 75 / 0.16); /* ink shadow, soft on paper */
+  --highlighter: oklch(0.8 0.13 80 / 0.6); /* the gold marker stroke */
   --glint: oklch(1 0 0 / 0.28);
   --footer-h: min(34rem, 82svh);
   /* the intro curtain's whole life; mirrors INTRO_MS in lib/constants.ts */
@@ -102,7 +102,7 @@ body {
 
 ::selection {
   background: var(--color-accent);
-  color: oklch(0.26 0.05 160);
+  color: oklch(0.16 0.004 75);
 }
 
 /* The serif has one voice everywhere. The inner pages were written for a
@@ -119,30 +119,8 @@ body {
   font-optical-sizing: auto;
 }
 
-/* ------------------------------------------------------ search motifs */
-/* The caret after every search: a marigold bar that blinks while the line is
-   "being typed" and holds still otherwise. Reduced motion holds it still. */
-.search-caret {
-  display: inline-block;
-  width: 0.08em;
-  height: 0.9em;
-  margin-left: 0.06em;
-  vertical-align: -0.08em;
-  background: var(--color-accent);
-  border-radius: 1px;
-}
-@media (prefers-reduced-motion: no-preference) {
-  .search-caret[data-blink="true"] {
-    animation: caret-blink 1.05s steps(1, end) infinite;
-  }
-}
-@keyframes caret-blink {
-  50% {
-    opacity: 0;
-  }
-}
-
-/* The highlighter: a marigold stroke under the one word that matters. It is
+/* ------------------------------------------------------------- motifs */
+/* The highlighter: a gold stroke under the one word that matters. It is
    drawn against the scrollbar where the browser can, and simply there where
    it cannot (and under reduced motion). The text stays ink, so contrast is
    the ink's, not the stroke's. */
@@ -179,21 +157,21 @@ body {
 /* The night scope: the same tokens, dark. Hero, footer, intro and the proof
    cards wear it; everything inside follows without a dark: variant. */
 .night {
-  --color-canvas: oklch(0.27 0.055 162); /* bottle green */
-  --color-elevated: oklch(0.31 0.055 162);
-  --color-elevated-2: oklch(0.35 0.055 162);
-  --color-ink: oklch(0.96 0.018 85); /* cream */
-  --color-muted: oklch(0.84 0.03 110);
-  --color-faint: oklch(0.76 0.03 130);
-  --color-line: oklch(0.4 0.045 160);
-  --color-accent: oklch(0.82 0.16 75);
-  --color-accent-2: oklch(0.84 0.03 110);
-  --color-accent-text: oklch(0.84 0.15 78); /* marigold reads as text at night */
-  --color-accent-solid: oklch(0.82 0.16 75); /* night button: marigold fill */
-  --color-accent-dim: oklch(0.76 0.16 72);
-  --color-accent-soft: oklch(0.82 0.16 75 / 0.16);
-  --color-accent-ink: oklch(0.27 0.055 162); /* green type on marigold */
-  --shadow-tint: oklch(0.12 0.04 162 / 0.6);
+  --color-canvas: oklch(0.16 0.004 75); /* onyx */
+  --color-elevated: oklch(0.2 0.005 75);
+  --color-elevated-2: oklch(0.24 0.006 75);
+  --color-ink: oklch(0.96 0.01 85); /* ivory */
+  --color-muted: oklch(0.8 0.012 85);
+  --color-faint: oklch(0.7 0.012 85);
+  --color-line: oklch(0.3 0.006 75);
+  --color-accent: oklch(0.8 0.13 80);
+  --color-accent-2: oklch(0.8 0.012 85);
+  --color-accent-text: oklch(0.82 0.12 82); /* gold reads as text at night */
+  --color-accent-solid: oklch(0.8 0.13 80); /* night button: gold fill */
+  --color-accent-dim: oklch(0.74 0.13 78);
+  --color-accent-soft: oklch(0.8 0.13 80 / 0.16);
+  --color-accent-ink: oklch(0.16 0.004 75); /* onyx type on gold */
+  --shadow-tint: oklch(0.05 0 0 / 0.6);
   color-scheme: dark;
   color: var(--color-ink);
 }

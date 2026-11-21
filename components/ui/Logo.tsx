@@ -3,7 +3,7 @@
  *  The source PNG is a glossy violet ribbon with a real alpha channel. The
  *  site no longer has a violet anywhere, so the mark is drawn flat in the
  *  current text colour: the PNG is used only as a mask, which keeps its exact
- *  silhouette and lets it follow the ink (bottle green on paper, cream at
+ *  silhouette and lets it follow the ink (ink on paper, ivory at
  *  night). The file itself is untouched.
  *
  *  Size with a height utility; the width follows the mark's own ratio. */

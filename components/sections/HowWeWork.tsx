@@ -4,7 +4,7 @@ import { FadeIn } from "@/components/ui/FadeIn";
 import { Marked } from "@/components/ui/Marked";
 import { STAGGER } from "@/lib/constants";
 
-/* How it goes, in one line. Four words on a hairline that the marigold draws
+/* How it goes, in one line. Four words on a hairline that the gold draws
    along as the reader scrolls it in (`.rule-scrub`, finished at once where the
    browser cannot scrub or the reader prefers no motion), a dot at each stop
    and one plain sentence under each. The fourth stop is the one most studios
@@ -20,7 +20,7 @@ export function HowWeWork() {
           </h2>
 
           <ol className="relative mt-12 grid gap-y-10 md:mt-14 md:grid-cols-4 md:gap-x-8">
-            {/* the line: a hairline, and the marigold drawing over it (desktop) */}
+            {/* the line: a hairline, and the gold drawing over it (desktop) */}
             <span aria-hidden className="absolute top-[5px] right-0 left-0 hidden h-px bg-line md:block" />
             <span aria-hidden className="rule-scrub absolute top-[5px] right-0 left-0 hidden h-px bg-accent md:block" />
             {/* phones: the same line, running down */}

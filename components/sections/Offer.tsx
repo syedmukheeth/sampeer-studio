@@ -11,11 +11,11 @@ import { Flow } from "@/components/ui/Flow";
 import { LinkedInCard } from "@/components/ui/LinkedInCard";
 import { ReelEmbed } from "@/components/ui/ReelEmbed";
 
-/* What being found takes, told from the customer's side. A customer meets a
-   business three times before they pay: they search, they ask, they check who
-   is behind it. Each moment is one stop on a single hairline running down the
-   chapter, and each stop names the moment in the serif, then what we build
-   for it, then its proof on a green night card. Each pillar keeps its own
+/* The three services, told in the customer's terms: a website that wins
+   customers, systems that answer them, a founder name they trust. Each one is
+   a stop on a single hairline running down the chapter, and each stop names
+   the service's promise in the serif, then what we build, then its proof on
+   an onyx night card. Each pillar keeps its own
    graphic: the story is the deck of live sites, the automation a Flow diagram
    (the home page's preview of the Automation Lab), the founder brand the
    LinkedIn card and a reel.
