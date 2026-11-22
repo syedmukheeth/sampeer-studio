@@ -68,8 +68,10 @@ export function CtaSection({
             they stack in that order, so the form is right under the ask; on
             a wide screen the form takes the right column beside both. */}
         <div className="mt-14 grid gap-12 lg:grid-cols-12 lg:gap-x-16 lg:gap-y-12">
-          <div className="relative lg:col-span-5 lg:col-start-1 lg:row-start-1">
-            <h2 className="font-serif text-[clamp(2.5rem,5.4vw,4.75rem)] leading-[1.02] font-normal text-ink">
+          {/* the guide's last page: a "next step" block on an orange rule */}
+          <div className="relative border-l-[3px] border-accent pl-6 md:pl-8 lg:col-span-5 lg:col-start-1 lg:row-start-1">
+            <p className="label">Next step</p>
+            <h2 className="mt-4 font-serif text-[clamp(2.5rem,5.4vw,4.75rem)] leading-[1.02] font-normal text-ink">
               {content.heading}
             </h2>
             <p className="mt-6 max-w-md font-sans text-base text-muted md:text-lg">{content.sub}</p>

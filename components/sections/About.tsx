@@ -31,7 +31,8 @@ export function About() {
 
         <div className="min-w-0 lg:col-span-7">
           <FadeIn>
-            <h2 className="font-serif text-[clamp(2.25rem,4.6vw,3.9rem)] leading-[1.04] font-normal text-ink">
+            <p className="label">{ABOUT.eyebrow}</p>
+            <h2 className="mt-4 font-serif text-[clamp(2.25rem,4.6vw,3.9rem)] leading-[1.04] font-normal text-ink">
               <Marked text={ABOUT.title} />
             </h2>
           </FadeIn>
@@ -56,11 +57,14 @@ export function About() {
             {FOUNDER.role}
           </p>
 
-          <dl className="mt-8 grid max-w-sm grid-cols-2 gap-6 border-t border-line pt-6">
-            {ABOUT.proof.map((p) => (
-              <div key={p.label} className="flex flex-col-reverse">
-                <dt className="mt-1 font-sans text-sm text-faint">{p.label}</dt>
-                <dd className="font-serif text-4xl font-normal text-ink tabular-nums">{p.value}</dd>
+          {/* the guide's stat row: big orange figures, small mono labels */}
+          <dl className="mt-8 grid max-w-lg grid-cols-3 border-t border-line">
+            {ABOUT.proof.map((p, i) => (
+              <div key={p.label} className={`flex flex-col-reverse pt-6 ${i > 0 ? "border-l border-line pl-4 sm:pl-6" : "pr-4"}`}>
+                <dt className="mt-2 font-mono text-[11px] leading-snug tracking-[0.12em] text-faint uppercase">{p.label}</dt>
+                <dd className="font-sans text-3xl leading-none font-semibold tracking-tight text-accent-text tabular-nums sm:text-4xl">
+                  {p.value}
+                </dd>
               </div>
             ))}
           </dl>
@@ -82,6 +86,14 @@ export function About() {
               </li>
             ))}
           </ul>
+
+          <a
+            href={ABOUT.cta.href}
+            className="btn-press mt-8 inline-flex h-12 items-center gap-2 rounded-full bg-accent-solid px-6 font-sans text-[15px] font-semibold whitespace-nowrap text-accent-ink hover:bg-accent-dim"
+          >
+            {ABOUT.cta.label}
+            <ArrowUpRight size={16} weight="bold" aria-hidden />
+          </a>
         </div>
       </div>
     </Section>

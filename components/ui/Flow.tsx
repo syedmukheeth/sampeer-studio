@@ -693,7 +693,7 @@ function RichNode({
         {!compact && (
           <span className="grid w-3 shrink-0 place-items-center">
             {done && !chaos ? (
-              <Check size={10} weight="bold" className="text-accent-text/70" />
+              <Check size={10} weight="bold" className="text-accent-text" />
             ) : (
               <span
                 className={clsx(
@@ -946,7 +946,7 @@ function BuildNode({
                 style={{ opacity: notDone }}
               />
               <motion.span className="absolute grid place-items-center" style={{ opacity: done }}>
-                <Check size={10} weight="bold" className="text-accent-text/70" />
+                <Check size={10} weight="bold" className="text-accent-text" />
               </motion.span>
             </span>
           )}

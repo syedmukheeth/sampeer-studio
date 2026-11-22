@@ -41,6 +41,7 @@ export const NAV = {
   links: [
     { label: "Work", href: "/#work" },
     { label: "Services", href: "/#services" },
+    { label: "Automations", href: "/automations" },
     { label: "About", href: "/#about" },
     { label: "FAQ", href: "/#faq" },
   ],
@@ -48,16 +49,17 @@ export const NAV = {
   cta: { label: "Start a project", href: "/#contact" },
 } as const;
 
-/** A heading with one word under the gold highlighter (see Marked.tsx). */
+/** A heading with one phrase in orange, the fix (see Marked.tsx). */
 export type MarkedText = { before: string; mark: string; after: string };
 
 /* --------------------------------------------------------------- hero */
-/* The cold open tells the story in one line: the business is better than it
- * looks online, and we change that. Then the proof and the person: the
- * founder's portrait, and one card where the real clients take turns (a few
- * silent seconds each, no audio track, no location metadata, cropped to the
- * client and Syed), each linking to that client's work below. The three
- * services close the column, each with what it does for the client. */
+/* The cold open is a problem and its fix, the way Syed's field guide opens:
+ * the business is better than it looks online, and (in orange) we fix that.
+ * Then the proof and the person: the founder's portrait, and one card where
+ * the real clients take turns (a few silent seconds each, no audio track, no
+ * location metadata, cropped to the client and Syed), each linking to that
+ * client's work below. The three services close the column as numbered
+ * fixes: each names the problem it solves; the Services chapter names how. */
 export type HeroReel = {
   id: string;
   name: string;
@@ -67,23 +69,23 @@ export type HeroReel = {
   href: string;
 };
 
-export type HeroService = { id: string; name: string; outcome: string };
+export type HeroService = { id: string; name: string; fixes: string };
 
 export const HERO = {
-  kicker: "SAMPeer Studio · Kurnool, for India and the UK",
+  kicker: "SAMPeer Studio · Kurnool · for India and the UK",
   /** The statement, one line per row (each row rises on its own and never
-   *  rewraps); `accent` is the one word lit in gold. */
-  lines: ["Your business is", "better than it", "looks online."],
-  accent: "better",
-  sub: "We change that. You work with the founder, from the first call to launch day.",
+   *  rewraps); `accent` is the line set in orange, the fix. */
+  lines: ["Your business is", "better than it", "looks online.", "We fix that."],
+  accent: "We fix that.",
+  sub: "Websites, automation and founder brands, built with the founder from the first call to long after launch.",
   primary: { label: "Start a project", href: "#contact" },
   secondary: { label: "See the work", href: "#work" },
   /** each links to its package in Services (`#service-<id>`) */
-  servicesLabel: "What we build",
+  servicesLabel: "What we fix",
   services: [
-    { id: "websites", name: "Websites", outcome: "Look like the best in town" },
-    { id: "automation", name: "Automation", outcome: "Answer every enquiry, day or night" },
-    { id: "brand", name: "Founder brands", outcome: "Be the name people trust" },
+    { id: "websites", name: "Websites", fixes: "Looking smaller online than you are" },
+    { id: "automation", name: "Automation", fixes: "Enquiries nobody answers at 11 pm" },
+    { id: "brand", name: "Founder brands", fixes: "Nobody knowing who is behind it" },
   ] satisfies HeroService[],
   stage: {
     label: "Happy clients",
@@ -128,7 +130,7 @@ export const HERO = {
     h: 1500,
     alt: "Syed Mukheeth, founder of SAMPeer Studio, in a sage jacket and sunglasses by a river",
     name: "Syed Mukheeth",
-    note: "Founder. Answers every enquiry himself.",
+    note: "Founder, SAMPeer Studio",
   },
 } as const;
 
@@ -174,12 +176,14 @@ export type LiveProject = {
   caseStudy?: string;
   /** client work only: one plain line, what we built, under the name */
   built?: string;
+  /** client work only: the problem the work fixed, from the client's own story */
+  fixed?: string;
 };
 
 export const WORK_HEADER = {
-  eyebrow: "Selected work",
-  /** the marked word carries the highlighter */
-  title: { before: "Real clients, ", mark: "live", after: " today." },
+  eyebrow: "The proof",
+  /** the marked phrase is set in orange */
+  title: { before: "Real clients. ", mark: "Live today.", after: "" },
   sub: "Every site below is live. Where the owners spoke on camera, their words sit beside the work.",
 } as const;
 
@@ -207,6 +211,7 @@ export const WORK: LiveProject[] = [
     poster: "/work/asrg.v2.webp",
     caseStudy: "/work/asrg",
     built: "Brand site, SEO and Google Business Profile for a firm building since 1980.",
+    fixed: "Four decades of work, almost none of it visible online.",
   },
   {
     id: "maa",
@@ -218,6 +223,7 @@ export const WORK: LiveProject[] = [
     url: "https://www.maafurniture.shop/",
     poster: "/work/maa.webp",
     built: "Online store and showroom site. Shop the range, design a custom piece, plan a visit.",
+    fixed: "Handcrafted pieces people could only see in the showroom.",
   },
   {
     id: "suri",
@@ -229,6 +235,7 @@ export const WORK: LiveProject[] = [
     url: "https://suri-mansoor-ali-khan.vercel.app/",
     poster: "/work/suri.webp",
     built: "A public record of a community leader's work, every entry linked to the press that reported it.",
+    fixed: "Years of community work, scattered across press reports.",
   },
   {
     id: "business-sos",
@@ -700,7 +707,7 @@ export const BRANDING = {
     headline: "Founder, SAMPeer Studio · Storytelling websites, growth systems & AI automation",
     stats: [
       { value: "8.7K+", label: "followers" },
-      { value: "350K+", label: "monthly views" },
+      { value: "350K+", label: "monthly impressions" },
     ],
   },
 } as const;
@@ -776,8 +783,7 @@ export const PROCESS_HEADER = {
   title: { before: "From the first call to long ", mark: "after launch", after: "." },
   lead: "How it goes",
   sub: "The same four steps, whichever service you start with.",
-  /** the one promise under the steps, from the founder chapter */
-  promise: "You talk to the founder from the first call to launch day.",
+  cta: { label: "Start a project", href: "#contact" },
 } as const;
 
 export const PROCESS = [
@@ -806,16 +812,19 @@ export const FOUNDER = {
 
 /** The one section in Syed's own voice. */
 export const ABOUT = {
+  eyebrow: "The founder",
   title: { before: "The person who ", mark: "answers", after: "." },
+  cta: { label: "Start a project", href: "#contact" },
   body: [
     "I'm Syed Mukheeth. I started SAMPeer Studio in Kurnool to make good businesses impossible to overlook.",
-    "I lead every project personally: the strategy, the story, the build and the systems behind it. You talk to me from the first call to launch day.",
+    "I lead every project personally: the strategy, the story, the build and the systems behind it. You talk to me from the first call to long after launch.",
     "Do it right, and a business stops asking for attention and starts earning it.",
   ],
   /** the founder's own reach, his numbers rather than the studio's */
   proof: [
     { value: "8.7K+", label: "LinkedIn followers" },
     { value: "350K+", label: "Monthly impressions" },
+    { value: "3", label: "Client sites live" },
   ],
 } as const;
 
@@ -825,8 +834,9 @@ export const ABOUT = {
  * ships (see the work, the automation console and the founder brand). No
  * prices and no invented timelines: both are agreed on the first call. */
 export const OFFER = {
-  /** the three services, said plainly */
-  title: { before: "Three things that ", mark: "grow", after: " a business." },
+  eyebrow: "What we fix",
+  /** the three services, said plainly; the fix in orange */
+  title: { before: "Three things that ", mark: "grow a business", after: "." },
   sub: "A website that wins customers, systems that answer them, and a founder name they trust. Each one works on its own; together they compound.",
   labels: {
     get: "What you get",
@@ -906,12 +916,21 @@ export type OfferPackage = (typeof OFFER.packages)[number];
  * the contact details); nothing here is a new promise. Also emitted as
  * FAQPage structured data. */
 export const FAQ = {
+  eyebrow: "Before you write",
   title: { before: "Asked before the ", mark: "first call", after: "." },
-  sub: "What people ask before they write. Anything else goes in the form below, and the founder answers it personally.",
+  sub: "What people ask before they write. Anything else goes in the form below.",
+  /** the guide's "two honest caveats" box: both are standing site policies */
+  honest: {
+    label: "Two honest things",
+    items: [
+      { lead: "No ranking promises.", body: "Google decides rankings. We build what earns them." },
+      { lead: "Concept builds are labelled.", body: "They show range. They are not client work." },
+    ],
+  },
   items: [
     {
       q: "Who will I actually work with?",
-      a: "With Syed, the founder. Syed leads every project personally: the strategy, the story, the build and the systems behind it. You talk to the founder from the first call to launch day.",
+      a: "With Syed, the founder. Syed leads every project personally: the strategy, the story, the build and the systems behind it. You talk to the founder from the first call to long after launch.",
     },
     {
       q: "How much does it cost?",

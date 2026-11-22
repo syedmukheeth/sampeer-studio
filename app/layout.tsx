@@ -95,13 +95,13 @@ function safeJsonLd(data: unknown) {
   return JSON.stringify(data).replace(/</g, "\\u003c");
 }
 
-// Mirrors the night canvas (.night --color-canvas, oklch(0.21 0.05 262)): the
+// Mirrors the night canvas (.night --color-canvas, oklch(0 0 0), pure black): the
 // browser chrome sits against the night hero. Metadata is emitted as HTML
 // attributes and cannot read a CSS custom property, so this literal (and the
 // pair in app/manifest.ts) are the sanctioned copies; change them together.
 export const viewport: Viewport = {
-  themeColor: "#0b172f",
-  colorScheme: "light",
+  themeColor: "#000000",
+  colorScheme: "dark",
 };
 
 export default function RootLayout({

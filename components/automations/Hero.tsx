@@ -26,11 +26,11 @@ export function Hero() {
         squareSize={72}
         direction="diagonal"
         // The canvas cannot read CSS custom properties, so these are the
-        // sanctioned literal copies of --color-ink (navy, oklch 0.21 0.05 262
-        // = rgb 11 23 47) and --color-accent (gold, oklch 0.84 0.15 88 =
-        // rgb 243 196 67) at low alpha.
-        borderColor="rgba(11, 23, 47, 0.1)"
-        hoverFillColor="rgba(243, 196, 67, 0.16)"
+        // sanctioned literal copies of --color-ink (white, oklch 0.97 0 0
+        // = rgb 245 245 245) and --color-accent (orange, oklch 0.7 0.2 40 =
+        // rgb 255 103 40) at low alpha.
+        borderColor="rgba(245, 245, 245, 0.07)"
+        hoverFillColor="rgba(255, 103, 40, 0.16)"
         shape="square"
       />
       {/* mobile gets the static ruling: no per-frame canvas on a phone */}
@@ -83,7 +83,7 @@ export function Hero() {
             <Magnetic>
               <a
                 href={A_HERO.cta.href}
-                className="inline-block rounded-md border border-line px-6 py-3 font-sans text-sm font-medium text-ink transition-colors hover:border-accent"
+                className="btn-press inline-flex h-12 items-center rounded-full bg-accent-solid px-6 font-sans text-[15px] font-semibold whitespace-nowrap text-accent-ink hover:bg-accent-dim"
               >
                 {A_HERO.cta.label}
               </a>

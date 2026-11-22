@@ -42,11 +42,11 @@ export function ShapeGrid({
   direction = "diagonal",
   speed = 0.25,
   // canvas strokes cannot read CSS custom properties: literal copies of
-  // --color-ink (rgb 24 22 19) and --color-accent (gold, rgb 233 180 82)
+  // --color-ink (white, rgb 245 245 245) and --color-accent (orange, rgb 255 103 40)
   // at low alpha
-  borderColor = "rgba(24, 22, 19, 0.08)",
+  borderColor = "rgba(245, 245, 245, 0.07)",
   squareSize = 64,
-  hoverFillColor = "rgba(233, 180, 82, 0.14)",
+  hoverFillColor = "rgba(255, 103, 40, 0.14)",
   shape = "square",
   hoverTrailAmount = 0,
   className = "",

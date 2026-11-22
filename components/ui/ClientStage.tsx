@@ -184,7 +184,7 @@ export function ClientStage({
           >
             <span className="font-sans text-[11px] font-medium text-accent-text sm:text-xs">{labels.label}</span>
             <span className="mt-0.5 font-sans text-[13px] leading-snug font-semibold text-white sm:text-sm">{r.name}</span>
-            <span className="mt-0.5 hidden font-sans text-xs leading-snug text-white/80 xl:line-clamp-2">{r.what}</span>
+            <span className="mt-0.5 hidden font-sans text-xs leading-snug text-white/80 lg:line-clamp-2">{r.what}</span>
           </div>
         ))}
 

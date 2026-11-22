@@ -170,10 +170,13 @@ function Poster({ project: w, sizes, className }: { project: LiveProject; sizes:
 
 function Caption({
   project: w,
+  index,
   children,
   className,
 }: {
   project: LiveProject;
+  /** client rows are numbered, like the guide's plugins */
+  index?: number;
   children?: React.ReactNode;
   className?: string;
 }) {
@@ -187,13 +190,20 @@ function Caption({
       transition={{ duration: reduce ? 0 : DUR.slow, ease: EASE.out }}
       className={clsx("min-w-0", className)}
     >
-      <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1.5">
+      {index !== undefined ? <p className="label">Client {String(index + 1).padStart(2, "0")}</p> : null}
+      <div className={clsx("flex flex-wrap items-center gap-x-2.5 gap-y-1.5", index !== undefined && "mt-3")}>
         <KindTag kind={w.kind} />
         <span className="font-sans text-[13px] text-faint">{w.category}</span>
       </div>
       <h3 className="mt-4 font-serif text-[clamp(1.85rem,3vw,2.75rem)] leading-[1.02] font-normal text-ink">
         {w.client}
       </h3>
+      {w.fixed ? (
+        <p className="mt-4 max-w-[46ch] border-l-2 border-accent pl-4 font-sans text-base leading-relaxed text-ink">
+          <span className="text-accent-text">Fixed: </span>
+          {w.fixed}
+        </p>
+      ) : null}
       {children}
     </motion.div>
   );
@@ -202,13 +212,13 @@ function Caption({
 /* A client: the live site, then a caption band, the facts on the left and the
    client's own words (or, without them, what we built) on the right. The
    poster is height-capped so a whole site fits the screen on a short laptop. */
-function ClientRow({ project: w }: { project: LiveProject }) {
+function ClientRow({ project: w, index }: { project: LiveProject; index: number }) {
   const words = CLIENTS.find((c) => c.workId === w.id);
   return (
     <article id={`work-${w.id}`} className="mx-auto w-full scroll-mt-28 lg:max-w-[min(100%,calc((100svh-9rem)*1.6))]">
       <Poster project={w} sizes="(min-width: 1024px) 80vw, 100vw" />
       <div className="mt-7 grid gap-8 md:mt-8 lg:grid-cols-12 lg:gap-12">
-        <Caption project={w} className="lg:col-span-5">
+        <Caption project={w} index={index} className="lg:col-span-5">
           {words ? (
             <p className="mt-4 max-w-[46ch] font-sans text-base leading-relaxed text-muted">{w.built ?? w.description}</p>
           ) : null}
@@ -345,17 +355,20 @@ export function Work() {
   return (
     <Section id="work">
       <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
-        <h2 className="max-w-3xl font-serif text-[clamp(2.25rem,5vw,4.25rem)] leading-[1.02] font-normal text-ink">
-          <Marked text={WORK_HEADER.title} />
-        </h2>
+        <div className="min-w-0">
+          <p className="label">{WORK_HEADER.eyebrow}</p>
+          <h2 className="mt-4 max-w-3xl font-serif text-[clamp(2.25rem,5vw,4.25rem)] leading-[1.02] font-normal text-ink">
+            <Marked text={WORK_HEADER.title} />
+          </h2>
+        </div>
         <p className="max-w-sm font-sans text-sm leading-relaxed text-muted lg:text-right">
           {WORK_HEADER.sub}
         </p>
       </div>
 
       <div className="mt-16 flex flex-col gap-24 md:mt-20 md:gap-32">
-        {CLIENT_WORK.map((w) => (
-          <ClientRow key={w.id} project={w} />
+        {CLIENT_WORK.map((w, i) => (
+          <ClientRow key={w.id} project={w} index={i} />
         ))}
         {PRODUCTS.map((w) => (
           <ProductRow key={w.id} project={w} />

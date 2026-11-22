@@ -28,10 +28,23 @@ export function Faq() {
       <Shell>
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-12">
           <div className="lg:col-span-4">
-            <h2 className="font-serif text-[clamp(2.25rem,4.4vw,3.75rem)] leading-[1.04] font-normal text-ink">
+            <p className="label">{FAQ.eyebrow}</p>
+            <h2 className="mt-4 font-serif text-[clamp(2.25rem,4.4vw,3.75rem)] leading-[1.04] font-normal text-ink">
               <Marked text={FAQ.title} />
             </h2>
             <p className="mt-5 max-w-[34ch] font-sans text-base leading-relaxed text-muted md:text-lg">{FAQ.sub}</p>
+
+            {/* the guide's caveat box: an orange rule down the left, plain words */}
+            <aside className="mt-10 rounded-r-xl border-l-[3px] border-accent bg-elevated px-5 py-5">
+              <p className="label">{FAQ.honest.label}</p>
+              <ul className="mt-4 space-y-3">
+                {FAQ.honest.items.map((h) => (
+                  <li key={h.lead} className="font-sans text-[15px] leading-relaxed text-muted">
+                    <span className="font-semibold text-ink">{h.lead}</span> {h.body}
+                  </li>
+                ))}
+              </ul>
+            </aside>
           </div>
 
           <div className="border-t border-line lg:col-span-8">

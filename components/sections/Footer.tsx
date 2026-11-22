@@ -18,11 +18,11 @@ const ICON = { linkedin: LinkedinLogo, instagram: InstagramLogo } as const;
    inside a clipped wrapper (`.footer-wrap` / `.footer-track` /
    `.footer-sticky` in globals.css), so the page lifts off it rather than
    pushing it up. As it is uncovered, the wordmark rises out of its own
-   baseline, scrubbed to the scroll. Then the credit row arrives: the marker
-   stroke sweeps under the name and a glint crosses each button, once.
+   baseline, scrubbed to the scroll. Then the credit row arrives: the name in
+   orange, and a glint crosses each button, once. The last line is the
+   guide's footer: small mono capitals, studio and place on one side.
 
-   Reduced motion: the wordmark is simply there, and the CSS holds the
-   finished stroke with no glint. */
+   Reduced motion: the wordmark is simply there, with no glint. */
 export function Footer() {
   const wrap = useRef<HTMLDivElement>(null);
   const credit = useRef<HTMLDivElement>(null);
@@ -125,9 +125,9 @@ export function Footer() {
                 </ul>
               </div>
 
-              <div className="mt-5 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 font-sans text-[13px] text-faint lg:justify-between">
+              <div className="mt-5 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 font-mono text-[11px] tracking-[0.14em] text-faint uppercase lg:justify-between">
                 <span>
-                  © {FOOTER.year} {FOOTER.brand}
+                  © {FOOTER.year} {FOOTER.brand} {"//"} {FOOTER.location}
                 </span>
                 <span className="flex gap-6">
                   {FOOTER.links.map((l) =>

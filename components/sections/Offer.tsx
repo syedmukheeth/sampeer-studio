@@ -1,5 +1,5 @@
 import { ArrowDown, ArrowRight, ArrowUpRight } from "@phosphor-icons/react/dist/ssr";
-import { HOME_AUTOMATION_STORY, OFFER, REELS } from "@/lib/content";
+import { HERO, HOME_AUTOMATION_STORY, OFFER, REELS } from "@/lib/content";
 import type { OfferPackage } from "@/lib/content";
 import { serpentine } from "@/lib/flow";
 import { Shell } from "@/components/ui/Shell";
@@ -14,8 +14,10 @@ import { ReelEmbed } from "@/components/ui/ReelEmbed";
 /* The three services, told in the customer's terms: a website that wins
    customers, systems that answer them, a founder name they trust. Each one is
    a stop on a single hairline running down the chapter, and each stop names
-   the service's promise in the serif, then what we build, then its proof on
-   a navy night card. Each pillar keeps its own
+   the service's promise in the serif, the problem it fixes (the same words as
+   the hero's numbered fixes), then what we build, then its proof on a black
+   night card. The line is orange, like the rule down the guide's numbered
+   list. Each pillar keeps its own
    graphic: the story is the deck of live sites, the automation a Flow diagram
    (the home page's preview of the Automation Lab), the founder brand the
    LinkedIn card and a reel.
@@ -86,17 +88,26 @@ function ProofLink({ pkg }: { pkg: OfferPackage }) {
 
 /* One moment on the line: the dot sits on the hairline at the moment's first
    line, so the eye runs straight down from one moment to the next. */
-function Stop({ pkg, last }: { pkg: OfferPackage; last: boolean }) {
+function Stop({ pkg, index, last }: { pkg: OfferPackage; index: number; last: boolean }) {
+  const fixes = HERO.services.find((s) => s.id === pkg.id)?.fixes;
   return (
     <li id={`service-${pkg.id}`} className="relative grid scroll-mt-28 gap-10 pl-8 md:pl-12 lg:grid-cols-12 lg:gap-14">
       {/* the line and its stop */}
-      <span aria-hidden className={`absolute top-3 left-[5px] w-px bg-line ${last ? "h-0" : "-bottom-24 md:-bottom-32"}`} />
-      <span aria-hidden className="absolute top-[0.55rem] left-0 h-[11px] w-[11px] rounded-full border-2 border-canvas bg-accent ring-1 ring-ink/25" />
+      <span aria-hidden className={`absolute top-3 left-[5px] w-px bg-accent/50 ${last ? "h-0" : "-bottom-24 md:-bottom-32"}`} />
+      <span aria-hidden className="absolute top-[0.3rem] left-0 h-[11px] w-[11px] rounded-full border-2 border-canvas bg-accent ring-1 ring-accent/40" />
 
       <FadeIn className="min-w-0 lg:sticky lg:top-28 lg:col-span-5 lg:self-start">
-        <h3 className="font-serif text-[clamp(1.75rem,3.2vw,2.6rem)] leading-[1.08] font-normal text-ink">{pkg.moment}</h3>
-        <p className="mt-6 font-sans text-sm font-medium text-accent-text">{pkg.name}</p>
-        <p className="mt-2 max-w-[36ch] font-sans text-lg leading-relaxed text-ink">{pkg.outcome}</p>
+        <p className="label">
+          {String(index + 1).padStart(2, "0")} · {pkg.name}
+        </p>
+        <h3 className="mt-4 font-serif text-[clamp(1.75rem,3.2vw,2.6rem)] leading-[1.08] font-normal text-ink">{pkg.moment}</h3>
+        {fixes ? (
+          <p className="mt-5 font-sans text-sm leading-relaxed text-muted">
+            <span className="text-faint">Fixes: </span>
+            {fixes}
+          </p>
+        ) : null}
+        <p className="mt-3 max-w-[36ch] font-sans text-lg leading-relaxed text-ink">{pkg.outcome}</p>
 
         <ul className="mt-6 space-y-2.5 border-t border-line pt-6">
           {pkg.deliverables.map((d) => (
@@ -132,9 +143,12 @@ export function Offer() {
     <section id="services" className="relative bg-canvas py-24 md:py-36">
       <Shell>
         <div className="grid gap-6 lg:grid-cols-12 lg:items-end lg:gap-12">
-          <h2 className="font-serif text-[clamp(2.25rem,5vw,4.25rem)] leading-[1.02] font-normal text-ink lg:col-span-6">
-            <Marked text={OFFER.title} />
-          </h2>
+          <div className="min-w-0 lg:col-span-6">
+            <p className="label">{OFFER.eyebrow}</p>
+            <h2 className="mt-4 font-serif text-[clamp(2.25rem,5vw,4.25rem)] leading-[1.02] font-normal text-ink">
+              <Marked text={OFFER.title} />
+            </h2>
+          </div>
           <p className="max-w-[48ch] font-sans text-lg leading-relaxed text-muted lg:col-span-6 lg:justify-self-end">
             {OFFER.sub}
           </p>
@@ -142,7 +156,7 @@ export function Offer() {
 
         <ol className="mt-16 flex flex-col gap-24 md:mt-24 md:gap-32">
           {OFFER.packages.map((pkg, i) => (
-            <Stop key={pkg.id} pkg={pkg} last={i === OFFER.packages.length - 1} />
+            <Stop key={pkg.id} pkg={pkg} index={i} last={i === OFFER.packages.length - 1} />
           ))}
         </ol>
       </Shell>

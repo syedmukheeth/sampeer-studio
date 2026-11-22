@@ -1,5 +1,20 @@
 [
   {
+    "date": "2026-11-22",
+    "scope": "app",
+    "macrostructure": "Problem -> fix, bespoke (v10)",
+    "theme": "studied-DNA (source: image, Syed's PDF field guide)",
+    "theme_axes": "dark / high-contrast-serif / warm",
+    "vibe": "black, white, one orange",
+    "enrichment": "founder photo hero with the happy-client card; real client posters and clips",
+    "nav": "N10 scroll-morph (kept), Automations link added",
+    "footer": "Ft5 Statement (kept) + mono meta row",
+    "motif": "every chapter answers 'what does this fix?': mono orange labels, numbered fixes, orange left rules, big orange step numerals, one orange phrase per title",
+    "type": "Cormorant Garamond 500 + Hanken Grotesk + Geist Mono (kept)",
+    "contrast": "ink/canvas 18.2, ink/card 16.4, muted/canvas 9.2 (7.5 wells), faint/canvas 5.9 (4.8 wells), orange text/canvas 7.9 (6.4 wells), black/orange button 6.8",
+    "brief": "SAMPeer Studio v10: only black, white and orange; hero = problem + 'We fix that.'; story told as problem -> fix -> proof -> how -> honest -> next step"
+  },
+  {
     "date": "2026-11-08",
     "scope": "app",
     "macrostructure": "Portfolio Grid",

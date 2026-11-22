@@ -9,7 +9,7 @@ import { ClientStage } from "@/components/ui/ClientStage";
 import { TrackClick } from "@/components/analytics/TrackClick";
 import { EVENTS } from "@/lib/analytics";
 
-/** One line of the statement, with the accent word lit in gold. */
+/** One line of the statement, with the fix lit in orange. */
 function Lit({ line, accent }: { line: string; accent: string }) {
   const at = line.indexOf(accent);
   if (at < 0) return <>{line}</>;
@@ -22,16 +22,16 @@ function Lit({ line, accent }: { line: string; accent: string }) {
   );
 }
 
-/* The cold open, on a night panel. The story first: the business is better
-   than it looks online, and we change that, with the founder on the call.
-   Then the person and the proof together: the founder's portrait, and on its
+/* The cold open, on the pure-black night panel: a problem and its fix. The
+   business is better than it looks online, and in orange, we fix that. Then
+   the person and the proof together: the founder's portrait, and on its
    corner one card where the real clients take turns. The three services
-   close the column, each with what it does for the client.
+   close the column as numbered fixes, each naming the problem it solves.
 
-   On a wide screen the statement and the services share the left column and
-   the portrait stands on the right, the client card hanging off its corner
+   On a wide screen the statement and the fixes share the left column and the
+   portrait stands on the right, the client card hanging off its corner
    toward the copy. On a phone they stack: statement, portrait with its card,
-   services. The statement rises line by line (CSS, `.hero-line`), after the
+   fixes. The statement rises line by line (CSS, `.hero-line`), after the
    intro curtain on a first visit. The panel folds into a card as the reader
    scrolls on (NightFold). */
 export function Hero() {
@@ -42,10 +42,7 @@ export function Hero() {
       <NightFold className="night grain overflow-hidden bg-canvas">
         <Shell className="relative z-[2] grid min-h-svh content-center gap-x-12 gap-y-12 pt-28 pb-14 lg:grid-cols-12 lg:gap-y-10 lg:pt-28 lg:pb-12">
           <div className="min-w-0 lg:col-span-7 lg:row-start-1 lg:self-end">
-            <p className="flex items-center gap-3 font-sans text-sm text-muted md:text-[15px]">
-              <span aria-hidden className="h-px w-8 shrink-0 bg-accent" />
-              {HERO.kicker}
-            </p>
+            <p className="label">{HERO.kicker}</p>
 
             <div className="@container mt-6">
               <h1 className="hero-statement font-serif leading-[0.96] text-ink">
@@ -62,7 +59,7 @@ export function Hero() {
               </h1>
             </div>
 
-            <p className="mt-6 max-w-[36ch] font-sans text-lg leading-relaxed text-muted md:text-xl">{HERO.sub}</p>
+            <p className="mt-6 max-w-[40ch] font-sans text-lg leading-relaxed text-muted md:text-xl">{HERO.sub}</p>
 
             <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-4">
               <TrackClick event={EVENTS.ctaClickHero}>
@@ -117,18 +114,29 @@ export function Hero() {
             className="grid min-w-0 border-t border-line sm:grid-cols-3 lg:col-span-7 lg:row-start-2 lg:mr-14 lg:self-start xl:mr-20"
           >
             {HERO.services.map((s, i) => (
-              <li key={s.id} className={i > 0 ? "border-t border-line sm:border-t-0 sm:border-l sm:pl-6" : "sm:pr-6"}>
+              <li
+                key={s.id}
+                className={`relative ${i > 0 ? "border-t border-line sm:border-t-0 sm:border-l sm:pl-6" : "sm:pr-6"}`}
+              >
+                {/* the orange tick that opens each fix, like the guide's numbered rows */}
+                <span aria-hidden className={`absolute -top-px h-0.5 w-8 bg-accent ${i > 0 ? "left-0 sm:left-6" : "left-0"}`} />
                 <a href={`#service-${s.id}`} className="group block py-4 sm:pt-5 sm:pb-1">
-                  <span className="flex items-center gap-1.5 font-sans text-[15px] font-semibold whitespace-nowrap text-ink transition-colors group-hover:text-accent-text">
-                    {s.name}
-                    <ArrowUpRight
-                      size={13}
-                      weight="bold"
-                      aria-hidden
-                      className="opacity-50 transition-[opacity,transform] duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:opacity-100"
-                    />
+                  <span className="flex items-baseline gap-2.5 whitespace-nowrap">
+                    <span className="label">{String(i + 1).padStart(2, "0")}</span>
+                    <span className="flex items-center gap-1.5 font-sans text-[15px] font-semibold text-ink transition-colors group-hover:text-accent-text">
+                      {s.name}
+                      <ArrowUpRight
+                        size={13}
+                        weight="bold"
+                        aria-hidden
+                        className="opacity-50 transition-[opacity,transform] duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:opacity-100"
+                      />
+                    </span>
                   </span>
-                  <span className="mt-1 block font-sans text-sm leading-snug text-muted">{s.outcome}</span>
+                  <span className="mt-1.5 block font-sans text-sm leading-snug text-muted">
+                    <span className="text-faint">Fixes: </span>
+                    {s.fixes}
+                  </span>
                 </a>
               </li>
             ))}
