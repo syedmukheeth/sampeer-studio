@@ -123,10 +123,10 @@ export const HERO = {
   /** Syed's own photograph, cropped to 4:5, metadata stripped. `w`/`h` are
    *  the file's real pixels. */
   founder: {
-    src: "/founder/poles.v1.webp",
+    src: "/founder/river.v1.webp",
     w: 1200,
     h: 1500,
-    alt: "Syed Mukheeth, founder of SAMPeer Studio, smiling in a beige shirt with his arms crossed",
+    alt: "Syed Mukheeth, founder of SAMPeer Studio, in a sage jacket and sunglasses by a river",
     name: "Syed Mukheeth",
     note: "Founder. Answers every enquiry himself.",
   },
@@ -791,18 +791,16 @@ export const PROCESS = [
 export const FOUNDER = {
   name: "Syed Abdul Mukheeth Peer",
   role: "Founder, SAMPeer Studio",
-  /** a square head-and-shoulders crop (white shirt, looking at the reader)
+  /** a square head-and-shoulders crop (white polo, facing the reader)
    *  for the contact section and the LinkedIn card */
-  avatar: "/founder/avatar.v2.webp",
+  avatar: "/founder/avatar.v3.webp",
   avatarAlt: "Syed Mukheeth",
-  /** the founder chapter's portrait: looking at the reader, cropped to Syed
-   *  alone from a photo at a client's office, location metadata stripped */
+  /** the founder chapter's portrait, cropped to 4:5, metadata stripped */
   portrait: {
-    src: "/founder/portrait.v2.webp",
-    w: 1200,
-    h: 1500,
-    alt: "Syed Mukheeth, founder of SAMPeer Studio, in a denim jacket at a client's office in Kurnool",
-    caption: "At ASRG Construction's office, Kurnool.",
+    src: "/founder/garden.v1.webp",
+    w: 1120,
+    h: 1400,
+    alt: "Syed Mukheeth, founder of SAMPeer Studio, in a striped white shirt in front of a flowering hedge",
   },
 } as const;
 

@@ -6,7 +6,7 @@ import { FadeIn } from "@/components/ui/FadeIn";
 import { Marked } from "@/components/ui/Marked";
 
 /* The person who answers: the one chapter in Syed's own voice. A portrait
-   that looks at the reader, alone in its 4:5 frame with nothing laid over it
+   alone in its 4:5 frame with nothing laid over it
    (the film now sits with ASRG, the client it is about), beside the words,
    his own reach and every place to find him. No parallax. */
 export function About() {
@@ -27,9 +27,6 @@ export function About() {
               className="object-cover object-[50%_30%]"
             />
           </div>
-          <figcaption className="mx-auto mt-3 max-w-md font-sans text-sm text-faint lg:max-w-none">
-            {FOUNDER.portrait.caption}
-          </figcaption>
         </figure>
 
         <div className="min-w-0 lg:col-span-7">

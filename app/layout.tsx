@@ -71,7 +71,7 @@ const JSON_LD = {
     "@type": "Person",
     name: "Syed Abdul Mukheeth Peer",
     jobTitle: "Founder",
-    image: `${SITE_URL}/founder/poles.v1.webp`,
+    image: `${SITE_URL}/founder/river.v1.webp`,
     sameAs: [
       "https://www.linkedin.com/in/syedmukheeth/",
       "https://www.instagram.com/syedmukheeth.29/",
