@@ -15,7 +15,7 @@ import { ReelEmbed } from "@/components/ui/ReelEmbed";
    customers, systems that answer them, a founder name they trust. Each one is
    a stop on a single hairline running down the chapter, and each stop names
    the service's promise in the serif, then what we build, then its proof on
-   an onyx night card. Each pillar keeps its own
+   a navy night card. Each pillar keeps its own
    graphic: the story is the deck of live sites, the automation a Flow diagram
    (the home page's preview of the Automation Lab), the founder brand the
    LinkedIn card and a reel.

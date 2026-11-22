@@ -95,12 +95,12 @@ function safeJsonLd(data: unknown) {
   return JSON.stringify(data).replace(/</g, "\\u003c");
 }
 
-// Mirrors the night canvas (.night --color-canvas, oklch(0.15 0.007 65)): the
+// Mirrors the night canvas (.night --color-canvas, oklch(0.21 0.05 262)): the
 // browser chrome sits against the night hero. Metadata is emitted as HTML
-// attributes and cannot read a CSS custom property, so this literal is the one
-// sanctioned copy; change both together.
+// attributes and cannot read a CSS custom property, so this literal (and the
+// pair in app/manifest.ts) are the sanctioned copies; change them together.
 export const viewport: Viewport = {
-  themeColor: "#0d0b08",
+  themeColor: "#0b172f",
   colorScheme: "light",
 };
 

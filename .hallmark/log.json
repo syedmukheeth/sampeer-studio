@@ -88,13 +88,13 @@
     "scope": "home hero + global tokens",
     "macrostructure": "Founder + proof, bespoke (v9 hero)",
     "theme": "custom",
-    "theme_axes": "light-with-night / high-contrast-serif / warm",
-    "vibe": "warm onyx, ivory and champagne; a luxury serif statement",
+    "theme_axes": "light-with-night / high-contrast-serif / cool",
+    "vibe": "navy, cool white and gold; no brown (warm onyx, champagne and bronze rejected as brown)",
     "enrichment": "founder portrait (gold poles) with one client card cycling three silent client loops",
     "nav": "N10 scroll-morph (kept)",
     "footer": "Ft5 Statement (kept; wordmark refit to Cormorant)",
     "type": "Cormorant Garamond 500 (display, roman) + Hanken Grotesk (body) + Geist Mono (meta)",
-    "contrast": "night ink 17.0, night muted 10.2, night faint 7.1, champagne text/night 12.4, onyx/champagne btn 11.6, bronze/paper 5.6",
-    "brief": "SAMPeer Studio v9: Syed called the v8 hero plain and the story boring; premium type and colour, a new photo he picked from a rendered sheet, 3 clips in one changing card"
+    "contrast": "navy ink/paper 17.1, muted 8.1, faint 5.7, navy-blue text/paper 8.3, night ink 16.3, night muted 10.2, gold text/navy 11.6, navy/gold btn 10.9",
+    "brief": "SAMPeer Studio v9: Syed called the v8 hero plain and the story boring; premium type, a new photo he picked from a rendered sheet, 3 clips in one changing card; then no brown, so navy and gold picked from 4 rendered palettes"
   }
 ]

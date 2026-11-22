@@ -1,47 +1,48 @@
 /* Hallmark · macrostructure: Founder + proof, bespoke (v9) · genre: editorial
- * hero: the statement "Your business is better than it looks online.", the founder's portrait with one client card where ASRG, MAA and Suri take turns, the three services as a hairline row, on a warm onyx night panel · nav: N10 scroll-morph · footer: Ft5 statement
- * motif: champagne on warm onyx; a champagne highlighter under one word per chapter
- * theme: custom · vibe: "warm onyx, ivory and champagne" · paper oklch(0.97 0.008 85) · ink oklch(0.2 0.006 75) · night oklch(0.15 0.007 65) · champagne oklch(0.83 0.09 82)
- * type: Cormorant Garamond 500 (display, roman only) + Hanken Grotesk (body) + Geist Mono (meta) · axes: light-with-night / high-contrast-serif / warm
- * contrast (brand-system/contrast.mjs): ink/paper 16.6 · muted 7.5 · faint 5.4 · bronze text/paper 5.6 · ivory/ink btn 16.6 · night ink 17.0 · night muted 10.2 · night faint 7.1 · champagne text/night 12.4 · onyx/champagne btn 11.6
+ * hero: the statement "Your business is better than it looks online.", the founder's portrait with one client card where ASRG, MAA and Suri take turns, the three services as a hairline row, on a navy night panel · nav: N10 scroll-morph · footer: Ft5 statement
+ * motif: gold on navy; a gold highlighter under one word per chapter
+ * theme: custom · vibe: "navy, cool white and gold, no brown" · paper oklch(0.985 0.003 250) · ink oklch(0.21 0.05 262) · night oklch(0.21 0.05 262) · gold oklch(0.84 0.15 88)
+ * type: Cormorant Garamond 500 (display, roman only) + Hanken Grotesk (body) + Geist Mono (meta) · axes: light-with-night / high-contrast-serif / cool
+ * contrast (brand-system/contrast.mjs): navy ink/paper 17.1 · muted 8.1 · faint 5.7 (5.2 on wells) · navy-blue text/paper 8.3 · white/navy btn 17.1 · night ink 16.3 · night muted 10.2 · night faint 6.3 on cards · gold text/night 11.6 · navy/gold btn 10.9
  * pre-emit critique: P4 H5 E4 S5 R4 V4
  */
 @import "tailwindcss";
 
 /*
-  SAMPeer Studio, WARM ONYX AND CHAMPAGNE.
+  SAMPeer Studio, NAVY AND GOLD.
 
-  Ivory paper with near-black ink, and one champagne gold. The page is paper;
-  the hero, the footer and the proof cards are warm onyx night panels (the
-  .night scope below re-declares the same tokens, so every utility follows).
+  Cool white paper with navy ink, and one gold. No brown anywhere: Syed
+  rejected the warm onyx, champagne and bronze of v9's first cut as brown.
+  The page is paper; the hero, the footer and the proof cards are navy night
+  panels (the .night scope below re-declares the same tokens, so every
+  utility follows).
 
-  Champagne lights what matters: the one word of the hero statement, the
-  stroke under the one word of each chapter title, the dots and markers. It is
-  a low-chroma gold on purpose; the saturated mustard it replaced read cheap.
-  On paper it is too light for text or for a button's edge, so on paper the
-  main button is filled ink with ivory type, and small gold text uses the
-  darker bronze accent-text (5.6:1). At night the button turns champagne with
-  onyx type (11.6:1). Photography and film stay in full colour.
+  Gold lights what matters: the one word of the hero statement, the stroke
+  under the one word of each chapter title, the dots and markers. It is a
+  bright yellow gold, never tan. On white it is too light for text or for a
+  button's edge, so on paper the main button is filled navy with white type,
+  and small accent text is a navy blue (8.3:1). At night the button turns gold
+  with navy type (10.9:1). Photography and film stay in full colour.
 
   Contrast is measured with brand-system/contrast.mjs (WCAG 2.1); the pairs
   are listed in the stamp above and in the v9 log entry.
 */
 
 @theme {
-  --color-canvas: oklch(0.97 0.008 85); /* ivory paper */
-  --color-elevated: oklch(0.99 0.004 85); /* cards lift a shade lighter */
-  --color-elevated-2: oklch(0.93 0.01 85); /* hover, pressed, media wells */
-  --color-ink: oklch(0.2 0.006 75); /* warm near-black */
-  --color-muted: oklch(0.43 0.005 75); /* secondary copy, 7.5:1 */
-  --color-faint: oklch(0.5 0.004 75); /* meta and captions, 5.4:1 */
-  --color-line: oklch(0.87 0.01 85); /* hairlines */
-  --color-accent: oklch(0.83 0.09 82); /* champagne gold: highlighter, markers, fills */
-  --color-accent-2: oklch(0.43 0.005 75);
-  --color-accent-text: oklch(0.5 0.085 70); /* bronze that reads at body size on paper */
-  --color-accent-solid: oklch(0.2 0.006 75); /* paper button: ink fill */
-  --color-accent-dim: oklch(0.12 0.005 75); /* pressed */
-  --color-accent-soft: oklch(0.83 0.09 82 / 0.22); /* tints and chips */
-  --color-accent-ink: oklch(0.97 0.008 85); /* ivory type on the ink fill */
+  --color-canvas: oklch(0.985 0.003 250); /* cool white paper */
+  --color-elevated: oklch(1 0 0); /* cards lift to pure white */
+  --color-elevated-2: oklch(0.95 0.006 250); /* hover, pressed, media wells */
+  --color-ink: oklch(0.21 0.05 262); /* navy ink */
+  --color-muted: oklch(0.42 0.03 260); /* secondary copy, 8.1:1 */
+  --color-faint: oklch(0.5 0.025 260); /* meta and captions, 5.7:1 */
+  --color-line: oklch(0.89 0.01 255); /* hairlines */
+  --color-accent: oklch(0.84 0.15 88); /* gold: highlighter, markers, fills */
+  --color-accent-2: oklch(0.42 0.03 260);
+  --color-accent-text: oklch(0.42 0.11 262); /* navy blue that reads at body size on paper */
+  --color-accent-solid: oklch(0.21 0.05 262); /* paper button: navy fill */
+  --color-accent-dim: oklch(0.16 0.045 262); /* pressed */
+  --color-accent-soft: oklch(0.84 0.15 88 / 0.2); /* tints and chips */
+  --color-accent-ink: oklch(0.985 0.003 250); /* white type on the navy fill */
 
   /* kept as a name for the rules that used the logo sweep; now plain ink */
   --gradient-ribbon: linear-gradient(currentColor, currentColor);
@@ -70,8 +71,8 @@
 :root {
   --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
   --dur-kinetic: 0.9s;
-  --shadow-tint: oklch(0.2 0.006 75 / 0.16); /* ink shadow, soft on paper */
-  --highlighter: oklch(0.82 0.1 82 / 0.7); /* the champagne marker stroke */
+  --shadow-tint: oklch(0.21 0.05 262 / 0.16); /* navy shadow, soft on paper */
+  --highlighter: oklch(0.86 0.15 92 / 0.6); /* the gold marker stroke */
   --glint: oklch(1 0 0 / 0.28);
   --footer-h: min(34rem, 82svh);
   /* the intro curtain's whole life; mirrors INTRO_MS in lib/constants.ts */
@@ -104,7 +105,7 @@ body {
 
 ::selection {
   background: var(--color-accent);
-  color: oklch(0.15 0.007 65);
+  color: oklch(0.21 0.05 262);
 }
 
 /* The serif has one voice everywhere. The inner pages were written for a
@@ -159,21 +160,21 @@ body {
 /* The night scope: the same tokens, dark. Hero, footer, intro and the proof
    cards wear it; everything inside follows without a dark: variant. */
 .night {
-  --color-canvas: oklch(0.15 0.007 65); /* warm onyx */
-  --color-elevated: oklch(0.195 0.009 65);
-  --color-elevated-2: oklch(0.235 0.01 65);
-  --color-ink: oklch(0.95 0.014 85); /* ivory */
-  --color-muted: oklch(0.79 0.014 82);
-  --color-faint: oklch(0.69 0.012 80);
-  --color-line: oklch(0.31 0.01 70);
-  --color-accent: oklch(0.83 0.09 82); /* champagne */
-  --color-accent-2: oklch(0.79 0.014 82);
-  --color-accent-text: oklch(0.85 0.085 84); /* champagne reads as text at night */
-  --color-accent-solid: oklch(0.83 0.09 82); /* night button: champagne fill */
-  --color-accent-dim: oklch(0.77 0.09 80);
-  --color-accent-soft: oklch(0.83 0.09 82 / 0.16);
-  --color-accent-ink: oklch(0.15 0.007 65); /* onyx type on champagne */
-  --shadow-tint: oklch(0.05 0 0 / 0.6);
+  --color-canvas: oklch(0.21 0.05 262); /* navy */
+  --color-elevated: oklch(0.26 0.055 262);
+  --color-elevated-2: oklch(0.3 0.06 262);
+  --color-ink: oklch(0.97 0.004 250); /* cool white */
+  --color-muted: oklch(0.82 0.02 255);
+  --color-faint: oklch(0.72 0.03 255);
+  --color-line: oklch(0.35 0.05 262);
+  --color-accent: oklch(0.84 0.15 88); /* gold */
+  --color-accent-2: oklch(0.82 0.02 255);
+  --color-accent-text: oklch(0.86 0.14 90); /* gold reads as text at night */
+  --color-accent-solid: oklch(0.84 0.15 88); /* night button: gold fill */
+  --color-accent-dim: oklch(0.78 0.15 85);
+  --color-accent-soft: oklch(0.84 0.15 88 / 0.16);
+  --color-accent-ink: oklch(0.21 0.05 262); /* navy type on gold */
+  --shadow-tint: oklch(0.08 0.03 262 / 0.6);
   color-scheme: dark;
   color: var(--color-ink);
 }
