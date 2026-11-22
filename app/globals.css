@@ -1,28 +1,30 @@
-/* Hallmark · macrostructure: Founder + proof, bespoke · genre: editorial
- * hero: the three services lit in gold, the founder's portrait and a row of happy-client reels on an onyx night panel · nav: N10 scroll-morph · footer: Ft5 statement
- * motif: gold on onyx; a gold highlighter under one word per chapter
- * theme: custom · vibe: "onyx, ivory and gold" · paper oklch(0.97 0.008 85) · ink oklch(0.2 0.006 75) · night oklch(0.16 0.004 75) · gold oklch(0.8 0.13 80)
- * type: Newsreader (display, roman only) + Geist (body) + Geist Mono (meta) · axes: light-with-night / roman-serif / warm
- * contrast (brand-system/contrast.mjs): ink/paper 16.6 · muted 7.5 · faint 5.4 · gold text 5.2 · ivory/ink btn 16.6 · night ink 17.3 · night muted 10.4 · gold/night 11.0 · onyx/gold btn 10.3
+/* Hallmark · macrostructure: Founder + proof, bespoke (v9) · genre: editorial
+ * hero: the statement "Your business is better than it looks online.", the founder's portrait with one client card where ASRG, MAA and Suri take turns, the three services as a hairline row, on a warm onyx night panel · nav: N10 scroll-morph · footer: Ft5 statement
+ * motif: champagne on warm onyx; a champagne highlighter under one word per chapter
+ * theme: custom · vibe: "warm onyx, ivory and champagne" · paper oklch(0.97 0.008 85) · ink oklch(0.2 0.006 75) · night oklch(0.15 0.007 65) · champagne oklch(0.83 0.09 82)
+ * type: Cormorant Garamond 500 (display, roman only) + Hanken Grotesk (body) + Geist Mono (meta) · axes: light-with-night / high-contrast-serif / warm
+ * contrast (brand-system/contrast.mjs): ink/paper 16.6 · muted 7.5 · faint 5.4 · bronze text/paper 5.6 · ivory/ink btn 16.6 · night ink 17.0 · night muted 10.2 · night faint 7.1 · champagne text/night 12.4 · onyx/champagne btn 11.6
+ * pre-emit critique: P4 H5 E4 S5 R4 V4
  */
 @import "tailwindcss";
 
 /*
-  SAMPeer Studio, ONYX AND GOLD.
+  SAMPeer Studio, WARM ONYX AND CHAMPAGNE.
 
-  Ivory paper with near-black ink, and one gold. The page is paper; the hero,
-  the footer and the proof cards are onyx night panels (the .night scope below
-  re-declares the same tokens, so every utility follows).
+  Ivory paper with near-black ink, and one champagne gold. The page is paper;
+  the hero, the footer and the proof cards are warm onyx night panels (the
+  .night scope below re-declares the same tokens, so every utility follows).
 
-  Gold lights what matters: the three services in the hero, the stroke under
-  the one word of each chapter title, the dots and markers. On paper it is too
-  light for text or for a button's edge (1.7:1), so on paper the main button
-  is filled ink with ivory type, and small gold text uses the darker
-  accent-text (5.2:1). At night the button turns gold with onyx type (10.3:1).
-  Photography and film stay in full colour.
+  Champagne lights what matters: the one word of the hero statement, the
+  stroke under the one word of each chapter title, the dots and markers. It is
+  a low-chroma gold on purpose; the saturated mustard it replaced read cheap.
+  On paper it is too light for text or for a button's edge, so on paper the
+  main button is filled ink with ivory type, and small gold text uses the
+  darker bronze accent-text (5.6:1). At night the button turns champagne with
+  onyx type (11.6:1). Photography and film stay in full colour.
 
   Contrast is measured with brand-system/contrast.mjs (WCAG 2.1); the pairs
-  are listed in the stamp above and in the v8 log entry.
+  are listed in the stamp above and in the v9 log entry.
 */
 
 @theme {
@@ -33,23 +35,23 @@
   --color-muted: oklch(0.43 0.005 75); /* secondary copy, 7.5:1 */
   --color-faint: oklch(0.5 0.004 75); /* meta and captions, 5.4:1 */
   --color-line: oklch(0.87 0.01 85); /* hairlines */
-  --color-accent: oklch(0.8 0.13 80); /* gold: highlighter, markers, fills */
+  --color-accent: oklch(0.83 0.09 82); /* champagne gold: highlighter, markers, fills */
   --color-accent-2: oklch(0.43 0.005 75);
-  --color-accent-text: oklch(0.52 0.1 70); /* deep gold that reads at body size on paper */
+  --color-accent-text: oklch(0.5 0.085 70); /* bronze that reads at body size on paper */
   --color-accent-solid: oklch(0.2 0.006 75); /* paper button: ink fill */
   --color-accent-dim: oklch(0.12 0.005 75); /* pressed */
-  --color-accent-soft: oklch(0.8 0.13 80 / 0.2); /* tints and chips */
+  --color-accent-soft: oklch(0.83 0.09 82 / 0.22); /* tints and chips */
   --color-accent-ink: oklch(0.97 0.008 85); /* ivory type on the ink fill */
 
   /* kept as a name for the rules that used the logo sweep; now plain ink */
   --gradient-ribbon: linear-gradient(currentColor, currentColor);
 
-  /* Newsreader carries every line the story is told in: headlines, quotes,
-     questions and the wordmark, always roman. Geist carries body and UI;
-     Geist Mono only the smallest meta. */
-  --font-display: var(--font-newsreader), ui-serif, Georgia, serif;
-  --font-serif: var(--font-newsreader), ui-serif, Georgia, serif;
-  --font-sans: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
+  /* Cormorant Garamond carries every line the story is told in: headlines,
+     quotes, questions and the wordmark, always roman, never below 500.
+     Hanken Grotesk carries body and UI; Geist Mono only the smallest meta. */
+  --font-display: var(--font-cormorant), ui-serif, Georgia, serif;
+  --font-serif: var(--font-cormorant), ui-serif, Georgia, serif;
+  --font-sans: var(--font-hanken), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, monospace;
 
   /* Shape lock: buttons, nav and chips are full pills (rounded-full), cards
@@ -69,7 +71,7 @@
   --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
   --dur-kinetic: 0.9s;
   --shadow-tint: oklch(0.2 0.006 75 / 0.16); /* ink shadow, soft on paper */
-  --highlighter: oklch(0.8 0.13 80 / 0.6); /* the gold marker stroke */
+  --highlighter: oklch(0.82 0.1 82 / 0.7); /* the champagne marker stroke */
   --glint: oklch(1 0 0 / 0.28);
   --footer-h: min(34rem, 82svh);
   /* the intro curtain's whole life; mirrors INTRO_MS in lib/constants.ts */
@@ -102,21 +104,21 @@ body {
 
 ::selection {
   background: var(--color-accent);
-  color: oklch(0.16 0.004 75);
+  color: oklch(0.15 0.007 65);
 }
 
 /* The serif has one voice everywhere. The inner pages were written for a
-   tight geometric sans (negative tracking, weights 600-680); unlayered, this
-   rule beats those utilities so Newsreader is never crushed or overweighted
-   there. New work sets the serif with `font-serif` and its own weight. */
+   tight geometric sans (negative tracking, weights 600-680); unlayered, these
+   rules beat those utilities, so Cormorant is never crushed or overweighted.
+   Cormorant's 400 has hairline strokes that thin out on screens, so every
+   serif line sets at 500, the weight its high contrast was drawn for. */
 .font-display {
   font-weight: 500;
-  letter-spacing: -0.012em;
-  font-optical-sizing: auto;
+  letter-spacing: -0.01em;
 }
 .font-serif {
+  font-weight: 500;
   letter-spacing: -0.01em;
-  font-optical-sizing: auto;
 }
 
 /* ------------------------------------------------------------- motifs */
@@ -157,20 +159,20 @@ body {
 /* The night scope: the same tokens, dark. Hero, footer, intro and the proof
    cards wear it; everything inside follows without a dark: variant. */
 .night {
-  --color-canvas: oklch(0.16 0.004 75); /* onyx */
-  --color-elevated: oklch(0.2 0.005 75);
-  --color-elevated-2: oklch(0.24 0.006 75);
-  --color-ink: oklch(0.96 0.01 85); /* ivory */
-  --color-muted: oklch(0.8 0.012 85);
-  --color-faint: oklch(0.7 0.012 85);
-  --color-line: oklch(0.3 0.006 75);
-  --color-accent: oklch(0.8 0.13 80);
-  --color-accent-2: oklch(0.8 0.012 85);
-  --color-accent-text: oklch(0.82 0.12 82); /* gold reads as text at night */
-  --color-accent-solid: oklch(0.8 0.13 80); /* night button: gold fill */
-  --color-accent-dim: oklch(0.74 0.13 78);
-  --color-accent-soft: oklch(0.8 0.13 80 / 0.16);
-  --color-accent-ink: oklch(0.16 0.004 75); /* onyx type on gold */
+  --color-canvas: oklch(0.15 0.007 65); /* warm onyx */
+  --color-elevated: oklch(0.195 0.009 65);
+  --color-elevated-2: oklch(0.235 0.01 65);
+  --color-ink: oklch(0.95 0.014 85); /* ivory */
+  --color-muted: oklch(0.79 0.014 82);
+  --color-faint: oklch(0.69 0.012 80);
+  --color-line: oklch(0.31 0.01 70);
+  --color-accent: oklch(0.83 0.09 82); /* champagne */
+  --color-accent-2: oklch(0.79 0.014 82);
+  --color-accent-text: oklch(0.85 0.085 84); /* champagne reads as text at night */
+  --color-accent-solid: oklch(0.83 0.09 82); /* night button: champagne fill */
+  --color-accent-dim: oklch(0.77 0.09 80);
+  --color-accent-soft: oklch(0.83 0.09 82 / 0.16);
+  --color-accent-ink: oklch(0.15 0.007 65); /* onyx type on champagne */
   --shadow-tint: oklch(0.05 0 0 / 0.6);
   color-scheme: dark;
   color: var(--color-ink);
@@ -291,11 +293,13 @@ summary,
 }
 
 /* Sized against the text column (an @container), so the longest line,
-   "Remembered.", fills the column at every width and stops growing when the
-   column does. The svh cap keeps the three lines, the offer line and the
-   buttons inside the fold on short, wide screens. */
+   "Your business is", fills the column at every width and stops growing when
+   the column does. The rem cap holds it at a display size on wide screens;
+   the svh cap keeps the statement, the buttons and the services row inside
+   the fold on short, wide screens. */
 .hero-statement {
-  font-size: min(14.2cqi, 15svh);
+  font-size: min(14cqi, 6.5rem, 12.5svh);
+  letter-spacing: -0.015em;
 }
 
 @keyframes hero-rise {
@@ -590,24 +594,23 @@ html[data-intro="seen"] .intro {
 
 /* The wordmark: the page signs its name, in the serif. Sized against its own
    box (the @container wrapper in Footer.tsx), not the viewport, so it can
-   never outgrow the shell. In Newsreader 400 at -0.02em the line measures
-   7.15em (measured in the browser), so 13.7cqi runs it edge to edge of the
-   box (about 98%) on one line from tablet up. On phones it wraps, and
-   "SAMPeer", the longer line, measures 4.14em: 23.4cqi sets it at 97%. */
+   never outgrow the shell. In Cormorant Garamond 500 at -0.02em the line
+   measures 6.31em (measured in the browser), so 15.5cqi runs it edge to edge
+   of the box (about 98%) on one line from tablet up. On phones it wraps, and
+   "SAMPeer", the longer line, measures 3.62em: 26.8cqi sets it at 97%. */
 .footer-mark {
   font-family: var(--font-serif);
-  font-weight: 400;
-  font-optical-sizing: auto;
+  font-weight: 500;
   letter-spacing: -0.02em;
   line-height: 0.95;
   white-space: nowrap;
-  font-size: 13.7cqi;
+  font-size: 15.5cqi;
   padding-bottom: 0.1em;
 }
 @media (max-width: 639px) {
   .footer-mark {
     white-space: normal;
-    font-size: min(23.4cqi, 6rem);
+    font-size: min(26.8cqi, 6rem);
   }
 }
 

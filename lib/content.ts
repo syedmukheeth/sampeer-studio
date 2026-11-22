@@ -52,12 +52,12 @@ export const NAV = {
 export type MarkedText = { before: string; mark: string; after: string };
 
 /* --------------------------------------------------------------- hero */
-/* The cold open: what we build, the founder's face and the clients who are
- * happy with the work, all on the first screen. The three services are named
- * in the headline and lit in the accent, so a visitor knows what we do before
- * they scroll. The reels are a few silent seconds of each real client (no
- * audio track, no location metadata), cropped to the client and Syed; each
- * links to that client's work below. */
+/* The cold open tells the story in one line: the business is better than it
+ * looks online, and we change that. Then the proof and the person: the
+ * founder's portrait, and one card where the real clients take turns (a few
+ * silent seconds each, no audio track, no location metadata, cropped to the
+ * client and Syed), each linking to that client's work below. The three
+ * services close the column, each with what it does for the client. */
 export type HeroReel = {
   id: string;
   name: string;
@@ -67,21 +67,38 @@ export type HeroReel = {
   href: string;
 };
 
+export type HeroService = { id: string; name: string; outcome: string };
+
 export const HERO = {
-  kicker: "Founder-led studio in Kurnool, for India and the UK",
-  lead: "We build",
-  services: ["websites", "automation", "founder brands"],
-  sub: "That grow your business: customers find you, reach you and trust you. You talk to the founder from the first call to launch day.",
+  kicker: "SAMPeer Studio · Kurnool, for India and the UK",
+  /** The statement, one line per row (each row rises on its own and never
+   *  rewraps); `accent` is the one word lit in gold. */
+  lines: ["Your business is", "better than it", "looks online."],
+  accent: "better",
+  sub: "We change that. You work with the founder, from the first call to launch day.",
   primary: { label: "Start a project", href: "#contact" },
-  secondary: { label: "See our work", href: "#work" },
-  reelsLabel: "Happy clients",
-  pause: "Pause the client clips",
-  play: "Play the client clips",
+  secondary: { label: "See the work", href: "#work" },
+  /** each links to its package in Services (`#service-<id>`) */
+  servicesLabel: "What we build",
+  services: [
+    { id: "websites", name: "Websites", outcome: "Look like the best in town" },
+    { id: "automation", name: "Automation", outcome: "Answer every enquiry, day or night" },
+    { id: "brand", name: "Founder brands", outcome: "Be the name people trust" },
+  ] satisfies HeroService[],
+  stage: {
+    label: "Happy clients",
+    pause: "Pause the client clips",
+    play: "Play the client clips",
+    /** prefix for each client's jump button: "Show ASRG Construction" */
+    show: "Show",
+    /** suffix for the card link's accessible name */
+    open: "See the project",
+  },
   reels: [
     {
       id: "asrg-film",
       name: "ASRG Construction",
-      what: "The owner, seeing his new site",
+      what: "In business since 1980. The owner, seeing his new site.",
       loop: "/clients/asrg-film.v1.mp4",
       poster: "/clients/asrg-film.v1.webp",
       href: "#work-asrg",
@@ -89,7 +106,7 @@ export const HERO = {
     {
       id: "maa",
       name: "MAA Furniture",
-      what: "Online store and showroom site",
+      what: "Online store and showroom site.",
       loop: "/clients/maa.v1.mp4",
       poster: "/clients/maa.v1.webp",
       href: "#work-maa",
@@ -97,27 +114,19 @@ export const HERO = {
     {
       id: "suri",
       name: "Suri Mansoor Ali Khan",
-      what: "Founder brand and personal site",
+      what: "Founder brand and personal site.",
       loop: "/clients/suri.v1.mp4",
       poster: "/clients/suri.v1.webp",
       href: "#work-suri",
-    },
-    {
-      id: "asrg",
-      name: "S. Jeelani, ASRG",
-      what: "Brand site, SEO, Google profile",
-      loop: "/clients/asrg.v1.mp4",
-      poster: "/clients/asrg.v1.webp",
-      href: "#work-asrg",
     },
   ] satisfies HeroReel[],
   /** Syed's own photograph, cropped to 4:5, metadata stripped. `w`/`h` are
    *  the file's real pixels. */
   founder: {
-    src: "/founder/kurta.v1.webp",
-    w: 800,
-    h: 1000,
-    alt: "Syed Mukheeth, founder of SAMPeer Studio, in a maroon kurta",
+    src: "/founder/poles.v1.webp",
+    w: 1200,
+    h: 1500,
+    alt: "Syed Mukheeth, founder of SAMPeer Studio, smiling in a beige shirt with his arms crossed",
     name: "Syed Mukheeth",
     note: "Founder. Answers every enquiry himself.",
   },
@@ -782,8 +791,9 @@ export const PROCESS = [
 export const FOUNDER = {
   name: "Syed Abdul Mukheeth Peer",
   role: "Founder, SAMPeer Studio",
-  /** a square face crop for the contact section, looking at the reader */
-  avatar: "/founder/avatar.v1.webp",
+  /** a square head-and-shoulders crop (white shirt, looking at the reader)
+   *  for the contact section and the LinkedIn card */
+  avatar: "/founder/avatar.v2.webp",
   avatarAlt: "Syed Mukheeth",
   /** the founder chapter's portrait: looking at the reader, cropped to Syed
    *  alone from a photo at a client's office, location metadata stripped */

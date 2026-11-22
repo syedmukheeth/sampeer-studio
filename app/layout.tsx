@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono, Newsreader } from "next/font/google";
+import { Cormorant_Garamond, Geist_Mono, Hanken_Grotesk } from "next/font/google";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
@@ -9,20 +9,20 @@ import { CursorLabel } from "@/components/ui/CursorLabel";
 import { INTRO_SCRIPT, Intro } from "@/components/ui/Intro";
 import { SITE_URL } from "@/lib/constants";
 
-// Newsreader (roman only, optical size on) tells the story: headlines, quotes
-// and questions. Geist carries body and UI, Geist Mono the
-// smallest meta. One variable file each; next/font self-hosts them and
-// size-matches a fallback, so the swap cannot shift the layout.
-const serif = Newsreader({
-  variable: "--font-newsreader",
+// Cormorant Garamond (roman only) tells the story: headlines, quotes and the
+// wordmark, set large, where its high contrast reads as craft. Hanken Grotesk
+// carries body and UI, Geist Mono only the smallest meta. One variable file
+// each; next/font self-hosts them and size-matches a fallback, so the swap
+// cannot shift the layout.
+const serif = Cormorant_Garamond({
+  variable: "--font-cormorant",
   subsets: ["latin"],
   style: "normal",
-  axes: ["opsz"],
   display: "swap",
 });
 
-const sans = Geist({
-  variable: "--font-geist",
+const sans = Hanken_Grotesk({
+  variable: "--font-hanken",
   subsets: ["latin"],
   display: "swap",
 });
@@ -71,7 +71,7 @@ const JSON_LD = {
     "@type": "Person",
     name: "Syed Abdul Mukheeth Peer",
     jobTitle: "Founder",
-    image: `${SITE_URL}/founder/kurta.v1.webp`,
+    image: `${SITE_URL}/founder/poles.v1.webp`,
     sameAs: [
       "https://www.linkedin.com/in/syedmukheeth/",
       "https://www.instagram.com/syedmukheeth.29/",
@@ -95,12 +95,12 @@ function safeJsonLd(data: unknown) {
   return JSON.stringify(data).replace(/</g, "\\u003c");
 }
 
-// Mirrors the night canvas (.night --color-canvas, oklch(0.16 0.004 75)): the
+// Mirrors the night canvas (.night --color-canvas, oklch(0.15 0.007 65)): the
 // browser chrome sits against the night hero. Metadata is emitted as HTML
 // attributes and cannot read a CSS custom property, so this literal is the one
 // sanctioned copy; change both together.
 export const viewport: Viewport = {
-  themeColor: "#0e0d0b",
+  themeColor: "#0d0b08",
   colorScheme: "light",
 };
 

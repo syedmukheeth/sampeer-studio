@@ -82,5 +82,19 @@
     "type": "Newsreader (display, roman) + Geist + Geist Mono (meta only)",
     "contrast": "ink/paper 16.6, muted 7.5, faint 5.4, gold text on paper 5.2, ivory/ink button 16.6, night ink 17.3, night muted 10.4, gold text at night 11.0, onyx on gold 10.3",
     "brief": "SAMPeer Studio v8: Syed called the green the worst and the search hero poor (he does not sell SEO); hero now names the three services, shows his best photo and all happy-client reels; onyx & gold picked from 4 rendered options"
+  },
+  {
+    "date": "2026-11-22",
+    "scope": "home hero + global tokens",
+    "macrostructure": "Founder + proof, bespoke (v9 hero)",
+    "theme": "custom",
+    "theme_axes": "light-with-night / high-contrast-serif / warm",
+    "vibe": "warm onyx, ivory and champagne; a luxury serif statement",
+    "enrichment": "founder portrait (gold poles) with one client card cycling three silent client loops",
+    "nav": "N10 scroll-morph (kept)",
+    "footer": "Ft5 Statement (kept; wordmark refit to Cormorant)",
+    "type": "Cormorant Garamond 500 (display, roman) + Hanken Grotesk (body) + Geist Mono (meta)",
+    "contrast": "night ink 17.0, night muted 10.2, night faint 7.1, champagne text/night 12.4, onyx/champagne btn 11.6, bronze/paper 5.6",
+    "brief": "SAMPeer Studio v9: Syed called the v8 hero plain and the story boring; premium type and colour, a new photo he picked from a rendered sheet, 3 clips in one changing card"
   }
 ]
